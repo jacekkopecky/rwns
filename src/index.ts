@@ -1,3 +1,5 @@
+import { TouchHandler } from './touch-handler.js';
+
 const el = {
   log: document.querySelector('#log')!,
   startBtn: document.querySelector('#startBtn')!,
@@ -8,17 +10,16 @@ const el = {
 
 document.body.addEventListener('keyup', handleTopLevelSpaceKey);
 el.startBtn.addEventListener('click', goFullscreen);
-el.endBtn.addEventListener('click', exitFullscreen);
-el.main.addEventListener('touchstart', handleTouchStart);
-el.main.addEventListener('touchend', handleTouchEnd);
-el.main.addEventListener('touchmove', handleTouchMove);
+el.endBtn.addEventListener('click', exit);
 
 function goFullscreen() {
   el.main.requestFullscreen();
 }
 
-function exitFullscreen() {
+function exit() {
   document.exitFullscreen();
+  // todo we'll probably want to use the handler only during main game
+  handler.shutdown();
 }
 
 function handleTopLevelSpaceKey(e: KeyboardEvent): void {
@@ -27,36 +28,20 @@ function handleTopLevelSpaceKey(e: KeyboardEvent): void {
   }
 }
 
-let lastTouchPercent: number | null = null;
 const playerMargin = 10;
 let playerX = 50;
 
-function handleTouchMove(e: TouchEvent) {
-  const touchPercent = getTouchPercent(e);
-  if (touchPercent != null && lastTouchPercent != null) {
-    playerX += touchPercent - lastTouchPercent;
-    lastTouchPercent = touchPercent;
-    if (playerX < playerMargin) playerX = playerMargin;
-    if (playerX > 100 - playerMargin) playerX = 100 - playerMargin;
+const handler = new TouchHandler(el.main, {
+  initialX: playerX,
+  marginX: playerMargin,
+  onMove(currX) {
+    playerX = currX;
     updateView();
-  }
-}
+  },
+});
 
 function updateView() {
   el.player.style.transform = `translateX(${playerX - 50}%)`;
-}
-
-function handleTouchStart(e: TouchEvent) {
-  lastTouchPercent = getTouchPercent(e);
-}
-
-function handleTouchEnd(e: TouchEvent) {
-  lastTouchPercent = getTouchPercent(e);
-}
-
-function getTouchPercent(e: TouchEvent) {
-  const t = e.touches[0];
-  return t ? (t.clientX / el.main.clientWidth) * 100 : null;
 }
 
 function log(str: string) {
