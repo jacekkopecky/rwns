@@ -1,7 +1,7 @@
+import { log } from './log.js';
 import { TouchHandler } from './touch-handler.js';
 
 const el = {
-  log: document.querySelector('#log')!,
   startBtn: document.querySelector('#startBtn')!,
   endBtn: document.querySelector('#exitBtn')!,
   player: document.querySelector<HTMLElement>('#player')!,
@@ -42,10 +42,6 @@ const handler = new TouchHandler(el.main, {
 
 function updateView() {
   el.player.style.transform = `translateX(${playerX - 50}%)`;
-}
-
-function log(str: string) {
-  el.log.textContent += '\n' + str;
 }
 
 log('log');

@@ -1,3 +1,5 @@
+import { log } from './log.js';
+
 export class TouchHandler {
   private lastTouchPercent: number | null = null;
   private currentX: number;
