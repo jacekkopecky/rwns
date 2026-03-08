@@ -116,22 +116,6 @@ button {
   }
 }
 
-.playing #objects {
-  animation: 100000s linear 0s million-vh-scroll;
-}
-
-/* a bit more than a day's worth of scrolling by 10vh per second */
-@keyframes million-vh-scroll {
-  from {
-    /* pushes the sun down past the viewport */
-    transform: translateY(0vh);
-  }
-  to {
-    /* returns the sun to its default position */
-    transform: translateY(1000000vh);
-  }
-}
-
 #hazePlanes > * {
   position: absolute;
 
