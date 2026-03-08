@@ -12,24 +12,14 @@ const el = {
 const N = 300;
 const MAX_OBJECT_INITIAL_Y_VH = 260;
 const OBJECT_SPEED_VHPS = 10;
-const START_BEYOND = false;
+const START_BEYOND = true;
 
 const playerMargin = 10;
 let playerX = 50;
 
-export function init() {
-  el.main.addEventListener('fullscreenchange', () => {
-    if (document.fullscreenElement) {
-      start();
-    } else {
-      end();
-    }
-  });
-}
-
 let handler: TouchHandler | null = null;
 
-function start() {
+export function start() {
   if (!handler) {
     handler = new TouchHandler(el.main, {
       initialX: playerX,
@@ -137,7 +127,7 @@ function moveObjectsOnAnimationFrame(ms: number) {
   }
 }
 
-function end() {
+export function end() {
   handler?.shutdown();
   handler = null;
   togglePlaying(false);
