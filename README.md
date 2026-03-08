@@ -26,4 +26,6 @@ This was inspired by Timeline Up, but without any spending of real money.
     - type of object doesn't seem to matter: svg, bitmap 30px wide, text, emoji
     - this is with 80vh of 10 haze planes
   - same as above but moving the whole #objects element, 300 objects at 60fps
+  - tried with transformY instead of transform - no diff
+  - tried with animation - no diff
 - [ ] make the game

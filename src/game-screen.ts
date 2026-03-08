@@ -9,6 +9,14 @@ const el = {
   main: document.querySelector('main')!,
 };
 
+const START_BEYOND = true;
+
+const N = 1500;
+const MAX_OBJECT_INITIAL_Y_VH = 260;
+const OBJECT_SPEED_VHPS = 10;
+
+const objects: { el: HTMLElement; x: number; y: number }[] = [];
+
 const playerMargin = 10;
 let playerX = 50;
 
@@ -43,14 +51,6 @@ function start() {
   }
 }
 
-const START_BEYOND = true;
-
-const N = 300;
-const MAX_OBJECT_INITIAL_Y_VH = 260;
-const OBJECT_SPEED_VHPS = 10;
-
-const objects: { el: HTMLElement; x: number; y: number }[] = [];
-
 function isPlaying() {
   return el.track.classList.contains('playing');
 }
@@ -73,7 +73,7 @@ function setupObjects() {
   el.objects.textContent = '';
   objects.length = 0;
 
-  objectsPos = 0;
+  // objectsPos = 0;
 
   for (let i = 0; i < N; i++) {
     const x = Math.random() * 80 - 40;
@@ -124,19 +124,19 @@ function setObjectElPosition(objDiv: HTMLElement, x: number, y: number) {
 }
 
 let frames = 0;
-let objectsPos = 0;
+// let objectsPos = 0;
 function moveObjectsOnAnimationFrame(ms: number) {
   if (isPlaying()) {
     if (lastTimeMs != null) {
-      const msElapsed = ms - lastTimeMs;
-      const delta = (OBJECT_SPEED_VHPS * msElapsed) / 1000;
-      // for (const obj of objects) {
-      //   obj.y += delta;
-      //   setObjectElPosition(obj.el, obj.x, obj.y);
-      // }
-      objectsPos += delta;
+      // const msElapsed = ms - lastTimeMs;
+      // const delta = (OBJECT_SPEED_VHPS * msElapsed) / 1000;
+      // // for (const obj of objects) {
+      // //   obj.y += delta;
+      // //   setObjectElPosition(obj.el, obj.x, obj.y);
+      // // }
 
-      setObjectElPosition(el.objects, 0, objectsPos);
+      // objectsPos += delta;
+      // setObjectElPosition(el.objects, 0, objectsPos);
 
       frames += 1;
       if (lastTimeMs % 1000 > ms % 1000) {
