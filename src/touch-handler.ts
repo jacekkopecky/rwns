@@ -44,7 +44,7 @@ export class TouchHandler {
   };
 
   toggle(value?: boolean) {
-    this.enabled = value == null ? !this.enabled : value;
+    this.enabled = value ?? !this.enabled;
   }
 
   shutdown() {

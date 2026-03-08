@@ -39,7 +39,7 @@ function start() {
         updateView();
       },
     });
-    el.track.addEventListener('click', togglePlaying);
+    el.track.addEventListener('click', () => togglePlaying());
     setupObjects();
     setupHazePlanes();
   }
@@ -49,8 +49,8 @@ function isPlaying() {
   return el.track.classList.contains('playing');
 }
 
-function togglePlaying() {
-  const playing = !isPlaying();
+function togglePlaying(value?: boolean) {
+  const playing = value ?? !isPlaying();
   el.track.classList.toggle('playing', playing);
   handler?.toggle(playing);
 
@@ -140,6 +140,7 @@ function moveObjectsOnAnimationFrame(ms: number) {
 function end() {
   handler?.shutdown();
   handler = null;
+  togglePlaying(false);
 }
 
 function updateView() {
