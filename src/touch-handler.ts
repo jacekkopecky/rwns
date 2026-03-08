@@ -13,9 +13,9 @@ export class TouchHandler {
       onMove?(currX: number): void;
     },
   ) {
-    el.addEventListener('touchstart', this.handleTouchStart);
-    el.addEventListener('touchend', this.handleTouchEnd);
-    el.addEventListener('touchmove', this.handleTouchMove);
+    el.addEventListener('touchstart', this.handleTouchStart, { passive: true });
+    el.addEventListener('touchend', this.handleTouchEnd, { passive: true });
+    el.addEventListener('touchmove', this.handleTouchMove, { passive: true });
     this.currentX = opts.initialX || 50;
     this.marginX = opts.marginX || 0;
   }
