@@ -28,4 +28,9 @@ This was inspired by Timeline Up, but without any spending of real money.
   - same as above but moving the whole #objects element, 300 objects at 60fps
   - tried with transformY instead of transform - no diff
   - tried with animation - no diff
+- [.] check browser performance with a canvas? or use three.js?
+  - three.js seems to be happy with a couple thousand objects
+  - [ ] rebuild what I have so far in three.js
 - [ ] make the game
+  - [ ] use jewels for treasure? maybe if you shoot the biggest you get one jewel and it becomes a
+        smaller one?

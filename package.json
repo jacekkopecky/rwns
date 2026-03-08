@@ -7,9 +7,14 @@
   "type": "module",
   "main": "index.html",
   "scripts": {
-    "start": "tsc --watch"
+    "start": "vite",
+    "build": "vite build"
   },
   "devDependencies": {
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "three": "^0.183.2",
+    "vite": "^7.3.1"
   }
 }
