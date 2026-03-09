@@ -11,7 +11,7 @@ const el = {
   canvas: document.querySelector<HTMLCanvasElement>('#webgl-canvas')!,
 };
 
-const N = 1000;
+const N = 4000;
 const START_BEYOND = false;
 
 let handler: TouchHandler | null = null;
@@ -27,6 +27,7 @@ export function start() {
     setupScene();
     setupObjects();
   }
+  setTimeout(() => render(), 100);
 }
 
 function isPlaying() {
@@ -96,7 +97,7 @@ function moveObjectsOnAnimationFrame(ms: number) {
       const delta = (objectSpeedPerSecond * msElapsed) / 1000;
 
       objectsGroup.position.z += delta;
-      renderer.render(scene, camera);
+      render();
 
       frames += 1;
       if (lastTimeMs % 1000 > ms % 1000) {
@@ -109,9 +110,11 @@ function moveObjectsOnAnimationFrame(ms: number) {
   }
 }
 
+function render() {
+  renderer.render(scene, camera);
+}
+
 export function end() {
-  handler?.shutdown();
-  handler = null;
   togglePlaying(false);
 }
 
