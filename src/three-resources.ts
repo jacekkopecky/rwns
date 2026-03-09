@@ -23,6 +23,7 @@ export function createObject(type: string): Three.Object3D {
   const sprite = new Three.Sprite(material);
   sprite.scale.set(...size, 1);
   sprite.position.y = size[1] / 2;
+  sprite.userData.width = size[0];
   return sprite;
 }
 

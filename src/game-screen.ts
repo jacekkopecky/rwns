@@ -1,6 +1,12 @@
 import * as Three from 'three';
 
-import { cameraToTrackEndLength, objectSpeedPerSecond, trackLength } from './dimensions.js';
+import {
+  cameraToTrackEndLength,
+  FINGER_WIDTH_PERCENT,
+  objectSpeedPerSecond,
+  trackLength,
+  trackWidth,
+} from './dimensions.js';
 import { log } from './log.js';
 import { camera, dispose, renderer, setupThree } from './three.js';
 import { createObject, createTrack } from './three-resources.js';
@@ -16,12 +22,19 @@ const START_BEYOND = false;
 
 let handler: TouchHandler | null = null;
 
+let lastTimeMs: number | null = null;
+let scene: Three.Scene;
+let objectsGroup: Three.Group;
+let playerGroup: Three.Object3D;
+
 export function start() {
   if (!handler) {
     handler = new TouchHandler(el.main, {
       initialX: 50,
+      speedUp: 1 + FINGER_WIDTH_PERCENT / 100,
       onMove: updatePlayerPosition,
     });
+    handler.toggle(false);
     el.canvas.addEventListener('click', () => togglePlaying());
     setupThree(el.main);
     setupScene();
@@ -47,10 +60,6 @@ function togglePlaying(value?: boolean) {
   }
 }
 
-let lastTimeMs: number | null = null;
-let scene: Three.Scene;
-let objectsGroup: Three.Group;
-
 function setupScene() {
   if (scene) return;
 
@@ -65,8 +74,9 @@ function setupScene() {
 
   scene.add(createTrack());
 
-  const player = createObject('player');
-  scene.add(player);
+  playerGroup = createObject('player');
+  (window as any).jacek = playerGroup;
+  scene.add(playerGroup);
 }
 
 function setupObjects() {
@@ -118,6 +128,10 @@ export function end() {
   togglePlaying(false);
 }
 
-function updatePlayerPosition(playerX: number) {
-  // todo move player, take into account playerMargin
+function updatePlayerPosition(playerPercent: number) {
+  let x = ((playerPercent - 50) * trackWidth) / 100;
+  const bound = (trackWidth - (playerGroup.userData.width ?? 0)) / 2;
+  if (x < -bound) x = -bound;
+  if (x > bound) x = bound;
+  playerGroup.position.x = x;
 }
