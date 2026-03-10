@@ -1,4 +1,4 @@
-import * as Three from 'three';
+import * as THREE from 'three';
 
 import {
   cameraToTrackEndLength,
@@ -23,9 +23,9 @@ const START_BEYOND = false;
 let handler: TouchHandler | null = null;
 
 let lastTimeMs: number | null = null;
-let scene: Three.Scene;
-let objectsGroup: Three.Group;
-let playerGroup: Three.Object3D;
+let scene: THREE.Scene;
+let objectsGroup: THREE.Group;
+let playerGroup: THREE.Object3D;
 
 export function start() {
   if (!handler) {
@@ -63,10 +63,10 @@ function togglePlaying(value?: boolean) {
 function setupScene() {
   if (scene) return;
 
-  scene = new Three.Scene();
-  scene.background = new Three.Color(0xb0b0b0);
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xb0b0b0);
 
-  scene.fog = new Three.Fog(
+  scene.fog = new THREE.Fog(
     scene.background,
     cameraToTrackEndLength - trackLength * 0.2,
     cameraToTrackEndLength,
@@ -85,7 +85,7 @@ function setupObjects() {
     dispose(objectsGroup);
   }
 
-  objectsGroup = new Three.Group();
+  objectsGroup = new THREE.Group();
   scene.add(objectsGroup);
 
   for (let i = 0; i < N; i++) {

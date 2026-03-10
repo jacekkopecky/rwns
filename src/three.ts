@@ -1,9 +1,9 @@
-import * as Three from 'three';
+import * as THREE from 'three';
 
 import { cameraPosition, cameraToTrackEndLength, cameraTarget, cameraFoV } from './dimensions.js';
 
-export let renderer: Three.WebGLRenderer;
-export let camera: Three.PerspectiveCamera;
+export let renderer: THREE.WebGLRenderer;
+export let camera: THREE.PerspectiveCamera;
 
 export function setupThree(main: HTMLElement) {
   const canvas = main.querySelector('canvas');
@@ -11,9 +11,10 @@ export function setupThree(main: HTMLElement) {
     throw new Error('cannot work without a canvas');
   }
 
-  renderer = new Three.WebGLRenderer({ antialias: true, canvas });
+  renderer = new THREE.WebGLRenderer({ antialias: true, canvas });
+  console.log(renderer);
 
-  camera = new Three.PerspectiveCamera(
+  camera = new THREE.PerspectiveCamera(
     cameraFoV,
     canvas.clientWidth / canvas.clientHeight,
     1,
@@ -39,7 +40,7 @@ export function setupThree(main: HTMLElement) {
   };
 }
 
-export function dispose(group: Three.Object3D) {
+export function dispose(group: THREE.Object3D) {
   group.traverse(function (obj) {
     if (hasDisposables(obj)) {
       obj.geometry.dispose();
@@ -50,10 +51,10 @@ export function dispose(group: Three.Object3D) {
   });
 }
 
-function hasDisposables(obj: unknown): obj is Pick<Three.Mesh, 'geometry' | 'material'> {
+function hasDisposables(obj: unknown): obj is Pick<THREE.Mesh, 'geometry' | 'material'> {
   return (
     obj != null &&
     typeof obj === 'object' &&
-    ((obj as Three.Mesh).isMesh || (obj as Three.Line).isLine)
+    ((obj as THREE.Mesh).isMesh || (obj as THREE.Line).isLine)
   );
 }
