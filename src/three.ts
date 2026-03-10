@@ -5,6 +5,9 @@ import { cameraPosition, cameraToTrackEndLength, cameraTarget, cameraFoV } from 
 export let renderer: THREE.WebGLRenderer;
 export let camera: THREE.PerspectiveCamera;
 
+export const timer = new THREE.Timer();
+timer.connect(document);
+
 export function setupThree(main: HTMLElement) {
   const canvas = main.querySelector('canvas');
   if (!canvas) {

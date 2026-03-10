@@ -6,7 +6,9 @@ export const spriteResolution = 64;
 
 export const trackLength = 400;
 export const trackWidth = 100;
+export const START_BEYOND = false;
 
+export const N = 4000;
 export const objectSpeedPerSecond = 10;
 
 export const cameraPosition = [0, 130, 50] as const;

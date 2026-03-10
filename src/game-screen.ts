@@ -3,12 +3,14 @@ import * as THREE from 'three';
 import {
   cameraToTrackEndLength,
   FINGER_WIDTH_PERCENT,
+  N,
   objectSpeedPerSecond,
+  START_BEYOND,
   trackLength,
   trackWidth,
 } from './dimensions.js';
-import { log } from './log.js';
-import { camera, dispose, renderer, setupThree } from './three.js';
+import { logFps } from './log.js';
+import { camera, dispose, renderer, setupThree, timer } from './three.js';
 import { createObject, createTrack } from './three-resources.js';
 import { TouchHandler } from './touch-handler.js';
 
@@ -17,12 +19,8 @@ const el = {
   canvas: document.querySelector<HTMLCanvasElement>('#webgl-canvas')!,
 };
 
-const N = 4000;
-const START_BEYOND = false;
-
 let handler: TouchHandler | null = null;
 
-let lastTimeMs: number | null = null;
 let scene: THREE.Scene;
 let objectsGroup: THREE.Group;
 let playerGroup: THREE.Object3D;
@@ -55,8 +53,7 @@ function togglePlaying(value?: boolean) {
   if (!playing) {
     setupObjects();
   } else {
-    lastTimeMs = null;
-    requestAnimationFrame(moveObjectsOnAnimationFrame);
+    animationFrame();
   }
 }
 
@@ -99,25 +96,21 @@ function setupObjects() {
   }
 }
 
-let frames = 0;
-function moveObjectsOnAnimationFrame(ms: number) {
+function animationFrame(ms?: number) {
   if (isPlaying()) {
-    if (lastTimeMs != null) {
-      const msElapsed = ms - lastTimeMs;
-      const delta = (objectSpeedPerSecond * msElapsed) / 1000;
-
-      objectsGroup.position.z += delta;
+    if (ms != null) {
+      timer.update(ms);
+      moveObjectsOnAnimationFrame(timer.getDelta());
       render();
-
-      frames += 1;
-      if (lastTimeMs % 1000 > ms % 1000) {
-        log(`${N}: ${frames}`);
-        frames = 0;
-      }
     }
-    lastTimeMs = ms;
-    requestAnimationFrame(moveObjectsOnAnimationFrame);
+    logFps(ms, `${N}: `);
+    requestAnimationFrame(animationFrame);
   }
+}
+
+function moveObjectsOnAnimationFrame(delta: number) {
+  const deltaZ = objectSpeedPerSecond * delta;
+  objectsGroup.position.z += deltaZ;
 }
 
 function render() {
