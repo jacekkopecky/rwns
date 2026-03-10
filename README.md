@@ -43,6 +43,9 @@ This was inspired by Timeline Up, but without any spending of real money.
     - [x] smileys
     - [x] moving the player
     - can do a few thousand objects smoothly
+  - [x] make objects die when too close
+    - [x] have an animation manager
+  - [ ] add bullets
 - [ ] make the game
   - [ ] use jewels for treasure? maybe if you shoot the biggest you get one jewel and it becomes a
         smaller one?

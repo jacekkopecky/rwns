@@ -1,18 +1,20 @@
 import * as THREE from 'three';
 
+import { disposeAnimations, shrinkToGone, updateAnimations } from './animations.js';
 import {
   behindCamera,
   cameraToTrackEndLength,
   FINGER_WIDTH_PERCENT,
   N,
+  objectDyingDuration,
   objectSpeedPerSecond,
-  START_BEYOND,
+  startDistance,
   trackLength,
   trackWidth,
 } from './dimensions.js';
 import { logFps } from './log.js';
 import { camera, dispose, renderer, setupThree, timer } from './three.js';
-import { createObject, createTrack } from './three-resources.js';
+import { createObject, createTrack, getSpriteMaterial } from './three-resources.js';
 import { TouchHandler } from './touch-handler.js';
 
 const el = {
@@ -53,6 +55,7 @@ function togglePlaying(value?: boolean) {
 
   if (!playing) {
     setupObjects();
+    disposeAnimations();
   } else {
     animationFrame();
   }
@@ -88,7 +91,7 @@ function setupObjects() {
 
   for (let i = 0; i < N; i++) {
     const x = Math.random() * 80 - 40;
-    const y = -(trackLength / N) * i - (START_BEYOND ? trackLength : 50);
+    const y = -(trackLength / N) * i + startDistance;
 
     const obj = createObject('object');
     obj.position.x = x;
@@ -101,31 +104,55 @@ function animationFrame(ms?: number) {
   if (isPlaying()) {
     if (ms != null) {
       timer.update(ms);
-      moveObjectsOnAnimationFrame(timer.getDelta());
+      const delta = timer.getDelta();
+      updateAnimations(delta);
+      moveObjects(delta);
+      moveBullets(delta);
     } else {
       timer.reset();
     }
     render();
-    logFps(ms, `${N}: `);
+    logFps(ms, `${objectsGroup.children.length}: `);
     requestAnimationFrame(animationFrame);
   }
 }
 
-function moveObjectsOnAnimationFrame(delta: number) {
+function moveObjects(delta: number) {
   const deltaZ = objectSpeedPerSecond * delta;
   objectsGroup.position.z += deltaZ;
 
   // remove objects that are now behind the camera
-  const groupZ = objectsGroup.position.z;
-
   for (const child of objectsGroup.children) {
-    if (groupZ + child.position.z > behindCamera) {
+    if (getObjectZ(child) > behindCamera) {
       child.removeFromParent();
     } else {
       // the objects are sorted front-to-back so no more will be behind camera
       break;
     }
   }
+}
+
+function getObjectZ(obj: THREE.Object3D) {
+  return objectsGroup.position.z + obj.position.z;
+}
+
+function moveBullets(delta: number) {
+  for (const child of objectsGroup.children) {
+    if (isSprite(child) && getObjectZ(child) > -20) {
+      if (!child.userData.dying && Math.random() > 0.99) {
+        child.material = getSpriteMaterial('objectDying');
+        child.userData.dying = true;
+        shrinkToGone(child, objectDyingDuration);
+      }
+    } else {
+      // no more children close enough;
+      break;
+    }
+  }
+}
+
+function isSprite(obj?: THREE.Object3D): obj is THREE.Sprite {
+  return Boolean(obj && 'isSprite' in obj && obj.isSprite);
 }
 
 function render() {

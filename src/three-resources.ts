@@ -29,6 +29,12 @@ export function createObject(type: string): THREE.Object3D {
   return sprite;
 }
 
+export function getSpriteMaterial(type: string): THREE.SpriteMaterial {
+  const material = materials[type as keyof typeof materials];
+  if (!material) throw new TypeError(`no material known for type "${type}"`);
+  return material;
+}
+
 export function createTrack(): THREE.Object3D {
   const material = trackMaterial;
 

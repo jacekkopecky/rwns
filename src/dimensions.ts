@@ -6,11 +6,12 @@ export const spriteResolution = 64;
 
 export const trackLength = 400;
 export const trackWidth = 100;
-export const START_BEYOND = false;
+export const startDistance = -50; // -trackLength;
 export const behindCamera = 50;
 
-export const N = 4000;
+export const N = 400;
 export const objectSpeedPerSecond = 10;
+export const objectDyingDuration = 0.3;
 
 export const cameraPosition = [0, 130, 50] as const;
 export const cameraTarget = [0, 0, -100] as const;
