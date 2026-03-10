@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 
 import {
+  behindCamera,
   cameraToTrackEndLength,
   FINGER_WIDTH_PERCENT,
   N,
@@ -101,8 +102,10 @@ function animationFrame(ms?: number) {
     if (ms != null) {
       timer.update(ms);
       moveObjectsOnAnimationFrame(timer.getDelta());
-      render();
+    } else {
+      timer.reset();
     }
+    render();
     logFps(ms, `${N}: `);
     requestAnimationFrame(animationFrame);
   }
@@ -111,6 +114,18 @@ function animationFrame(ms?: number) {
 function moveObjectsOnAnimationFrame(delta: number) {
   const deltaZ = objectSpeedPerSecond * delta;
   objectsGroup.position.z += deltaZ;
+
+  // remove objects that are now behind the camera
+  const groupZ = objectsGroup.position.z;
+
+  for (const child of objectsGroup.children) {
+    if (groupZ + child.position.z > behindCamera) {
+      child.removeFromParent();
+    } else {
+      // the objects are sorted front-to-back so no more will be behind camera
+      break;
+    }
+  }
 }
 
 function render() {
