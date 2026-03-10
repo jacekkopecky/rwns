@@ -9,7 +9,7 @@ export const trackWidth = 100;
 export const startDistance = -50; // -trackLength;
 export const behindCamera = 50;
 
-export const N = 400;
+export const N = 4000;
 export const objectSpeedPerSecond = 10;
 export const objectDyingDuration = 0.3;
 

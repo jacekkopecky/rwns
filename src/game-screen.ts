@@ -139,7 +139,7 @@ function getObjectZ(obj: THREE.Object3D) {
 function moveBullets(delta: number) {
   for (const child of objectsGroup.children) {
     if (isSprite(child) && getObjectZ(child) > -20) {
-      if (!child.userData.dying && Math.random() > 0.99) {
+      if (!child.userData.dying && isObjectBeforePlayer(child)) {
         child.material = getSpriteMaterial('objectDying');
         child.userData.dying = true;
         shrinkToGone(child, objectDyingDuration);
@@ -149,6 +149,13 @@ function moveBullets(delta: number) {
       break;
     }
   }
+}
+
+function isObjectBeforePlayer(obj: THREE.Object3D): boolean {
+  return (
+    getObjectZ(obj) < 0 &&
+    Math.abs(obj.position.x - playerGroup.position.x) < (obj.userData.width / 2 || 1)
+  );
 }
 
 function isSprite(obj?: THREE.Object3D): obj is THREE.Sprite {
