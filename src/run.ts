@@ -204,12 +204,16 @@ function moveBullets(delta: number) {
   // todo check for hits, with deltaZ added to each bullet's length, but only up to the bullet's minZ minus length
 
   bulletsGroup.position.z -= deltaZ;
+  const bulletsZ = bulletsGroup.position.z;
 
   // remove bullets that are now past their range
   for (const bullet of bulletsGroup.children) {
     const bData = getBulletData(bullet);
-    if (getObjectZ(bullet) < -bData.range) {
+    if (bulletsZ < bData.minZ) {
       bullet.removeFromParent();
+    } else {
+      // the bullets are sorted by minZ so no further bullets will be removed
+      break;
     }
   }
 }
@@ -219,12 +223,11 @@ function shoot(delta: number) {
     const pData = getPlayerData(player);
     pData.remainingShotTime -= delta;
     if (pData.remainingShotTime <= 0) {
-      console.log(pData.remainingShotTime, pData.shotTime, delta);
       pData.remainingShotTime += pData.shotTime;
 
       const bullet = createObject('bullet');
       const bData = getBulletData(bullet);
-      bData.range = pData.range;
+      bData.minZ = bulletsGroup.position.z - pData.range;
       bData.length = pData.bulletLength;
       bullet.position.z = -bulletsGroup.position.z;
       bullet.position.y = player.position.y / 2;

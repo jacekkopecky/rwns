@@ -16,7 +16,6 @@ export function init(main: HTMLElement) {
   }
 
   renderer = new THREE.WebGLRenderer({ antialias: true, canvas });
-  console.log(renderer);
 
   camera = new THREE.PerspectiveCamera(
     cameraFoV,

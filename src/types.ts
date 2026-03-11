@@ -14,7 +14,7 @@ interface PlayerData extends AnyObjectData {
 
 interface BulletData extends AnyObjectData {
   type: 'bullet';
-  range: number;
+  minZ: number;
   length: number;
 }
 
