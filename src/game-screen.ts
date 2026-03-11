@@ -132,7 +132,7 @@ function moveObjects(delta: number) {
 }
 
 function getObjectZ(obj: THREE.Object3D) {
-  return objectsGroup.position.z + obj.position.z;
+  return (obj.parent?.position?.z ?? 0) + obj.position.z;
 }
 
 function moveBullets(delta: number) {

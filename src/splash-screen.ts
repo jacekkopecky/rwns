@@ -34,8 +34,8 @@ export function init() {
   }
 }
 
-function goFullscreen() {
-  el.main.requestFullscreen();
+async function goFullscreen() {
+  await el.main.requestFullscreen();
   start();
 }
 
