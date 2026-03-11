@@ -13,7 +13,7 @@ import {
   trackWidth,
 } from './dimensions.js';
 import { logFps } from './log.js';
-import { camera, dispose, renderer, setupThree, timer } from './three.js';
+import { dispose, render, scene, setScene, setupThree, timer } from './three.js';
 import { createObject, createTrack, getSpriteMaterial } from './three-resources.js';
 import { TouchHandler } from './touch-handler.js';
 
@@ -24,7 +24,6 @@ const el = {
 
 let handler: TouchHandler | null = null;
 
-let scene: THREE.Scene;
 let objectsGroup: THREE.Group;
 let playerGroup: THREE.Object3D;
 
@@ -62,22 +61,22 @@ function togglePlaying(value?: boolean) {
 }
 
 function setupScene() {
-  if (scene) return;
+  const s = new THREE.Scene();
+  s.background = new THREE.Color(0xb0b0b0);
 
-  scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xb0b0b0);
-
-  scene.fog = new THREE.Fog(
-    scene.background,
+  s.fog = new THREE.Fog(
+    s.background,
     cameraToTrackEndLength - trackLength * 0.2,
     cameraToTrackEndLength,
   );
 
-  scene.add(createTrack());
+  s.add(createTrack());
 
   playerGroup = createObject('player');
   (window as any).jacek = playerGroup;
-  scene.add(playerGroup);
+  s.add(playerGroup);
+
+  setScene(s);
 }
 
 function setupObjects() {
@@ -160,10 +159,6 @@ function isObjectBeforePlayer(obj: THREE.Object3D): boolean {
 
 function isSprite(obj?: THREE.Object3D): obj is THREE.Sprite {
   return Boolean(obj && 'isSprite' in obj && obj.isSprite);
-}
-
-function render() {
-  renderer.render(scene, camera);
 }
 
 export function end() {
