@@ -1,10 +1,12 @@
 import * as THREE from 'three';
 
 import * as dim from './dimensions.js';
+import { isSprite } from './three.js';
 
 // todo maybe also use some of these: 🍄‍🟫 🟡 😵‍💫
 const sprites = {
   player: emojiSpriteMaterial('🍄'),
+  playerDying: emojiSpriteMaterial('🔥'),
   object: emojiSpriteMaterial('😀'),
   objectDying: emojiSpriteMaterial('😵'),
   bullet: emojiSpriteMaterial('⚫️'),
@@ -25,6 +27,10 @@ function emojiSpriteMaterial(emojiCharacter: string): THREE.SpriteMaterial {
   canvas.width = dim.spriteResolution;
   canvas.height = dim.spriteResolution;
 
+  // ctx.fillStyle = '#fff8';
+  // ctx.fillRect(0, 0, dim.spriteResolution, dim.spriteResolution);
+  // ctx.fillStyle = '#000';
+
   ctx.font = `${dim.spriteResolution}px serif`;
   ctx.textAlign = 'center';
   const measure = ctx.measureText(emojiCharacter);
@@ -35,6 +41,7 @@ function emojiSpriteMaterial(emojiCharacter: string): THREE.SpriteMaterial {
   const texture = new THREE.Texture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
   texture.needsUpdate = true;
+
   return new THREE.SpriteMaterial({ map: texture, color: 0xffffff });
 }
 
@@ -49,4 +56,10 @@ export function getSpriteMaterial(type: string, useDefault = false): THREE.Sprit
   } else {
     throw new TypeError(`no material known for type "${type}"`);
   }
+}
+
+export function setSpriteMaterial(obj: THREE.Object3D, type: keyof typeof sprites) {
+  if (!isSprite(obj))
+    throw new TypeError('cannot set sprite material for an object that is not a sprite');
+  obj.material = getSpriteMaterial(type);
 }

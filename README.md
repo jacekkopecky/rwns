@@ -4,8 +4,10 @@ This was inspired by Timeline Up, but without any spending of real money.
 
 ## todo
 
-- [ ] add playerThickness so the bullets start that far in front of the player
-  - [ ] add collision detection between player (with thickness) and objects, react accordingly
+- [x] add player collision
+  - add playerThickness - actually just use half width
+  - make bullets start that far in front of the player
+  - add collision detection between player (with thickness) and objects, react accordingly
 - [ ] some kinds of income
   - [ ] when currency is gained, make it fly towards the wallet?
 - [ ] add main-screen elements: currencies, upgrade buttons
@@ -37,7 +39,7 @@ This was inspired by Timeline Up, but without any spending of real money.
   - when in a slow-down area, objects are updated by a different delta
   - [ ] should the camera reposition itself a bit?
 - [ ] should camera reposition itself on main screen and in run?
-- [ ] add particles for damage?
+- [ ] add particles showing damage?
 
 ---
 

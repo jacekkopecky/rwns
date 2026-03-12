@@ -2,6 +2,7 @@ import * as THREE from 'three';
 
 interface AnyObjectData {
   width: number;
+  depth: number;
 }
 
 export interface PlayerData extends AnyObjectData {
@@ -10,6 +11,7 @@ export interface PlayerData extends AnyObjectData {
   remainingShotTime: number;
   range: number;
   bulletLength: number;
+  hitPoints: number;
 }
 
 export interface BulletData extends AnyObjectData {
@@ -26,11 +28,11 @@ export interface ObjectData extends AnyObjectData {
 }
 
 export interface PlayerGroupData extends AnyObjectData {
-  type: 'playerGroup';
+  type: 'playersGroup';
 }
 
 export function getPlayerGroupData(obj: THREE.Object3D): PlayerGroupData {
-  return getUserData(obj, 'playerGroup');
+  return getUserData(obj, 'playersGroup');
 }
 
 export function getPlayerData(obj: THREE.Object3D): PlayerData {

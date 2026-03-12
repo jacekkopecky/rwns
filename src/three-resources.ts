@@ -11,7 +11,9 @@ export function createObject(type: string): THREE.Object3D {
   const sprite = new THREE.Sprite(material);
   sprite.scale.set(...size, 1);
   sprite.position.y = size[1] / 2;
+
   sprite.userData.width = size[0];
+  sprite.userData.depth = size[0] / 3; // use the third of width as the depth
   sprite.userData.type = type;
   return sprite;
 }
@@ -73,10 +75,14 @@ export function moveTrackDecorations(decoGroup: THREE.Group, delta: number) {
   }
 }
 
-export function doObjectsOverlapInX(obj1: THREE.Object3D, obj2: THREE.Object3D): boolean {
+export function doObjectsOverlapInX(
+  obj1: THREE.Object3D,
+  obj2: THREE.Object3D,
+  reach = 1, // bigger reach - conflict occurs when they're farther away
+): boolean {
   return (
     Math.abs(getObjectX(obj1) - getObjectX(obj2)) <
-    (getObjectWidth(obj1) + getObjectWidth(obj2)) / 2
+    ((getObjectWidth(obj1) + getObjectWidth(obj2)) / 2) * reach
   );
 }
 

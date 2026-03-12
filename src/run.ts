@@ -1,11 +1,16 @@
 import * as THREE from 'three';
 
-import { disposeAnimations, shrinkToGone, updateAnimations } from './animations.js';
+import {
+  disposeAnimations,
+  pulseAndShrinkToGone,
+  shrinkToGone,
+  updateAnimations,
+} from './animations.js';
 import * as dim from './dimensions.js';
 import { logFps } from './log.js';
 import { showMainScreen } from './main-screen.js';
-import { getObjectX, getObjectZ, isSprite, render, scene, timer } from './three.js';
-import { getSpriteMaterial } from './three-materials.js';
+import { getObjectX, getObjectZ, render, scene, timer } from './three.js';
+import { setSpriteMaterial } from './three-materials.js';
 import {
   createObject,
   createTrack,
@@ -20,12 +25,13 @@ import {
   getObjectData,
   getPlayerData,
   getPlayerGroupData,
-  type BulletData,
+  type ObjectData,
 } from './types.js';
 
 let handler: TouchHandler;
 let objectsGroup: THREE.Group;
-let playerGroup: THREE.Group;
+let playersGroup: THREE.Group;
+let playersDyingGroup = new THREE.Group();
 let bulletsGroup: THREE.Group;
 let trackDecorationsGroup: THREE.Group;
 
@@ -99,7 +105,7 @@ export function prepareRun() {
   disposeAnimations();
 
   setupObjects();
-  setupPlayer();
+  setupPlayers();
   setupBullets();
 
   playing = false;
@@ -135,13 +141,15 @@ function toggleFullscreenPause(value: boolean) {
   timer.update();
 }
 
-function setupPlayer() {
-  if (playerGroup) {
-    scene.remove(playerGroup);
+function setupPlayers() {
+  if (playersGroup) {
+    scene.remove(playersGroup);
   }
 
-  playerGroup = new THREE.Group();
-  playerGroup.userData.type = 'playerGroup';
+  playersGroup = new THREE.Group();
+  playersGroup.userData.type = 'playersGroup';
+
+  playersDyingGroup.clear();
 
   const player = createObject('player');
   const pData = getPlayerData(player);
@@ -149,12 +157,23 @@ function setupPlayer() {
   pData.remainingShotTime = dim.playerShotTime / 2;
   pData.range = dim.playerBulletRange;
   pData.bulletLength = dim.playerBulletLength;
-  playerGroup.add(player);
+  pData.hitPoints = dim.playerHitPoints;
+  playersGroup.add(player);
 
-  const pgData = getPlayerGroupData(playerGroup);
+  const pgData = getPlayerGroupData(playersGroup);
   pgData.width = pData.width;
 
-  scene.add(playerGroup);
+  scene.add(playersGroup);
+  scene.add(playersDyingGroup);
+}
+
+function repositionPlayers() {
+  // todo
+  // give players (except dying ones) target X and Z, every time players move move them towards it
+  // depending on the zone we are on:
+  // normal: re-center the players in a group (and shift center?)
+  // end-blocks: do not recenter
+  // todo also run this function when we change zone
 }
 
 function setupBullets() {
@@ -189,10 +208,10 @@ function setupObjects() {
 
 function updatePlayerPosition(playerPercent: number) {
   let x = ((playerPercent - 50) * dim.trackWidth) / 100;
-  const bound = (dim.trackWidth - getObjectWidth(playerGroup)) / 2;
+  const bound = (dim.trackWidth - getObjectWidth(playersGroup)) / 2;
   if (x < -bound) x = -bound;
   if (x > bound) x = bound;
-  playerGroup.position.x = x;
+  playersGroup.position.x = x;
 }
 
 function moveObjects(delta: number) {
@@ -210,20 +229,38 @@ function moveObjects(delta: number) {
   }
 }
 
-function hitObject(obj: THREE.Object3D, bData: BulletData): boolean {
+function hitObject(obj: THREE.Object3D, hitPoints: number): boolean {
   const oData = getObjectData(obj);
   if (oData.dying) return false;
 
-  oData.hitPoints -= bData.hitPoints;
+  oData.hitPoints -= hitPoints;
 
   if (oData.hitPoints <= 0) {
-    if (!isSprite(obj)) throw new TypeError('cannot kill object that is not a sprite');
-    obj.material = getSpriteMaterial('objectDying');
-    oData.dying = true;
-    shrinkToGone(obj, dim.objectDyingDuration);
+    killObject(obj, oData);
   }
 
   return true;
+}
+
+function killObject(obj: THREE.Object3D, oData: ObjectData) {
+  setSpriteMaterial(obj, 'objectDying');
+  oData.dying = true;
+  shrinkToGone(obj, dim.objectDyingDuration);
+}
+
+function killPlayer(player: THREE.Object3D) {
+  shrinkToGone(player, dim.playerDyingDuration);
+
+  // move the player out of playersGroup so it isn't moved left and right anymore
+  playersDyingGroup.add(player);
+  player.position.x += playersGroup.position.x;
+
+  // add fire for extra effect
+  const fire = createObject('player');
+  setSpriteMaterial(fire, 'playerDying');
+  pulseAndShrinkToGone(fire, dim.playerDyingDuration);
+  fire.position.copy(player.position);
+  playersDyingGroup.add(fire);
 }
 
 /**
@@ -241,7 +278,7 @@ function checkBulletHit(bullet: THREE.Object3D, deltaZ: number) {
     if (objZ < bulletTip) return; // we're done, remaining objects are too far for this bullet to hit
 
     if (objZ < bulletButt && doObjectsOverlapInX(obj, bullet)) {
-      const isHit = hitObject(obj, bData);
+      const isHit = hitObject(obj, bData.hitPoints);
       if (isHit) {
         bullet.removeFromParent();
         return;
@@ -250,7 +287,7 @@ function checkBulletHit(bullet: THREE.Object3D, deltaZ: number) {
   }
 }
 
-function moveBullets(delta: number) {
+function movePlayerBullets(delta: number) {
   const deltaZ = dim.playerBulletSpeed * delta;
 
   for (const bullet of bulletsGroup.children) {
@@ -272,9 +309,10 @@ function moveBullets(delta: number) {
   }
 }
 
-function shoot(delta: number) {
-  for (const player of playerGroup.children) {
+function playerShoot(delta: number) {
+  for (const player of playersGroup.children) {
     const pData = getPlayerData(player);
+
     pData.remainingShotTime -= delta;
     if (pData.remainingShotTime <= 0) {
       pData.remainingShotTime += pData.shotTime;
@@ -285,7 +323,9 @@ function shoot(delta: number) {
       bData.length = pData.bulletLength;
       bData.hitPoints = dim.playerBulletHitPoints;
       bData.width = 0; // let bullets just graze the target without hitting it
-      bullet.position.z = -bulletsGroup.position.z;
+
+      // bullets start in front of the player
+      bullet.position.z = -bulletsGroup.position.z - pData.depth;
       bullet.position.y = player.position.y;
       bullet.position.x = getObjectX(player);
 
@@ -294,8 +334,49 @@ function shoot(delta: number) {
   }
 }
 
+function checkPlayerHit(player: THREE.Object3D) {
+  const pData = getPlayerData(player);
+
+  const playerNear = getObjectZ(player);
+  const playerFar = playerNear - pData.depth;
+
+  // check all objects
+  for (const obj of objectsGroup.children) {
+    const oData = getObjectData(obj);
+    const objNear = getObjectZ(obj);
+    const objFar = objNear - oData.depth;
+
+    if (objNear < playerFar) return; // we're done, remaining objects are too far to hit this player
+
+    // use 0.8 reach to allow the player to rub shoulders with objects
+    if (objFar < playerNear && doObjectsOverlapInX(obj, player, 0.8)) {
+      const objHP = oData.hitPoints;
+      const isHit = hitObject(obj, pData.hitPoints);
+      if (isHit) {
+        pData.hitPoints -= objHP;
+      }
+
+      if (pData.hitPoints <= 0) {
+        killPlayer(player);
+        repositionPlayers();
+        return; // this player is done
+      }
+    }
+  }
+}
+
+function checkPlayersHit() {
+  for (const player of playersGroup.children) {
+    checkPlayerHit(player);
+  }
+}
+
 function isGameFinished() {
-  return objectsGroup.children.length === 0;
+  // todo
+  return (
+    objectsGroup.children.length === 0 ||
+    (playersGroup.children.length === 0 && playersDyingGroup.children.length === 0)
+  );
 }
 
 // const fpsDivider = 10;
@@ -315,8 +396,9 @@ function animationFrame(ms?: number) {
     updateAnimations(delta);
     moveObjects(delta);
     moveTrackDecorations(trackDecorationsGroup, delta);
-    shoot(delta);
-    moveBullets(delta);
+    checkPlayersHit();
+    playerShoot(delta);
+    movePlayerBullets(delta);
 
     if (isGameFinished()) {
       endRun();

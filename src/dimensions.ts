@@ -24,6 +24,8 @@ export const playerBulletRange = 40;
 export const playerBulletLength = 2;
 export const playerBulletSpeed = 40;
 export const playerBulletHitPoints = 1;
+export const playerHitPoints = 1;
+export const playerDyingDuration = 0.6;
 
 export const cameraPosition = [0, 130, 50] as const;
 export const cameraTarget = [0, 0, -100] as const;
