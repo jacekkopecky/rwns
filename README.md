@@ -4,10 +4,6 @@ This was inspired by Timeline Up, but without any spending of real money.
 
 ## todo
 
-- [x] add player collision
-  - add playerThickness - actually just use half width
-  - make bullets start that far in front of the player
-  - add collision detection between player (with thickness) and objects, react accordingly
 - [ ] some kinds of income
   - [ ] when currency is gained, make it fly towards the wallet?
 - [ ] add main-screen elements: currencies, upgrade buttons
@@ -45,6 +41,10 @@ This was inspired by Timeline Up, but without any spending of real money.
 
 ## done by 2026-03-12
 
+- [x] add player collision
+  - add playerThickness - actually just use half width
+  - make bullets start that far in front of the player
+  - add collision detection between player (with thickness) and objects, react accordingly
 - [x] add road decorations so you can see the road moving
 - [x] add bullets
   - [x] in their own group, starting from player (neg group Z) at fixed time intervals

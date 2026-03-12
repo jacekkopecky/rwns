@@ -6,7 +6,8 @@ import { isSprite } from './three.js';
 // todo maybe also use some of these: 🍄‍🟫 🟡 😵‍💫
 const sprites = {
   player: emojiSpriteMaterial('🍄'),
-  playerDying: emojiSpriteMaterial('🔥'),
+  playerDying: emojiSpriteMaterial('🍄‍🟫'),
+  fire: emojiSpriteMaterial('🔥'),
   object: emojiSpriteMaterial('😀'),
   objectDying: emojiSpriteMaterial('😵'),
   bullet: emojiSpriteMaterial('⚫️'),

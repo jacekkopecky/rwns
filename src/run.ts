@@ -249,17 +249,18 @@ function killObject(obj: THREE.Object3D, oData: ObjectData) {
 }
 
 function killPlayer(player: THREE.Object3D) {
-  shrinkToGone(player, dim.playerDyingDuration);
+  setSpriteMaterial(player, 'playerDying');
+  shrinkToGone(player, dim.playerDyingDuration / 2);
 
   // move the player out of playersGroup so it isn't moved left and right anymore
   playersDyingGroup.add(player);
   player.position.x += playersGroup.position.x;
 
   // add fire for extra effect
-  const fire = createObject('player');
-  setSpriteMaterial(fire, 'playerDying');
+  const fire = createObject('fire');
   pulseAndShrinkToGone(fire, dim.playerDyingDuration);
   fire.position.copy(player.position);
+  fire.position.z += 0.01; // in front of the player
   playersDyingGroup.add(fire);
 }
 

@@ -1,7 +1,9 @@
 export const sizes: Record<string, [number, number]> = {
   bullet: [3, 3],
-  defaultSize: [15, 15],
   player: [15, 15],
+  fire: [15, 15],
+  object: [15, 15],
+  defaultSize: [15, 25],
 } as const;
 export const spriteResolution = 64;
 
