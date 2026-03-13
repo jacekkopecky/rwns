@@ -5,7 +5,13 @@ import { logFps } from '../log';
 import { render, scene, timer } from '../three';
 import { createTrack, createTrackDecorations, moveTrackDecorations } from '../three-resources';
 
-import { setupAwards, toggleEndRunScreen, updateEndRunScreen } from './awards';
+import {
+  awardsGroup,
+  setupAwards,
+  toggleEndRunScreen,
+  updateAwardsView,
+  updateEndRunScreen,
+} from './awards';
 import { bulletsGroup, movePlayerBullets, setupBullets } from './bullets';
 import { dyingGroup, moveAndSweepDyingGroup, setupDyingGroup } from './dying';
 import { moveObjects, objectsGroup, setupObjects } from './objects';
@@ -83,6 +89,7 @@ function setupScene() {
   sunlight.position.set(10, 10, 5);
   scene.add(sunlight);
 
+  scene.add(awardsGroup);
   scene.add(objectsGroup);
   scene.add(playersGroup);
   scene.add(bulletsGroup);
@@ -169,6 +176,7 @@ function animationFrame(ms?: number) {
     playerShoot(delta);
     movePlayerBullets(delta);
     moveAndSweepDyingGroup(delta);
+    updateAwardsView();
 
     if (isGameFinished()) {
       endRun();

@@ -1,10 +1,10 @@
-import type { Currency, CurrencyType } from './types';
+import type { CurrencyType } from './types';
 
 export class Wallet {
   private wallet: Partial<Record<CurrencyType, number>> = {};
 
-  add(what: Currency) {
-    this.wallet[what.type] = (this.wallet[what.type] ?? 0) + what.amount;
+  add(type: CurrencyType, amount: number) {
+    this.wallet[type] = (this.wallet[type] ?? 0) + amount;
   }
 
   read(type: CurrencyType): number {
@@ -22,7 +22,7 @@ export class Wallet {
   addAll(otherWallet: Wallet) {
     const other = otherWallet.readAll();
     for (const [type, amount] of Object.entries(other)) {
-      this.add({ type: type as CurrencyType, amount });
+      this.add(type as CurrencyType, amount);
     }
   }
 }

@@ -2,8 +2,10 @@ export const sizes: Record<string, [number, number]> = {
   bullet: [3, 3],
   player: [15, 15],
   fire: [15, 15],
-  gem: [10, 10],
+  gems: [10, 10],
   coins: [12, 12],
+  coin: [6, 6],
+  gem: [8, 8],
   object: [15, 15],
   defaultSize: [15, 25],
 } as const;
@@ -27,6 +29,10 @@ export const gemHitPoints = 2;
 export const gemProbability = 0.05;
 export const coinProbability = 0.1;
 export const coinAwardMax = 5;
+
+export const runAwardsTargetCoordinates = [0.9, 0.8] as const;
+export const runAwardsTargetDepth = 130; // about the distance from the camera to the front player
+export const runAwardsFlyTime = 0.8;
 
 export const playerShotTime = 1;
 export const playerBulletRange = 40;

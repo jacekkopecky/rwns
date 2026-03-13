@@ -22,7 +22,7 @@ export function setupObjects() {
     const r = Math.random();
     const type =
       r < dim.gemProbability
-        ? 'gem'
+        ? 'gems'
         : r < dim.gemProbability + dim.coinProbability
           ? 'coins'
           : 'object';
@@ -33,7 +33,7 @@ export function setupObjects() {
     obj.position.z = y;
 
     switch (type) {
-      case 'gem':
+      case 'gems':
         oData.hitPoints = dim.gemHitPoints;
         oData.benign = true;
         oData.award = { type: 'gem', amount: 1 };
@@ -72,8 +72,8 @@ export function hitObject(obj: THREE.Object3D, hitPoints: number, playerHit = fa
   if (oData.collectible || oData.hitPoints <= 0) {
     killObject(obj, oData);
 
-    // don't award from benign objects when we walk into them
-    if (oData.award && !(oData.benign && playerHit)) giveAward(oData.award);
+    // give the award, but not from benign objects when we walk into them
+    if (oData.award && !(oData.benign && playerHit)) giveAward(oData.award, obj);
   }
 
   return true;

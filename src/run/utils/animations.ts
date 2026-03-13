@@ -37,6 +37,48 @@ export function pulseAndShrinkToGone(obj: THREE.Object3D, duration: number) {
   addClipAction(obj, duration, clip);
 }
 
+export function flyToTargetAndShrink(obj: THREE.Object3D, target: THREE.Vector3, duration: number) {
+  const durations = betweener(0, duration);
+  const x = betweener(obj.position.x, target.x);
+
+  const clip = new THREE.AnimationClip('flyAndShrink', duration, [
+    new THREE.KeyframeTrack(
+      '.position[x]',
+      durations(0, 0.5, 0.7, 1),
+      x(0, 0.6, 0.9, 1),
+      THREE.InterpolateSmooth,
+    ),
+    new THREE.KeyframeTrack(
+      '.position[y]',
+      [0, duration],
+      [obj.position.y, target.y],
+      THREE.InterpolateSmooth,
+    ),
+    new THREE.KeyframeTrack(
+      '.position[z]',
+      [0, duration],
+      [obj.position.z, target.z],
+      THREE.InterpolateSmooth,
+    ),
+    new THREE.KeyframeTrack('.scale', durations(0, 0.5, 1), [...obj.scale, ...obj.scale, 0, 0, 0]),
+  ]);
+
+  addClipAction(obj, duration, clip);
+}
+
+/**
+ * A helper function that given two numbers, returns a function that turns fractions into linear
+ * interpolations between the two numbers.
+ *
+ * Example:
+ * const betweenX = betweener(2, 8);
+ * betweenX(0, 0.5, 1) -> [2, 5, 8]
+ * betweenX(0.8) -> [6.8] // 80% between 2 and 8
+ */
+function betweener(a: number, b: number): (...fractions: number[]) => number[] {
+  return (...fractions) => fractions.map((f) => a + (b - a) * f);
+}
+
 function addClipAction(
   obj: THREE.Object3D,
   duration: number,

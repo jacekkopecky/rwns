@@ -69,3 +69,21 @@ export function resetGroup(group: THREE.Group) {
   group.clear();
   group.position.set(0, 0, 0);
 }
+
+/**
+ * return world coordinates at depth `d` from the camera, at [xFraction,yfraction] on the screen,
+ * with [xFraction,yFraction]=[0,0] being the bottom left corner, and [1,0] is bottom right corner
+ */
+export function getScreenCoordinates(d: number, xFraction: number, yFraction: number) {
+  // get camera-local screen coordinates
+  const localBottomLeft = new THREE.Vector2();
+  const localTopRight = new THREE.Vector2();
+  camera.getViewBounds(d, localBottomLeft, localTopRight);
+
+  const x = localBottomLeft.x + xFraction * (localTopRight.x - localBottomLeft.x);
+  const y = localBottomLeft.y + yFraction * (localTopRight.y - localBottomLeft.y);
+
+  // z is negative d because that's where the camera is looking
+  const localPoint = new THREE.Vector3(x, y, -d);
+  return camera.localToWorld(localPoint);
+}

@@ -9,7 +9,8 @@ This was inspired by Timeline Up, but without any spending of real money.
   - we could have trees that are in the way and need shooting down
   - gems and coins around them
   - enemies that shoot back?
-- [ ] when currency is gained, make it fly towards the wallet?
+- [x] when currency is gained, make it fly towards the wallet?
+  - [ ] show how much we have
 - [ ] add main-screen elements: currencies, upgrade buttons
   - [ ] in showMainScreen, update the screen from state - wallet, possible upgrades etc.
 - [ ] add daily energy, disabled in dev build
@@ -61,6 +62,7 @@ This was inspired by Timeline Up, but without any spending of real money.
 - [ ] should camera reposition itself on main screen and in run?
 - [ ] add particles showing damage?
 - [ ] should some upgrades expire? should they be more/less expensive after expiry?
+- [ ] add specific bigger occasional awards like the key in ice?
 
 ---
 
