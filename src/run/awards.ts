@@ -47,7 +47,6 @@ export async function giveAward({ type, amount }: Currency, fromObj: THREE.Objec
     if (!first) {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
-    first = false;
 
     const obj = createObject(type);
     obj.position.copy(position);
@@ -60,6 +59,8 @@ export async function giveAward({ type, amount }: Currency, fromObj: THREE.Objec
     obj.addEventListener('removed', () => {
       delayedWallet.add(type, subAmount);
     });
+
+    first = false;
   }
 }
 
