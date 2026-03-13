@@ -1,11 +1,5 @@
 import * as THREE from 'three';
 
-import {
-  disposeAnimations,
-  pulseAndShrinkToGone,
-  shrinkToGone,
-  updateAnimations,
-} from '../animations';
 import * as dim from '../dimensions';
 import { logFps } from '../log';
 import { getObjectZ, render, resetGroup, scene, timer } from '../three';
@@ -18,13 +12,20 @@ import {
   getObjectWidth,
   moveTrackDecorations,
 } from '../three-resources';
-import { TouchHandler } from '../touch-handler';
 import { getObjectData, getPlayerData, getPlayerGroupData, type PlayerData } from '../types';
 
 import { setupAwards, toggleEndRunScreen, updateEndRunScreen } from './awards';
 import { bulletsGroup, createPlayerBullet, movePlayerBullets, setupBullets } from './bullets';
 import { hitObject, moveObjects, objectsGroup, setupObjects } from './objects';
-import { removeGroupChildrenBehindCamera } from './tools';
+
+import {
+  disposeAnimations,
+  pulseAndShrinkToGone,
+  shrinkToGone,
+  updateAnimations,
+} from './utils/animations';
+import { TouchHandler } from './utils/touch-handler';
+import { removeGroupChildrenBehindCamera } from './utils/tools';
 
 let handler: TouchHandler;
 
