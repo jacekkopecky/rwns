@@ -7,8 +7,8 @@ import { setSpriteMaterial } from '../three-materials.js';
 import { createObject } from '../three-resources.js';
 import { getObjectData, type ObjectData } from '../types.js';
 
-import { removeGroupChildrenBehindCamera } from './run-tools.js';
-import { giveAward } from './run-awards.js';
+import { giveAward } from './awards.js';
+import { removeGroupChildrenBehindCamera } from './tools.js';
 
 export const objectsGroup = new THREE.Group();
 
