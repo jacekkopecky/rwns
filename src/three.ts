@@ -103,3 +103,8 @@ export function makeHalfCubeGeometry(
 
   return geometry;
 }
+
+export function resetGroup(group: THREE.Group) {
+  group.clear();
+  group.position.set(0, 0, 0);
+}

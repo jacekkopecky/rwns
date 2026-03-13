@@ -35,8 +35,7 @@ export function createTrack(): THREE.Object3D {
   return track;
 }
 
-export function createTrackDecorations(): THREE.Group {
-  const group = new THREE.Group();
+export function createTrackDecorations(group: THREE.Group): void {
   const dist = dim.trackLength / dim.trackDecorationN;
 
   const length = dim.trackDecorationLength;
@@ -61,7 +60,6 @@ export function createTrackDecorations(): THREE.Group {
 
   group.userData.dist = dist;
   group.userData.nextZ = z;
-  return group;
 }
 
 export function moveTrackDecorations(decoGroup: THREE.Group, delta: number) {

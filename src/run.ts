@@ -8,7 +8,7 @@ import {
 } from './animations.js';
 import * as dim from './dimensions.js';
 import { logFps } from './log.js';
-import { getObjectX, getObjectZ, render, scene, timer } from './three.js';
+import { getObjectX, getObjectZ, render, resetGroup, scene, timer } from './three.js';
 import { setSpriteMaterial } from './three-materials.js';
 import {
   createObject,
@@ -32,11 +32,12 @@ import { formatCurrencyNumber } from './utils.js';
 import { Wallet } from './wallet.js';
 
 let handler: TouchHandler;
-let objectsGroup: THREE.Group;
-let playersGroup: THREE.Group;
-let dyingGroup: THREE.Group;
-let bulletsGroup: THREE.Group;
-let trackDecorationsGroup: THREE.Group;
+const objectsGroup = new THREE.Group();
+const playersGroup = new THREE.Group();
+playersGroup.userData.type = 'playersGroup';
+const dyingGroup = new THREE.Group();
+const bulletsGroup = new THREE.Group();
+const trackDecorationsGroup = new THREE.Group();
 
 let playing = false;
 let ending = false;
@@ -93,13 +94,6 @@ function setupScene() {
     dim.cameraToTrackEndLength,
   );
 
-  scene.add(createTrack());
-  trackDecorationsGroup = createTrackDecorations();
-  scene.add(trackDecorationsGroup);
-
-  dyingGroup = new THREE.Group();
-  scene.add(dyingGroup);
-
   // lights
   const skylight = new THREE.HemisphereLight(0xffffff, 0xb97a20, 1);
   scene.add(skylight);
@@ -107,6 +101,15 @@ function setupScene() {
   const sunlight = new THREE.DirectionalLight(0xffffff, 3);
   sunlight.position.set(10, 10, 5);
   scene.add(sunlight);
+
+  scene.add(objectsGroup);
+  scene.add(playersGroup);
+  scene.add(bulletsGroup);
+  scene.add(dyingGroup);
+  scene.add(trackDecorationsGroup);
+
+  scene.add(createTrack());
+  createTrackDecorations(trackDecorationsGroup);
 }
 
 /**
@@ -117,9 +120,8 @@ export function prepareRun() {
 
   setupObjects();
   setupPlayers();
-  setupBullets();
-  dyingGroup.clear();
-  dyingGroup.position.z = 0;
+  resetGroup(bulletsGroup);
+  resetGroup(dyingGroup);
 
   playing = false;
   toggleTouchHandler();
@@ -179,12 +181,7 @@ function toggleFullscreenPause(value: boolean) {
 }
 
 function setupPlayers() {
-  if (playersGroup) {
-    scene.remove(playersGroup);
-  }
-
-  playersGroup = new THREE.Group();
-  playersGroup.userData.type = 'playersGroup';
+  resetGroup(playersGroup);
 
   const player = createObject('player');
   const pData = getPlayerData(player);
@@ -197,8 +194,6 @@ function setupPlayers() {
 
   const pgData = getPlayerGroupData(playersGroup);
   pgData.width = pData.width;
-
-  scene.add(playersGroup);
 }
 
 function repositionPlayers() {
@@ -210,22 +205,8 @@ function repositionPlayers() {
   // todo also run this function when we change zone
 }
 
-function setupBullets() {
-  if (bulletsGroup) {
-    scene.remove(bulletsGroup);
-  }
-
-  bulletsGroup = new THREE.Group();
-  scene.add(bulletsGroup);
-}
-
 function setupObjects() {
-  if (objectsGroup) {
-    scene.remove(objectsGroup);
-  }
-
-  objectsGroup = new THREE.Group();
-  scene.add(objectsGroup);
+  resetGroup(objectsGroup);
 
   for (let i = 0; i < dim.N; i++) {
     const x = Math.random() * 80 - 40;
