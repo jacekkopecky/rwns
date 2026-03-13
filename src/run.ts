@@ -272,15 +272,7 @@ function moveObjects(delta: number) {
   const deltaZ = dim.objectSpeedPerSecond * delta;
   objectsGroup.position.z += deltaZ;
 
-  // remove objects that are now behind the camera
-  for (const child of objectsGroup.children) {
-    if (getObjectZ(child) > dim.behindCamera) {
-      child.removeFromParent();
-    } else {
-      // the objects are sorted front-to-back so no more will be behind camera
-      break;
-    }
-  }
+  removeGroupChildrenBehindCamera(objectsGroup);
 }
 
 function hitObject(obj: THREE.Object3D, hitPoints: number, playerHit = false): boolean {
@@ -302,6 +294,25 @@ function hitObject(obj: THREE.Object3D, hitPoints: number, playerHit = false): b
   return true;
 }
 
+function moveDyingPlayers(delta: number) {
+  const deltaZ = dim.objectSpeedPerSecond * delta;
+  playersDyingGroup.position.z += deltaZ;
+
+  removeGroupChildrenBehindCamera(playersDyingGroup);
+}
+
+function removeGroupChildrenBehindCamera(group: THREE.Group) {
+  // remove objects that are now behind the camera
+  for (const child of group.children) {
+    if (getObjectZ(child) > dim.behindCamera) {
+      child.removeFromParent();
+    } else {
+      // the objects are sorted front-to-back so no more will be behind camera
+      break;
+    }
+  }
+}
+
 function killObject(obj: THREE.Object3D, oData: ObjectData) {
   setSpriteMaterial(obj, oData.dyingMaterial);
   oData.dying = true;
@@ -315,6 +326,7 @@ function killPlayer(player: THREE.Object3D, pData: PlayerData) {
   // move the player out of playersGroup so it isn't moved left and right anymore
   playersDyingGroup.add(player);
   player.position.x += playersGroup.position.x;
+  player.position.z = -playersDyingGroup.position.z;
 
   // add fire for extra effect
   const fire = createObject('fire');
@@ -456,6 +468,7 @@ function animationFrame(ms?: number) {
     updateAnimations(delta);
     moveObjects(delta);
     moveTrackDecorations(trackDecorationsGroup, delta);
+    moveDyingPlayers(delta);
     checkPlayersHit();
     playerShoot(delta);
     movePlayerBullets(delta);
