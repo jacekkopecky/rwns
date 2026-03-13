@@ -2,36 +2,26 @@ import * as THREE from 'three';
 
 import * as dim from '../dimensions';
 import { logFps } from '../log';
-import { getObjectZ, render, resetGroup, scene, timer } from '../three';
-import { setSpriteMaterial } from '../three-materials';
-import {
-  createObject,
-  createTrack,
-  createTrackDecorations,
-  doObjectsOverlapInX,
-  getObjectWidth,
-  moveTrackDecorations,
-} from '../three-resources';
-import { getObjectData, getPlayerData, getPlayerGroupData, type PlayerData } from '../types';
+import { render, scene, timer } from '../three';
+import { createTrack, createTrackDecorations, moveTrackDecorations } from '../three-resources';
 
 import { setupAwards, toggleEndRunScreen, updateEndRunScreen } from './awards';
-import { bulletsGroup, createPlayerBullet, movePlayerBullets, setupBullets } from './bullets';
-import { hitObject, moveObjects, objectsGroup, setupObjects } from './objects';
-
+import { bulletsGroup, movePlayerBullets, setupBullets } from './bullets';
+import { dyingGroup, moveAndSweepDyingGroup, setupDyingGroup } from './dying';
+import { moveObjects, objectsGroup, setupObjects } from './objects';
 import {
-  disposeAnimations,
-  pulseAndShrinkToGone,
-  shrinkToGone,
-  updateAnimations,
-} from './utils/animations';
+  checkPlayersHit,
+  playersGroup,
+  playerShoot,
+  setupPlayers,
+  updatePlayerPosition,
+} from './players';
+
+import { disposeAnimations, updateAnimations } from './utils/animations';
 import { TouchHandler } from './utils/touch-handler';
-import { removeGroupChildrenBehindCamera } from './utils/tools';
 
 let handler: TouchHandler;
 
-const playersGroup = new THREE.Group();
-playersGroup.userData.type = 'playersGroup';
-const dyingGroup = new THREE.Group();
 const trackDecorationsGroup = new THREE.Group();
 
 let playing = false;
@@ -113,7 +103,7 @@ export function prepareRun() {
   setupObjects();
   setupPlayers();
   setupBullets();
-  resetGroup(dyingGroup);
+  setupDyingGroup();
 
   playing = false;
   updateTouchHandlerEnabled();
@@ -151,130 +141,6 @@ function toggleFullscreenPause(value: boolean) {
   timer.update();
 }
 
-function setupPlayers() {
-  resetGroup(playersGroup);
-
-  const player = createObject('player');
-  const pData = getPlayerData(player);
-  pData.shotTime = dim.playerShotTime;
-  pData.remainingShotTime = dim.playerShotTime / 2;
-  pData.range = dim.playerBulletRange;
-  pData.bulletLength = dim.playerBulletLength;
-  pData.hitPoints = dim.playerHitPoints;
-  playersGroup.add(player);
-
-  const pgData = getPlayerGroupData(playersGroup);
-  pgData.width = pData.width;
-}
-
-function repositionPlayers() {
-  // todo
-  // depending on the zone we are on:
-  // normal: re-center the players in a group (and shift center?)
-  // end-blocks: do not recenter
-  //
-  // if recentering, give players (except dying ones) target X and Z, every time players move move them towards it
-  // todo also run this function when we change zone
-}
-
-function updatePlayerPosition(playerPosFraction: number) {
-  const availableWidth = dim.trackWidth - getObjectWidth(playersGroup);
-  const x = (playerPosFraction - 0.5) * availableWidth;
-  playersGroup.position.x = x;
-}
-
-function moveDyingGroup(delta: number) {
-  const deltaZ = dim.objectSpeedPerSecond * delta;
-  dyingGroup.position.z += deltaZ;
-
-  removeGroupChildrenBehindCamera(dyingGroup, false);
-}
-
-function killPlayer(player: THREE.Object3D, pData: PlayerData) {
-  pData.dying = true;
-  setSpriteMaterial(player, pData.dyingMaterial);
-  shrinkToGone(player, dim.playerDyingDuration / 2);
-
-  // the player will be swept into the dying group after all updates
-
-  // add fire for extra effect
-  const fire = createObject('fire');
-  pulseAndShrinkToGone(fire, dim.playerDyingDuration);
-  dyingGroup.add(fire);
-  fire.position.copy(player.position);
-  fire.position.z += 0.01; // in front of the player
-  fire.position.add(playersGroup.position);
-  fire.position.sub(dyingGroup.position);
-}
-
-function playerShoot(delta: number) {
-  for (const player of playersGroup.children) {
-    const pData = getPlayerData(player);
-    if (pData.dying) continue; // next player
-
-    pData.remainingShotTime -= delta;
-    if (pData.remainingShotTime <= 0) {
-      pData.remainingShotTime += pData.shotTime;
-
-      createPlayerBullet(player, pData);
-    }
-  }
-}
-
-function checkPlayerHit(player: THREE.Object3D) {
-  const pData = getPlayerData(player);
-
-  if (pData.dying) return;
-
-  const playerNear = getObjectZ(player);
-  const playerFar = playerNear - pData.depth;
-
-  // check all objects
-  for (const obj of objectsGroup.children) {
-    const oData = getObjectData(obj);
-    const objNear = getObjectZ(obj);
-    const objFar = objNear - oData.depth;
-
-    if (objNear < playerFar) return; // we're done, remaining objects are too far to hit this player
-
-    // use 0.8 reach to allow the player to rub shoulders with objects
-    if (objFar < playerNear && doObjectsOverlapInX(obj, player, 0.8)) {
-      const objHP = oData.hitPoints;
-      const isHit = hitObject(obj, pData.hitPoints, true);
-      if (isHit && !oData.collectible && !oData.benign) {
-        pData.hitPoints -= objHP;
-      }
-
-      if (pData.hitPoints <= 0) {
-        killPlayer(player, pData);
-        repositionPlayers();
-        return; // this player is done
-      }
-    }
-  }
-}
-
-function checkPlayersHit() {
-  for (const player of playersGroup.children) {
-    checkPlayerHit(player);
-  }
-}
-
-// move dying objects into a separate group so we don't have to deal with them afterwards
-function sweepDyingObjects() {
-  // first gather the objects so we don't remove them while going through the collections
-  const dyingStuff = [
-    ...Iterator.from(objectsGroup.children).filter((obj) => obj.userData.dying),
-    ...Iterator.from(playersGroup.children).filter((obj) => obj.userData.dying),
-  ];
-
-  for (const obj of dyingStuff) {
-    obj.position.add(obj.parent!.position);
-    dyingGroup.add(obj);
-    obj.position.sub(dyingGroup.position);
-  }
-}
-
 function isGameFinished() {
   return (
     objectsGroup.children.length === 0 ||
@@ -299,11 +165,10 @@ function animationFrame(ms?: number) {
     updateAnimations(delta);
     moveObjects(delta);
     moveTrackDecorations(trackDecorationsGroup, delta);
-    moveDyingGroup(delta);
     checkPlayersHit();
     playerShoot(delta);
     movePlayerBullets(delta);
-    sweepDyingObjects();
+    moveAndSweepDyingGroup(delta);
 
     if (isGameFinished()) {
       endRun();
