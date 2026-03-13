@@ -239,7 +239,7 @@ function setupObjects() {
           ? 'coins'
           : 'object';
 
-    const obj = createObject(type, 'object');
+    const obj = createObject(type, { dataType: 'object' });
     const oData = getObjectData(obj);
     obj.position.x = x;
     obj.position.z = y;
@@ -253,6 +253,9 @@ function setupObjects() {
       case 'coins':
         oData.collectible = true;
         oData.award = { type: 'coin', amount: Math.floor(Math.random() * dim.coinAwardMax + 1) };
+        // make the reach of coins bigger to be easier to collect
+        oData.depth *= 2;
+        oData.width *= 2;
         break;
       default:
         oData.hitPoints = dim.objectHitPoints;
@@ -393,7 +396,7 @@ function playerShoot(delta: number) {
     if (pData.remainingShotTime <= 0) {
       pData.remainingShotTime += pData.shotTime;
 
-      const bullet = createObject('bullet');
+      const bullet = createObject('bullet', { y: player.scale.y / 2 });
       const bData = getBulletData(bullet);
       bData.minZ = bulletsGroup.position.z - pData.range;
       bData.length = pData.bulletLength;
@@ -402,7 +405,6 @@ function playerShoot(delta: number) {
 
       // bullets start in front of the player
       bullet.position.z = -bulletsGroup.position.z - pData.depth;
-      bullet.position.y = player.position.y;
       bullet.position.x = getObjectX(player);
 
       bulletsGroup.add(bullet);

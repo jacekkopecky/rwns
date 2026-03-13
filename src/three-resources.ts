@@ -4,13 +4,19 @@ import * as dim from './dimensions.js';
 import { getObjectX, makeHalfCubeGeometry } from './three.js';
 import * as mat from './three-materials.js';
 
-export function createObject(type: string, dataType = type): THREE.Object3D {
+export function createObject(
+  type: string,
+  opts: { dataType?: string; y?: number } = {},
+): THREE.Sprite {
+  const { dataType = type, y = 0 } = opts;
+
   const material = mat.getSpriteMaterial(type, true);
   const size = dim.sizes[type as keyof typeof dim.sizes] ?? dim.sizes.defaultSize!;
 
   const sprite = new THREE.Sprite(material);
   sprite.scale.set(...size, 1);
-  sprite.position.y = size[1] / 2;
+  // make the object "stand" on the plane by moving its center down instead of moving its position up
+  sprite.center.set(0.5, -y / size[1]);
 
   sprite.userData.width = size[0];
   sprite.userData.depth = size[0] / 3; // use the third of width as the depth

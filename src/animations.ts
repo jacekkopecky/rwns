@@ -17,22 +17,21 @@ export function disposeAnimations() {
 export function shrinkToGone(obj: THREE.Object3D, duration: number) {
   const clip = new THREE.AnimationClip('shrink', duration, [
     new THREE.KeyframeTrack('.scale', [0, duration], [...obj.scale, 0, 0, 0]),
-    new THREE.KeyframeTrack('.position[y]', [0, duration], [obj.position.y, 0]),
   ]);
 
   addClipAction(obj, duration, clip, true);
 }
 
 export function pulseAndShrinkToGone(obj: THREE.Object3D, duration: number) {
-  const bigger = obj.scale.clone().multiplyScalar(1.2);
+  const smaller = obj.scale.clone().multiplyScalar(0.8);
 
   const clip = new THREE.AnimationClip('pulseAndShrink', duration, [
     new THREE.KeyframeTrack(
       '.scale',
-      [0, duration * 0.3, duration * 0.5, duration * 0.7, duration],
-      [0, 0, 0, ...bigger, ...obj.scale, ...bigger, 0, 0, 0],
+      [0, duration * 0.1, duration * 0.3, duration * 0.6, duration],
+      [0, 0, 0, ...obj.scale, ...smaller, ...obj.scale, 0, 0, 0],
+      THREE.InterpolateSmooth,
     ),
-    new THREE.KeyframeTrack('.position[y]', [0, duration * 0.5, duration], [0, obj.position.y, 0]),
   ]);
 
   addClipAction(obj, duration, clip);
