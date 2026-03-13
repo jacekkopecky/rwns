@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import * as dim from './dimensions.js';
 import { isSprite } from './three.js';
 
-// todo maybe also use some of these: 🍄‍🟫 🟡 😵‍💫 💎
+// maybe also use some of these: 🟡 😵‍💫
 export const sprites = {
   player: emojiSpriteMaterial('🍄'),
   playerDying: emojiSpriteMaterial('🍄‍🟫'),

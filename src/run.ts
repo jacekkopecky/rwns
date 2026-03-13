@@ -167,10 +167,6 @@ function endRun() {
       playing = false;
     }, 1000);
   }, 1000);
-
-  // todo
-  // show final stats of this run - gained currencies
-  // when the user confirms that, move back to main screen
 }
 
 function toggleFullscreenPause(value: boolean) {
@@ -198,10 +194,11 @@ function setupPlayers() {
 
 function repositionPlayers() {
   // todo
-  // give players (except dying ones) target X and Z, every time players move move them towards it
   // depending on the zone we are on:
   // normal: re-center the players in a group (and shift center?)
   // end-blocks: do not recenter
+  //
+  // if recentering, give players (except dying ones) target X and Z, every time players move move them towards it
   // todo also run this function when we change zone
 }
 

@@ -14,6 +14,19 @@ This was inspired by Timeline Up, but without any spending of real money.
   - [ ] in showMainScreen, update the screen from state - wallet, possible upgrades etc.
 - [ ] add daily energy, disabled in dev build
 - [ ] add localStorage state
+- [ ] add track generation
+  - waves?
+    - many little obstacles, try to get through and gather awards (like dungeon)
+    - square blocks and everything on a grid, like a mine?
+      - with a constrained firing rate starting just at one block shot down per block's distance
+        walked
+      - so at first we kinda have to choose a straight line and can only change when there's a gap
+      - upgrades: every now and then throw a bomb or a drill in front of you
+    - kinda normal with multiplication and strength upgrades and boxes in the end (like normal
+      timeline)
+    - kinda normal with small strength upgrades and plenty enemies to mow down (and maybe an end
+      boss) with an award only at the end (like "battle" for jewels)
+    - slow-down with big bosses (slowing at the end of my minimum range)
 - [ ] add multi-stage objects (like a pile of jewels)
   - [ ] use jewels for treasure? maybe if you shoot the biggest you get one jewel and it becomes a
         smaller one? or a pile?
@@ -22,10 +35,13 @@ This was inspired by Timeline Up, but without any spending of real money.
   - [ ] stagger shooting for player groups? or shoot in waves?
 - [ ] add objects with a visible damage countdown
 - [ ] when items are gained (like a better gun), make it fly towards player?
-- [ ] add objects that shoot towards us?
+- [ ] add objects that shoot at us?
 - [ ] state should have a current seed for track generation?
 - [ ] add gates?
-  - bonus, malus, variable shoot-to-increase?, end gates?
+  - bonus & malus on player count and strengths, variable shoot-to-increase?, end/reset gates?
+- [ ] add objects/gates that move left/right?
+- [ ] add objects that, when close enough, start actively moving towards you?
+  - this needs to carefully handle the Z sorting of objectsGroup
 - [ ] quests?
   - with timeout - daily, weekly?, monthly
   - add a give-up possibility to remove clutter
@@ -38,9 +54,13 @@ This was inspired by Timeline Up, but without any spending of real money.
 - [ ] add slow-down areas so we can have big bosses
   - [ ] first add possibility of markings on the track?
   - when in a slow-down area, objects are updated by a different delta
+  - [ ] slow-down/speed-up should be gradual
   - [ ] should the camera reposition itself a bit?
+    - should camera just be positioned according to speed? or should it be a part of the area?
+  - [ ] should players get closer together so they all hit the boss?
 - [ ] should camera reposition itself on main screen and in run?
 - [ ] add particles showing damage?
+- [ ] should some upgrades expire? should they be more/less expensive after expiry?
 
 ---
 
