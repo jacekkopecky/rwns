@@ -2,7 +2,7 @@
  * This is the code that controls fullscreen behaviour and the splash screen.
  */
 
-import { init as initMainScreen } from './main-screen.js';
+import { init as initMainScreen } from './main-screen';
 
 const useFullscreen = false;
 

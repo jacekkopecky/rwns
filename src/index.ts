@@ -1,3 +1,3 @@
-import { init as initSplashScreen } from './splash-screen.js';
+import { init as initSplashScreen } from './splash-screen';
 
 initSplashScreen();

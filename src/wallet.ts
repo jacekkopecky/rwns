@@ -1,4 +1,4 @@
-import type { Currency, CurrencyType } from './types.js';
+import type { Currency, CurrencyType } from './types';
 
 export class Wallet {
   private wallet: Partial<Record<CurrencyType, number>> = {};

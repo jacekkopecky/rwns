@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import { sprites } from './three-materials.js';
+import { sprites } from './three-materials';
 
 export type CurrencyType = 'coin' | 'gem';
 

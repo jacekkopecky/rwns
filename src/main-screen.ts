@@ -1,5 +1,5 @@
 import { init as initRunScreen, prepareRun, startRun } from './run';
-import { init as initThree } from './three.js';
+import { init as initThree } from './three';
 
 const el = {
   main: document.querySelector('main')!,

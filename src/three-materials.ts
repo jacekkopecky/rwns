@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
-import * as dim from './dimensions.js';
-import { isSprite } from './three.js';
+import * as dim from './dimensions';
+import { isSprite } from './three';
 
 // maybe also use some of these: 🟡 😵‍💫
 export const sprites = {

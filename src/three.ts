@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import { cameraPosition, cameraToTrackEndLength, cameraTarget, cameraFoV } from './dimensions.js';
+import { cameraPosition, cameraToTrackEndLength, cameraTarget, cameraFoV } from './dimensions';
 
 export let renderer: THREE.WebGLRenderer;
 export let camera: THREE.PerspectiveCamera;

@@ -5,11 +5,11 @@ import {
   pulseAndShrinkToGone,
   shrinkToGone,
   updateAnimations,
-} from '../animations.js';
-import * as dim from '../dimensions.js';
-import { logFps } from '../log.js';
-import { getObjectZ, render, resetGroup, scene, timer } from '../three.js';
-import { setSpriteMaterial } from '../three-materials.js';
+} from '../animations';
+import * as dim from '../dimensions';
+import { logFps } from '../log';
+import { getObjectZ, render, resetGroup, scene, timer } from '../three';
+import { setSpriteMaterial } from '../three-materials';
 import {
   createObject,
   createTrack,
@@ -17,14 +17,14 @@ import {
   doObjectsOverlapInX,
   getObjectWidth,
   moveTrackDecorations,
-} from '../three-resources.js';
-import { TouchHandler } from '../touch-handler.js';
-import { getObjectData, getPlayerData, getPlayerGroupData, type PlayerData } from '../types.js';
+} from '../three-resources';
+import { TouchHandler } from '../touch-handler';
+import { getObjectData, getPlayerData, getPlayerGroupData, type PlayerData } from '../types';
 
-import { setupAwards, toggleEndRunScreen, updateEndRunScreen } from './awards.js';
-import { bulletsGroup, createPlayerBullet, movePlayerBullets, setupBullets } from './bullets.js';
-import { hitObject, moveObjects, objectsGroup, setupObjects } from './objects.js';
-import { removeGroupChildrenBehindCamera } from './tools.js';
+import { setupAwards, toggleEndRunScreen, updateEndRunScreen } from './awards';
+import { bulletsGroup, createPlayerBullet, movePlayerBullets, setupBullets } from './bullets';
+import { hitObject, moveObjects, objectsGroup, setupObjects } from './objects';
+import { removeGroupChildrenBehindCamera } from './tools';
 
 let handler: TouchHandler;
 

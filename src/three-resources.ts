@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 
-import * as dim from './dimensions.js';
-import { getObjectX } from './three.js';
-import * as mat from './three-materials.js';
+import * as dim from './dimensions';
+import { getObjectX } from './three';
+import * as mat from './three-materials';
 
 export function createObject(
   type: string,

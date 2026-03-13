@@ -1,14 +1,14 @@
 import * as THREE from 'three';
 
-import { shrinkToGone } from '../animations.js';
-import * as dim from '../dimensions.js';
-import { resetGroup } from '../three.js';
-import { setSpriteMaterial } from '../three-materials.js';
-import { createObject } from '../three-resources.js';
-import { getObjectData, type ObjectData } from '../types.js';
+import { shrinkToGone } from '../animations';
+import * as dim from '../dimensions';
+import { resetGroup } from '../three';
+import { setSpriteMaterial } from '../three-materials';
+import { createObject } from '../three-resources';
+import { getObjectData, type ObjectData } from '../types';
 
-import { giveAward } from './awards.js';
-import { removeGroupChildrenBehindCamera } from './tools.js';
+import { giveAward } from './awards';
+import { removeGroupChildrenBehindCamera } from './tools';
 
 export const objectsGroup = new THREE.Group();
 
