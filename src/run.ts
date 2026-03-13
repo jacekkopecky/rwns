@@ -8,7 +8,7 @@ import {
 } from './animations.js';
 import * as dim from './dimensions.js';
 import { logFps } from './log.js';
-import { getObjectX, getObjectZ, render, resetGroup, scene, timer } from './three.js';
+import { getObjectZ, render, resetGroup, scene, timer } from './three.js';
 import { setSpriteMaterial } from './three-materials.js';
 import {
   createObject,
@@ -19,38 +19,33 @@ import {
   moveTrackDecorations,
 } from './three-resources.js';
 import { TouchHandler } from './touch-handler.js';
+import { getObjectData, getPlayerData, getPlayerGroupData, type PlayerData } from './types.js';
+
 import {
-  getBulletData,
-  getObjectData,
-  getPlayerData,
-  getPlayerGroupData,
-  type Currency,
-  type ObjectData,
-  type PlayerData,
-} from './types.js';
-import { formatCurrencyNumber } from './utils.js';
-import { Wallet } from './wallet.js';
+  bulletsGroup,
+  createPlayerBullet,
+  movePlayerBullets,
+  setupBullets,
+} from './run-bullets.js';
+import { hitObject, moveObjects, objectsGroup, setupObjects } from './run-objects.js';
+import { setupAwards, toggleEndRunScreen, updateEndRunScreen } from './run-awards.js';
+import { removeGroupChildrenBehindCamera } from './run-tools.js';
 
 let handler: TouchHandler;
-const objectsGroup = new THREE.Group();
+
 const playersGroup = new THREE.Group();
 playersGroup.userData.type = 'playersGroup';
 const dyingGroup = new THREE.Group();
-const bulletsGroup = new THREE.Group();
 const trackDecorationsGroup = new THREE.Group();
 
 let playing = false;
 let ending = false;
 let fullscreenPaused = false;
-let wallet = new Wallet();
 
 const el = {
   main: document.querySelector('main')!,
   canvas: document.querySelector<HTMLCanvasElement>('#webgl-canvas')!,
   exitBtn: document.querySelector('#exitBtn')!,
-  endRunScreen: document.querySelector('#endRunScreen')!,
-  endRunScreenCoins: document.querySelector('#endRunScreen .value.coin')!,
-  endRunScreenGems: document.querySelector('#endRunScreen .value.gem')!,
 };
 
 /**
@@ -64,7 +59,7 @@ export function init() {
     speedUp: 1 + dim.FINGER_WIDTH_PERCENT / 100,
     onMove: updatePlayerPosition,
   });
-  toggleTouchHandler();
+  updateTouchHandlerEnabled();
 
   el.main.addEventListener('fullscreenchange', () => {
     toggleFullscreenPause(document.fullscreenElement == null);
@@ -80,7 +75,7 @@ export function init() {
   });
 }
 
-function toggleTouchHandler() {
+function updateTouchHandlerEnabled() {
   handler.toggle(playing && !ending && !fullscreenPaused);
 }
 
@@ -118,38 +113,22 @@ function setupScene() {
 export function prepareRun() {
   disposeAnimations();
 
+  setupAwards();
   setupObjects();
   setupPlayers();
-  resetGroup(bulletsGroup);
+  setupBullets();
   resetGroup(dyingGroup);
 
   playing = false;
-  toggleTouchHandler();
-
-  wallet.reset();
-
-  toggleEndRunScreen(false);
+  updateTouchHandlerEnabled();
 
   render();
-}
-
-function toggleEndRunScreen(value?: boolean) {
-  el.endRunScreen.classList.toggle('visible', value);
-}
-
-function giveAward(what: Currency) {
-  wallet.add(what);
-}
-
-function updateEndRunScreen() {
-  el.endRunScreenCoins.textContent = formatCurrencyNumber(wallet.read('coin'));
-  el.endRunScreenGems.textContent = formatCurrencyNumber(wallet.read('gem'));
 }
 
 export function startRun() {
   playing = true;
   ending = false;
-  toggleTouchHandler();
+  updateTouchHandlerEnabled();
   handler.setCurrentX(0.5);
   animationFrame();
 }
@@ -157,7 +136,7 @@ export function startRun() {
 function endRun() {
   if (!playing || ending) return;
   ending = true;
-  toggleTouchHandler();
+  updateTouchHandlerEnabled();
   updateEndRunScreen();
 
   setTimeout(() => {
@@ -171,7 +150,7 @@ function endRun() {
 
 function toggleFullscreenPause(value: boolean) {
   fullscreenPaused = value;
-  toggleTouchHandler();
+  updateTouchHandlerEnabled();
   // update timer so if we're restarting animation, only a bit of time will have passed
   timer.update();
 }
@@ -202,77 +181,10 @@ function repositionPlayers() {
   // todo also run this function when we change zone
 }
 
-function setupObjects() {
-  resetGroup(objectsGroup);
-
-  for (let i = 0; i < dim.N; i++) {
-    const x = Math.random() * 80 - 40;
-    const y = -(dim.trackLength / dim.N) * i + dim.startDistance;
-
-    const r = Math.random();
-    const type =
-      r < dim.gemProbability
-        ? 'gem'
-        : r < dim.gemProbability + dim.coinProbability
-          ? 'coins'
-          : 'object';
-
-    const obj = createObject(type, { dataType: 'object' });
-    const oData = getObjectData(obj);
-    obj.position.x = x;
-    obj.position.z = y;
-
-    switch (type) {
-      case 'gem':
-        oData.hitPoints = dim.gemHitPoints;
-        oData.benign = true;
-        oData.award = { type: 'gem', amount: 1 };
-        break;
-      case 'coins':
-        oData.collectible = true;
-        oData.award = { type: 'coin', amount: Math.floor(Math.random() * dim.coinAwardMax + 1) };
-        // make the reach of coins bigger to be easier to collect
-        oData.depth *= 2;
-        oData.width *= 2;
-        break;
-      default:
-        oData.hitPoints = dim.objectHitPoints;
-    }
-
-    objectsGroup.add(obj);
-  }
-}
-
 function updatePlayerPosition(playerPosFraction: number) {
   const availableWidth = dim.trackWidth - getObjectWidth(playersGroup);
   const x = (playerPosFraction - 0.5) * availableWidth;
   playersGroup.position.x = x;
-}
-
-function moveObjects(delta: number) {
-  const deltaZ = dim.objectSpeedPerSecond * delta;
-  objectsGroup.position.z += deltaZ;
-
-  removeGroupChildrenBehindCamera(objectsGroup);
-}
-
-function hitObject(obj: THREE.Object3D, hitPoints: number, playerHit = false): boolean {
-  const oData = getObjectData(obj);
-  if (oData.dying) return false;
-
-  // cannot shoot a collectible
-  if (!playerHit && oData.collectible) return false;
-
-  oData.hitPoints -= hitPoints;
-
-  if (oData.collectible || oData.hitPoints <= 0) {
-    killObject(obj, oData);
-
-    // don't award from benign objects when we walk into them
-    if (oData.award && !(oData.benign && playerHit)) giveAward(oData.award);
-  }
-
-  return true;
 }
 
 function moveDyingGroup(delta: number) {
@@ -280,31 +192,6 @@ function moveDyingGroup(delta: number) {
   dyingGroup.position.z += deltaZ;
 
   removeGroupChildrenBehindCamera(dyingGroup, false);
-}
-
-function removeGroupChildrenBehindCamera(group: THREE.Group, sortedInZ = true) {
-  // remove objects that are now behind the camera
-  const toRemove = [];
-
-  for (const child of group.children) {
-    if (getObjectZ(child) > dim.behindCamera) {
-      toRemove.push(child);
-    } else {
-      // the objects are sorted front-to-back so no more will be behind camera
-      if (sortedInZ) break;
-    }
-  }
-
-  // remove outside the loop going through all of them
-  for (const obj of toRemove) {
-    obj.removeFromParent();
-  }
-}
-
-function killObject(obj: THREE.Object3D, oData: ObjectData) {
-  setSpriteMaterial(obj, oData.dyingMaterial);
-  oData.dying = true;
-  shrinkToGone(obj, dim.objectDyingDuration);
 }
 
 function killPlayer(player: THREE.Object3D, pData: PlayerData) {
@@ -324,60 +211,6 @@ function killPlayer(player: THREE.Object3D, pData: PlayerData) {
   fire.position.sub(dyingGroup.position);
 }
 
-/**
- * With this bullet having moved deltaZ in the last step, check if it's hit any object.
- */
-function checkBulletHit(bullet: THREE.Object3D, deltaZ: number): boolean {
-  const bData = getBulletData(bullet);
-
-  const bulletButt = getObjectZ(bullet);
-  const bulletTip = bulletButt - bData.length - deltaZ;
-
-  // check all objects
-  for (const obj of objectsGroup.children) {
-    const objZ = getObjectZ(obj);
-    if (objZ < bulletTip) return false; // we're done, remaining objects are too far for this bullet to hit
-
-    if (objZ < bulletButt && doObjectsOverlapInX(obj, bullet)) {
-      const isHit = hitObject(obj, bData.hitPoints);
-      if (isHit) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
-function movePlayerBullets(delta: number) {
-  const deltaZ = dim.playerBulletSpeed * delta;
-
-  const toRemove = [];
-  for (const bullet of bulletsGroup.children) {
-    if (checkBulletHit(bullet, deltaZ)) {
-      toRemove.push(bullet);
-    }
-  }
-
-  bulletsGroup.position.z -= deltaZ;
-  const bulletsZ = bulletsGroup.position.z;
-
-  // remove bullets that are now past their range
-  for (const bullet of bulletsGroup.children) {
-    const bData = getBulletData(bullet);
-    if (bulletsZ < bData.minZ) {
-      toRemove.push(bullet);
-    } else {
-      // the bullets are sorted by minZ so no further bullets will be removed
-      break;
-    }
-  }
-
-  // sweep dying bullets to remove them outside loops going through bullets
-  for (const bullet of toRemove) {
-    bullet.removeFromParent();
-  }
-}
-
 function playerShoot(delta: number) {
   for (const player of playersGroup.children) {
     const pData = getPlayerData(player);
@@ -387,18 +220,7 @@ function playerShoot(delta: number) {
     if (pData.remainingShotTime <= 0) {
       pData.remainingShotTime += pData.shotTime;
 
-      const bullet = createObject('bullet', { y: player.scale.y / 2 });
-      const bData = getBulletData(bullet);
-      bData.minZ = bulletsGroup.position.z - pData.range;
-      bData.length = pData.bulletLength;
-      bData.hitPoints = dim.playerBulletHitPoints;
-      bData.width = 0; // let bullets just graze the target without hitting it
-
-      // bullets start in front of the player
-      bullet.position.z = -bulletsGroup.position.z - pData.depth;
-      bullet.position.x = getObjectX(player);
-
-      bulletsGroup.add(bullet);
+      createPlayerBullet(player, pData);
     }
   }
 }
@@ -443,7 +265,7 @@ function checkPlayersHit() {
 }
 
 // move dying objects into a separate group so we don't have to deal with them afterwards
-function sweepDeadObjects() {
+function sweepDyingObjects() {
   // first gather the objects so we don't remove them while going through the collections
   const dyingStuff = [
     ...Iterator.from(objectsGroup.children).filter((obj) => obj.userData.dying),
@@ -485,7 +307,7 @@ function animationFrame(ms?: number) {
     checkPlayersHit();
     playerShoot(delta);
     movePlayerBullets(delta);
-    sweepDeadObjects();
+    sweepDyingObjects();
 
     if (isGameFinished()) {
       endRun();
