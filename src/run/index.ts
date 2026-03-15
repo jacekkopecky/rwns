@@ -2,6 +2,7 @@ import * as THREE from 'three';
 
 import * as dim from '../dimensions';
 import { logFps } from '../log';
+import * as state from '../state';
 import { render, scene, timer } from '../three';
 import { createTrack, createTrackDecorations, moveTrackDecorations } from '../three-resources';
 
@@ -143,6 +144,8 @@ function endRun(immediate = false) {
     },
     immediate ? 0 : 1000,
   );
+
+  state.increasePlayed();
 }
 
 function toggleFullscreenPause(value: boolean) {

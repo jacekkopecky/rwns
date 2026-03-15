@@ -22,7 +22,7 @@ export function createPlayerBullet(
   const bData = getBulletData(bullet);
   bData.minZ = bulletsGroup.position.z - pData.range;
   bData.length = pData.bulletLength;
-  bData.hitPoints = dim.playerBulletHitPoints;
+  bData.hitPoints = pData.bulletHitPoints;
   bData.width = 0; // let bullets just graze the target without hitting it
 
   // bullets start in front of the player

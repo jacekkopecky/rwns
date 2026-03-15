@@ -1,19 +1,22 @@
-import type { Currency } from './types';
+import type { Currency, CurrencyType, Upgrade, UpgradeBag, UpgradeType } from './types';
+import { parseUpgrades } from './upgrades';
 import { Wallet, type ReadonlyWallet } from './wallet';
 
 const LOCAL_STORAGE_KEY = 'jacekkopecky-shoot-em-state';
 
-let state = createInitialState();
-
-type ReadonlyState = Omit<Readonly<typeof state>, 'wallet'> & { wallet: ReadonlyWallet };
-
 function createInitialState() {
+  const nextRunUpgrades: UpgradeBag = {};
   return {
     wallet: new Wallet(),
     level: 1,
     played: 0,
+    nextRunUpgrades,
   };
 }
+
+let state = createInitialState();
+
+export type ReadonlyState = Omit<Readonly<typeof state>, 'wallet'> & { wallet: ReadonlyWallet };
 
 export function initState() {
   loadState();
@@ -26,6 +29,11 @@ export function resetState() {
 
 export function addAward({ type, amount }: Currency) {
   state.wallet.add(type, amount);
+  saveState();
+}
+
+export function pay(type: CurrencyType, amount: number) {
+  state.wallet.add(type, -amount);
   saveState();
 }
 
@@ -42,21 +50,35 @@ export function readState(): ReadonlyState {
   return state;
 }
 
+export function setNextRunUpgrade(type: UpgradeType, upgrade: Upgrade) {
+  state.nextRunUpgrades[type] = upgrade;
+  saveState();
+}
+
+export function clearNextRunUpgrades() {
+  state.nextRunUpgrades = {};
+  saveState();
+}
+
 function saveState() {
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state));
 }
 
 function loadState() {
+  const dataString = localStorage.getItem(LOCAL_STORAGE_KEY) || '{}';
   try {
-    const data = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '{}');
+    const data = JSON.parse(dataString);
 
     const wallet = new Wallet(data.wallet);
     const level = getNumber(data.level, 1);
     const played = getNumber(data.played, 0);
+    const nextRunUpgrades = parseUpgrades(data.nextRunUpgrades);
 
-    state = { wallet, level, played };
+    state = { wallet, level, played, nextRunUpgrades };
   } catch (e) {
-    console.warn('cannot read state', e);
+    const newKey = LOCAL_STORAGE_KEY + new Date().toISOString();
+    localStorage.setItem(newKey, dataString);
+    console.warn(`cannot read state, saving in "${newKey}"`, e);
   }
 }
 

@@ -4,17 +4,13 @@ This was inspired by Timeline Up, but without any spending of real money.
 
 ## todo
 
-- [ ] refactor object creation and behaviours
-- [ ] add transient upgrades somehow
-  - for next run only
-  - general: fire rate, damage
-- [.] add main-screen elements:
-  - [x] currencies
-  - [.] upgrade buttons
-  - [x] in updateMainScreen, update the screen from state - wallet, possible upgrades etc.
+- [ ] some kind of run ending, and distinguishing between finishing and dying
+  - only reset transient upgrades when a run is successfully finished?
+- [ ] show how many played games
 - [ ] add daily energy, disabled in dev build
 - [ ] add 3d models
-- [ ] add track generation
+- [ ] add stable track generation
+  - using level (per type of run?)
   - waves? reset gates? multi-run stages? (like eras and timelines)
     - many little obstacles, try to get through and gather awards (like dungeon)
     - square blocks and everything on a grid, like a mine?
@@ -30,6 +26,7 @@ This was inspired by Timeline Up, but without any spending of real money.
     - enemies that shoot back?
   - gradation
     - various types of runs should only get stronger if I pass them? at different rates?
+    - [ ] special types should be behing special buttons?
     - lower probability of a run type if I lose in it?
   - daily tickets for special wave types?
   - [ ] state should have a current seed for track generation?
@@ -40,6 +37,10 @@ This was inspired by Timeline Up, but without any spending of real money.
       - end block award
       - end block strength
       - tree strength
+      - price of damage upgrade
+      - price of rate upgrade
+      - max damage upgrade
+      - max rate upgrade
   - it should take time to get "learn" skills?
 - [ ] add multi-stage objects (like a pile of jewels)
   - [ ] use jewels for treasure? maybe if you shoot the biggest you get one jewel and it becomes a
@@ -85,6 +86,13 @@ This was inspired by Timeline Up, but without any spending of real money.
 
 ## done by 2026-03-15
 
+- [x] add transient upgrades somehow
+  - for next run only
+  - general: fire rate, damage
+- [x] add main-screen elements:
+  - [x] currencies
+  - [x] upgrade buttons
+  - [x] in updateMainScreen, update the screen from state - wallet, possible upgrades etc.
 - [x] add localStorage state
 - [x] have enemies that make sense:
   - we could have trees that are in the way and need shooting down

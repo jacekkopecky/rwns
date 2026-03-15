@@ -2,6 +2,9 @@ import * as THREE from 'three';
 
 import { sprites } from './three-materials';
 
+export type { Upgrade, UpgradeBag, UpgradeType } from './upgrades';
+export { UPGRADE_TYPES } from './upgrades';
+
 export const CURRENCIES = ['coin', 'gem'] as const;
 export type CurrencyType = (typeof CURRENCIES)[number];
 
@@ -21,6 +24,7 @@ export interface PlayerData extends AnyObjectData {
   remainingShotTime: number;
   range: number;
   bulletLength: number;
+  bulletHitPoints: number;
   dying?: boolean;
   dyingMaterial: keyof typeof sprites;
   hitPoints: number;

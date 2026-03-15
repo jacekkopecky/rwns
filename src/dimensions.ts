@@ -38,7 +38,7 @@ export const runAwardsFlyTime = 0.8;
 
 export const countupMaxTime = 0.6;
 
-export const playerShotTime = 1;
+export const playerShotsPerSecond = 1;
 export const playerBulletRange = 40;
 export const playerBulletLength = 2;
 export const playerBulletSpeed = 40;

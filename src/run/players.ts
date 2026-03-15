@@ -1,10 +1,12 @@
 import * as THREE from 'three';
 
 import * as dim from '../dimensions';
+import { readState } from '../state';
 import { getObjectZ, resetGroup } from '../three';
 import { setSpriteMaterial } from '../three-materials';
 import { createObject, doObjectsOverlapInX, getObjectWidth } from '../three-resources';
 import { getObjectData, getPlayerData, getPlayerGroupData, type PlayerData } from '../types';
+import { applyUpgrade } from '../upgrades';
 
 import { createPlayerBullet } from './bullets';
 import { dyingGroup } from './dying';
@@ -20,10 +22,16 @@ export function setupPlayers() {
 
   const player = createObject('player');
   const pData = getPlayerData(player);
-  pData.shotTime = dim.playerShotTime;
-  pData.remainingShotTime = dim.playerShotTime / 2;
+
+  const state = readState();
+  const shotsPerSecond = applyUpgrade(dim.playerShotsPerSecond, state.nextRunUpgrades.rate);
+  pData.shotTime = 1 / shotsPerSecond;
+  pData.remainingShotTime = pData.shotTime / 2;
+
   pData.range = dim.playerBulletRange;
   pData.bulletLength = dim.playerBulletLength;
+  pData.bulletHitPoints = applyUpgrade(dim.playerBulletHitPoints, state.nextRunUpgrades.damage);
+
   pData.hitPoints = dim.playerHitPoints;
   playersGroup.add(player);
 
