@@ -1,16 +1,20 @@
 export function formatCurrencyNumber(n: number): string {
   switch (true) {
-    case n >= 100000:
+    case n >= 100000: {
       // 100k, 101k…
       return `${Math.floor(n / 1000)}k`;
-    case n >= 10000:
+    }
+    case n >= 10000: {
       // 10k, 10.1k… 99.9k
       // remove .0
       const fixed = (Math.floor(n / 100) / 10).toFixed(1);
       return `${fixed.replace('.0', '')}k`;
-    default:
+    }
+    default: {
       // 0…9999
-      return String(n);
+      const fixed = n.toFixed(1);
+      return fixed.replace('.0', '');
+    }
   }
 }
 

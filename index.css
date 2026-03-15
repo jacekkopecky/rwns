@@ -11,13 +11,14 @@ body {
   display: flex;
   flex-direction: column;
   font-family: sans-serif;
+  font-size: 3.5vmin;
 }
 
 header {
   margin: auto;
   display: flex;
   flex-direction: column;
-  font-size: 8vmin;
+  font-size: 2em;
 
   body:not(.using-fullscreen) & {
     display: none;
@@ -41,21 +42,22 @@ main {
   }
 
   background-color: white;
-  font-size: 6vmin;
   perspective: 50vh;
   position: relative;
 
   & > section {
     display: contents;
+    & > * {
+      position: absolute;
+    }
   }
 
   & * {
     transform-style: preserve-3d;
   }
 
-  .only-in-run,
-  .in-run {
-    transition: opacity 0.5s;
+  * {
+    transition: opacity 1s ease-in-out;
   }
 
   &.run .partial-in-run > :not(.in-run):not(.only-in-run),
@@ -75,8 +77,7 @@ main {
     gap: 0.5em;
     padding: 0.5em;
 
-    font-size: 1rem;
-    border-radius: 1em 0 0 1em;
+    border-radius: 1rem 0 0 1rem;
     background: #eeceb2;
     border: solid #aa8a70;
     color: #664422;
@@ -86,8 +87,9 @@ main {
 
   & #touchToStart {
     pointer-events: none;
-    position: absolute;
     inset: 0;
+
+    font-size: 2em;
 
     display: flex;
     justify-content: center;
@@ -102,17 +104,18 @@ main {
 }
 
 button {
-  font-size: inherit;
+  font-size: 1.5em;
   padding: 0.25em 0.5em;
-  border-radius: 0.5em;
+  border-radius: 1rem;
   border-width: medium;
 }
 
 #topBar {
-  position: fixed;
-  top: 1em;
-  left: 1em;
-  right: 1em;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1em;
   display: flex;
   flex-direction: row;
   gap: 1em;
@@ -122,17 +125,16 @@ button {
   flex-grow: 1;
 
   padding: 0.25em 0.5em;
-  border-radius: 0.5em;
+  border-radius: 1rem;
 
   display: flex;
   flex-direction: row;
   gap: 0.5em;
   align-items: center;
+  justify-content: space-evenly;
 
   & > * {
-    flex-grow: 1;
     text-align: right;
-    font-size: 1rem;
   }
 
   background: #eeceb2;
@@ -147,10 +149,10 @@ button {
 
 #log {
   white-space: pre-line;
-  font-size: 11px;
+  font-size: 0.7em;
   font-family: monospace;
-  position: fixed;
-  bottom: 5%;
+  position: absolute;
+  bottom: 50%;
   left: 5%;
 }
 
@@ -163,7 +165,6 @@ button {
   background: black;
   position: absolute;
   inset: 0;
-  transition: opacity 1s ease-in-out;
   opacity: 0;
   pointer-events: none;
   color: white;
@@ -173,6 +174,8 @@ button {
   align-items: center;
   gap: 1em;
 
+  font-size: 1.5em;
+
   button.ok {
     margin-top: 30%;
     min-width: 4em;
@@ -181,5 +184,44 @@ button {
   &.visible {
     opacity: 1;
     pointer-events: all;
+  }
+}
+
+#upgradeButtons {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 9em;
+  padding: 1em;
+
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+
+  & > * {
+    flex: 1 1 0%;
+
+    border-radius: 1rem;
+    background: #eeceb2;
+    border: solid #aa8a70;
+    color: #664422;
+    border-width: medium;
+
+    padding: 1em 0.5em;
+    text-align: center;
+
+    &.disabled {
+      /* filter: grayscale(50%) contrast(50%) brightness(120%); */
+      background: #f2dec8;
+      color: #aa8a70;
+
+      &.unaffordable > .cost {
+        color: red;
+      }
+    }
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 }

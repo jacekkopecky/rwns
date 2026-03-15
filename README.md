@@ -10,8 +10,8 @@ This was inspired by Timeline Up, but without any spending of real money.
   - general: fire rate, damage
 - [.] add main-screen elements:
   - [x] currencies
-  - [ ] upgrade buttons
-  - [.] in updateMainScreen, update the screen from state - wallet, possible upgrades etc.
+  - [.] upgrade buttons
+  - [x] in updateMainScreen, update the screen from state - wallet, possible upgrades etc.
 - [ ] add daily energy, disabled in dev build
 - [ ] add 3d models
 - [ ] add track generation
