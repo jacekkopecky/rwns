@@ -45,6 +45,7 @@ export function increaseLevel() {
 }
 
 export function increasePlayed() {
+  state.played += 1;
   saveState();
 }
 

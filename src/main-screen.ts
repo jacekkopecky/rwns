@@ -2,7 +2,7 @@ import { initUpgrades, updateUpgrades } from './main-screen-upgrades';
 import { init as initRunScreen, prepareRun, startRun } from './run';
 import { clearNextRunUpgrades, initState, readState, resetState } from './state';
 import { init as initThree } from './three';
-import { formatNumber } from './utils';
+import { fillOrHide, formatNumber } from './utils';
 
 const el = {
   main: document.querySelector('main')!,
@@ -12,8 +12,12 @@ const el = {
   settingsBtn: document.querySelector<HTMLButtonElement>('#settingsBtn')!,
   endRunScreenOK: document.querySelector('#endRunScreen button.ok')!,
   wallet: {
-    gem: document.querySelector('#mainScreenWallet .value.gem')!,
-    coin: document.querySelector('#mainScreenWallet .value.coin')!,
+    gem: document.querySelector('#mainScreenWallet .gem')!,
+    coin: document.querySelector('#mainScreenWallet .coin')!,
+  },
+  playStats: {
+    played: document.querySelector('#playStats .played')!,
+    level: document.querySelector('#playStats .level')!,
   },
   upgradeButtons: document.querySelector<HTMLElement>('#upgradeButtons')!,
 };
@@ -53,11 +57,11 @@ export function showMainScreen() {
 export function updateMainScreen() {
   const state = readState();
 
-  const coins = state.wallet.read('coin');
-  el.wallet.coin.textContent = formatNumber(coins);
+  fillOrHide(el.wallet.coin, state.wallet.read('coin'));
+  fillOrHide(el.wallet.gem, state.wallet.read('gem'));
 
-  const gems = state.wallet.read('gem');
-  el.wallet.gem.textContent = formatNumber(gems);
+  fillOrHide(el.playStats.level, state.level, String);
+  fillOrHide(el.playStats.played, state.played, String);
 
   updateUpgrades(state);
 }

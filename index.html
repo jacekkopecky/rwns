@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 </head>
 
-<body>
+<body class="using-fullscreen">
   <header>
     <h1>Shoot'em</h1>
     <button id="startBtn">Start</button>
@@ -22,23 +22,28 @@
       <div id="topBar" class="partial-in-run">
         <button id="exitBtn" class="in-run">Exit</button>
         <div id="mainScreenWallet">
-          <div><span class="value coin">0</span> 💰</div>
-          <div><span class="value gem">0</span> 💎</div>
+          <div class="coin"><span class="value">0</span> 💰</div>
+          <div class="gem"><span class="value">0</span> 💎</div>
         </div>
         <button id="settingsBtn">⚙️</button>
+      </div>
+
+      <div id="playStats">
+        <div class="level">Level: <span class="value"></span></div>
+        <div class="played">Played: <span class="value"></span></div>
       </div>
 
       <div id="touchToStart">touch to start</div>
 
       <div id="inRunWallet" class="only-in-run">
-        <div><span class="value coin"></span> 💰</div>
-        <div><span class="value gem"></span> 💎</div>
+        <div class="coin"><span class="value"></span> 💰</div>
+        <div class="gem"><span class="value"></span> 💎</div>
       </div>
 
       <div id="endRunScreen">
         <h2>Well done!</h2>
-        <div><span class="value coin"></span> 💰</div>
-        <div><span class="value gem"></span> 💎</div>
+        <div class="coin"><span class="value"></span> 💰</div>
+        <div class="gem"><span class="value"></span> 💎</div>
         <button class="ok">OK</button>
       </div>
 

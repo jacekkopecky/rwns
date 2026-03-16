@@ -28,3 +28,12 @@ export function formatNumber(n: number): string {
 // ]) {
 //   console.log(String(x).padStart(10, ' '), formatCurrencyNumber(x));
 // }
+
+export function fillOrHide(
+  el: Element,
+  value: number,
+  formatFn: (v: any) => string = formatNumber,
+) {
+  el.querySelector('.value')!.textContent = typeof value === 'string' ? value : formatFn(value);
+  el.classList.toggle('hidden', !value);
+}

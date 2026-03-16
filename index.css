@@ -111,7 +111,6 @@ button {
 }
 
 #topBar {
-  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -119,6 +118,13 @@ button {
   display: flex;
   flex-direction: row;
   gap: 1em;
+}
+
+#playStats {
+  top: 4em;
+  line-height: 1.5em;
+  left: 0;
+  padding: 1em;
 }
 
 #mainScreenWallet {
@@ -154,6 +160,11 @@ button {
   position: absolute;
   bottom: 50%;
   left: 5%;
+  max-height: 15em;
+  line-height: 1em;
+  overflow: hidden;
+  display: flex;
+  align-items: end;
 }
 
 #webgl-canvas {

@@ -5,7 +5,7 @@ import * as state from '../state';
 import { getScreenCoordinates } from '../three';
 import { createObject } from '../three-resources';
 import { type Currency, type CurrencyType } from '../types';
-import { formatNumber } from '../utils';
+import { fillOrHide, formatNumber } from '../utils';
 import { Wallet } from '../wallet';
 
 import { flyToTargetAndShrink } from './utils/animations';
@@ -13,11 +13,11 @@ import { AnimatedCount } from './utils/animated-count';
 
 const el = {
   endRunScreen: document.querySelector('#endRunScreen')!,
-  endRunScreenCoins: document.querySelector('#endRunScreen .value.coin')!,
-  endRunScreenGems: document.querySelector('#endRunScreen .value.gem')!,
+  endRunScreenCoins: document.querySelector('#endRunScreen .coin')!,
+  endRunScreenGems: document.querySelector('#endRunScreen .gem')!,
   inRun: {
-    gem: document.querySelector('#inRunWallet .value.gem')!,
-    coin: document.querySelector('#inRunWallet .value.coin')!,
+    gem: document.querySelector('#inRunWallet .gem .value')!,
+    coin: document.querySelector('#inRunWallet .coin .value')!,
   },
 };
 
@@ -32,7 +32,7 @@ export function setupAwards() {
   awardsShowing.clear();
   toggleEndRunScreen(false);
   for (const valueEl of Object.values(el.inRun)) {
-    valueEl.textContent = '';
+    valueEl.textContent = ' ';
   }
 }
 
@@ -113,6 +113,6 @@ export function toggleEndRunScreen(value?: boolean) {
 }
 
 export function updateEndRunScreen() {
-  el.endRunScreenCoins.textContent = formatNumber(wallet.read('coin'));
-  el.endRunScreenGems.textContent = formatNumber(wallet.read('gem'));
+  fillOrHide(el.endRunScreenCoins, wallet.read('coin'));
+  fillOrHide(el.endRunScreenGems, wallet.read('gem'));
 }

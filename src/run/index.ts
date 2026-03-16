@@ -128,9 +128,10 @@ export function startRun() {
   animationFrame();
 }
 
-function endRun(immediate = false) {
+function endRun(immediate = false, win = false) {
   if (!playing || ending) return;
   ending = true;
+  if (win) state.increaseLevel();
   updateTouchHandlerEnabled();
   updateEndRunScreen();
 
@@ -156,10 +157,10 @@ function toggleFullscreenPause(value: boolean) {
 }
 
 function isGameFinished() {
-  return (
-    objectsGroup.children.length === 0 ||
-    (playersGroup.children.length === 0 && dyingGroup.children.length === 0)
-  );
+  const lose = playersGroup.children.length === 0;
+  const win = !lose && objectsGroup.children.length === 0 && dyingGroup.children.length === 0;
+
+  return win ? 'win' : lose;
 }
 
 // const fpsDivider = 10;
@@ -185,8 +186,9 @@ function animationFrame(ms?: number) {
     moveAndSweepDyingGroup(delta);
     updateAwardsView(delta);
 
-    if (isGameFinished()) {
-      endRun();
+    const finished = isGameFinished();
+    if (finished) {
+      endRun(false, finished === 'win');
     }
   }
   render();

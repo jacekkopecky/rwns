@@ -5,6 +5,7 @@ import type { UpgradeFn, UpgradeType } from './upgrades';
 import { formatNumber } from './utils';
 
 const el = {
+  upgradeButtons: document.querySelector<HTMLElement>('#upgradeButtons')!,
   upgrades: {
     player: document.querySelector<HTMLElement>('#upgradeButtons > .player')!,
     rate: document.querySelector<HTMLElement>('#upgradeButtons > .rate')!,
@@ -20,9 +21,11 @@ export function initUpgrades() {
 
 export function updateUpgrades(state: ReadonlyState) {
   // hide upgrades when starting from scratch until played a bit
-  el.upgrades.player.classList.toggle('hidden', state.level < 4);
+  el.upgrades.player.classList.toggle('hidden', state.level < 10);
   el.upgrades.rate.classList.toggle('hidden', state.level < 2);
-  el.upgrades.damage.classList.toggle('hidden', state.level < 3);
+  el.upgrades.damage.classList.toggle('hidden', state.level < 5);
+
+  el.upgradeButtons.classList.toggle('hidden', state.level < 2);
 
   updatePriceAndLevel('player', state);
   updatePriceAndLevel('rate', state);

@@ -18,9 +18,9 @@ const el = {
 };
 
 export function init() {
-  initMainScreen();
-
   document.body.classList.toggle('using-fullscreen', useFullscreen);
+
+  initMainScreen();
 
   if (useFullscreen) {
     document.body.addEventListener('keyup', handleTopLevelSpaceKey);
