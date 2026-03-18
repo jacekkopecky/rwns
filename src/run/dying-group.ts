@@ -1,13 +1,12 @@
 import * as THREE from 'three';
 
 import * as dim from '../dimensions';
-import { resetGroup } from './three/three';
 
 import { objectsGroup } from './objects';
 import { playersGroup } from './players';
-
-import { removeGroupChildrenBehindCamera } from './utils/tools';
 import { bulletsGroup } from './bullets';
+
+import { resetGroup, removeGroupChildrenBehindCamera } from './three/tools';
 
 export const dyingGroup = new THREE.Group();
 

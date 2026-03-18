@@ -57,23 +57,6 @@ export function render() {
   renderer.render(scene, camera);
 }
 
-export function getObjectZ(obj: THREE.Object3D) {
-  return (obj.parent?.position?.z ?? 0) + obj.position.z;
-}
-
-export function getObjectX(obj: THREE.Object3D) {
-  return (obj.parent?.position?.x ?? 0) + obj.position.x;
-}
-
-export function isSprite(obj?: THREE.Object3D): obj is THREE.Sprite {
-  return Boolean(obj && 'isSprite' in obj && obj.isSprite);
-}
-
-export function resetGroup(group: THREE.Group) {
-  group.clear();
-  group.position.set(0, 0, 0);
-}
-
 /**
  * return world coordinates at depth `d` from the camera, at [xFraction,yfraction] on the screen,
  * with [xFraction,yFraction]=[0,0] being the bottom left corner, and [1,0] is bottom right corner

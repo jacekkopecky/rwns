@@ -3,13 +3,9 @@ import * as THREE from 'three';
 import * as dim from '../dimensions';
 import { getBulletData, type BulletData, type PlayerData } from '../types';
 
-import { getObjectX, getObjectZ, resetGroup } from './three/three';
-import {
-  createSpriteObject,
-  doObjectsOverlapInX,
-  scaleSpriteInPlace,
-} from './three/three-resources';
-import { setSpriteMaterial } from './three/three-materials';
+import { setSpriteMaterial } from './three/materials';
+import { createSpriteObject, doObjectsOverlapInX, scaleSpriteInPlace } from './three/resources';
+import { getObjectX, getObjectZ, resetGroup } from './three/tools';
 
 import { hitObject, objectsGroup } from './objects';
 

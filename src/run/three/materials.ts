@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 import * as dim from '../../dimensions';
 
-import { isSprite } from './three';
+import { isSprite } from './tools';
 
 export const sprites = {
   player: emojiSpriteMaterial('🍄'),

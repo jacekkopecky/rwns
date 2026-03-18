@@ -2,8 +2,8 @@ import * as THREE from 'three';
 
 import * as dim from '../../dimensions';
 
-import { getObjectX, isSprite } from './three';
-import * as mat from './three-materials';
+import * as mat from './materials';
+import { getObjectX, isSprite } from './tools';
 
 export function createSpriteObject(
   type: string,

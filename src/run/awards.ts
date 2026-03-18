@@ -6,8 +6,8 @@ import { type Currency, type CurrencyType } from '../types';
 import { fillOrHide, formatNumber } from '../utils';
 import { Wallet } from '../wallet';
 
-import { getScreenCoordinates } from './three/three';
-import { createSpriteObject } from './three/three-resources';
+import { getScreenCoordinates } from './three/main';
+import { createSpriteObject } from './three/resources';
 import { flyToTargetAndShrink } from './utils/animations';
 import { AnimatedCount } from './utils/animated-count';
 

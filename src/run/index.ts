@@ -22,8 +22,8 @@ import {
   updatePlayerPosition,
 } from './players';
 
-import { render, scene, timer, init as initThree } from './three/three';
-import { createTrack, createTrackDecorations, moveTrackDecorations } from './three/three-resources';
+import { render, scene, timer, init as initThree } from './three/main';
+import { createTrack, createTrackDecorations, moveTrackDecorations } from './three/resources';
 import { disposeAnimations, updateAnimations } from './utils/animations';
 import { TouchHandler } from './utils/touch-handler';
 
