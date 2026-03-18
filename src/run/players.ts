@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 import * as dim from '../dimensions';
 import { readState } from '../state';
-import { getObjectData, getPlayerData, getPlayerGroupData, type PlayerData } from '../types';
+import { getObjectData, getPlayerData, type PlayerData } from '../types';
 import { applyUpgrade } from '../upgrades';
 
 import { createPlayerBullet } from './bullets';
@@ -10,12 +10,11 @@ import { dyingGroup } from './dying-group';
 import { hitObject, objectsGroup } from './objects';
 
 import { setSpriteMaterial } from './three/materials';
-import { createSpriteObject, doObjectsOverlapInX, getObjectWidth } from './three/resources';
+import { createSpriteObject, doObjectsOverlapInX } from './three/resources';
 import { getObjectZ, resetGroup } from './three/tools';
 import { pulseAndShrinkToGone, shrinkToGone } from './utils/animations';
 
 export const playersGroup = new THREE.Group();
-playersGroup.userData.type = 'playersGroup';
 
 export function setupPlayers() {
   resetGroup(playersGroup);
@@ -35,8 +34,7 @@ export function setupPlayers() {
   pData.hitPoints = dim.playerHitPoints;
   playersGroup.add(player);
 
-  const pgData = getPlayerGroupData(playersGroup);
-  pgData.width = pData.width;
+  playersGroup.userData.width = pData.width;
 }
 
 function repositionPlayers() {
@@ -50,7 +48,7 @@ function repositionPlayers() {
 }
 
 export function updatePlayerPosition(playerPosFraction: number) {
-  const availableWidth = dim.trackWidth - getObjectWidth(playersGroup);
+  const availableWidth = dim.trackWidth - playersGroup.userData.width;
   const x = (playerPosFraction - 0.5) * availableWidth;
   playersGroup.position.x = x;
 }

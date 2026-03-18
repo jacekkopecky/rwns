@@ -52,14 +52,6 @@ export interface ObjectData extends AnyObjectData {
   award?: Currency;
 }
 
-export interface PlayerGroupData extends AnyObjectData {
-  type: 'playersGroup';
-}
-
-export function getPlayerGroupData(obj: THREE.Object3D): PlayerGroupData {
-  return getUserData(obj, 'playersGroup');
-}
-
 export function getPlayerData(obj: THREE.Object3D): PlayerData {
   return getUserData(obj, 'player');
 }

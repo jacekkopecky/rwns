@@ -59,7 +59,7 @@ export function doObjectsOverlapInX(
   );
 }
 
-export function getObjectWidth(obj: THREE.Object3D): number {
+function getObjectWidth(obj: THREE.Object3D): number {
   if (typeof obj.userData.width === 'number') {
     return obj.userData.width;
   } else {
