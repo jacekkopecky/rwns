@@ -2,12 +2,13 @@ import * as THREE from 'three';
 
 import { shrinkToGone } from './utils/animations';
 import * as dim from '../dimensions';
-import { resetGroup } from '../three';
-import { setSpriteMaterial } from '../three-materials';
-import { createObject } from '../three-resources';
 import { getObjectData, type ObjectData } from '../types';
 
 import { giveAward } from './awards';
+
+import { resetGroup } from './three/three';
+import { setSpriteMaterial } from './three/three-materials';
+import { createObject } from './three/three-resources';
 import { removeGroupChildrenBehindCamera } from './utils/tools';
 
 export const objectsGroup = new THREE.Group();

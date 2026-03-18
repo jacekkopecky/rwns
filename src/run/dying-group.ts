@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 import * as dim from '../dimensions';
-import { resetGroup } from '../three';
+import { resetGroup } from './three/three';
 
 import { objectsGroup } from './objects';
 import { playersGroup } from './players';

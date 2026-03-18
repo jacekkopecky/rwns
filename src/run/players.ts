@@ -2,16 +2,16 @@ import * as THREE from 'three';
 
 import * as dim from '../dimensions';
 import { readState } from '../state';
-import { getObjectZ, resetGroup } from '../three';
-import { setSpriteMaterial } from '../three-materials';
-import { createObject, doObjectsOverlapInX, getObjectWidth } from '../three-resources';
 import { getObjectData, getPlayerData, getPlayerGroupData, type PlayerData } from '../types';
 import { applyUpgrade } from '../upgrades';
 
 import { createPlayerBullet } from './bullets';
-import { dyingGroup } from './dying';
+import { dyingGroup } from './dying-group';
 import { hitObject, objectsGroup } from './objects';
 
+import { getObjectZ, resetGroup } from './three/three';
+import { setSpriteMaterial } from './three/three-materials';
+import { createObject, doObjectsOverlapInX, getObjectWidth } from './three/three-resources';
 import { pulseAndShrinkToGone, shrinkToGone } from './utils/animations';
 
 export const playersGroup = new THREE.Group();

@@ -1,8 +1,7 @@
 import { initUpgrades, updateUpgrades } from './main-screen-upgrades';
 import { init as initRunScreen, prepareRun, startRun } from './run';
 import { clearNextRunUpgrades, initState, readState, resetState } from './state';
-import { init as initThree } from './three';
-import { fillOrHide, formatNumber } from './utils';
+import { fillOrHide } from './utils';
 
 const el = {
   main: document.querySelector('main')!,
@@ -24,7 +23,6 @@ const el = {
 
 export function init() {
   initState();
-  initThree(el.main);
   initRunScreen();
   initUpgrades();
   el.canvas.addEventListener('touchstart', startPlaying);

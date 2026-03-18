@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import { sprites } from './three-materials';
+import { sprites } from './run/three/three-materials';
 
 export type { Upgrade, UpgradeBag, UpgradeType } from './upgrades';
 export { UPGRADE_TYPES } from './upgrades';

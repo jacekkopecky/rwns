@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 
-import * as dim from './dimensions';
+import * as dim from '../../dimensions';
+
 import { isSprite } from './three';
 
 export const sprites = {

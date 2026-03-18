@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 
 import * as dim from '../../dimensions';
-import { getObjectZ } from '../../three';
+
+import { getObjectZ } from '../three/three';
 
 export function removeGroupChildrenBehindCamera(group: THREE.Group, sortedInZ = true) {
   // remove objects that are now behind the camera

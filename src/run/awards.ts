@@ -2,12 +2,12 @@ import * as THREE from 'three';
 
 import * as dim from '../dimensions';
 import * as state from '../state';
-import { getScreenCoordinates } from '../three';
-import { createObject } from '../three-resources';
 import { type Currency, type CurrencyType } from '../types';
 import { fillOrHide, formatNumber } from '../utils';
 import { Wallet } from '../wallet';
 
+import { getScreenCoordinates } from './three/three';
+import { createObject } from './three/three-resources';
 import { flyToTargetAndShrink } from './utils/animations';
 import { AnimatedCount } from './utils/animated-count';
 

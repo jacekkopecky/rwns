@@ -3,8 +3,6 @@ import * as THREE from 'three';
 import * as dim from '../dimensions';
 import { logFps } from '../log';
 import * as state from '../state';
-import { render, scene, timer } from '../three';
-import { createTrack, createTrackDecorations, moveTrackDecorations } from '../three-resources';
 
 import {
   awardsGroup,
@@ -14,7 +12,7 @@ import {
   updateEndRunScreen,
 } from './awards';
 import { bulletsGroup, movePlayerBullets, setupBullets } from './bullets';
-import { dyingGroup, moveAndSweepDyingGroup, setupDyingGroup } from './dying';
+import { dyingGroup, moveAndSweepDyingGroup, setupDyingGroup } from './dying-group';
 import { moveObjects, objectsGroup, setupObjects } from './objects';
 import {
   checkPlayersHit,
@@ -24,6 +22,8 @@ import {
   updatePlayerPosition,
 } from './players';
 
+import { render, scene, timer, init as initThree } from './three/three';
+import { createTrack, createTrackDecorations, moveTrackDecorations } from './three/three-resources';
 import { disposeAnimations, updateAnimations } from './utils/animations';
 import { TouchHandler } from './utils/touch-handler';
 
@@ -45,6 +45,7 @@ const el = {
  * First-time initialization.
  */
 export function init() {
+  initThree(el.main);
   setupScene();
 
   handler = new TouchHandler(el.canvas, {

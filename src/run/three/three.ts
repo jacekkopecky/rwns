@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import { cameraPosition, cameraToTrackEndLength, cameraTarget, cameraFoV } from './dimensions';
+import * as dim from '../../dimensions';
 
 export let renderer: THREE.WebGLRenderer;
 export let camera: THREE.PerspectiveCamera;
@@ -20,13 +20,13 @@ export function init(main: HTMLElement) {
   renderer = new THREE.WebGLRenderer({ antialias: true, canvas });
 
   camera = new THREE.PerspectiveCamera(
-    cameraFoV,
+    dim.cameraFoV,
     canvas.clientWidth / canvas.clientHeight,
     1,
-    cameraToTrackEndLength,
+    dim.cameraToTrackEndLength,
   );
-  camera.position.set(...cameraPosition);
-  camera.lookAt(...cameraTarget);
+  camera.position.set(...dim.cameraPosition);
+  camera.lookAt(...dim.cameraTarget);
 
   (window as any).gameCamera = camera;
 
