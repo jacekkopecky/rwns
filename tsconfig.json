@@ -28,5 +28,6 @@
     "moduleDetection": "force",
     "moduleResolution": "bundler",
     "skipLibCheck": true
-  }
+  },
+  "exclude": ["tmp-three"]
 }
