@@ -1,4 +1,4 @@
-import { CURRENCIES, type CurrencyType } from './types';
+import { CURRENCIES, type CurrencyType } from './currencies';
 
 export type ReadonlyWallet = Pick<Wallet, 'read' | 'readAll'>;
 
