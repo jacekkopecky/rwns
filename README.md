@@ -4,16 +4,27 @@ This was inspired by Timeline Up, but without any spending of real money.
 
 ## todo
 
+- [ ] hide or disable exit button when finishing
+- [ ] refactor object dying so types and players/bullets/objects need not depend on sprites
+- [ ] add 3d models
+  - [ ] coniferous tree
+  - [ ] broad-leaf tree
+  - [ ] dying conifer
+  - [ ] dying broad-leaf
+  - [ ] player
+  - [ ] money?
+  - [ ] diamond?
+- [ ] check extent scaling to 0.8 is still appropriate
+- [ ] set camera.far so we don't see stuff in fog
 - [ ] some kind of run ending, and distinguishing between finishing and dying
   - only reset transient upgrades when a run is successfully finished?
 - [ ] show how many played games
 - [ ] add daily energy, disabled in dev build
-- [ ] add 3d models
 - [ ] add stable track generation
   - using level (per type of run?)
   - waves? reset gates? multi-run stages? (like eras and timelines)
     - many little obstacles, try to get through and gather awards (like dungeon)
-    - square blocks and everything on a grid, like a mine?
+    - boxy blocks and everything on a grid, like a mine?
       - with a constrained firing rate starting just at one block shot down per block's distance
         walked
       - so at first we kinda have to choose a straight line and can only change when there's a gap
@@ -24,6 +35,7 @@ This was inspired by Timeline Up, but without any spending of real money.
       boss) with an award only at the end (like "battle" for jewels)
     - slow-down with big bosses (slowing at the end of my minimum range?)
     - enemies that shoot back?
+    - Levels where you have to collect all keys to pass through end gate
   - gradation
     - various types of runs should only get stronger if I pass them? at different rates?
     - [ ] special types should be behing special buttons?
@@ -57,7 +69,11 @@ This was inspired by Timeline Up, but without any spending of real money.
 - [ ] add objects that shoot at us?
 - [ ] add gates?
   - bonus & malus on player count and strengths, variable shoot-to-increase?, end/reset gates?
+  - other in-run upgrades:
+    - a gun upgrade for only a limited number of my creatures - e.g. upgrades 1, 2 or 3 of them
+      only, for that run only
 - [ ] add objects/gates that move left/right?
+  - e.g. an animal that runs across the forest, with bonus when killed
 - [ ] add objects that, when close enough, start actively moving towards you?
   - this needs to carefully handle the Z sorting of objectsGroup
 - [ ] quests?
@@ -83,8 +99,36 @@ This was inspired by Timeline Up, but without any spending of real money.
   - when all artwork is mine
   - when there are some upgrades
   - when there are at least two different types of runs
+- [ ] in state have a version so if we upgrade, we can save it and the user can play an older
+      version (no longer updated) - important from v2
 
 ---
+
+## done by 2026-03-21
+
+- [x] refactor collisions:
+  - every object is either cylindrical or axis-aligned boxy; everything is really 2D
+  - players and bullets check overlap with objects
+  - players are cylindrical, bullets boxy (Box2, extend to include computations with circles?)
+  - objects can be cylindrical or boxy, too
+  - [x] every object has a bounds - extent2d - a Box2 or a Circle, and maybe minz/maxz?
+    - [x] make a class for Circle with .isCircle (TS doesn't know that Box2 has .isBox2)
+    - [x] make a function that checks collisions, with all four options
+      - this function MUST TAKE INTO CONSIDERATION the x/z movement of the object's group
+  - [x] when adding objects, sort them by maxZ before adding to their group
+    - this needs to support the following:
+      - is the object far enough so it's behind camera? (so we stop removing further objects)
+        - this is inaccurate but that's OK, a smaller object can be removed later
+      - is the object close enough to be shot? (stop considering further objects)
+      - is the object close enough to touch a player? (stop considering further objects)
+    - it's possible because we're adding objects in waves that don't overlap
+  - [x] change collision logic to use the function above, and various minz/maxz
+- [x] refactor types: move various types to files in ./types/, or rethink where types live anyway
+
+## done by 2026-03-18
+
+- various refactoring and modeling a coniferous tree
+- [x] does sprite scale x -1 flip the image?
 
 ## done by 2026-03-15
 
