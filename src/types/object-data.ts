@@ -6,8 +6,7 @@ import { Circle } from './circle';
 import type { Currency } from './currencies';
 
 interface AnyObjectData {
-  width: number;
-  depth: number; // for block objects, it's half length in Z, for circles it's radius
+  extent2d: THREE.Box2 | Circle;
 }
 
 export interface PlayerData extends AnyObjectData {
@@ -33,7 +32,6 @@ export interface BulletData extends AnyObjectData {
 
 export interface ObjectData extends AnyObjectData {
   type: 'object';
-  extent2d: THREE.Box2 | Circle;
   dying?: boolean;
   dyingMaterial: keyof typeof sprites;
   hitPoints: number;

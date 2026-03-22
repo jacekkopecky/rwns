@@ -1,9 +1,10 @@
 import * as THREE from 'three';
 
 import * as dim from '../../dimensions';
+import { Circle } from '../../types';
 
 import * as mat from './materials';
-import { getObjectX, isSprite } from './tools';
+import { isSprite } from './tools';
 
 export function createSpriteObject(
   type: string,
@@ -19,8 +20,12 @@ export function createSpriteObject(
   // make the object "stand" on the plane by moving its center down instead of moving its position up
   centerSpriteAtHeight(sprite, y);
 
-  sprite.userData.width = size[0];
-  sprite.userData.depth = size[0] / 3; // use the third of width as the depth
+  // use the third of width as the depth
+  const w = size[0];
+  sprite.userData.extent2d = new THREE.Box2(
+    new THREE.Vector2(-w / 2, -w / 6),
+    new THREE.Vector2(w / 2, w / 6),
+  );
   sprite.userData.type = dataType;
   sprite.userData.dyingMaterial = `${type}Dying` in mat.sprites ? `${type}Dying` : type;
   return sprite;
@@ -48,21 +53,54 @@ export function scaleSpriteInPlace(sprite: THREE.Object3D, scale: number) {
   }
 }
 
-export function doObjectsOverlapInX(
-  obj1: THREE.Object3D,
-  obj2: THREE.Object3D,
-  reach = 1, // bigger reach - conflict occurs when they're farther away
-): boolean {
-  return (
-    Math.abs(getObjectX(obj1) - getObjectX(obj2)) <
-    ((getObjectWidth(obj1) + getObjectWidth(obj2)) / 2) * reach
-  );
+export function intersects(first: THREE.Box2 | Circle, second: THREE.Box2 | Circle): boolean {
+  if (first instanceof Circle) {
+    if (second instanceof Circle) {
+      return first.intersectsCircle(second);
+    } else {
+      return first.intersectsBox(second);
+    }
+  } else {
+    return second.intersectsBox(first);
+  }
 }
 
-function getObjectWidth(obj: THREE.Object3D): number {
-  if (typeof obj.userData.width === 'number') {
-    return obj.userData.width;
+const _vector1 = new THREE.Vector2();
+const _vector2 = new THREE.Vector2();
+
+export function scaleExtent(extent: THREE.Box2 | Circle, n: number) {
+  if (extent instanceof THREE.Box2) {
+    extent.getCenter(_vector1);
+    extent.getSize(_vector2).multiplyScalar(n);
+    extent.setFromCenterAndSize(_vector1, _vector2);
   } else {
-    throw new TypeError('obj does not have a width');
+    extent.radius *= n;
   }
+  return extent;
+}
+
+export function getExtentTranslatedToPosition(
+  obj: THREE.Object3D,
+  extent: THREE.Box2 | Circle,
+  targetBox: THREE.Box2,
+  targetCircle: Circle,
+): THREE.Box2 | Circle {
+  if (extent instanceof Circle) {
+    targetCircle.copy(extent);
+    targetCircle.translateXZ(obj.position);
+    if (obj.parent?.position) targetCircle.translateXZ(obj.parent.position);
+    return targetCircle;
+  } else {
+    targetBox.copy(extent);
+    translateBox2XZ(targetBox, obj.position);
+    if (obj.parent?.position) translateBox2XZ(targetBox, obj.parent.position);
+    return targetBox;
+  }
+}
+
+function translateBox2XZ(box: THREE.Box2, pos: THREE.Vector3) {
+  box.min.x += pos.x;
+  box.max.x += pos.x;
+  box.min.y += pos.z;
+  box.max.y += pos.z;
 }

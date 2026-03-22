@@ -1,4 +1,4 @@
-import { Vector2, Box2 } from 'three';
+import { Vector2, Box2, Vector3 } from 'three';
 
 // adapted from THREE.JS Box2.js
 
@@ -10,7 +10,7 @@ const _vector = new Vector2();
 export class Circle {
   constructor(
     private center = new Vector2(0, 0),
-    private radius = 0,
+    public radius = 0,
   ) {}
 
   getCenter(target: Vector2) {
@@ -49,6 +49,10 @@ export class Circle {
     return this.radius <= 0;
   }
 
+  getSize(target: Vector2) {
+    return target.set(this.radius * 2, this.radius * 2);
+  }
+
   expandByScalar(scalar: number) {
     this.radius += scalar;
     return this;
@@ -63,8 +67,51 @@ export class Circle {
     return this.containsPoint(_vector);
   }
 
+  intersectsCircle(circle: Circle) {
+    return this.center.distanceTo(circle.center) < this.radius + circle.radius;
+  }
+
   translate(offset: Vector2) {
     this.center.add(offset);
     return this;
   }
+
+  translateXZ(offset: Vector3) {
+    this.center.x += offset.x;
+    this.center.y += offset.z;
+    return this;
+  }
+
+  getNewBoundingBox() {
+    return this.getBoundingBox(new Box2());
+  }
+
+  getBoundingBox(target: Box2) {
+    target.min.x = this.center.x - this.radius;
+    target.min.y = this.center.y - this.radius;
+    target.max.x = this.center.x + this.radius;
+    target.max.y = this.center.y + this.radius;
+
+    return target;
+  }
+
+  min = {
+    self: this as Circle,
+    get x() {
+      return this.self.center.x - this.self.radius;
+    },
+    get y() {
+      return this.self.center.y - this.self.radius;
+    },
+  };
+
+  max = {
+    self: this as Circle,
+    get x() {
+      return this.self.center.x + this.self.radius;
+    },
+    get y() {
+      return this.self.center.y + this.self.radius;
+    },
+  };
 }

@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 import * as dim from '../dimensions';
 import { readState } from '../state';
-import { getObjectData, getPlayerData, type PlayerData } from '../types';
+import { Circle, getObjectData, getPlayerData, type PlayerData } from '../types';
 import { applyUpgrade } from '../upgrades';
 
 import { createPlayerBullet } from './bullets';
@@ -10,7 +10,7 @@ import { dyingGroup } from './dying-group';
 import { hitObject, objectsGroup } from './objects';
 
 import { setSpriteMaterial } from './three/materials';
-import { createSpriteObject, doObjectsOverlapInX } from './three/resources';
+import { createSpriteObject, getExtentTranslatedToPosition, intersects } from './three/resources';
 import { getObjectZ, resetGroup } from './three/tools';
 import { pulseAndShrinkToGone, shrinkToGone } from './utils/animations';
 
@@ -34,7 +34,7 @@ export function setupPlayers() {
   pData.hitPoints = dim.playerHitPoints;
   playersGroup.add(player);
 
-  playersGroup.userData.width = pData.width;
+  playersGroup.userData.width = pData.extent2d.max.x - pData.extent2d.min.x;
 }
 
 function repositionPlayers() {
@@ -84,24 +84,35 @@ export function playerShoot(delta: number) {
   }
 }
 
+const _box1 = new THREE.Box2();
+const _box2 = new THREE.Box2();
+const _circle1 = new Circle();
+const _circle2 = new Circle();
+
 function checkPlayerHit(player: THREE.Object3D) {
   const pData = getPlayerData(player);
 
   if (pData.dying) return;
 
   const playerNear = getObjectZ(player);
-  const playerFar = playerNear - pData.depth;
+  const playerFar = playerNear + pData.extent2d.min.y;
 
   // check all objects
   for (const obj of objectsGroup.children) {
+    const objCenterZ = getObjectZ(obj);
     const oData = getObjectData(obj);
-    const objNear = getObjectZ(obj);
-    const objFar = objNear - oData.depth;
+    const objFar = objCenterZ + oData.extent2d.min.y;
+    const objNear = objCenterZ + oData.extent2d.max.y;
 
     if (objNear < playerFar) return; // we're done, remaining objects are too far to hit this player
 
-    // use 0.8 reach to allow the player to rub shoulders with objects
-    if (objFar < playerNear && doObjectsOverlapInX(obj, player, 0.8)) {
+    if (
+      objFar < playerNear &&
+      intersects(
+        getExtentTranslatedToPosition(obj, oData.extent2d, _box1, _circle1),
+        getExtentTranslatedToPosition(player, pData.extent2d, _box2, _circle2),
+      )
+    ) {
       const objHP = oData.hitPoints;
       const isHit = hitObject(obj, pData.hitPoints, true);
       if (isHit && !oData.collectible && !oData.benign) {

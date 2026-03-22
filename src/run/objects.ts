@@ -6,7 +6,7 @@ import { getObjectData, type ObjectData } from '../types';
 import { giveAward } from './awards';
 
 import { setSpriteMaterial } from './three/materials';
-import { createSpriteObject } from './three/resources';
+import { createSpriteObject, scaleExtent } from './three/resources';
 import { resetGroup, removeGroupChildrenBehindCamera } from './three/tools';
 import { shrinkToGone } from './utils/animations';
 
@@ -15,6 +15,7 @@ export const objectsGroup = new THREE.Group();
 export function setupObjects() {
   resetGroup(objectsGroup);
 
+  const objects: THREE.Object3D[] = [];
   for (let i = 0; i < dim.N; i++) {
     const x = Math.random() * 80 - 40;
     const y = -(dim.trackLength / dim.N) * i + dim.startDistance;
@@ -44,15 +45,27 @@ export function setupObjects() {
         oData.collectible = true;
         oData.award = { type: 'coin', amount: Math.floor(Math.random() * dim.coinAwardMax + 1) };
         // make the reach of coins bigger to be easier to collect
-        oData.depth *= 2;
-        oData.width *= 2;
+        scaleExtent(oData.extent2d, 2);
         break;
       default:
         oData.hitPoints = dim.objectHitPoints;
+        // let the player "rub shoulders" with the object
+        scaleExtent(oData.extent2d, 0.8);
     }
+    obj.userData.maxZ = obj.position.z + oData.extent2d.max.y;
+    objects.push(obj);
+  }
 
+  objects.sort(compareByMaxZ);
+
+  for (const obj of objects) {
     objectsGroup.add(obj);
   }
+}
+
+// order by maxZ from largest to smallest
+function compareByMaxZ(a: THREE.Object3D, b: THREE.Object3D) {
+  return b.userData.maxZ - a.userData.maxZ;
 }
 
 export function moveObjects(delta: number) {

@@ -1,10 +1,15 @@
 import * as THREE from 'three';
 
 import * as dim from '../dimensions';
-import { getBulletData, type BulletData, type PlayerData } from '../types';
+import { Circle, getBulletData, getObjectData, type BulletData, type PlayerData } from '../types';
 
 import { setSpriteMaterial } from './three/materials';
-import { createSpriteObject, doObjectsOverlapInX, scaleSpriteInPlace } from './three/resources';
+import {
+  createSpriteObject,
+  getExtentTranslatedToPosition,
+  intersects,
+  scaleSpriteInPlace,
+} from './three/resources';
 import { getObjectX, getObjectZ, resetGroup } from './three/tools';
 
 import { hitObject, objectsGroup } from './objects';
@@ -24,10 +29,9 @@ export function createPlayerBullet(
   bData.minZ = bulletsGroup.position.z - pData.range;
   bData.length = pData.bulletLength;
   bData.hitPoints = pData.bulletHitPoints;
-  bData.width = 0; // let bullets just graze the target without hitting it
 
   // bullets start in front of the player
-  bullet.position.z = -bulletsGroup.position.z - pData.depth;
+  bullet.position.z = -bulletsGroup.position.z + player.position.z + pData.extent2d.min.y;
   bullet.position.x = getObjectX(player);
 
   bulletsGroup.add(bullet);
@@ -61,6 +65,11 @@ export function movePlayerBullets(delta: number) {
   }
 }
 
+const _box1 = new THREE.Box2();
+const _box2 = new THREE.Box2();
+const _circle1 = new Circle();
+const _circle2 = new Circle();
+
 /**
  * With this bullet having moved deltaZ in the last step, check if it's hit any object.
  */
@@ -72,10 +81,20 @@ function checkBulletHit(bullet: THREE.Object3D, deltaZ: number) {
 
   // check all objects
   for (const obj of objectsGroup.children) {
-    const objZ = getObjectZ(obj);
-    if (objZ < bulletTip) return; // we're done, remaining objects are too far for this bullet to hit
+    const objCenterZ = getObjectZ(obj);
+    const oData = getObjectData(obj);
+    const objFar = objCenterZ + oData.extent2d.min.y;
+    const objNear = objCenterZ + oData.extent2d.max.y;
 
-    if (objZ < bulletButt && doObjectsOverlapInX(obj, bullet)) {
+    if (objNear < bulletTip) return; // we're done, remaining objects are too far for this bullet to hit
+
+    if (
+      objFar < bulletButt &&
+      intersects(
+        getExtentTranslatedToPosition(obj, oData.extent2d, _box1, _circle1),
+        getExtentTranslatedToPosition(bullet, bData.extent2d, _box2, _circle2),
+      )
+    ) {
       const isHit = hitObject(obj, bData.hitPoints);
       if (isHit) {
         killBullet(bullet, bData);
