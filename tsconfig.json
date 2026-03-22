@@ -27,7 +27,8 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "moduleResolution": "bundler",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": { "#*": ["./src/common/*"] }
   },
   "exclude": ["tmp-three"]
 }
