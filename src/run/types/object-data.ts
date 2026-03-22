@@ -1,9 +1,10 @@
 import * as THREE from 'three';
 
-import { sprites } from '../run/three/materials';
+import type { Currency } from '#types';
+
+import { sprites } from '../three/materials';
 
 import { Circle } from './circle';
-import type { Currency } from './currencies';
 
 interface AnyObjectData {
   extent2d: THREE.Box2 | Circle;
