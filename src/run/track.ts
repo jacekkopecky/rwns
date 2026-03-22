@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import { createTrack, createTrackDecorations, moveTrackDecorations } from './models';
+import { createTrack, createTrackDecorations, moveTrackDecorations } from './three/models';
 
 const trackDecorationsGroup = new THREE.Group();
 

@@ -6,10 +6,10 @@ import { readState } from '../state';
 import { applyUpgrade } from '../upgrades';
 
 import { createPlayerBullet } from './bullets';
-import { createPlayer, killPlayer } from './models';
 import { hitObject, objectsGroup } from './objects';
 import { Circle, getObjectData, getPlayerData } from './types';
 
+import { createPlayer, killPlayer } from './three/models';
 import { getExtentTranslatedToPosition, intersects, isDying } from './three/resources';
 import { getObjectZ, resetGroup } from './three/tools';
 

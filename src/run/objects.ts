@@ -5,8 +5,8 @@ import * as dim from '#dimensions';
 import { getObjectData } from './types';
 
 import { giveAward } from './awards';
-import { createObject, killObject } from './models';
 
+import { createObject, killObject } from './three/models';
 import { isDying, scaleExtent } from './three/resources';
 import { resetGroup, removeGroupChildrenBehindCamera } from './three/tools';
 

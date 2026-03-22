@@ -2,13 +2,13 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 
-import { setSpriteMaterial } from '../three/materials';
+import { setSpriteMaterial } from '../materials';
 import {
   createSpriteObject,
   getDyingMaterial,
   markAsDying,
   scaleSpriteInPlace,
-} from '../three/resources';
+} from '../resources';
 
 export function createBullet(player: THREE.Object3D): THREE.Object3D {
   return createSpriteObject('bullet', { y: player.scale.y / 2 });

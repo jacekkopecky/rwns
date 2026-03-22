@@ -2,9 +2,9 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 
-import { pulseAndShrinkToGone, shrinkToGone } from '../three/animations';
-import { setSpriteMaterial } from '../three/materials';
-import { createSpriteObject, getDyingMaterial, markAsDying } from '../three/resources';
+import { pulseAndShrinkToGone, shrinkToGone } from '../animations';
+import { setSpriteMaterial } from '../materials';
+import { createSpriteObject, getDyingMaterial, markAsDying } from '../resources';
 
 export function createPlayer(): THREE.Object3D {
   return createSpriteObject('player');

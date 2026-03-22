@@ -5,9 +5,6 @@ This was inspired by Timeline Up, but without any spending of real money.
 ## todo
 
 - [ ] hide or disable exit button when finishing
-- [.] refactor object dying so types and players/bullets/objects need not depend on sprites
-  - [ ] move animations into three/
-  - [ ] move models into three/
 - [ ] add 3d models
   - [ ] coniferous tree
   - [ ] broad-leaf tree
@@ -108,6 +105,9 @@ This was inspired by Timeline Up, but without any spending of real money.
 
 ## done by 2026-03-22
 
+- [x] refactor object dying so types and players/bullets/objects need not depend on sprites
+  - [x] move animations into three/
+  - [x] move models into three/
 - [x] refactor types and common files to simplify imports
 
 ## done by 2026-03-21

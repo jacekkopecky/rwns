@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 
-import * as mat from '../three/materials';
+import * as mat from '../materials';
 
 export function createTrack(): THREE.Object3D {
   const material = mat.trackMaterial;
