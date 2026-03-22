@@ -1,14 +1,14 @@
 import * as THREE from 'three';
 
 import * as dim from '#dimensions';
-import { getObjectData, type ObjectData } from './types';
+
+import { getObjectData } from './types';
 
 import { giveAward } from './awards';
+import { createObject, killObject } from './models';
 
-import { setSpriteMaterial } from './three/materials';
-import { createSpriteObject, scaleExtent } from './three/resources';
+import { isDying, scaleExtent } from './three/resources';
 import { resetGroup, removeGroupChildrenBehindCamera } from './three/tools';
-import { shrinkToGone } from './utils/animations';
 
 export const objectsGroup = new THREE.Group();
 
@@ -30,7 +30,7 @@ export function setupObjects() {
             ? 'tree1'
             : 'tree2';
 
-    const obj = createSpriteObject(type, { dataType: 'object' });
+    const obj = createObject(type);
     const oData = getObjectData(obj);
     obj.position.x = x;
     obj.position.z = y;
@@ -76,8 +76,9 @@ export function moveObjects(delta: number) {
 }
 
 export function hitObject(obj: THREE.Object3D, hitPoints: number, playerHit = false): boolean {
+  if (isDying(obj)) return false;
+
   const oData = getObjectData(obj);
-  if (oData.dying) return false;
 
   // cannot shoot a collectible
   if (!playerHit && oData.collectible) return false;
@@ -85,17 +86,11 @@ export function hitObject(obj: THREE.Object3D, hitPoints: number, playerHit = fa
   oData.hitPoints -= hitPoints;
 
   if (oData.collectible || oData.hitPoints <= 0) {
-    killObject(obj, oData);
+    killObject(obj);
 
     // give the award, but not from benign objects when we walk into them
     if (oData.award && !(oData.benign && playerHit)) giveAward(oData.award, obj);
   }
 
   return true;
-}
-
-function killObject(obj: THREE.Object3D, oData: ObjectData) {
-  oData.dying = true;
-  setSpriteMaterial(obj, oData.dyingMaterial);
-  shrinkToGone(obj, dim.objectDyingDuration);
 }

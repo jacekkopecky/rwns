@@ -2,8 +2,6 @@ import * as THREE from 'three';
 
 import type { Currency } from '#types';
 
-import { sprites } from '../three/materials';
-
 import { Circle } from './circle';
 
 interface AnyObjectData {
@@ -17,8 +15,6 @@ export interface PlayerData extends AnyObjectData {
   range: number;
   bulletLength: number;
   bulletHitPoints: number;
-  dying?: boolean;
-  dyingMaterial: keyof typeof sprites;
   hitPoints: number;
 }
 
@@ -26,15 +22,11 @@ export interface BulletData extends AnyObjectData {
   type: 'bullet';
   minZ: number;
   length: number;
-  dying?: boolean;
-  dyingMaterial: keyof typeof sprites;
   hitPoints: number;
 }
 
 export interface ObjectData extends AnyObjectData {
   type: 'object';
-  dying?: boolean;
-  dyingMaterial: keyof typeof sprites;
   hitPoints: number;
   // collectible objects can be collected by walking over them, not by shooting them
   collectible?: boolean;

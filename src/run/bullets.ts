@@ -3,15 +3,10 @@ import * as THREE from 'three';
 import * as dim from '#dimensions';
 
 import { hitObject, objectsGroup } from './objects';
-import { Circle, getBulletData, getObjectData, type BulletData, type PlayerData } from './types';
+import { Circle, getBulletData, getObjectData, type PlayerData } from './types';
 
-import { setSpriteMaterial } from './three/materials';
-import {
-  createSpriteObject,
-  getExtentTranslatedToPosition,
-  intersects,
-  scaleSpriteInPlace,
-} from './three/resources';
+import { createBullet, killBullet } from './models';
+import { getExtentTranslatedToPosition, intersects, isDying } from './three/resources';
 import { getObjectX, getObjectZ, resetGroup } from './three/tools';
 
 export const bulletsGroup = new THREE.Group();
@@ -24,7 +19,7 @@ export function createPlayerBullet(
   player: THREE.Object3D<THREE.Object3DEventMap>,
   pData: PlayerData,
 ) {
-  const bullet = createSpriteObject('bullet', { y: player.scale.y / 2 });
+  const bullet = createBullet(player);
   const bData = getBulletData(bullet);
   bData.minZ = bulletsGroup.position.z - pData.range;
   bData.length = pData.bulletLength;
@@ -54,7 +49,7 @@ export function movePlayerBullets(delta: number) {
     if (bulletsZ >= bData.minZ) {
       // the bullets are sorted by minZ so no further bullets will be removed
       break;
-    } else if (!bData.dying) {
+    } else if (!isDying(bullet)) {
       toRemove.push(bullet);
     }
   }
@@ -97,15 +92,8 @@ function checkBulletHit(bullet: THREE.Object3D, deltaZ: number) {
     ) {
       const isHit = hitObject(obj, bData.hitPoints);
       if (isHit) {
-        killBullet(bullet, bData);
+        killBullet(bullet);
       }
     }
   }
-}
-
-function killBullet(bullet: THREE.Object3D, bData: BulletData) {
-  bData.dying = true;
-  setSpriteMaterial(bullet, bData.dyingMaterial);
-  scaleSpriteInPlace(bullet, 2);
-  setTimeout(() => bullet.removeFromParent(), dim.playerBulletDyingDuration * 1000);
 }

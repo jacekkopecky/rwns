@@ -7,6 +7,7 @@ import { playersGroup } from './players';
 import { bulletsGroup } from './bullets';
 
 import { resetGroup, removeGroupChildrenBehindCamera } from './three/tools';
+import { isDying } from './three/resources';
 
 export const dyingGroup = new THREE.Group();
 
@@ -23,9 +24,9 @@ export function moveAndSweepDyingGroup(delta: number) {
   // move dying objects into a separate group so we don't have to deal with them afterwards
   // first gather the objects so we don't remove them while going through the collections
   const dyingStuff = [
-    ...Iterator.from(objectsGroup.children).filter((obj) => obj.userData.dying),
-    ...Iterator.from(playersGroup.children).filter((obj) => obj.userData.dying),
-    ...Iterator.from(bulletsGroup.children).filter((obj) => obj.userData.dying),
+    ...Iterator.from(objectsGroup.children).filter((obj) => isDying(obj)),
+    ...Iterator.from(playersGroup.children).filter((obj) => isDying(obj)),
+    ...Iterator.from(bulletsGroup.children).filter((obj) => isDying(obj)),
   ];
 
   for (const obj of dyingStuff) {

@@ -6,21 +6,19 @@ import { readState } from '../state';
 import { applyUpgrade } from '../upgrades';
 
 import { createPlayerBullet } from './bullets';
-import { dyingGroup } from './dying-group';
+import { createPlayer, killPlayer } from './models';
 import { hitObject, objectsGroup } from './objects';
-import { Circle, getObjectData, getPlayerData, type PlayerData } from './types';
+import { Circle, getObjectData, getPlayerData } from './types';
 
-import { setSpriteMaterial } from './three/materials';
-import { createSpriteObject, getExtentTranslatedToPosition, intersects } from './three/resources';
+import { getExtentTranslatedToPosition, intersects, isDying } from './three/resources';
 import { getObjectZ, resetGroup } from './three/tools';
-import { pulseAndShrinkToGone, shrinkToGone } from './utils/animations';
 
 export const playersGroup = new THREE.Group();
 
 export function setupPlayers() {
   resetGroup(playersGroup);
 
-  const player = createSpriteObject('player');
+  const player = createPlayer();
   const pData = getPlayerData(player);
 
   const state = readState();
@@ -54,27 +52,11 @@ export function updatePlayerPosition(playerPosFraction: number) {
   playersGroup.position.x = x;
 }
 
-function killPlayer(player: THREE.Object3D, pData: PlayerData) {
-  pData.dying = true;
-  setSpriteMaterial(player, pData.dyingMaterial);
-  shrinkToGone(player, dim.playerDyingDuration / 2);
-
-  // the player will be swept into the dying group after all updates
-
-  // add fire for extra effect
-  const fire = createSpriteObject('fire');
-  pulseAndShrinkToGone(fire, dim.playerDyingDuration);
-  dyingGroup.add(fire);
-  fire.position.copy(player.position);
-  fire.position.z += 0.01; // in front of the player
-  fire.position.add(playersGroup.position);
-  fire.position.sub(dyingGroup.position);
-}
-
 export function playerShoot(delta: number) {
   for (const player of playersGroup.children) {
+    if (isDying(player)) continue; // next player
+
     const pData = getPlayerData(player);
-    if (pData.dying) continue; // next player
 
     pData.remainingShotTime -= delta;
     if (pData.remainingShotTime <= 0) {
@@ -93,14 +75,14 @@ const _circle2 = new Circle();
 function checkPlayerHit(player: THREE.Object3D) {
   const pData = getPlayerData(player);
 
-  if (pData.dying) return;
-
   const playerCenter = getObjectZ(player);
   const playerNear = playerCenter + pData.extent2d.max.y;
   const playerFar = playerCenter + pData.extent2d.min.y;
 
   // check all objects
-  for (const obj of objectsGroup.children) {
+  for (const obj of [...objectsGroup.children]) {
+    if (isDying(obj)) continue; // next object
+
     const objCenterZ = getObjectZ(obj);
     const oData = getObjectData(obj);
     const objFar = objCenterZ + oData.extent2d.min.y;
@@ -122,7 +104,7 @@ function checkPlayerHit(player: THREE.Object3D) {
       }
 
       if (pData.hitPoints <= 0) {
-        killPlayer(player, pData);
+        killPlayer(player);
         repositionPlayers();
         return; // this player is done
       }
@@ -131,7 +113,9 @@ function checkPlayerHit(player: THREE.Object3D) {
 }
 
 export function checkPlayersHit() {
-  for (const player of playersGroup.children) {
-    checkPlayerHit(player);
+  for (const player of [...playersGroup.children]) {
+    if (!isDying(player)) {
+      checkPlayerHit(player);
+    }
   }
 }

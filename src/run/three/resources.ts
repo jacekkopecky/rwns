@@ -105,3 +105,15 @@ function translateBox2XZ(box: THREE.Box2, pos: THREE.Vector3) {
   box.min.y += pos.z;
   box.max.y += pos.z;
 }
+
+export function isDying(obj: THREE.Object3D): boolean {
+  return obj.userData.dying;
+}
+
+export function markAsDying(obj: THREE.Object3D) {
+  obj.userData.dying = true;
+}
+
+export function getDyingMaterial(obj: THREE.Object3D): keyof typeof mat.sprites {
+  return obj.userData.dyingMaterial;
+}
