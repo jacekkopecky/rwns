@@ -94,8 +94,9 @@ function checkPlayerHit(player: THREE.Object3D) {
 
   if (pData.dying) return;
 
-  const playerNear = getObjectZ(player);
-  const playerFar = playerNear + pData.extent2d.min.y;
+  const playerCenter = getObjectZ(player);
+  const playerNear = playerCenter + pData.extent2d.max.y;
+  const playerFar = playerCenter + pData.extent2d.min.y;
 
   // check all objects
   for (const obj of objectsGroup.children) {
