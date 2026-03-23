@@ -27,7 +27,6 @@ export function setupPlayers() {
   pData.remainingShotTime = pData.shotTime / 2;
 
   pData.range = dim.playerBulletRange;
-  pData.bulletLength = dim.playerBulletLength;
   pData.bulletHitPoints = applyUpgrade(dim.playerBulletHitPoints, state.nextRunUpgrades.damage);
 
   pData.hitPoints = dim.playerHitPoints;

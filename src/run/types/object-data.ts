@@ -13,7 +13,6 @@ export interface PlayerData extends AnyObjectData {
   shotTime: number;
   remainingShotTime: number;
   range: number;
-  bulletLength: number;
   bulletHitPoints: number;
   hitPoints: number;
 }
@@ -21,7 +20,6 @@ export interface PlayerData extends AnyObjectData {
 export interface BulletData extends AnyObjectData {
   type: 'bullet';
   minZ: number;
-  length: number;
   hitPoints: number;
 }
 

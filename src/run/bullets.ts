@@ -22,8 +22,14 @@ export function createPlayerBullet(
   const bullet = createBullet(player);
   const bData = getBulletData(bullet);
   bData.minZ = bulletsGroup.position.z - pData.range;
-  bData.length = pData.bulletLength;
   bData.hitPoints = pData.bulletHitPoints;
+
+  const bulletHalfLength = bData.extent2d.max.y;
+  // make bullets narrow - they can graze an object without hurting it
+  bData.extent2d = new THREE.Box2(
+    new THREE.Vector2(0, -bulletHalfLength),
+    new THREE.Vector2(0, bulletHalfLength),
+  );
 
   // bullets start in front of the player
   bullet.position.z = -bulletsGroup.position.z + player.position.z + pData.extent2d.min.y;
@@ -36,7 +42,7 @@ export function movePlayerBullets(delta: number) {
   const deltaZ = dim.playerBulletSpeed * delta;
 
   for (const bullet of bulletsGroup.children) {
-    checkBulletHit(bullet, deltaZ);
+    checkBulletHit(bullet);
   }
 
   bulletsGroup.position.z -= deltaZ;
@@ -68,11 +74,12 @@ const _circle2 = new Circle();
 /**
  * With this bullet having moved deltaZ in the last step, check if it's hit any object.
  */
-function checkBulletHit(bullet: THREE.Object3D, deltaZ: number) {
+function checkBulletHit(bullet: THREE.Object3D) {
   const bData = getBulletData(bullet);
 
-  const bulletButt = getObjectZ(bullet);
-  const bulletTip = bulletButt - bData.length - deltaZ;
+  const bulletCenterZ = getObjectZ(bullet);
+  const bulletTip = bulletCenterZ + bData.extent2d.min.y;
+  const bulletButt = bulletCenterZ + bData.extent2d.max.y;
 
   // check all objects
   for (const obj of objectsGroup.children) {

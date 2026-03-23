@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import * as dim from '#dimensions';
 
 import * as mat from '../materials';
+import { Circle } from '../../types';
 
 export function createTree(conifer = Math.random() < 0.5): THREE.Object3D {
   return conifer ? createConiferTree() : createBroadLeafTree();
@@ -50,10 +51,7 @@ function createConiferTree() {
     ),
   );
 
-  retval.userData.extent2d = new THREE.Box2(
-    new THREE.Vector2(-radius, -radius),
-    new THREE.Vector2(radius, radius),
-  );
+  retval.userData.extent2d = new Circle(undefined, radius);
   retval.userData.type = 'object';
 
   return retval;
