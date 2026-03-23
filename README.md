@@ -4,7 +4,6 @@ This was inspired by Timeline Up, but without any spending of real money.
 
 ## todo
 
-- [ ] hide or disable exit button when finishing
 - [ ] add 3d models
   - [ ] coniferous tree
   - [ ] broad-leaf tree
@@ -102,6 +101,10 @@ This was inspired by Timeline Up, but without any spending of real money.
       version (no longer updated) - important from v2
 
 ---
+
+## done by 2026-03-23
+
+- [x] hide or disable exit button when finishing
 
 ## done by 2026-03-22
 

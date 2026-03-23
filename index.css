@@ -108,6 +108,11 @@ button {
   padding: 0.25em 0.5em;
   border-radius: 1rem;
   border-width: medium;
+
+  transition:
+    color 0.3s,
+    background-color 0.3s,
+    border-color 0.3s;
 }
 
 #topBar {

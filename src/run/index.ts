@@ -127,8 +127,11 @@ export function startRun() {
 
 function endRun(immediate = false, win = false) {
   if (!playing || ending) return;
+
   ending = true;
+  el.exitBtn.disabled = true;
   if (win) state.increaseLevel();
+
   updateTouchHandlerEnabled();
   updateEndRunScreen();
 
