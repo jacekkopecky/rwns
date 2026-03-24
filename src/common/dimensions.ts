@@ -15,6 +15,7 @@ export const spriteResolution = 64;
 
 export const modelSizes = {
   conifer: [20, 35],
+  broadLeaf: [25, 30],
 } as const;
 
 export const trackLength = 400;
@@ -51,7 +52,7 @@ export const playerBulletDyingDuration = 0.2;
 export const playerHitPoints = 1;
 export const playerDyingDuration = 0.6;
 
-export const cameraPosition = [0, 130, 50] as const;
+export const cameraPosition = [0, 80, 50] as const;
 export const cameraTarget = [0, 0, -100] as const;
 export const cameraFoV = 90;
 

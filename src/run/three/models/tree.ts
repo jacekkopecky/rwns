@@ -11,8 +11,8 @@ export function createTree(conifer = Math.random() < 0.5): THREE.Object3D {
 const greens = [mat.colorMaterials.green3, mat.colorMaterials.green2];
 
 const coniferSegments = 5;
-const trunkFraction = 0.2;
-const trunkRadiusFraction = 0.3;
+const coniferTrunkFraction = 0.2;
+const coniferTrunkRadiusFraction = 0.3;
 
 export function createConiferTree(random = true) {
   const retval = new THREE.Group();
@@ -24,7 +24,7 @@ export function createConiferTree(random = true) {
   // vary the height between 0.95 and 1.05
   const heightVariation = random ? Math.random() / 10 + 0.95 : 1;
   const fullHeight = y * heightVariation;
-  const height = fullHeight * (1 - trunkFraction);
+  const height = fullHeight * (1 - coniferTrunkFraction);
 
   for (let i = 0; i < coniferSegments; i += 1) {
     const material = greens[i % greens.length]!;
@@ -45,7 +45,7 @@ export function createConiferTree(random = true) {
   // trunk
   retval.add(
     new THREE.Mesh(
-      new THREE.ConeGeometry(radius * trunkRadiusFraction, fullHeight, 4).translate(
+      new THREE.ConeGeometry(radius * coniferTrunkRadiusFraction, fullHeight, 4).translate(
         0,
         fullHeight / 2,
         0,
@@ -60,6 +60,45 @@ export function createConiferTree(random = true) {
   return retval;
 }
 
+const broadLeafDetails = 1;
+const broadLeafTrunkFraction = 0.3;
+const broadLeafTrunkRadiusFraction = 0.4;
+
 export function createBroadLeafTree(random = true) {
-  return createConiferTree(random);
+  const [x, y] = dim.modelSizes.broadLeaf;
+
+  const radius = x / 2;
+
+  // vary the height
+  const heightVariation = random ? Math.random() / 5 + 0.9 : 1;
+  const fullHeight = y * heightVariation;
+  const height = fullHeight * (1 - broadLeafTrunkFraction);
+
+  const retval = new THREE.Group();
+  retval.add(
+    new THREE.Mesh(
+      new THREE.IcosahedronGeometry(radius, broadLeafDetails)
+        .scale(1, height / radius / 2, 1)
+        .translate(0, fullHeight - height / 2, 0)
+        .translate(0, 0, 0),
+      mat.colorMaterials.green2,
+    ),
+  );
+
+  // trunk
+  retval.add(
+    new THREE.Mesh(
+      new THREE.ConeGeometry(radius * broadLeafTrunkRadiusFraction, fullHeight, 4).translate(
+        0,
+        fullHeight / 2,
+        0,
+      ),
+      mat.colorMaterials.brown3,
+    ),
+  );
+
+  retval.userData.extent2d = new Circle(undefined, radius);
+  retval.userData.type = 'object';
+
+  return retval;
 }

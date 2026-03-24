@@ -6,8 +6,6 @@ export let renderer: THREE.WebGLRenderer;
 export let camera: THREE.PerspectiveCamera;
 export const scene = new THREE.Scene();
 
-(window as any).gameScene = scene;
-
 export const timer = new THREE.Timer();
 timer.connect(document);
 
@@ -29,6 +27,8 @@ export function init(main: HTMLElement) {
   camera.lookAt(...dim.cameraTarget);
 
   (window as any).gameCamera = camera;
+  (window as any).gameScene = scene;
+  (window as any).renderer = renderer;
 
   onWindowResize();
 
@@ -49,12 +49,15 @@ export function init(main: HTMLElement) {
   };
 }
 
-export function render() {
+export function render(showStats?: boolean) {
   if (!scene) {
     console.warn('render called before setting the scene');
     return;
   }
   renderer.render(scene, camera);
+  if (showStats) {
+    console.log('triangles', renderer.info.render.triangles);
+  }
 }
 
 /**

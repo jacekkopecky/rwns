@@ -114,7 +114,7 @@ export function prepareRun() {
   playing = false;
   updateTouchHandlerEnabled();
 
-  render();
+  render(true);
 }
 
 export function startRun() {
