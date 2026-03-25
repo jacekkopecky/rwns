@@ -15,7 +15,8 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 container?.appendChild(renderer.domElement);
 
 const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 1000);
-camera.position.set(20, 10, 60);
+// camera.position.set(20, 40, 10); // for earth
+camera.position.set(20, 0, 100);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.addEventListener('change', render);
@@ -71,7 +72,9 @@ scene.add(sunlight);
 //   );
 // }
 
-scene.add(trees.createBroadLeafTree(false).translateY(-15));
+scene.add(trees.createConiferTree(false));
+scene.children.at(-1)!.translateY(-20);
+scene.children.at(-1)!.rotateY(Math.PI);
 
 //
 //
@@ -84,6 +87,8 @@ scene.add(trees.createBroadLeafTree(false).translateY(-15));
 //
 
 requestAnimationFrame(animate);
+render();
+console.log('triangles', renderer.info.render.triangles);
 
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -243,4 +248,17 @@ export function makeRotTriangleGeometry(n = 5, r = 1, h = 1): THREE.BufferGeomet
   geometry.setFromPoints(faces);
   geometry.scale(r, h, r);
   return geometry;
+}
+
+export function createBroadLeafTree() {
+  // const material = new THREE.MeshLambertMaterial({ color: 0xccac90, flatShading: true });
+  const material = new THREE.MeshLambertMaterial({ color: 0xffffff, flatShading: false });
+  const tl = new THREE.TextureLoader();
+  material.map = tl.load('/assets/earthmap1k.jpg');
+  const retval =
+    Math.random() > 0.5
+      ? new THREE.Mesh(new THREE.SphereGeometry(10, 20, 20), material).rotateY(Math.PI)
+      : new THREE.Mesh(new THREE.IcosahedronGeometry(10, 3), material);
+  // new THREE.Mesh(new THREE.OctahedronGeometry(10, 5), material);
+  return retval;
 }

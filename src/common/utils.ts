@@ -56,8 +56,20 @@ export function* range(n: number) {
 
 const defaultSeed = '0';
 
-export let random = seedrandom(defaultSeed);
+export // intentionally on its line for ease of commenting out
+let random = seedrandom(defaultSeed);
 
 export function resetRandom(seed = defaultSeed) {
   random = seedrandom(seed);
+  // randomCount += 1;
 }
+
+// let randomCount = 0;
+// function rnd() {
+//   randomCount += 1;
+//   return random();
+// }
+// export function getRandomCount() {
+//   return randomCount;
+// }
+// export { rnd as random };
