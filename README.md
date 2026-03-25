@@ -40,6 +40,11 @@ This was inspired by Timeline Up, but without any spending of real money.
     - lower probability of a run type if I lose in it?
   - daily tickets for special wave types?
   - [ ] state should have a current seed for track generation?
+- [ ] random:
+  - [ ] for randomness during a run, do we want predictable but independent prngs?
+    - awards spawning placement when flying from track to wallet
+    - maybe rotation of a dead tree?
+    - impl: each of those could create a seed by appending a suffix to the original seed for the run
 - [ ] should camera reposition itself on main screen and in run? probably yes, extra clear when just
       starting, the player is too high on the screen without buttons, but also too high during the
       game

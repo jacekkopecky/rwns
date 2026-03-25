@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 import { type Currency, type CurrencyType, Wallet } from '#types';
-import { fillOrHide, formatNumber } from '#utils';
+import { fillOrHide, formatNumber, random } from '#utils';
 
 import * as state from '../state';
 
@@ -60,7 +60,7 @@ export async function giveAward(award: Currency, fromObj: THREE.Object3D) {
     const obj = createSpriteObject(type);
     obj.position.copy(position);
     if (!first) {
-      obj.position.x += (Math.random() - 0.5) * obj.userData.extent2d.max.x;
+      obj.position.x += (random() - 0.5) * obj.userData.extent2d.max.x;
     }
     flyToTargetAndShrink(obj, targetCoords, dim.runAwardsFlyTime);
     awardsGroup.add(obj);

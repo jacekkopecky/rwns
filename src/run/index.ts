@@ -2,6 +2,7 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 import { logFps } from '#log';
+import { resetRandom } from '#utils';
 
 import * as state from '../state';
 
@@ -103,6 +104,8 @@ function setupScene() {
  * make objects, reset in-run scores, show
  */
 export function prepareRun() {
+  resetRandom();
+
   disposeAnimations();
 
   setupAwards();

@@ -1,10 +1,10 @@
 import * as THREE from 'three';
 
 import * as dim from '#dimensions';
-
-import { getObjectData } from './types';
+import { random } from '#utils';
 
 import { giveAward } from './awards';
+import { getObjectData } from './types';
 
 import { createObject, createTree, killObject } from './three/models';
 import { isDying, scaleExtent } from './three/resources';
@@ -17,16 +17,16 @@ export function setupObjects() {
 
   const objects: THREE.Object3D[] = [];
   for (let i = 0; i < dim.N; i++) {
-    const x = Math.random() * 80 - 40;
+    const x = random() * 80 - 40;
     const y = -(dim.trackLength / dim.N) * i + dim.startDistance;
 
-    const r = Math.random();
+    const r = random();
     const type =
       r < dim.gemProbability
         ? 'gems'
         : r < dim.gemProbability + dim.coinProbability
           ? 'coins'
-          : Math.random() < 0.5
+          : random() < 0.5
             ? 'tree1'
             : 'tree2';
 
@@ -43,7 +43,7 @@ export function setupObjects() {
         break;
       case 'coins':
         oData.collectible = true;
-        oData.award = { type: 'coin', amount: Math.floor(Math.random() * dim.coinAwardMax + 1) };
+        oData.award = { type: 'coin', amount: Math.floor(random() * dim.coinAwardMax + 1) };
         // make the reach of coins bigger to be easier to collect
         scaleExtent(oData.extent2d, 2);
         break;

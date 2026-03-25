@@ -1,3 +1,5 @@
+import seedrandom from 'seedrandom';
+
 export function formatNumber(n: number): string {
   switch (true) {
     case n >= 100000: {
@@ -36,4 +38,26 @@ export function fillOrHide(
 ) {
   el.querySelector('.value')!.textContent = typeof value === 'string' ? value : formatFn(value);
   el.classList.toggle('hidden', !value);
+}
+
+export function randomItem<T>(arr: readonly T[]): T {
+  if (arr.length === 0) {
+    throw new Error('cannot pick a random item from an empty array');
+  }
+
+  return arr[Math.floor(random() * arr.length)]!;
+}
+
+export function* range(n: number) {
+  for (let i = 0; i < n; i += 1) {
+    yield i;
+  }
+}
+
+const defaultSeed = '0';
+
+export let random = seedrandom(defaultSeed);
+
+export function resetRandom(seed = defaultSeed) {
+  random = seedrandom(seed);
 }
