@@ -27,7 +27,7 @@ export function createBonyTubeGeometry(opts: BonyTubeSizeOptions) {
     size.radius2,
     size.length,
     size.sides,
-    size.segmentsPerBone * size.boneCount,
+    size.segmentsPerBone * (size.boneCount - 1),
     size.openEnded,
   )
     .translate(0, size.length / 2, 0)

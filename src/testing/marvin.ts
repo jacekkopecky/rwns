@@ -10,9 +10,9 @@ export interface MarvinSizeOptions {
   legSegmentCount?: number;
   sides?: number;
   strideDuration?: number;
-  armLength?: number;
   armRadius?: number;
   headRadius?: number;
+  torsoOffset?: number;
 }
 
 type Size = Required<MarvinSizeOptions>;
@@ -25,15 +25,17 @@ export class Marvin {
   private walking = false;
 
   constructor(sizeOptions: MarvinSizeOptions, material: THREE.Material) {
+    const sides = sizeOptions.sides ?? 4;
     const size: Size = {
       ...sizeOptions,
       legSegmentCount: sizeOptions.legSegmentCount ?? 5,
-      sides: sizeOptions.sides ?? 4,
+      sides,
       maxStride: sizeOptions.maxStride ?? sizeOptions.legLength * 1,
       strideDuration: sizeOptions.strideDuration ?? 1.2,
-      armLength: sizeOptions.armLength ?? sizeOptions.legLength,
       armRadius: sizeOptions.armRadius ?? sizeOptions.legRadius / 2,
       headRadius: sizeOptions.headRadius ?? sizeOptions.legLength / 4,
+      torsoOffset:
+        sizeOptions.torsoOffset ?? sizeOptions.legRadius * (1 / Math.cos(Math.PI / sides) - 1),
     };
 
     const fullObject = new THREE.Group();
@@ -45,25 +47,28 @@ export class Marvin {
     ];
     const skeleton = new THREE.Skeleton(allBones);
 
-    function addLeg(prefix: 'left' | 'right', xMultiplier: 1 | -1) {
+    function addLeg(prefix: 'left' | 'right') {
+      const xMultiplier = prefix === 'right' ? 1 : -1;
       const legMesh = createLegMesh(
         createLegGeometry(size, indexByName(allBones, prefix + 'Hip')),
         getByName(allBones, prefix + 'Hip'),
         material,
         xMultiplier * (size.hipWidth / 2 - size.legRadius),
       );
+      legMesh.position.y = size.legLength;
+      legMesh.rotation.z = Math.PI;
       fullObject.add(legMesh);
       legMesh.bind(skeleton);
     }
 
-    addLeg('left', -1);
-    addLeg('right', 1);
+    addLeg('left');
+    addLeg('right');
 
     // the clip is the same for both legs
-    const legClip = createWalkingClip(
+    const legClip = createLegWalkingClip(
       size.strideDuration,
       size.maxStride,
-      getByName(allBones, 'leftFoot'),
+      getByName(allBones, 'rightFoot'),
     );
 
     this.mixer = new THREE.AnimationMixer(fullObject);
@@ -73,8 +78,11 @@ export class Marvin {
     ];
 
     const torso = new THREE.Mesh(
-      createTorsoGeometry(size.hipWidth, size.legRadius * 2, size.legLength * 0.8) //
-        .translate(0, size.legLength, 0),
+      createTorsoGeometry(
+        size.hipWidth + 2 * size.torsoOffset,
+        (size.legRadius + size.torsoOffset) * 2,
+        size.legLength * 0.8,
+      ).translate(0, size.legLength, 0),
       material,
     );
     fullObject.add(torso);
@@ -82,7 +90,7 @@ export class Marvin {
     const bobHeight =
       (size.legLength - Math.sqrt(size.legLength ** 2 - (size.maxStride / 2) ** 2)) / 2;
     const bobAngle = (size.maxStride / size.legLength) * 0.15;
-    const torsoBobClip = createBobClip(size.strideDuration, bobHeight, -bobAngle);
+    const torsoBobClip = createBobClip(size.strideDuration, bobHeight, bobAngle);
     this.actions.push(this.mixer.clipAction(torsoBobClip, torso));
 
     const head = new THREE.Mesh(
@@ -132,53 +140,51 @@ export class Marvin {
 }
 
 function createLegGeometry(size: Size, boneOffset: number) {
+  const sides = 4;
   return createBonyTubeGeometry({
     boneCount: 2,
     boneOffset,
     length: size.legLength,
-    radius: size.legRadius,
+    radius: size.legRadius / Math.cos(Math.PI / sides),
     segmentsPerBone: size.legSegmentCount,
-    sides: 4,
-  })
-    .rotateX(Math.PI)
-    .translate(0, size.legLength, 0);
+    sides,
+  });
 }
 
 function createLegBones(size: Size, prefix: string) {
   const hip = new THREE.Bone();
   hip.name = prefix + 'Hip';
-  hip.position.y = size.legLength;
 
   const foot = new THREE.Bone();
   foot.name = prefix + 'Foot';
-  foot.position.z = size.legRadius;
-  foot.position.y = -size.legLength;
+  foot.position.z = -size.legRadius;
+  foot.position.y = size.legLength;
   hip.add(foot);
 
   // hip must be the first returned bone, other things depend on it
   return [hip, foot] as [THREE.Bone, THREE.Bone];
 }
 
-function createArmBones(size: Size, prefix: 'left' | 'right') {
-  const shoulder = new THREE.Bone();
-  shoulder.name = prefix + 'Hip';
-  shoulder.position.y = size.legLength;
+// function createArmBones(size: Size, prefix: 'left' | 'right') {
+//   const shoulder = new THREE.Bone();
+//   shoulder.name = prefix + 'Shoulder';
 
-  const elbow = new THREE.Bone();
-  elbow.name = prefix + 'Foot';
-  elbow.position.z = size.legRadius;
-  elbow.position.y = -size.legLength;
-  shoulder.add(elbow);
+//   const elbow = new THREE.Bone();
+//   elbow.name = prefix + 'Elbow';
+//   // elbow.position.z = size.armRadius;
+//   elbow.position.y = size.armLength / 2;
+//   shoulder.add(elbow);
 
-  const hand = new THREE.Bone();
-  hand.name = prefix + 'Foot';
-  hand.position.z = size.legRadius;
-  hand.position.y = -size.legLength;
-  elbow.add(hand);
+//   const hand = new THREE.Bone();
+//   hand.name = prefix + 'Hand';
+//   hand.position.x = (prefix === 'right' ? 1 : -1) * size.armRadius;
+//   // hand.position.z = -size.armRadius;
+//   hand.position.y = size.armLength / 2;
+//   elbow.add(hand);
 
-  // hip must be the first returned bone, other things depend on it
-  return [shoulder, elbow] as [THREE.Bone, THREE.Bone];
-}
+//   // shoulder must be the first returned bone, other things depend on it
+//   return [shoulder, elbow, hand] as [THREE.Bone, THREE.Bone, THREE.Bone];
+// }
 
 function createLegMesh(
   geometry: THREE.BufferGeometry,
@@ -194,11 +200,10 @@ function createLegMesh(
   return mesh;
 }
 
-function createWalkingClip(duration: number, strideLength: number, foot: THREE.Bone) {
+function createLegWalkingClip(duration: number, strideLength: number, foot: THREE.Bone) {
   const durations = betweener(0, duration);
-  const heights = betweener(foot.position.y, foot.position.y * 0.85);
-  // lengths are reverse because the leg bones are upside-down
-  const lengths = betweener(foot.position.z - strideLength / 2, foot.position.z + strideLength / 2);
+  const heights = betweener(foot.parent!.position.y, foot.position.y);
+  const lengths = betweener(foot.position.z + strideLength / 2, foot.position.z - strideLength / 2);
 
   return new THREE.AnimationClip('walk', duration, [
     new THREE.KeyframeTrack(
@@ -216,7 +221,7 @@ function createWalkingClip(duration: number, strideLength: number, foot: THREE.B
     new THREE.KeyframeTrack(
       '.position[y]',
       durations(0, 0.25, 0.4, 0.75, 1),
-      heights(0, 0, 1, 0, 0),
+      heights(1, 1, 0.85, 1, 1),
       THREE.InterpolateLinear,
     ),
   ]);

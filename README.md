@@ -9,7 +9,8 @@ This was inspired by Timeline Up, but without any spending of real money.
   - [x] broad-leaf tree
   - [x] dying conifer
   - [x] dying broad-leaf
-  - [ ] player
+  - [.] player
+    - [x] fix left-right mismatch with legs
   - [ ] money?
   - [ ] diamond?
 - [ ] todo add 'mousemove' like touchmove in touch handler?

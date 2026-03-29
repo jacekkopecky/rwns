@@ -7,9 +7,11 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const scene = new THREE.Scene();
 
+(window as any).THREE = THREE;
+
 const playerSize = {
   legLength: 40,
-  legRadius: 6,
+  legRadius: 4.24,
   hipWidth: 25,
 };
 const playerN = 1;
@@ -19,7 +21,7 @@ function initScene() {
   scene.background = new THREE.Color(0xaaccee);
 
   const centerY = 60;
-  camera.position.set(0, centerY + 20, -60 - 40 * playerN);
+  camera.position.set(0, centerY + 20, 60 + 40 * playerN);
 
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -35,7 +37,7 @@ function initScene() {
   scene.add(skylight);
 
   const sunlight = new THREE.DirectionalLight(0xffffff, 3);
-  sunlight.position.set(-10, 10, 5);
+  sunlight.position.set(10, 10, -5);
   scene.add(sunlight);
 
   window.addEventListener(
