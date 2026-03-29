@@ -8,8 +8,8 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 const scene = new THREE.Scene();
 
 const playerSize = {
-  length: 40,
-  radius: 6,
+  legLength: 40,
+  legRadius: 6,
   hipWidth: 25,
 };
 const playerN = 1;

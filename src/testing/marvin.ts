@@ -1,12 +1,13 @@
 import * as THREE from 'three';
 import { betweener } from '../run/three/animations';
+import { createBonyTubeGeometry } from './bony-tube';
 
 export interface MarvinSizeOptions {
-  length: number;
-  radius: number;
+  legLength: number;
+  legRadius: number;
   hipWidth: number;
   maxStride?: number;
-  segmentCount?: number;
+  legSegmentCount?: number;
   sides?: number;
   strideDuration?: number;
 }
@@ -23,9 +24,9 @@ export class Marvin {
   constructor(sizeOptions: MarvinSizeOptions, material: THREE.Material) {
     const size: Size = {
       ...sizeOptions,
-      segmentCount: sizeOptions.segmentCount ?? 5,
+      legSegmentCount: sizeOptions.legSegmentCount ?? 5,
       sides: sizeOptions.sides ?? 4,
-      maxStride: sizeOptions.maxStride ?? sizeOptions.length * 1,
+      maxStride: sizeOptions.maxStride ?? sizeOptions.legLength * 1,
       strideDuration: sizeOptions.strideDuration ?? 1.2,
     };
 
@@ -43,7 +44,7 @@ export class Marvin {
         createLegGeometry(size, indexByName(allBones, prefix + 'Hip')),
         getByName(allBones, prefix + 'Hip'),
         material,
-        xMultiplier * (size.hipWidth / 2 - size.radius),
+        xMultiplier * (size.hipWidth / 2 - size.legRadius),
       );
       fullObject.add(legMesh);
       legMesh.bind(skeleton);
@@ -66,20 +67,22 @@ export class Marvin {
     ];
 
     const torso = new THREE.Mesh(
-      createTorsoGeometry(size.hipWidth, size.radius * 2, size.length * 0.8) //
-        .translate(0, size.length, 0),
+      createTorsoGeometry(size.hipWidth, size.legRadius * 2, size.legLength * 0.8) //
+        .translate(0, size.legLength, 0),
       material,
     );
     fullObject.add(torso);
 
-    const bobHeight = (size.length - Math.sqrt(size.length ** 2 - (size.maxStride / 2) ** 2)) / 2;
-    const bobAngle = (size.maxStride / size.length) * 0.15;
+    const bobHeight =
+      (size.legLength - Math.sqrt(size.legLength ** 2 - (size.maxStride / 2) ** 2)) / 2;
+    const bobAngle = (size.maxStride / size.legLength) * 0.15;
     const torsoBobClip = createBobClip(size.strideDuration, bobHeight, -bobAngle);
     this.actions.push(this.mixer.clipAction(torsoBobClip, torso));
 
     const headRadius = size.hipWidth * 0.4;
     const head = new THREE.Mesh(
-      new THREE.OctahedronGeometry(headRadius, 1).translate(0, size.length * 1.85 + headRadius, 0),
+      new THREE.OctahedronGeometry(headRadius, 1) //
+        .translate(0, size.legLength * 1.85 + headRadius, 0),
       material,
     );
     fullObject.add(head);
@@ -123,44 +126,28 @@ export class Marvin {
   }
 }
 
-const _vector = new THREE.Vector3();
-
 function createLegGeometry(size: Size, boneOffset: number) {
-  const r = size.radius;
-  const geometry = new THREE.CylinderGeometry(r, r, size.length, size.sides, size.segmentCount)
-    .translate(0, size.length / 2, 0)
-    .rotateY(Math.PI / size.sides);
-
-  const position = geometry.attributes.position!;
-
-  const skinIndices = [];
-  const skinWeights = [];
-
-  for (let i = 0; i < position.count; i++) {
-    _vector.fromBufferAttribute(position, i);
-    const higherBoneSkinWeight = _vector.y / size.length;
-
-    // first bone is hip, second foot (there is no knee)
-    skinIndices.push(boneOffset, boneOffset + 1, 0, 0);
-    // hip is higher
-    skinWeights.push(higherBoneSkinWeight, 1 - higherBoneSkinWeight, 0, 0);
-  }
-
-  geometry.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(skinIndices, 4));
-  geometry.setAttribute('skinWeight', new THREE.Float32BufferAttribute(skinWeights, 4));
-
-  return geometry;
+  return createBonyTubeGeometry({
+    boneCount: 2,
+    boneOffset,
+    length: size.legLength,
+    radius: size.legRadius,
+    segmentsPerBone: size.legSegmentCount,
+    sides: 4,
+  })
+    .rotateX(Math.PI)
+    .translate(0, size.legLength, 0);
 }
 
 function createLegBones(size: Size, prefix: string) {
   const hip = new THREE.Bone();
   hip.name = prefix + 'Hip';
-  hip.position.y = size.length;
+  hip.position.y = size.legLength;
 
   const foot = new THREE.Bone();
   foot.name = prefix + 'Foot';
-  foot.position.z = size.radius;
-  foot.position.y = -size.length;
+  foot.position.z = size.legRadius;
+  foot.position.y = -size.legLength;
   hip.add(foot);
 
   // hip must be the first returned bone, other things depend on it
