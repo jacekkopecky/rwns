@@ -2,23 +2,32 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { timer } from '../run/three/main';
 import { Legs } from './legs';
+import { range } from '#utils';
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const scene = new THREE.Scene();
 
+const playerSize = {
+  length: 40,
+  radius: 6,
+  hipWidth: 25,
+};
+const playerN = 1;
+const playerDistance = 30;
+
 function initScene() {
   scene.background = new THREE.Color(0xaaccee);
 
   const centerY = 60;
-  camera.position.set(0, centerY + 20, -200);
+  camera.position.set(0, centerY + 20, -60 - 40 * playerN);
 
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
   const controls = new OrbitControls(camera, renderer.domElement);
-  controls.target = new THREE.Vector3(40, centerY, 0);
+  controls.target = new THREE.Vector3(0, centerY, 0);
   controls.rotateLeft((Math.PI / 180) * 225);
   controls.update();
 
@@ -44,7 +53,7 @@ function initScene() {
   initBones();
 }
 
-let players: Legs[];
+let players: Legs[] = [];
 
 function initBones() {
   const material = new THREE.MeshLambertMaterial({
@@ -54,17 +63,11 @@ function initBones() {
     flatShading: true,
   });
 
-  players = [
-    new Legs({ length: 40, radius: 6 }, 25, material),
-    new Legs({ length: 40, radius: 6 }, 25, material),
-    new Legs({ length: 40, radius: 6 }, 25, material),
-    new Legs({ length: 40, radius: 6 }, 25, material),
-  ];
-
-  for (let i = 0; i < players.length; i += 1) {
-    const legs = players[i]!;
+  for (let i = 0; i < playerN; i += 1) {
+    const legs = new Legs(playerSize, playerSize.hipWidth, material);
+    players.push(legs);
     scene.add(legs.object);
-    legs.object.position.x += i * 30;
+    legs.object.position.x += i * playerDistance - ((playerN - 1) / 2) * playerDistance;
   }
 }
 
