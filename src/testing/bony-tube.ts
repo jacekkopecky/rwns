@@ -3,10 +3,11 @@ import * as THREE from 'three';
 export interface BonyTubeSizeOptions {
   length: number;
   radius: number;
+  radius2?: number;
   segmentsPerBone: number;
   sides: number;
   boneCount: number;
-  boneOffset: number;
+  boneOffset?: number;
   openEnded?: boolean;
 }
 
@@ -14,18 +15,25 @@ export interface BonyTubeSizeOptions {
 
 const _vector = new THREE.Vector3();
 export function createBonyTubeGeometry(opts: BonyTubeSizeOptions) {
-  const geometry = new THREE.CylinderGeometry(
-    opts.radius,
-    opts.radius,
-    opts.length,
-    opts.sides,
-    opts.segmentsPerBone * opts.boneCount,
-    opts.openEnded,
-  )
-    .translate(0, opts.length / 2, 0)
-    .rotateY(Math.PI / opts.sides);
+  const size: Required<BonyTubeSizeOptions> = {
+    openEnded: false,
+    boneOffset: 0,
+    ...opts,
+    radius2: opts.radius2 ?? opts.radius,
+  };
 
-  const segmentLength = opts.length / (opts.boneCount - 1);
+  const geometry = new THREE.CylinderGeometry(
+    size.radius,
+    size.radius2,
+    size.length,
+    size.sides,
+    size.segmentsPerBone * size.boneCount,
+    size.openEnded,
+  )
+    .translate(0, size.length / 2, 0)
+    .rotateY(Math.PI / size.sides);
+
+  const segmentLength = size.length / (size.boneCount - 1);
 
   const skinIndices = [];
   const skinWeights = [];
@@ -37,7 +45,7 @@ export function createBonyTubeGeometry(opts: BonyTubeSizeOptions) {
     const boneIndex = Math.floor(y / segmentLength);
     const topWeight = (y - boneIndex * segmentLength) / segmentLength;
 
-    skinIndices.push(opts.boneOffset + boneIndex, opts.boneOffset + boneIndex + 1, 0, 0);
+    skinIndices.push(size.boneOffset + boneIndex, size.boneOffset + boneIndex + 1, 0, 0);
     skinWeights.push(1 - topWeight, topWeight, 0, 0);
   }
 
