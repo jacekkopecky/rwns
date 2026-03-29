@@ -28,25 +28,40 @@ export class Legs {
       strideDuration: sizeOptions.strideDuration ?? 1.2,
     };
 
-    this.object = new THREE.Group();
+    const fullObject = new THREE.Group();
+    this.object = fullObject;
 
-    const leftLegBones = createBones(size);
-    this.object.add(
-      createMesh(createLegGeometry(size), leftLegBones, material, -hipWidth / 2 + size.radius),
-    );
+    const allBones: THREE.Bone[] = [
+      ...createLegBones(size, 'left'),
+      ...createLegBones(size, 'right'),
+    ];
+    const skeleton = new THREE.Skeleton(allBones);
 
-    const rightLegBones = createBones(size);
-    this.object.add(
-      createMesh(createLegGeometry(size), rightLegBones, material, hipWidth / 2 - size.radius),
-    );
+    function addLeg(prefix: 'left' | 'right', xMultiplier: 1 | -1) {
+      const legMesh = createLegMesh(
+        createLegGeometry(size, indexByName(allBones, prefix + 'Hip')),
+        getByName(allBones, prefix + 'Hip'),
+        material,
+        xMultiplier * (hipWidth / 2 - size.radius),
+      );
+      fullObject.add(legMesh);
+      legMesh.bind(skeleton);
+    }
+
+    addLeg('left', -1);
+    addLeg('right', 1);
 
     // the clip is the same for both legs
-    const legClip = createWalkingClip(size.strideDuration, size.maxStride, rightLegBones[1]!);
+    const legClip = createWalkingClip(
+      size.strideDuration,
+      size.maxStride,
+      getByName(allBones, 'leftFoot'),
+    );
 
-    this.mixer = new THREE.AnimationMixer(this.object);
+    this.mixer = new THREE.AnimationMixer(fullObject);
     this.actions = [
-      this.mixer.clipAction(legClip, leftLegBones[1]),
-      this.mixer.clipAction(legClip, rightLegBones[1]),
+      this.mixer.clipAction(legClip, getByName(allBones, 'leftFoot')),
+      this.mixer.clipAction(legClip, getByName(allBones, 'rightFoot')),
     ];
 
     const torso = new THREE.Mesh(
@@ -54,7 +69,7 @@ export class Legs {
         .translate(0, size.length, 0),
       material,
     );
-    this.object.add(torso);
+    fullObject.add(torso);
 
     const bobHeight = (size.length - Math.sqrt(size.length ** 2 - (size.maxStride / 2) ** 2)) / 2;
     const bobAngle = (size.maxStride / size.length) * 0.15;
@@ -66,7 +81,7 @@ export class Legs {
       new THREE.OctahedronGeometry(headRadius, 1).translate(0, size.length * 1.85 + headRadius, 0),
       material,
     );
-    this.object.add(head);
+    fullObject.add(head);
     const headBobClip = createBobClip(size.strideDuration, bobHeight, 0);
     this.actions.push(this.mixer.clipAction(headBobClip, head));
   }
@@ -75,12 +90,16 @@ export class Legs {
   startWalking() {
     if (!this.walking) {
       this.walking = true;
+      const dur = this.actions[0]!.getClip().duration;
+      const randomGait = dur * Math.random();
+
       for (const action of this.actions) {
         action.reset();
-        if (action === this.actions[0]) {
-          // start one leg halfway through a stride
+        if (action.getRoot().name.startsWith('left')) {
+          // start left leg halfway through a stride
           action.time = action.getClip().duration / 2;
         }
+        action.time += randomGait;
         action.fadeIn(action.getClip().duration / 2);
         action.loop = THREE.LoopRepeat;
         action.enabled = true;
@@ -105,7 +124,7 @@ export class Legs {
 
 const _vector = new THREE.Vector3();
 
-function createLegGeometry(size: LegSize) {
+function createLegGeometry(size: LegSize, boneOffset: number) {
   const r = size.radius;
   const geometry = new THREE.CylinderGeometry(r, r, size.length, size.sides, size.segmentCount)
     .translate(0, size.length / 2, 0)
@@ -121,7 +140,7 @@ function createLegGeometry(size: LegSize) {
     const higherBoneSkinWeight = _vector.y / size.length;
 
     // first bone is hip, second foot (there is no knee)
-    skinIndices.push(0, 1, 0, 0);
+    skinIndices.push(boneOffset, boneOffset + 1, 0, 0);
     // hip is higher
     skinWeights.push(higherBoneSkinWeight, 1 - higherBoneSkinWeight, 0, 0);
   }
@@ -132,30 +151,30 @@ function createLegGeometry(size: LegSize) {
   return geometry;
 }
 
-function createBones(size: LegSize) {
+function createLegBones(size: LegSize, prefix: string) {
   const hip = new THREE.Bone();
+  hip.name = prefix + 'Hip';
   hip.position.y = size.length;
 
   const foot = new THREE.Bone();
+  foot.name = prefix + 'Foot';
   foot.position.z = size.radius;
   foot.position.y = -size.length;
   hip.add(foot);
 
+  // hip must be the first returned bone, other things depend on it
   return [hip, foot] as [THREE.Bone, THREE.Bone];
 }
 
-function createMesh(
+function createLegMesh(
   geometry: THREE.BufferGeometry,
-  bones: THREE.Bone[],
+  hipBone: THREE.Bone,
   material: THREE.Material,
   posX: number,
 ) {
   const mesh = new THREE.SkinnedMesh(geometry, material);
-  const skeleton = new THREE.Skeleton(bones);
 
-  mesh.add(bones[0]!);
-  mesh.bind(skeleton);
-
+  mesh.add(hipBone);
   mesh.position.x = posX;
 
   return mesh;
@@ -227,4 +246,20 @@ function createTorsoGeometry(width: number, depth: number, length: number) {
   });
   geometry.rotateX(-Math.PI / 2);
   return geometry;
+}
+
+function getByName<T extends THREE.Object3D>(objects: T[], name: string) {
+  const retval = objects.find((obj) => obj.name === name);
+  if (!retval) {
+    throw new Error(`cannot find object with name "${name}"`);
+  }
+  return retval;
+}
+
+function indexByName<T extends THREE.Object3D>(objects: T[], name: string) {
+  const retval = objects.findIndex((obj) => obj.name === name);
+  if (retval < 0) {
+    throw new Error(`cannot find object with name "${name}"`);
+  }
+  return retval;
 }
