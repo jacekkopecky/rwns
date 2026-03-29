@@ -80,7 +80,7 @@ function render(ms?: number) {
   renderer.render(scene, camera);
 }
 
-let moving = true;
+let moving = false;
 
 document.addEventListener('keydown', (e) => {
   if (e.key === ' ') {

@@ -10,6 +10,9 @@ export interface MarvinSizeOptions {
   legSegmentCount?: number;
   sides?: number;
   strideDuration?: number;
+  armLength?: number;
+  armRadius?: number;
+  headRadius?: number;
 }
 
 type Size = Required<MarvinSizeOptions>;
@@ -28,6 +31,9 @@ export class Marvin {
       sides: sizeOptions.sides ?? 4,
       maxStride: sizeOptions.maxStride ?? sizeOptions.legLength * 1,
       strideDuration: sizeOptions.strideDuration ?? 1.2,
+      armLength: sizeOptions.armLength ?? sizeOptions.legLength,
+      armRadius: sizeOptions.armRadius ?? sizeOptions.legRadius / 2,
+      headRadius: sizeOptions.headRadius ?? sizeOptions.legLength / 4,
     };
 
     const fullObject = new THREE.Group();
@@ -79,10 +85,9 @@ export class Marvin {
     const torsoBobClip = createBobClip(size.strideDuration, bobHeight, -bobAngle);
     this.actions.push(this.mixer.clipAction(torsoBobClip, torso));
 
-    const headRadius = size.hipWidth * 0.4;
     const head = new THREE.Mesh(
-      new THREE.OctahedronGeometry(headRadius, 1) //
-        .translate(0, size.legLength * 1.85 + headRadius, 0),
+      new THREE.OctahedronGeometry(size.headRadius, 1) //
+        .translate(0, size.legLength * 1.85 + size.headRadius, 0),
       material,
     );
     fullObject.add(head);
@@ -154,6 +159,27 @@ function createLegBones(size: Size, prefix: string) {
   return [hip, foot] as [THREE.Bone, THREE.Bone];
 }
 
+function createArmBones(size: Size, prefix: 'left' | 'right') {
+  const shoulder = new THREE.Bone();
+  shoulder.name = prefix + 'Hip';
+  shoulder.position.y = size.legLength;
+
+  const elbow = new THREE.Bone();
+  elbow.name = prefix + 'Foot';
+  elbow.position.z = size.legRadius;
+  elbow.position.y = -size.legLength;
+  shoulder.add(elbow);
+
+  const hand = new THREE.Bone();
+  hand.name = prefix + 'Foot';
+  hand.position.z = size.legRadius;
+  hand.position.y = -size.legLength;
+  elbow.add(hand);
+
+  // hip must be the first returned bone, other things depend on it
+  return [shoulder, elbow] as [THREE.Bone, THREE.Bone];
+}
+
 function createLegMesh(
   geometry: THREE.BufferGeometry,
   hipBone: THREE.Bone,
@@ -171,6 +197,7 @@ function createLegMesh(
 function createWalkingClip(duration: number, strideLength: number, foot: THREE.Bone) {
   const durations = betweener(0, duration);
   const heights = betweener(foot.position.y, foot.position.y * 0.85);
+  // lengths are reverse because the leg bones are upside-down
   const lengths = betweener(foot.position.z - strideLength / 2, foot.position.z + strideLength / 2);
 
   return new THREE.AnimationClip('walk', duration, [
