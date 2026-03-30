@@ -28,6 +28,7 @@ import { moveTrack, setupTrack } from './track';
 import { disposeAnimations, updateAnimations } from './three/animations';
 import { render, scene, timer, init as initThree } from './three/main';
 import { TouchHandler } from './utils/touch-handler';
+import { showExtents } from './utils/extents';
 
 let handler: TouchHandler;
 
@@ -116,6 +117,11 @@ export function prepareRun() {
 
   playing = false;
   updateTouchHandlerEnabled();
+
+  if (dim.showingExtents) {
+    showExtents(playersGroup.children);
+    showExtents(objectsGroup.children);
+  }
 
   render(true);
 }

@@ -16,6 +16,8 @@ export const modelSizes = {
   broadLeaf: [20, 25],
 } as const;
 
+export const showingExtents = false;
+
 export const trackLength = 400;
 export const trackWidth = 100;
 export const trackDecorationN = 20;
