@@ -32,7 +32,7 @@ export function createPlayerBullet(
   );
 
   // bullets start in front of the player
-  bullet.position.z = -bulletsGroup.position.z + player.position.z + pData.extent2d.min.y;
+  bullet.position.z = -bulletsGroup.position.z + player.position.z + pData.extent2d.min.y * 2;
   bullet.position.x = getObjectX(player);
 
   bulletsGroup.add(bullet);

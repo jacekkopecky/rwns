@@ -13,9 +13,9 @@ const scene = new THREE.Scene();
 const playerSize = {
   legLength: 40,
   legRadius: 4.24,
-  hipWidth: 25,
+  hipWidth: 20,
 };
-const playerN = 144;
+const playerN = 1;
 const playerDistance = 50;
 
 function initScene() {

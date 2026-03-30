@@ -2,24 +2,51 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 
-import { pulseAndShrinkToGone, shrinkToGone } from '../animations';
-import { setSpriteMaterial } from '../materials';
-import { createSpriteObject, getDyingMaterial, markAsDying } from '../resources';
+import { Circle } from '../../types';
+import { fallAndShrinkToGone } from '../animations';
+import * as mat from '../materials';
+import { markAsDying } from '../resources';
+import { Marvin } from '../models';
+
+const normalMaterial = mat.colorFlatMaterials.silver;
+const normalGunMaterial = mat.colorFlatMaterials.gunGrey;
+
+const dyingMaterials = new Map<unknown, typeof normalMaterial>();
+dyingMaterials.set(normalMaterial, mat.colorTransparentMaterials.red1);
+dyingMaterials.set(normalGunMaterial, mat.colorTransparentMaterials.red1);
 
 export function createPlayer(): THREE.Object3D {
-  return createSpriteObject('player');
+  const [w, h] = dim.modelSizes.player;
+  const marvin = new Marvin(
+    {
+      hipWidth: w,
+      legLength: h / 2,
+      legRadius: h * 0.053,
+    },
+    normalMaterial,
+    normalGunMaterial,
+  );
+  const obj = marvin.object;
+
+  // extent radius a bit bigger than width because the arms are outside hip width
+  obj.userData.extent2d = new Circle(undefined, (w / 2) * 1.3);
+  obj.userData.type = 'player';
+  obj.userData.gunHeight = marvin.getGunHeight();
+  return obj;
+}
+
+export function setPlayerMoving(player: THREE.Object3D, moving: boolean) {
+  // todo
 }
 
 export function killPlayer(player: THREE.Object3D) {
   markAsDying(player);
-  setSpriteMaterial(player, getDyingMaterial(player));
-  shrinkToGone(player, dim.playerDyingDuration / 2);
+  fallAndShrinkToGone(player, dim.playerDyingDuration, true);
 
-  // add fire for extra effect
-  const fire = createSpriteObject('fire');
-  pulseAndShrinkToGone(fire, dim.playerDyingDuration);
-  fire.position.copy(player.position);
-  fire.position.z += 0.01; // in front of the player
-  markAsDying(fire);
-  player.parent!.add(fire);
+  player.traverse((obj) => {
+    if ('material' in obj) {
+      const dyingMaterial = dyingMaterials.get(obj.material);
+      if (dyingMaterial) obj.material = dyingMaterial;
+    }
+  });
 }

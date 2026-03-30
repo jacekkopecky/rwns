@@ -9,7 +9,7 @@ This was inspired by Timeline Up, but without any spending of real money.
   - [x] broad-leaf tree
   - [x] dying conifer
   - [x] dying broad-leaf
-  - [.] player
+  - [x] player
     - [x] fix left-right mismatch with legs
     - [x] make bobgroup bob, torso and gun turn
   - [ ] money?

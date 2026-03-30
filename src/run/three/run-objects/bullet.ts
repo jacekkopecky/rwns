@@ -7,7 +7,7 @@ import { createSpriteObject, getDyingMaterial, markAsDying } from '../resources'
 
 export function createBullet(player: THREE.Object3D): THREE.Object3D {
   const bullet = createSpriteObject('bullet');
-  bullet.translateY(player.scale.y / 2);
+  bullet.translateY(player.userData.gunHeight ?? dim.modelSizes.player[1] / 2);
   return bullet;
 }
 

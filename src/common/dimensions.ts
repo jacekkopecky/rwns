@@ -14,6 +14,7 @@ export const spriteResolution = 64;
 export const modelSizes = {
   conifer: [20, 35],
   broadLeaf: [20, 25],
+  player: [5, 20],
 } as const;
 
 export const showingExtents = false;

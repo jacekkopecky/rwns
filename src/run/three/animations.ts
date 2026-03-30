@@ -37,14 +37,15 @@ export function pulseAndShrinkToGone(obj: THREE.Object3D, duration: number) {
   addClipAction(obj, duration, clip);
 }
 
-export function rotateAwayAndShrinkToGone(obj: THREE.Object3D, duration: number) {
+export function fallAndShrinkToGone(obj: THREE.Object3D, duration: number, towardsCamera = false) {
   const durations = betweener(0, duration);
+  const pies = betweener(0, towardsCamera ? Math.PI : -Math.PI);
 
   const clip = new THREE.AnimationClip('fallAndShrink', duration, [
     new THREE.KeyframeTrack(
       '.rotation[x]',
       durations(0, 0.6, 0.75),
-      [0, -Math.PI / 4, -Math.PI / 2],
+      pies(0, 0.25, 0.5),
       THREE.InterpolateSmooth,
     ),
     new THREE.KeyframeTrack(

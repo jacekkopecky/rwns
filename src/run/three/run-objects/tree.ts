@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import * as dim from '#dimensions';
 import { random } from '#utils';
 
-import { rotateAwayAndShrinkToGone } from '../animations';
+import { fallAndShrinkToGone } from '../animations';
 import {
   createBroadLeafTree,
   createConiferTree,
@@ -25,7 +25,7 @@ export function killTree(obj: THREE.Object3D) {
   deadTree.scale.copy(obj.scale);
   deadTree.rotation.copy(obj.rotation);
   deadTree.userData = obj.userData;
-  rotateAwayAndShrinkToGone(deadTree, dim.treeDyingDuration);
+  fallAndShrinkToGone(deadTree, dim.treeDyingDuration);
   obj.parent!.add(deadTree);
   obj.removeFromParent();
 }

@@ -27,6 +27,7 @@ export class Marvin {
   public readonly object: THREE.Group;
   private actions: THREE.AnimationAction[];
   private mixer: THREE.AnimationMixer;
+  private gunHeight: number;
 
   private walking = false;
 
@@ -116,10 +117,10 @@ export class Marvin {
 
     function addArm(side: 'right' | 'left') {
       const xMultiplier = side === 'right' ? 1 : -1;
-      const rightArm = new THREE.Mesh(createArmGeometry(side, size), material);
-      rightArm.position.y = size.legLength * 1.8 - size.armRadius;
-      rightArm.position.x = xMultiplier * (size.hipWidth / 2 + size.torsoOffset);
-      torso.add(rightArm);
+      const arm = new THREE.Mesh(createArmGeometry(side, size), material);
+      arm.position.y = size.legLength * 1.8 - size.armRadius;
+      arm.position.x = xMultiplier * (size.hipWidth / 2 + size.torsoOffset);
+      torso.add(arm);
     }
 
     addArm('left');
@@ -128,15 +129,20 @@ export class Marvin {
     const gun = new THREE.Mesh(
       new THREE.CylinderGeometry(size.gunRadius * 2.2, size.gunRadius, size.gunLength, 3, 1, false) //
         .rotateX(Math.PI / 2)
-        .translate(0, 0, -size.gunLength / 2),
+        .translate(0, 0, -size.gunLength / 2 + size.torsoOffset * 2),
       gunMaterial,
     );
-    gun.position.y = size.legLength * 1.35;
-    gun.position.z = -size.legRadius - size.torsoOffset * 2;
+    this.gunHeight = size.legLength * 1.35;
+    gun.position.y = this.gunHeight;
+    gun.position.z = -size.legRadius - size.torsoOffset * 4;
     torso.add(gun);
 
     const gunTurnClip = createTurnClip(size.strideDuration, -bobAngle);
     this.actions.push(this.mixer.clipAction(gunTurnClip, gun));
+  }
+
+  getGunHeight() {
+    return this.gunHeight;
   }
 
   // todo add a speed parameter?
@@ -319,8 +325,8 @@ function createArmGeometry(side: 'left' | 'right', size: Size) {
     path.add(c(bezPoints[i]!, bezPoints[i + 1]!, bezPoints[i + 2]!, bezPoints[i + 3]!));
   }
 
-  // have one arm raised a bit higher
-  const armSpread = (Math.PI / 180) * (45 - dir * 7);
+  // have one arm raised a bit higher with a spread angle
+  const armSpread = (Math.PI / 180) * (41 - dir * 10);
 
   return new THREE.TubeGeometry(path, size.armSegmentCount, r, 8).rotateX(armSpread);
 }

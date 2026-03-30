@@ -7,6 +7,9 @@ const colors = {
   green1: 0x44aa44,
   green2: 0x229022,
   green3: 0x007700,
+  silver: 0xccccff,
+  gunGrey: 0x555555,
+  red1: 0xff0000,
 } as const;
 
 export type COLORS = keyof typeof colors;
@@ -28,5 +31,18 @@ export const colorFlatMaterials: Record<COLORS, THREE.Material> = Object.fromEnt
   Object.entries(colors).map(([key, color]) => [
     key,
     new THREE.MeshLambertMaterial({ color, flatShading: true, ...commonProps }),
+  ]),
+) as unknown as Record<COLORS, THREE.Material>;
+
+export const colorTransparentMaterials: Record<COLORS, THREE.Material> = Object.fromEntries(
+  Object.entries(colors).map(([key, color]) => [
+    key,
+    new THREE.MeshLambertMaterial({
+      color,
+      flatShading: true,
+      transparent: true,
+      opacity: 0.2,
+      ...commonProps,
+    }),
   ]),
 ) as unknown as Record<COLORS, THREE.Material>;
