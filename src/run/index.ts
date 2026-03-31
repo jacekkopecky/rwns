@@ -18,8 +18,10 @@ import { dyingGroup, moveAndSweepDyingGroup, setupDyingGroup } from './dying-gro
 import { moveObjects, objectsGroup, setupObjects } from './objects';
 import {
   checkPlayersHit,
+  movePlayers,
   playersGroup,
   playerShoot,
+  setPlayersWalking,
   setupPlayers,
   updatePlayerPosition,
 } from './players';
@@ -132,6 +134,7 @@ export function startRun() {
   updateTouchHandlerEnabled();
   handler.setCurrentX(0.5);
   animationFrame();
+  setPlayersWalking(true);
 }
 
 function endRun(immediate = false, win = false) {
@@ -150,6 +153,7 @@ function endRun(immediate = false, win = false) {
 
       setTimeout(() => {
         playing = false;
+        setPlayersWalking(false);
       }, 1000);
     },
     immediate ? 0 : 1000,
@@ -191,6 +195,7 @@ function animationFrame(ms?: number) {
     updateAnimations(delta);
     moveObjects(delta);
     moveTrack(delta);
+    movePlayers(delta);
     checkPlayersHit();
     playerShoot(delta);
     movePlayerBullets(delta);

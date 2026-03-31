@@ -9,10 +9,11 @@ export interface MarvinSizeOptions {
   legLength: number;
   legRadius: number;
   hipWidth: number;
+  speed: number;
   maxStride?: number;
+  strideDuration?: number;
   legSegmentCount?: number;
   sides?: number;
-  strideDuration?: number;
   armRadius?: number;
   armSegmentCount?: number;
   headRadius?: number;
@@ -21,7 +22,9 @@ export interface MarvinSizeOptions {
   gunLength?: number;
 }
 
-type Size = Required<MarvinSizeOptions>;
+type Size = Required<MarvinSizeOptions> & {
+  strideLength: number;
+};
 
 export class Marvin {
   public readonly object: THREE.Group;
@@ -33,12 +36,12 @@ export class Marvin {
 
   constructor(sizeOptions: MarvinSizeOptions, material: THREE.Material, gunMaterial = material) {
     const sides = sizeOptions.sides ?? 4;
+    // a stride is two steps
+    const maxStride = sizeOptions.maxStride ?? sizeOptions.legLength * 2;
     const size: Size = {
       ...sizeOptions,
       legSegmentCount: sizeOptions.legSegmentCount ?? 5,
       sides,
-      maxStride: sizeOptions.maxStride ?? sizeOptions.legLength * 1,
-      strideDuration: sizeOptions.strideDuration ?? 1.2,
       armRadius: sizeOptions.armRadius ?? sizeOptions.legRadius * 0.6,
       armSegmentCount: sizeOptions.armSegmentCount ?? 20,
       headRadius: sizeOptions.headRadius ?? sizeOptions.legLength / 4,
@@ -46,6 +49,8 @@ export class Marvin {
         sizeOptions.torsoOffset ?? sizeOptions.legRadius * (1 / Math.cos(Math.PI / sides) - 1),
       gunRadius: sizeOptions.gunRadius ?? sizeOptions.legRadius,
       gunLength: sizeOptions.gunLength ?? sizeOptions.hipWidth,
+      maxStride,
+      ...chooseStrideLength(sizeOptions.speed, maxStride, sizeOptions.strideDuration ?? 1.2),
     };
 
     const fullObject = new THREE.Group();
@@ -77,7 +82,7 @@ export class Marvin {
     // the clip is the same for both legs
     const legClip = createLegWalkingClip(
       size.strideDuration,
-      size.maxStride,
+      size.strideLength,
       getByName(allBones, 'rightFoot'),
     );
 
@@ -90,8 +95,8 @@ export class Marvin {
     const bobGroup = new THREE.Group();
     fullObject.add(bobGroup);
     const bobHeight =
-      (size.legLength - Math.sqrt(size.legLength ** 2 - (size.maxStride / 2) ** 2)) / 2;
-    const bobAngle = (size.maxStride / size.legLength) * 0.15;
+      (size.legLength - Math.sqrt(size.legLength ** 2 - (size.strideLength / 4) ** 2)) / 2;
+    const bobAngle = (size.strideLength / 2 / size.legLength) * 0.15;
     const torsoBobClip = createBobClip(size.strideDuration, bobHeight);
     this.actions.push(this.mixer.clipAction(torsoBobClip, bobGroup));
 
@@ -176,6 +181,14 @@ export class Marvin {
     }
   }
 
+  setWalking(walking: boolean) {
+    if (walking) {
+      this.startWalking();
+    } else {
+      this.stopWalking();
+    }
+  }
+
   update(time: number) {
     this.mixer.update(time);
   }
@@ -221,10 +234,11 @@ function createLegMesh(
   return mesh;
 }
 
+// a stride is *two* steps
 function createLegWalkingClip(duration: number, strideLength: number, foot: THREE.Bone) {
   const durations = betweener(0, duration);
   const heights = betweener(foot.parent!.position.y, foot.position.y);
-  const lengths = betweener(foot.position.z + strideLength / 2, foot.position.z - strideLength / 2);
+  const lengths = betweener(foot.position.z + strideLength / 4, foot.position.z - strideLength / 4);
 
   return new THREE.AnimationClip('walk', duration, [
     new THREE.KeyframeTrack(
@@ -329,4 +343,31 @@ function createArmGeometry(side: 'left' | 'right', size: Size) {
   const armSpread = (Math.PI / 180) * (41 - dir * 10);
 
   return new THREE.TubeGeometry(path, size.armSegmentCount, r, 8).rotateX(armSpread);
+}
+
+const minStrideFraction = 0.2;
+/**
+ * Choose a sensible stride for a given speed and step size.
+ * For faster, we'll do steps quicker. For slower, we'll make smaller steps.
+ * For very slow, we'll make tiny steps very slowly.
+ */
+function chooseStrideLength(
+  speed: number,
+  maxStride: number,
+  preferredStrideTime: number,
+): {
+  strideDuration: number;
+  strideLength: number;
+} {
+  if (speed > maxStride / preferredStrideTime) {
+    return {
+      strideLength: maxStride,
+      strideDuration: maxStride / speed,
+    };
+  } else if (speed > (maxStride / preferredStrideTime) * minStrideFraction) {
+    return { strideLength: speed * preferredStrideTime, strideDuration: preferredStrideTime };
+  } else {
+    const stride = maxStride * minStrideFraction;
+    return { strideLength: stride, strideDuration: stride / speed };
+  }
 }

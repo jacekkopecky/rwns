@@ -9,7 +9,7 @@ import { createPlayerBullet } from './bullets';
 import { hitObject, objectsGroup } from './objects';
 import { Circle, getObjectData, getPlayerData } from './types';
 
-import { createPlayer, killPlayer } from './three/run-objects';
+import { createPlayer, killPlayer, setPlayerWalking, updatePlayer } from './three/run-objects';
 import { getExtentTranslatedToPosition, intersects, isDying } from './three/resources';
 import { getObjectZ, resetGroup } from './three/tools';
 
@@ -116,5 +116,17 @@ export function checkPlayersHit() {
     if (!isDying(player)) {
       checkPlayerHit(player);
     }
+  }
+}
+
+export function movePlayers(delta: number) {
+  for (const player of playersGroup.children) {
+    updatePlayer(player, delta);
+  }
+}
+
+export function setPlayersWalking(walking: boolean) {
+  for (const player of playersGroup.children) {
+    setPlayerWalking(player, walking);
   }
 }

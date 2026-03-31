@@ -21,7 +21,8 @@ export function createPlayer(): THREE.Object3D {
     {
       hipWidth: w,
       legLength: h / 2,
-      legRadius: h * 0.053,
+      legRadius: h * 0.053, // seems to work OK
+      speed: dim.objectSpeedPerSecond,
     },
     normalMaterial,
     normalGunMaterial,
@@ -31,12 +32,24 @@ export function createPlayer(): THREE.Object3D {
   // extent radius a bit bigger than width because the arms are outside hip width
   obj.userData.extent2d = new Circle(undefined, (w / 2) * 1.3);
   obj.userData.type = 'player';
+
+  // these are outside PlayerData (for now?)
   obj.userData.gunHeight = marvin.getGunHeight();
+  obj.userData.marvin = marvin;
   return obj;
 }
 
-export function setPlayerMoving(player: THREE.Object3D, moving: boolean) {
-  // todo
+function getMarvin(player: THREE.Object3D): Marvin | undefined {
+  const marvin = player.userData.marvin;
+  return marvin instanceof Marvin ? marvin : undefined;
+}
+
+export function setPlayerWalking(player: THREE.Object3D, moving: boolean) {
+  getMarvin(player)?.setWalking(moving);
+}
+
+export function updatePlayer(player: THREE.Object3D, delta: number) {
+  getMarvin(player)?.update(delta);
 }
 
 export function killPlayer(player: THREE.Object3D) {

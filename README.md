@@ -14,12 +14,16 @@ This was inspired by Timeline Up, but without any spending of real money.
     - [x] make bobgroup bob, torso and gun turn
   - [ ] money?
   - [ ] diamond?
+- [ ] diamonds are now too low and the bullets hit strangely
+- [x] make marvin walk during game,
+  - [x] test that the leg speed is correct
+- [ ] add a brick pattern on the road
 - [ ] todo add 'mousemove' like touchmove in touch handler?
-- [ ] check extent scaling to 0.8 is still appropriate
-- [ ] set camera.far so we don't see stuff in fog
+- [x] check extent scaling to 0.8 is still appropriate
+- [x] set camera.far so we don't see stuff in fog
 - [ ] some kind of run ending, and distinguishing between finishing and dying
   - only reset transient upgrades when a run is successfully finished?
-- [ ] show how many played games
+- [x] show how many played games
 - [ ] add daily energy, disabled in dev build
 - [ ] add stable track generation
   - using level (per type of run?)
@@ -52,6 +56,7 @@ This was inspired by Timeline Up, but without any spending of real money.
 - [ ] should camera reposition itself on main screen and in run? probably yes, extra clear when just
       starting, the player is too high on the screen without buttons, but also too high during the
       game
+  - if camera ever moves, we may need to change fog, too, and camera far limit
 - [ ] add permanent upgrades
   - cards, skills etc.
     - general: player number, fire rate, damage
