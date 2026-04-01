@@ -41,12 +41,12 @@ export function fillOrHide(
   el.classList.toggle('hidden', !value);
 }
 
-export function randomItem<T>(arr: readonly T[]): T {
+export function randomItem<T>(arr: readonly T[], prng = random): T {
   if (arr.length === 0) {
     throw new Error('cannot pick a random item from an empty array');
   }
 
-  return arr[Math.floor(random() * arr.length)]!;
+  return arr[Math.floor(prng() * arr.length)]!;
 }
 
 export function* range(n: number) {
@@ -57,12 +57,16 @@ export function* range(n: number) {
 
 const defaultSeed = '0';
 
+export function createRandom(seed = defaultSeed) {
+  return seedrandom(seed);
+}
+
 export // intentionally on its line for ease of commenting out
 let random = seedrandom(defaultSeed);
 
 export function resetRandom(seed = defaultSeed) {
-  random = seedrandom(seed);
-  // randomCount += 1;
+  random = createRandom(seed);
+  // randomCount = 0;
 }
 
 // let randomCount = 0;
