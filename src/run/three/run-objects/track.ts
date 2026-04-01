@@ -3,18 +3,32 @@ import * as THREE from 'three';
 import * as dim from '#dimensions';
 
 import * as mat from '../materials';
+import { createBrickSquare } from '../models/brick-plane';
 
-export function createTrack(): THREE.Object3D {
-  const material = mat.colorFlatMaterials.brown1;
+const trackSegment = createBrickSquare(dim.trackWidth, 15).rotateX(-Math.PI / 2);
 
-  const geometry = new THREE.PlaneGeometry(dim.trackWidth, dim.trackLength * 2);
-  geometry.rotateX(-Math.PI / 2);
+function createTrack(group: THREE.Group): void {
+  const size = dim.trackWidth;
+  const segments = Math.ceil(dim.trackLength / size) * 2;
 
-  const track = new THREE.Mesh(geometry, material);
-  return track;
+  let z = dim.behindCamera - size / 2;
+  for (let i = 0; i < segments; i += 1) {
+    const segment = trackSegment.clone();
+    segment.position.z = z;
+    segment.userData.type = 'track';
+
+    group.add(segment);
+
+    z -= size;
+  }
+
+  group.userData.trackDist = size;
+  group.userData.trackNextZ = z;
 }
 
 export function createTrackDecorations(group: THREE.Group): void {
+  createTrack(group);
+
   const dist = dim.trackLength / dim.trackDecorationN;
 
   const length = dim.trackDecorationLength;
@@ -31,31 +45,43 @@ export function createTrackDecorations(group: THREE.Group): void {
     left.position.set(-dim.trackWidth / 2 + thickness / 2, thickness / 2, z);
     right.position.set(dim.trackWidth / 2 - thickness / 2, thickness / 2, z);
 
+    left.userData.type = 'side';
+    right.userData.type = 'side';
+
     group.add(left);
     group.add(right);
 
     z -= dist;
   }
 
-  group.userData.dist = dist;
-  group.userData.nextZ = z;
+  group.userData.sideDist = dist;
+  group.userData.sideNextZ = z;
 }
 
-export function moveTrackDecorations(decoGroup: THREE.Group, delta: number) {
-  decoGroup.position.z += delta * dim.objectSpeedPerSecond;
-  const maxZ = dim.behindCamera - decoGroup.position.z;
-  const nextZ: number = decoGroup.userData.nextZ;
+export function moveTrackDecorations(group: THREE.Group, delta: number) {
+  group.position.z += delta * dim.objectSpeedPerSecond;
+  const maxZ = dim.behindCamera - group.position.z;
+  const sideNextZ: number = group.userData.sideNextZ;
+  const trackNextZ: number = group.userData.trackNextZ;
+  const maxTrackZ = maxZ + group.userData.trackDist / 2;
 
-  let moved = false;
-  for (const decoration of decoGroup.children) {
-    if (decoration.position.z > maxZ) {
-      decoration.position.z = nextZ;
-      moved = true;
+  let movedSide = false;
+  let movedTrack = false;
+  for (const part of [...group.children]) {
+    if (part.userData.type === 'side' && part.position.z > maxZ) {
+      part.position.z = sideNextZ;
+      movedSide = true;
+    } else if (part.userData.type === 'track' && part.position.z > maxTrackZ) {
+      part.position.z = trackNextZ;
+      movedTrack = true;
     }
   }
 
-  if (moved) {
-    decoGroup.userData.nextZ -= decoGroup.userData.dist;
+  if (movedSide) {
+    group.userData.sideNextZ -= group.userData.sideDist;
+  }
+  if (movedTrack) {
+    group.userData.trackNextZ -= group.userData.trackDist;
   }
 }
 

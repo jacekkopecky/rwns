@@ -12,6 +12,7 @@ This was inspired by Timeline Up, but without any spending of real money.
   - [x] player
     - [x] fix left-right mismatch with legs
     - [x] make bobgroup bob, torso and gun turn
+  - [x] track
   - [ ] money?
   - [ ] diamond?
 - [ ] diamonds are now too low and the bullets hit strangely

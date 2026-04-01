@@ -1,18 +1,15 @@
 import * as THREE from 'three';
 
-import { createTrack, createTrackDecorations, moveTrackDecorations } from './three/run-objects';
+import { createTrackDecorations, moveTrackDecorations } from './three/run-objects';
 
-const trackDecorationsGroup = new THREE.Group();
+const trackGroup = new THREE.Group();
 
 export function setupTrack() {
-  const track = createTrack();
+  createTrackDecorations(trackGroup);
 
-  createTrackDecorations(trackDecorationsGroup);
-  track.add(trackDecorationsGroup);
-
-  return track;
+  return trackGroup;
 }
 
 export function moveTrack(delta: number) {
-  moveTrackDecorations(trackDecorationsGroup, delta);
+  moveTrackDecorations(trackGroup, delta);
 }

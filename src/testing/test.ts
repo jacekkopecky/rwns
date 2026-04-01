@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import * as trees from '../run/three/models';
+import { createBrickSquare } from '../run/three/models/brick-plane';
 
 // const N = 1800;
 
@@ -16,11 +17,12 @@ container?.appendChild(renderer.domElement);
 
 const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 1000);
 // camera.position.set(20, 40, 10); // for earth
-camera.position.set(20, 0, 100);
+camera.position.set(0, 0, 200);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.addEventListener('change', render);
 controls.screenSpacePanning = true;
+controls.zoomToCursor = true;
 
 window.addEventListener('resize', onWindowResize);
 
@@ -72,9 +74,12 @@ scene.add(sunlight);
 //   );
 // }
 
-scene.add(trees.createDeadBroadLeafTree());
-scene.children.at(-1)!.translateY(-20);
-scene.children.at(-1)!.rotateY(Math.PI);
+// scene.add(trees.createDeadBroadLeafTree());
+// scene.children.at(-1)!.translateY(-20);
+// scene.children.at(-1)!.rotateY(Math.PI);
+
+scene.add(createBrickSquare(100, 20).translateZ(1));
+// scene.children.at(-1)!.translateY(-20);
 
 //
 //

@@ -14,6 +14,7 @@ const playerSize = {
   legLength: 40,
   legRadius: 4.24,
   hipWidth: 20,
+  speed: 20,
 };
 const playerN = 1;
 const playerDistance = 50;
