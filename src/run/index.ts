@@ -28,6 +28,7 @@ import {
 import { moveTrack, setupTrack } from './track';
 
 import { disposeAnimations, updateAnimations } from './three/animations';
+import { moveCamera } from './three/camera';
 import { render, scene, timer, init as initThree } from './three/main';
 import { TouchHandler } from './utils/touch-handler';
 import { showExtents } from './utils/extents';
@@ -201,6 +202,7 @@ function animationFrame(ms?: number) {
     movePlayerBullets(delta);
     moveAndSweepDyingGroup(delta);
     updateAwardsView(delta);
+    moveCamera();
 
     const finished = isGameFinished();
     if (finished) {

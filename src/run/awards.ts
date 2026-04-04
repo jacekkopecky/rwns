@@ -7,7 +7,7 @@ import { fillOrHide, formatNumber, random } from '#utils';
 import * as state from '../state';
 
 import { flyToTargetAndShrink } from './three/animations';
-import { getScreenCoordinates } from './three/main';
+import { getScreenCoordinates } from './three/camera';
 import { createSpriteObject } from './three/resources';
 import { AnimatedCount } from './utils/animated-count';
 

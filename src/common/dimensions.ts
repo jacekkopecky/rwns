@@ -1,3 +1,5 @@
+import * as THREE from 'three';
+
 export const spriteSizes: Record<string, [number, number]> = {
   bullet: [3, 3],
   player: [15, 15],
@@ -54,12 +56,14 @@ export const playerBulletDyingDuration = 0.2;
 export const playerHitPoints = 1;
 export const playerDyingDuration = 0.6;
 
-export const cameraPosition = [0, 80, 50] as const;
-export const cameraTarget = [0, 0, -100] as const;
-export const cameraFoV = 90;
+export const cameraPosition = new THREE.Vector3(0, 100, 100);
+export const cameraDirection = new THREE.Vector3(0, -100, -200);
+export const cameraTarget = cameraPosition.clone().addScaledVector(cameraDirection, 4);
+export const cameraFoV = 60;
+export const cameraTweenDurationSec = 0.2;
 
 export const cameraToTrackEndLength = Math.sqrt(
-  (trackLength + cameraPosition[2]) ** 2 + cameraPosition[1] ** 2,
+  (trackLength + cameraPosition.z) ** 2 + cameraPosition.y ** 2,
 );
 
 export const FINGER_WIDTH_PERCENT = 25;

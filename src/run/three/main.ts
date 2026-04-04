@@ -1,9 +1,8 @@
 import * as THREE from 'three';
 
-import * as dim from '#dimensions';
+import { camera, initCamera } from './camera';
 
 export let renderer: THREE.WebGLRenderer;
-export let camera: THREE.PerspectiveCamera;
 export const scene = new THREE.Scene();
 
 export const timer = new THREE.Timer();
@@ -17,16 +16,8 @@ export function init(main: HTMLElement) {
 
   renderer = new THREE.WebGLRenderer({ antialias: true, canvas });
 
-  camera = new THREE.PerspectiveCamera(
-    dim.cameraFoV,
-    canvas.clientWidth / canvas.clientHeight,
-    1,
-    dim.cameraToTrackEndLength,
-  );
-  camera.position.set(...dim.cameraPosition);
-  camera.lookAt(...dim.cameraTarget);
+  initCamera(canvas);
 
-  (window as any).gameCamera = camera;
   (window as any).gameScene = scene;
   (window as any).renderer = renderer;
 
@@ -58,22 +49,4 @@ export function render(showStats?: boolean) {
   if (showStats) {
     console.log('triangles', renderer.info.render.triangles);
   }
-}
-
-/**
- * return world coordinates at depth `d` from the camera, at [xFraction,yfraction] on the screen,
- * with [xFraction,yFraction]=[0,0] being the bottom left corner, and [1,0] is bottom right corner
- */
-export function getScreenCoordinates(d: number, xFraction: number, yFraction: number) {
-  // get camera-local screen coordinates
-  const localBottomLeft = new THREE.Vector2();
-  const localTopRight = new THREE.Vector2();
-  camera.getViewBounds(d, localBottomLeft, localTopRight);
-
-  const x = localBottomLeft.x + xFraction * (localTopRight.x - localBottomLeft.x);
-  const y = localBottomLeft.y + yFraction * (localTopRight.y - localBottomLeft.y);
-
-  // z is negative d because that's where the camera is looking
-  const localPoint = new THREE.Vector3(x, y, -d);
-  return camera.localToWorld(localPoint);
 }

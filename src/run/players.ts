@@ -9,8 +9,9 @@ import { createPlayerBullet } from './bullets';
 import { hitObject, objectsGroup } from './objects';
 import { Circle, getObjectData, getPlayerData } from './types';
 
-import { createPlayer, killPlayer, setPlayerWalking, updatePlayer } from './three/run-objects';
+import { updateCameraPosition } from './three/camera';
 import { getExtentTranslatedToPosition, intersects, isDying } from './three/resources';
+import { createPlayer, killPlayer, setPlayerWalking, updatePlayer } from './three/run-objects';
 import { getObjectZ, resetGroup } from './three/tools';
 
 export const playersGroup = new THREE.Group();
@@ -33,6 +34,8 @@ export function setupPlayers() {
   playersGroup.add(player);
 
   playersGroup.userData.width = pData.extent2d.max.x - pData.extent2d.min.x;
+
+  updateCameraPosition(0);
 }
 
 function repositionPlayers() {
@@ -49,6 +52,8 @@ export function updatePlayerPosition(playerPosFraction: number) {
   const availableWidth = dim.trackWidth - playersGroup.userData.width;
   const x = (playerPosFraction - 0.5) * availableWidth;
   playersGroup.position.x = x;
+
+  updateCameraPosition(x, true);
 }
 
 export function playerShoot(delta: number) {

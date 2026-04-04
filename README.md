@@ -4,7 +4,7 @@ This was inspired by Timeline Up, but without any spending of real money.
 
 ## todo
 
-- [ ] add 3d models
+- [.] add 3d models
   - [x] coniferous tree
   - [x] broad-leaf tree
   - [x] dying conifer
@@ -13,18 +13,12 @@ This was inspired by Timeline Up, but without any spending of real money.
     - [x] fix left-right mismatch with legs
     - [x] make bobgroup bob, torso and gun turn
   - [x] track
-  - [ ] money?
   - [ ] diamond?
+  - [ ] money?
 - [ ] diamonds are now too low and the bullets hit strangely
-- [x] make marvin walk during game,
-  - [x] test that the leg speed is correct
-- [ ] add a brick pattern on the road
 - [ ] todo add 'mousemove' like touchmove in touch handler?
-- [x] check extent scaling to 0.8 is still appropriate
-- [x] set camera.far so we don't see stuff in fog
 - [ ] some kind of run ending, and distinguishing between finishing and dying
   - only reset transient upgrades when a run is successfully finished?
-- [x] show how many played games
 - [ ] add daily energy, disabled in dev build
 - [ ] add stable track generation
   - using level (per type of run?)
@@ -116,6 +110,19 @@ This was inspired by Timeline Up, but without any spending of real money.
       version (no longer updated) - important from v2
 
 ---
+
+## done by 2026-04-04
+
+- [x] move camera with player movement
+
+## done before 2026-04-03
+
+- [x] make marvin walk during game,
+  - [x] test that the leg speed is correct
+- [x] add a brick pattern on the road
+- [x] check extent scaling to 0.8 is still appropriate
+- [x] set camera.far so we don't see stuff in fog
+- [x] show how many played games
 
 ## done by 2026-03-23
 
