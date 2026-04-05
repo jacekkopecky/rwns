@@ -19,7 +19,7 @@ export function init(main: HTMLElement) {
   initCamera(canvas);
 
   (window as any).gameScene = scene;
-  (window as any).renderer = renderer;
+  (window as any).gameRenderer = renderer;
 
   onWindowResize();
 

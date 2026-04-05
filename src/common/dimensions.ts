@@ -61,6 +61,7 @@ export const cameraDirection = new THREE.Vector3(0, -100, -200);
 export const cameraTarget = cameraPosition.clone().addScaledVector(cameraDirection, 4);
 export const cameraFoV = 60;
 export const cameraTweenDurationSec = 0.2;
+export const cameraLongMoveDurationSec = 1;
 
 export const cameraToTrackEndLength = Math.sqrt(
   (trackLength + cameraPosition.z) ** 2 + cameraPosition.y ** 2,

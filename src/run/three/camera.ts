@@ -45,16 +45,19 @@ export function getScreenCoordinates(d: number, xFraction: number, yFraction: nu
 }
 
 export function updateCameraPosition(x: number, smoothEnd?: boolean, smoothStart?: boolean) {
-  cameraTween.stop();
   const targetX = x * 0.6;
+
+  // longer duration if both parts should be smooth
+  const duration =
+    smoothEnd && smoothStart ? dim.cameraLongMoveDurationSec : dim.cameraTweenDurationSec;
+
   const easing = selectEasing(smoothEnd, smoothStart);
+  cameraTween.stop();
   if (easing) {
-    cameraTween
-      .to({ x: targetX }, dim.cameraTweenDurationSec)
-      .easing(easing)
-      .start(cameraTimer.getElapsed(), true);
+    cameraTween.to({ x: targetX }, duration).easing(easing).start(cameraTimer.getElapsed(), true);
   } else {
     camera.position.x = targetX;
+    camera.lookAt(dim.cameraTarget);
   }
 }
 
