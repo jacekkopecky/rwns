@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 
+import * as dim from '#dimensions';
+
 import { camera, initCamera } from './camera';
 
 export let renderer: THREE.WebGLRenderer;
@@ -15,6 +17,7 @@ export function init(main: HTMLElement) {
   }
 
   renderer = new THREE.WebGLRenderer({ antialias: true, canvas });
+  renderer.shadowMap.enabled = dim.shadowsEnabled;
 
   initCamera(canvas);
 

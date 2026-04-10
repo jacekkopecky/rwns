@@ -29,6 +29,7 @@ export const trackDecorationThickness = 3;
 
 export const startDistance = -50; // -trackLength;
 export const behindCamera = 50;
+export const shadowsEnabled = true;
 
 export const N = 60;
 export const objectSpeedPerSecond = 10;

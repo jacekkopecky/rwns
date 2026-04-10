@@ -50,7 +50,7 @@ const branchDefinitions : BranchInfo = [
 
 const deadTree = makeBranch(...branchDefinitions, true);
 
-const trunk = new THREE.ConeGeometry(trunkRadius, fullHeight, 4) //
+const trunkGeo = new THREE.ConeGeometry(trunkRadius, fullHeight, 4) //
   .translate(0, fullHeight / 2, 0);
 
 export function createBroadLeafTree(isRandom = true) {
@@ -63,9 +63,14 @@ export function createBroadLeafTree(isRandom = true) {
 
   const crown = new THREE.Mesh(crownGeometry, mat.colorMaterials.green2);
   crown.position.set(0, bottom - crownGeometry.boundingBox!.min.y, 0);
+  crown.castShadow = true;
+  crown.receiveShadow = true;
   retval.add(crown);
 
-  retval.add(new THREE.Mesh(trunk, mat.colorMaterials.brown3));
+  const trunk = new THREE.Mesh(trunkGeo, mat.colorMaterials.brown3);
+  trunk.castShadow = true;
+  trunk.receiveShadow = true;
+  retval.add(trunk);
 
   retval.userData.extent2d = new Circle(undefined, crownDiameter / 2);
   retval.userData.type = 'object';
@@ -77,6 +82,8 @@ export function createBroadLeafTree(isRandom = true) {
 
 export function createDeadBroadLeafTree() {
   const retval = new THREE.Mesh(deadTree, trunkMaterial);
+  retval.castShadow = true;
+  retval.receiveShadow = true;
 
   retval.userData.extent2d = new Circle(undefined, crownDiameter / 2);
   retval.userData.type = 'object';

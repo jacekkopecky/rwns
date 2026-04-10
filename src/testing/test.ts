@@ -12,12 +12,13 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 (window as any).renderer = renderer;
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
 
 container?.appendChild(renderer.domElement);
 
 const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 1000);
 // camera.position.set(20, 40, 10); // for earth
-camera.position.set(0, 0, 200);
+camera.position.set(40, 40, 200);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.addEventListener('change', render);
@@ -35,11 +36,21 @@ scene.add(helper);
 
 // lights
 const skylight = new THREE.HemisphereLight(0xffffff, 0xb97a20, 1);
-scene.add(skylight);
+// scene.add(skylight);
 
 const sunlight = new THREE.DirectionalLight(0xffffff, 3);
-sunlight.position.set(10, 10, 5);
+sunlight.position.set(100, 80, 50);
+sunlight.lookAt(100, 0, 0);
+sunlight.updateMatrixWorld();
+sunlight.target.updateMatrixWorld();
 scene.add(sunlight);
+scene.add(sunlight.target);
+sunlight.castShadow = true;
+sunlight.shadow.camera.left = -100;
+sunlight.shadow.camera.updateProjectionMatrix();
+
+const cameraHelper = new THREE.CameraHelper(sunlight.shadow.camera);
+scene.add(cameraHelper);
 
 //
 //
@@ -78,7 +89,16 @@ scene.add(sunlight);
 // scene.children.at(-1)!.translateY(-20);
 // scene.children.at(-1)!.rotateY(Math.PI);
 
-scene.add(createBrickSquare(100, 20).translateZ(1));
+const obj = createBrickSquare(100, 20).translateZ(1);
+obj.receiveShadow = true;
+scene.add(obj);
+
+const cube = new THREE.Mesh(
+  new THREE.BoxGeometry(30, 30, 30),
+  new THREE.MeshPhongMaterial({ color: 0xff0000, shadowSide: THREE.DoubleSide }),
+);
+cube.castShadow = true;
+scene.add(cube);
 // scene.children.at(-1)!.translateY(-20);
 
 //
@@ -110,6 +130,7 @@ function render() {
 function animate() {
   requestAnimationFrame(animate);
   controls.update();
+  cameraHelper.update();
   render();
 }
 

@@ -14,7 +14,10 @@ This was inspired by Timeline Up, but without any spending of real money.
     - [x] make bobgroup bob, torso and gun turn
   - [x] track
   - [ ] diamond?
-  - [ ] money?
+  - [ ] money? bag or heap?
+  - [ ] bullets? tetrahedron? rotating?
+  - [x] add shadows
+- [ ] refactor walk animations to be updated by animations.ts?
 - [ ] diamonds are now too low and the bullets hit strangely
 - [ ] todo add 'mousemove' like touchmove in touch handler?
 - [ ] some kind of run ending, and distinguishing between finishing and dying

@@ -37,12 +37,12 @@ const crowns = [
   }),
 ];
 
-const trunk = new THREE.ConeGeometry(trunkRadius, fullHeight, 4) //
+const trunkGeo = new THREE.ConeGeometry(trunkRadius, fullHeight, 4) //
   .translate(0, fullHeight / 2, 0);
 
 // make the deadTree as a single geometry with the branches and the trunk
 const deadTree = BufferGeometryUtils.mergeGeometries([
-  trunk,
+  trunkGeo,
   ...range(crownSegments * 2).map((i) => {
     const height = minCrownHeight;
     const distanceFromTop = height * (1 - 0.9 ** (crownSegments - 1 - i));
@@ -70,12 +70,16 @@ export function createConiferTree(isRandom = true) {
   for (let i = 0; i < crownGeometries.length; i += 1) {
     const material = greens[i % greens.length]!;
     const obj = new THREE.Mesh(crownGeometries[i], material);
+    obj.castShadow = true;
+    obj.receiveShadow = true;
     obj.position.y = crownBottom;
     retval.add(obj);
   }
 
-  // trunk
-  retval.add(new THREE.Mesh(trunk, trunkMaterial));
+  const trunk = new THREE.Mesh(trunkGeo, trunkMaterial);
+  trunk.castShadow = true;
+  trunk.receiveShadow = true;
+  retval.add(trunk);
 
   retval.userData.extent2d = new Circle(undefined, crownDiameter / 2);
   retval.userData.type = 'object';
@@ -85,6 +89,8 @@ export function createConiferTree(isRandom = true) {
 
 export function createDeadConiferTree() {
   const retval = new THREE.Mesh(deadTree, trunkMaterial);
+  retval.castShadow = true;
+  retval.receiveShadow = true;
 
   retval.userData.extent2d = new Circle(undefined, crownDiameter / 2);
   retval.userData.type = 'object';

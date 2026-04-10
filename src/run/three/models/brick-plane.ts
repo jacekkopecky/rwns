@@ -18,8 +18,6 @@ const brownBrickRoadColors = [
  * with detail=1 will have four lines of bricks sized 25x50
  */
 export function createBrickSquare(size = 100, detail = 4, colors = brownBrickRoadColors) {
-  const geometry = new THREE.BufferGeometry();
-
   const brickBlocks4 = Math.round(detail);
 
   // we'll need to have the color numbers like 0xccac90 split into arrays like [0xcc, 0xac, 0x90],
@@ -77,13 +75,20 @@ export function createBrickSquare(size = 100, detail = 4, colors = brownBrickRoa
     }
   }
 
+  const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
   geometry.setAttribute('color', new THREE.BufferAttribute(vertexColors, 3));
 
   geometry.translate(-size / 2, -size / 2, 0);
 
-  const material = new THREE.MeshBasicMaterial({ vertexColors: true });
+  geometry.computeVertexNormals();
+
+  const material = new THREE.MeshLambertMaterial({
+    vertexColors: true,
+    shadowSide: THREE.DoubleSide,
+  });
   const retval = new THREE.Mesh(geometry, material);
+  retval.receiveShadow = true;
 
   // // uncomment to see the wireframe
   // retval.add(

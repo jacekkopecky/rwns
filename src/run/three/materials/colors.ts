@@ -14,7 +14,7 @@ const colors = {
 
 export type COLORS = keyof typeof colors;
 
-const commonProps = {
+const commonProps: THREE.MeshLambertMaterialParameters = {
   side: THREE.DoubleSide,
   // transparent: true,
   // opacity: 0.1,

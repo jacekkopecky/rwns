@@ -48,6 +48,11 @@ export function createTrackDecorations(group: THREE.Group): void {
     left.userData.type = 'side';
     right.userData.type = 'side';
 
+    left.receiveShadow = true;
+    right.receiveShadow = true;
+    left.castShadow = true;
+    right.castShadow = true;
+
     group.add(left);
     group.add(right);
 
@@ -88,6 +93,9 @@ export function moveTrackDecorations(group: THREE.Group, delta: number) {
 // a cube with only three sides, only visible from the outside
 // useful for boxes that are only visible from one direction
 function makeHalfCubeGeometry(hasLeftSide: boolean, w = 1, h = 1, d = 1): THREE.BufferGeometry {
+  return new THREE.BoxGeometry(w, h, d);
+
+  // not using the stuff below because it doesn't properly cast shadows
   const geometry = new THREE.BufferGeometry();
 
   // points:
@@ -122,6 +130,8 @@ function makeHalfCubeGeometry(hasLeftSide: boolean, w = 1, h = 1, d = 1): THREE.
 
   // the geometry starts as a 2x2x2 cube
   geometry.scale(w / 2, h / 2, d / 2);
+
+  geometry.computeVertexNormals();
 
   return geometry;
 }

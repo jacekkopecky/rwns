@@ -93,8 +93,25 @@ function setupScene() {
   scene.add(skylight);
 
   const sunlight = new THREE.DirectionalLight(0xffffff, 3);
-  sunlight.position.set(10, 10, 5);
+  // if we change light position, we may need to update shadow camera below
+  sunlight.position.set(40, 40, 20);
   scene.add(sunlight);
+
+  if (dim.shadowsEnabled) {
+    sunlight.castShadow = true;
+
+    sunlight.shadow.camera.left = -dim.behindCamera;
+    sunlight.shadow.camera.right = dim.trackLength;
+    sunlight.shadow.camera.top = 40;
+    sunlight.shadow.camera.bottom = -40;
+    sunlight.shadow.camera.near = 1;
+    sunlight.shadow.camera.far = 200;
+    sunlight.shadow.bias = -0.01;
+    sunlight.shadow.camera.up = new THREE.Vector3(-1, 1, 0).normalize();
+
+    // set shadow texture size for crisper shadows
+    sunlight.shadow.mapSize.set(2048, 256);
+  }
 
   scene.add(awardsGroup);
   scene.add(objectsGroup);

@@ -108,6 +108,7 @@ export class Marvin {
       ).translate(0, size.legLength, 0),
       material,
     );
+    torso.castShadow = true;
     bobGroup.add(torso);
 
     const torsoTurnClip = createTurnClip(size.strideDuration, bobAngle);
@@ -118,11 +119,13 @@ export class Marvin {
         .translate(0, size.legLength * 1.85 + size.headRadius, 0),
       material,
     );
+    head.castShadow = true;
     bobGroup.add(head);
 
     function addArm(side: 'right' | 'left') {
       const xMultiplier = side === 'right' ? 1 : -1;
       const arm = new THREE.Mesh(createArmGeometry(side, size), material);
+      arm.castShadow = true;
       arm.position.y = size.legLength * 1.8 - size.armRadius;
       arm.position.x = xMultiplier * (size.hipWidth / 2 + size.torsoOffset);
       torso.add(arm);
@@ -137,6 +140,7 @@ export class Marvin {
         .translate(0, 0, -size.gunLength / 2 + size.torsoOffset * 2),
       gunMaterial,
     );
+    gun.castShadow = true;
     this.gunHeight = size.legLength * 1.35;
     gun.position.y = this.gunHeight;
     gun.position.z = -size.legRadius - size.torsoOffset * 4;
@@ -227,6 +231,7 @@ function createLegMesh(
   posX: number,
 ) {
   const mesh = new THREE.SkinnedMesh(geometry, material);
+  mesh.castShadow = true;
 
   mesh.add(hipBone);
   mesh.position.x = posX;
