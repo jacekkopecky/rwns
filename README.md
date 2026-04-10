@@ -10,8 +10,6 @@ This was inspired by Timeline Up, but without any spending of real money.
   - [ ] bullets? tetrahedron? rotating?
 - [ ] reposition players when one dies, if gaps appear in a row? or in front of them?
   - so that players smoothly move into their position
-- [ ] refactor touch handler so that remembering last is done outside, in players, with dynamic
-      bounds
 - [ ] refactor walk animations to be updated by animations.ts?
 - [ ] diamonds are now too low and the bullets hit strangely
 - [ ] todo add 'mousemove' like touchmove in touch handler?
@@ -110,6 +108,9 @@ This was inspired by Timeline Up, but without any spending of real money.
 
 ## done by 2026-04-10
 
+- [/] refactor touch handler so that remembering last is done outside, in players, with dynamic
+  bounds
+  - [x] instead change touch handler to relative
 - [x] add 3d models
   - [x] coniferous tree
   - [x] broad-leaf tree

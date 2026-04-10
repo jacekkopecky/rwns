@@ -68,4 +68,4 @@ export const cameraToTrackEndLength = Math.sqrt(
   (trackLength + cameraPosition.z) ** 2 + cameraPosition.y ** 2,
 );
 
-export const FINGER_WIDTH_PERCENT = 25;
+export const FINGER_WIDTH_PERCENT = 30;

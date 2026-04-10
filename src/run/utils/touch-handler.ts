@@ -1,6 +1,5 @@
 export class TouchHandler {
   private lastTouchFraction: number | null = null;
-  private currentX: number;
   private speedUp: number;
   private enabled = true;
 
@@ -8,15 +7,13 @@ export class TouchHandler {
     private el: HTMLElement,
 
     private opts: {
-      initialX?: number;
       speedUp?: number;
-      onMove?(currX: number): void;
+      onMoveBy?(deltaX: number): void;
     },
   ) {
     el.addEventListener('touchstart', this.handleTouchStart, { passive: true });
     el.addEventListener('touchend', this.handleTouchEnd, { passive: true });
     el.addEventListener('touchmove', this.handleTouchMove, { passive: true });
-    this.currentX = opts.initialX ?? 50;
     this.speedUp = opts.speedUp ?? 1;
   }
 
@@ -32,13 +29,9 @@ export class TouchHandler {
     if (!this.enabled) return;
     const touchFraction = this.getTouchFraction(e);
     if (touchFraction != null && this.lastTouchFraction != null) {
-      const oldX = this.currentX;
-      this.currentX += (touchFraction - this.lastTouchFraction) * this.speedUp;
-      if (this.currentX < 0) this.currentX = 0;
-      if (this.currentX > 1) this.currentX = 1;
-
-      if (oldX !== this.currentX && this.opts.onMove) {
-        this.opts.onMove(this.currentX);
+      const delta = (touchFraction - this.lastTouchFraction) * this.speedUp;
+      if (delta) {
+        this.opts.onMoveBy?.(delta);
       }
 
       this.lastTouchFraction = touchFraction;
@@ -47,10 +40,6 @@ export class TouchHandler {
 
   toggle = (value?: boolean) => {
     this.enabled = value ?? !this.enabled;
-  };
-
-  setCurrentX = (value: number) => {
-    this.currentX = value;
   };
 
   shutdown = () => {

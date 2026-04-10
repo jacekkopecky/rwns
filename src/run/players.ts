@@ -91,12 +91,18 @@ function repositionPlayers() {
   computePlayersGroupMinMax(playersGroup);
 }
 
-export function updatePlayerPosition(playerPosFraction: number) {
+export function updatePlayerPosition(playerMoveFraction: number) {
   const availableWidth = dim.trackWidth - playersGroup.userData.maxX + playersGroup.userData.minX;
-  const x = playerPosFraction * availableWidth - dim.trackWidth / 2 - playersGroup.userData.minX;
-  playersGroup.position.x = x;
+  const delta = playerMoveFraction * availableWidth;
 
-  updateCameraPosition(x, true);
+  const x = playersGroup.position.x + delta;
+  const halfWidth = dim.trackWidth / 2;
+  const minX = -halfWidth - playersGroup.userData.minX;
+  const maxX = halfWidth - playersGroup.userData.maxX;
+
+  playersGroup.position.x = Math.max(minX, Math.min(maxX, x));
+
+  updateCameraPosition(playersGroup.position.x, true);
 }
 
 export function playerShoot(delta: number) {

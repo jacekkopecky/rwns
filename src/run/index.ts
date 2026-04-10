@@ -53,9 +53,8 @@ export function init() {
   setupScene();
 
   handler = new TouchHandler(el.canvas, {
-    initialX: 0.5,
     speedUp: 1 + dim.FINGER_WIDTH_PERCENT / 100,
-    onMove: updatePlayerPosition,
+    onMoveBy: updatePlayerPosition,
   });
   updateTouchHandlerEnabled();
 
@@ -151,7 +150,6 @@ export function startRun() {
   playing = true;
   ending = false;
   updateTouchHandlerEnabled();
-  handler.setCurrentX(0.5);
   animationFrame();
   setPlayersWalking(true);
 }
