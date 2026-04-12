@@ -84,10 +84,11 @@ export function hitObject(obj: THREE.Object3D, hitPoints: number, playerHit = fa
   oData.hitPoints -= hitPoints;
 
   if (oData.collectible || oData.hitPoints <= 0) {
-    killObject(obj);
+    const givingAward = oData.award && !(oData.benign && playerHit);
+    killObject(obj, givingAward);
 
     // give the award, but not from benign objects when we walk into them
-    if (oData.award && !(oData.benign && playerHit)) giveAward(oData.award, obj);
+    if (givingAward) giveAward(oData.award!, obj);
   }
 
   return true;

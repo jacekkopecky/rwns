@@ -17,6 +17,7 @@ export const modelSizes = {
   conifer: [20, 35],
   broadLeaf: [20, 25],
   player: [4, 16], // for marvin, it's best 1/4
+  gem: [10, 10],
 } as const;
 
 export const showingExtents = false;
@@ -28,7 +29,7 @@ export const trackDecorationLength = 8;
 export const trackDecorationThickness = 3;
 
 export const startDistance = -50; // -trackLength;
-export const behindCamera = 50;
+export const behindCamera = 100;
 export const shadowsEnabled = true;
 
 export const N = 60;

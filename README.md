@@ -5,13 +5,17 @@ This was inspired by Timeline Up, but without any spending of real money.
 ## todo
 
 - [.] add 3d models
-  - [ ] diamond? rotating? with point light in camera?
+  - [x] diamond?
+    - [ ] rotate
+    - [x] shrink into the middle when no award
+    - [ ] make the award fly from the right place, use the model itself?
+    - [ ] make a picture of it for use elsewhere?
+    - diamonds are now too low and the bullets hit strangely
   - [ ] money? bag or heap?
   - [ ] bullets? tetrahedron? rotating?
 - [ ] reposition players when one dies, if gaps appear in a row? or in front of them?
   - so that players smoothly move into their position
 - [ ] refactor walk animations to be updated by animations.ts?
-- [ ] diamonds are now too low and the bullets hit strangely
 - [ ] todo add 'mousemove' like touchmove in touch handler?
 - [ ] some kind of run ending, and distinguishing between finishing and dying
   - only reset transient upgrades when a run is successfully finished?
