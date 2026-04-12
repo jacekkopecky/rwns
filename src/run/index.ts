@@ -50,6 +50,7 @@ const el = {
 export function init() {
   initThree(el.main);
   setupScene();
+  animationFrame();
 
   handler = new TouchHandler(el.canvas, {
     speedUp: 1 + dim.FINGER_WIDTH_PERCENT / 100,
@@ -149,7 +150,6 @@ export function startRun() {
   playing = true;
   ending = false;
   updateTouchHandlerEnabled();
-  animationFrame();
   setPlayersWalking(true);
 }
 
@@ -198,7 +198,7 @@ function isGameFinished() {
 // timer.setTimescale(0.1);
 
 function animationFrame(ms?: number) {
-  if (playing) requestAnimationFrame(animationFrame);
+  requestAnimationFrame(animationFrame);
 
   // fpsLimiter = (fpsLimiter + 1) % fpsDivider;
   // if (fpsLimiter > 0) return;
@@ -209,20 +209,24 @@ function animationFrame(ms?: number) {
   if (ms != null) {
     const delta = timer.getDelta();
     updateAnimations(delta);
-    moveObjects(delta);
-    moveTrack(delta);
-    checkPlayersHit();
-    playerShoot(delta);
-    movePlayerBullets(delta);
-    moveAndSweepDyingGroup(delta);
-    updateAwardsView(delta);
     moveCamera();
 
-    const finished = isGameFinished();
-    if (finished) {
-      endRun(false, finished === 'win');
+    if (playing) {
+      moveObjects(delta);
+      moveTrack(delta);
+      checkPlayersHit();
+      playerShoot(delta);
+      movePlayerBullets(delta);
+      moveAndSweepDyingGroup(delta);
+      updateAwardsView(delta);
+
+      const finished = isGameFinished();
+      if (finished) {
+        endRun(false, finished === 'win');
+      }
     }
   }
   render();
-  logFps(ms, `${objectsGroup.children.length}: `);
+
+  if (playing) logFps(ms, `${objectsGroup.children.length}: `);
 }
