@@ -1,0 +1,11 @@
+i.i {
+  background-size: contain;
+  display: inline-block;
+  height: 1em;
+  width: 1em;
+  vertical-align: text-top;
+
+  &.gem {
+    background-image: url('assets/gem.svg');
+  }
+}
