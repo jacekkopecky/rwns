@@ -1,5 +1,6 @@
-import { createRandom, randomItem, range } from '#utils';
 import * as THREE from 'three';
+
+import { createRandom, randomItem, range } from '#utils';
 
 const _color = new THREE.Color();
 const prng = createRandom(`brickSquare1`);

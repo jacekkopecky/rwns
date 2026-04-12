@@ -27,8 +27,8 @@ export function setupPlayers() {
     const player = createPlayer();
 
     const { row, column } = generatePlayerPosition(i);
-    player.position.z = row * 5;
-    player.position.x = column * 12;
+    player.position.z = row * dim.modelSizes.player[0] * 1.35;
+    player.position.x = column * dim.modelSizes.player[0] * 2.5;
 
     const pData = getPlayerData(player);
 
