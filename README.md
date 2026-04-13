@@ -2,6 +2,8 @@
 
 This was inspired by Timeline Up, but without any spending of real money.
 
+Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
+
 ## todo
 
 - [.] add 3d models
