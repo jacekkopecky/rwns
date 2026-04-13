@@ -7,6 +7,7 @@ This was inspired by Timeline Up, but without any spending of real money.
 - [.] add 3d models
   - [ ] money? bag or heap?
   - [ ] bullets? tetrahedron? rotating?
+  - [ ] remove code that deals with sprites
 - [ ] reposition players when one dies, if gaps appear in a row? or in front of them?
   - so that players smoothly move into their position
 - [ ] todo add 'mousemove' like touchmove in touch handler?
@@ -32,6 +33,11 @@ This was inspired by Timeline Up, but without any spending of real money.
     - enemies that shoot back?
     - Levels where you have to collect all keys to pass through end gate
     - zones where players don't reposition themselves if there are gaps (e.g. so they fit through)
+    - challenge modes, or quests (appear extra or in quests):
+      - gather all treasure without any upgrades (basic one player)
+        - can play with upgrades but only to try it, making the prize a bit lower
+        - allows the player to pass or the quest times out and moves to the next one - in case it's
+          randomly too hard
   - gradation
     - various types of runs should only get stronger if I pass them? at different rates?
     - [ ] special types should be behing special buttons?
@@ -100,8 +106,14 @@ This was inspired by Timeline Up, but without any spending of real money.
   - when there are at least two different types of runs
 - [ ] in state have a version so if we upgrade, we can save it and the user can play an older
       version (no longer updated) - important from v2
+- [ ] make it an installable app with icons etc.
+  - https://vite-pwa-org.netlify.app/guide/pwa-minimal-requirements.html
 
 ---
+
+## done by 2026-04-13
+
+- [x] give it a service worker so it's cached
 
 ## done by 2026-04-12
 

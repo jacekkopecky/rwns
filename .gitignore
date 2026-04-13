@@ -1,6 +1,7 @@
 node_modules
 tmp-three
 .vscode
+dev-dist
 
 # downloaded
 assets/earthmap1k.jpg

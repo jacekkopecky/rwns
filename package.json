@@ -16,7 +16,8 @@
     "@types/seedrandom": "^3.0.8",
     "@types/three": "^0.183.1",
     "tsx": "^4.21.0",
-    "typescript": "^6.0.1-rc"
+    "typescript": "^6.0.1-rc",
+    "vite-plugin-pwa": "^1.2.0"
   },
   "dependencies": {
     "@tweenjs/tween.js": "^25.0.0",
