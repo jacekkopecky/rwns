@@ -114,4 +114,16 @@ export class Circle {
       return this.self.center.y + this.self.radius;
     },
   };
+
+  // we may JSON.serialize a circle when cloning objects
+  // we may not need to deserialize it but still, serialize the data just in case
+  toJSON() {
+    return {
+      type: Circle.jsonType,
+      center: this.center,
+      radius: this.radius,
+    };
+  }
+
+  static jsonType = 'CircleJSON';
 }

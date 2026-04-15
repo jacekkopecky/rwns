@@ -68,7 +68,8 @@ export async function giveAward(fromObj: THREE.Object3D, oData: ObjectData) {
     const subObj = first ? obj : obj.clone();
     if (!first) {
       subObj.position.copy(position);
-      subObj.position.x += (random() - 0.5) * subObj.userData.extent2d.max.x;
+      // use obj…extent2d because clone() doesn't keep the objects in userData
+      subObj.position.x += (random() - 0.5) * obj.userData.extent2d.max.x;
     }
 
     awardsGroup.attach(subObj);
