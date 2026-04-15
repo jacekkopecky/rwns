@@ -2,6 +2,7 @@ import * as THREE from 'three';
 
 export const spriteSizes: Record<string, [number, number]> = {
   bullet: [3, 3],
+  bulletDying: [6, 6],
   player: [15, 15],
   fire: [15, 15],
   gems: [10, 10],

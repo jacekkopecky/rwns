@@ -36,7 +36,11 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
     - Levels where you have to collect all keys to pass through end gate
     - zones where players don't reposition themselves if there are gaps (e.g. so they fit through)
     - challenge modes, or quests (appear extra or in quests):
-      - gather all treasure without any upgrades (basic one player)
+      - gather all (or a given number of) treasure without any upgrades (basic one player)
+        - could be:
+          - find all treasure in forest or maze
+          - hit your choice of diamonds with every bullet you have (multiple hits necessary)
+          - simply don't waste a bullet
         - can play with upgrades but only to try it, making the prize a bit lower
         - allows the player to pass or the quest times out and moves to the next one - in case it's
           randomly too hard

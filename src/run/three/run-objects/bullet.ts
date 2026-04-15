@@ -2,18 +2,20 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 
-import { setSpriteMaterial } from '../materials';
-import { createSpriteObject, getDyingMaterial, markAsDying } from '../resources';
+import { createSpriteObject, markAsDying } from '../resources';
 
 export function createBullet(player: THREE.Object3D): THREE.Object3D {
-  const bullet = createSpriteObject('bullet');
+  const bullet = createSpriteObject('bullet', { y: 0 });
   bullet.translateY(player.userData.gunHeight ?? dim.modelSizes.player[1] / 2);
   return bullet;
 }
 
 export function killBullet(bullet: THREE.Object3D) {
-  markAsDying(bullet);
-  setSpriteMaterial(bullet, getDyingMaterial(bullet));
-  bullet.scale.multiplyScalar(2);
-  setTimeout(() => bullet.removeFromParent(), dim.playerBulletDyingDuration * 1000);
+  const explosion = createSpriteObject('bulletDying', { dataType: 'bullet', y: 0 });
+  explosion.position.copy(bullet.position);
+  explosion.position.z += bullet.userData.extent2d.max.y;
+  markAsDying(explosion);
+  bullet.parent!.add(explosion);
+  bullet.removeFromParent();
+  setTimeout(() => explosion.removeFromParent(), dim.playerBulletDyingDuration * 1000);
 }
