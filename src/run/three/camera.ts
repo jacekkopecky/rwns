@@ -45,6 +45,8 @@ export function getScreenCoordinates(d: number, xFraction: number, yFraction: nu
 }
 
 export function updateCameraPosition(x: number, smoothEnd?: boolean, smoothStart?: boolean) {
+  if (!dim.options.moveCamera) return;
+
   const targetX = x * 0.7;
 
   // longer duration if both parts should be smooth

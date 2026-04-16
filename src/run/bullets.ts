@@ -8,6 +8,7 @@ import { Circle, getBulletData, getObjectData, type PlayerData } from './types';
 import { createBullet, killBullet } from './three/run-objects';
 import { getExtentTranslatedToPosition, intersects, isDying } from './three/resources';
 import { getObjectX, getObjectZ, resetGroup } from './three/tools';
+import { showExtent } from './utils/extents';
 
 export const bulletsGroup = new THREE.Group();
 
@@ -29,6 +30,10 @@ export function createPlayerBullet(
   bullet.position.x = getObjectX(player);
 
   bulletsGroup.add(bullet);
+
+  if (dim.options.showingExtents) {
+    showExtent(bullet);
+  }
 }
 
 export function movePlayerBullets(delta: number) {

@@ -1,7 +1,11 @@
 import * as THREE from 'three';
 
+import * as dim from '#dimensions';
+
 export const timer = new THREE.Timer();
 timer.connect(document);
+
+if (typeof dim.options.timeScale === 'number') timer.setTimescale(dim.options.timeScale);
 
 const mixers = new Map<THREE.AnimationMixer, () => void>();
 

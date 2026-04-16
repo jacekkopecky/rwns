@@ -12,7 +12,7 @@ export function showExtents(objects: THREE.Object3D[]) {
 export function showExtent(obj: THREE.Object3D<THREE.Object3DEventMap>) {
   const extentView = createExtentWireframe(obj.userData.extent2d);
   extentView.rotateX(Math.PI / 2);
-  extentView.position.y = 0.1;
+  extentView.position.y = -obj.position.y + 0.1;
   extentView.userData.isExtent = true;
   obj.add(extentView);
 }

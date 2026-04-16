@@ -138,7 +138,7 @@ export function prepareRun() {
   playing = false;
   updateTouchHandlerEnabled();
 
-  if (dim.showingExtents) {
+  if (dim.options.showingExtents) {
     showExtents(playersGroup.children);
     showExtents(objectsGroup.children);
   }
@@ -194,8 +194,6 @@ function isGameFinished() {
 
 // const fpsDivider = 10;
 // let fpsLimiter = fpsDivider - 1;
-
-// timer.setTimescale(0.1);
 
 function animationFrame(ms?: number) {
   requestAnimationFrame(animationFrame);
