@@ -124,7 +124,7 @@ function setupScene() {
  * make objects, reset in-run scores, show
  */
 export function prepareRun() {
-  resetRandom();
+  resetRandom(String(state.readState().level));
 
   disposeAnimations();
 
