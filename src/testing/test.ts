@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-import * as trees from '../run/three/models';
+import * as models from '../run/three/models';
 import { createBrickSquare } from '../run/three/models/brick-plane';
 
 // const N = 1800;
@@ -62,44 +62,9 @@ scene.add(cameraHelper);
 //
 //
 
-// scene.add(
-//   // new THREE.Mesh(makePartCubeGeometry([1, 1, 1, 1, 1, 0], 10, 20, 10).translate(0, -10, 0), brown),
-//   new THREE.Mesh(new THREE.CylinderGeometry(5, 5, 20, 4).translate(0, -10, 0), brown2),
-// );
-// // scene.add(new THREE.Mesh(makeConiferGeometry(6, 30, 60, 1.5), green1));
-// // scene.add(new THREE.Mesh(makeConiferGeometry(6, 25, 20, 1.5).translate(0, 15, 0), green2));
-// // scene.add(new THREE.Mesh(makeConiferGeometry(6, 20, 20, 1.5).translate(0, 30, 0), green2));
-// const n = 5;
-// const height = 40;
-// const radius = 20;
-// // const topExtra =
-// for (const i of range(n)) {
-//   const mat = greens[i % greens.length]!;
-//   const ratio = 0.85 ** i;
-//   let h = height * ratio - i * (height / n / 6);
-//   const bottom = height - h;
-//   h *= 0.95 ** (n - 1 - i);
-//   const r = radius * ratio ** 0.7;
-//   scene.add(
-//     new THREE.Mesh(new THREE.ConeGeometry(r, h, 4, 1, true).translate(0, h / 2 + bottom, 0), mat),
-//   );
-// }
-
-// scene.add(trees.createDeadBroadLeafTree());
-// scene.children.at(-1)!.translateY(-20);
-// scene.children.at(-1)!.rotateY(Math.PI);
-
-const obj = createBrickSquare(100, 20).translateZ(1);
-obj.receiveShadow = true;
-scene.add(obj);
-
-const cube = new THREE.Mesh(
-  new THREE.BoxGeometry(30, 30, 30),
-  new THREE.MeshPhongMaterial({ color: 0xff0000, shadowSide: THREE.DoubleSide }),
-);
-cube.castShadow = true;
-scene.add(cube);
-// scene.children.at(-1)!.translateY(-20);
+const gem = models.createBagModel();
+scene.add(gem);
+gem.scale.multiplyScalar(4);
 
 //
 //

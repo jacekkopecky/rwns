@@ -44,7 +44,7 @@ export function setupObjects() {
         oData.collectible = true;
         oData.award = { type: 'coin', amount: Math.floor(random() * dim.coinAwardMax + 1) };
         // make the reach of coins bigger to be easier to collect
-        scaleExtent(oData.extent2d, 2);
+        scaleExtent(oData.extent2d, 3);
         break;
       default:
         oData.hitPoints = dim.objectHitPoints;

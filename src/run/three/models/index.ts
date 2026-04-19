@@ -1,3 +1,4 @@
+export * from './bag';
 export * from './gem';
 export * from './marvin';
 export * from './tree-broadleaf';

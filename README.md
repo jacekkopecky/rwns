@@ -7,8 +7,9 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 ## todo
 
 - [.] add 3d models
-  - [ ] money? bag or heap?
-  - [ ] remove code that deals with sprites?
+  - [ ] make 2d picture for money instead of the money emoji
+  - [ ] remove code that deals with sprites? or replace remaining emoji with my svgs?
+    - it seems to be used for explosions only now so much of it can go
 - [ ] reposition players when one dies, if gaps appear in a row? or in front of them?
   - so that players smoothly move into their position
 - [ ] todo add 'mousemove' like touchmove in touch handler?
@@ -20,6 +21,8 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
   - using level (per type of run?)
   - [ ] try to get objects not to overlap too much, like trees that are too close
   - waves? reset gates? multi-run stages? (like eras and timelines)
+    - where there are rewards, make sure they are relatively evenly spaced in Z, and that some are
+      near the ends so we don't end up with a long ending without rewards
     - many little obstacles, try to get through and gather awards (like dungeon)
     - boxy blocks and everything on a grid, like a mine?
       - with a constrained firing rate starting just at one block shot down per block's distance
@@ -43,6 +46,8 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
         - can play with upgrades but only to try it, making the prize a bit lower
         - allows the player to pass or the quest times out and moves to the next one - in case it's
           randomly too hard
+    - some level types can restrict types of available upgrades, e.g. mine should not permit more
+      players
   - gradation
     - various types of runs should only get stronger if I pass them? at different rates?
     - [ ] special types should be behing special buttons?
@@ -115,6 +120,10 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
   - https://vite-pwa-org.netlify.app/guide/pwa-minimal-requirements.html
 
 ---
+
+## done by 2026-04-18
+
+- [x] money bag
 
 ## done by 2026-04-16
 

@@ -55,7 +55,7 @@ export function* range(n: number) {
   }
 }
 
-const defaultSeed = '0';
+const defaultSeed = '2';
 
 export function createRandom(seed = defaultSeed) {
   return seedrandom(seed);
