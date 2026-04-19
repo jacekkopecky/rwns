@@ -20,6 +20,7 @@ export const modelSizes = {
   player: [4, 16], // for marvin, it's best 1/4
   gem: [10, 10],
   bag: [6, 6],
+  gatePost: [2, 20],
 
   // bullets: it's tetrahedron-radius(ish) and extent radius
   // extent radius = 0 means bullets act as tiny - kill when they're in the object, but they can graze an object harmlessly
@@ -38,7 +39,18 @@ export const trackDecorationN = 20;
 export const trackDecorationLength = 8;
 export const trackDecorationThickness = 3;
 
-export const startDistance = -50; // -trackLength;
+export const gateTypes = {
+  end: {
+    // puth the posts in the middle of track decorations
+    w: trackWidth + trackDecorationThickness,
+    color: 0x00aaff,
+  },
+} as const;
+
+export type Gate = keyof typeof gateTypes;
+
+export const startDistance = 50;
+export const endDistance = 30;
 export const behindCamera = 100;
 export const shadowsEnabled = true;
 

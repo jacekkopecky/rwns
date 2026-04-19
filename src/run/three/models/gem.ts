@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 
-export const gemColor = new THREE.MeshStandardMaterial({
+const gemColor = new THREE.MeshStandardMaterial({
   color: 0x44bbff,
   emissive: 0x44bbff,
   emissiveIntensity: 2.2,

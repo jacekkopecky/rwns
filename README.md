@@ -6,9 +6,11 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 
 ## todo
 
-- [ ] some kind of run ending, and distinguishing between finishing and dying
-  - only reset transient upgrades when a run is successfully finished?
+- [x] some kind of run ending, and distinguishing between finishing and dying
+- [ ] only reset transient upgrades when a run is successfully finished?
   - so they should be called currentLevelUpgrade rather than nextRunUpgrade?
+- [ ] change explosion so it's a flat SVG standing upright, not a sprite, then make gate extent max
+      y 0, not 2
 - [ ] add stable track generation
   - using level (per type of run?)
   - [ ] try to get objects not to overlap too much, like trees that are too close

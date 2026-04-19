@@ -150,6 +150,12 @@ function checkPlayerHit(player: THREE.Object3D) {
         getExtentTranslatedToPosition(player, pData.extent2d, _box2, _circle2),
       )
     ) {
+      // we're colliding with the object
+
+      if (oData.callback) {
+        oData.callback(player);
+      }
+
       const objHP = oData.hitPoints;
       const isHit = hitObject(obj, pData.hitPoints, true);
       if (isHit && !oData.collectible && !oData.benign) {

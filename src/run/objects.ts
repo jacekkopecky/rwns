@@ -6,19 +6,19 @@ import { random } from '#utils';
 import { giveAward } from './awards';
 import { getObjectData } from './types';
 
-import { createObject, killObject } from './three/run-objects';
+import { createObject, killObject, createGate } from './three/run-objects';
 import { isDying, scaleExtent } from './three/resources';
 import { resetGroup, removeGroupChildrenBehindCamera } from './three/tools';
 
 export const objectsGroup = new THREE.Group();
 
-export function setupObjects() {
+export function setupObjects(opts: { onFinish: () => void }) {
   resetGroup(objectsGroup);
 
   const objects: THREE.Object3D[] = [];
   for (let i = 0; i < dim.N; i++) {
     const x = random() * 80 - 40;
-    const y = -(dim.trackLength / dim.N) * i + dim.startDistance;
+    const y = -(dim.trackLength / dim.N) * i - dim.startDistance;
 
     const r = random();
     const type =
@@ -55,6 +55,12 @@ export function setupObjects() {
     objects.push(obj);
   }
 
+  const endGate = createGate('end', opts.onFinish);
+  endGate.userData.maxZ = -(dim.trackLength + dim.startDistance + dim.endDistance);
+  endGate.translateZ(endGate.userData.maxZ);
+  getObjectData(endGate).hitPoints = Infinity; // make the gate swallow bullets
+  objects.push(endGate);
+
   objects.sort(compareByMaxZ);
 
   for (const obj of objects) {
@@ -84,7 +90,11 @@ export function hitObject(obj: THREE.Object3D, hitPoints: number, playerHit = fa
 
   oData.hitPoints -= hitPoints;
 
-  if (oData.collectible || oData.hitPoints <= 0) {
+  if (
+    oData.collectible ||
+    oData.hitPoints <= 0 ||
+    (oData.benign && playerHit && oData.hitPoints !== Infinity)
+  ) {
     const givingAward = oData.award && !(oData.benign && playerHit);
     killObject(obj, givingAward);
 

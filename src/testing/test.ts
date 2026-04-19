@@ -62,15 +62,14 @@ scene.add(cameraHelper);
 //
 //
 
-const gem = models.createBagModel();
-scene.add(gem);
-gem.scale.multiplyScalar(4);
+const gate = models.createGateModel(30, 0x00aaff);
+scene.add(gate.translateZ(20));
 
 //
 //
 //
 //
-// objects
+// end objects
 //
 //
 //

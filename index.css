@@ -201,6 +201,15 @@ button {
     opacity: 1;
     pointer-events: all;
   }
+
+  &:not(.win) .if-win,
+  &.win .if-not-win {
+    display: none;
+  }
+
+  &:not(.collected) .collected {
+    display: none;
+  }
 }
 
 #upgradeButtons {
@@ -248,4 +257,9 @@ button {
 
 .hidden {
   visibility: hidden;
+
+  .hiddenGone &,
+  &.hiddenGone {
+    display: none;
+  }
 }

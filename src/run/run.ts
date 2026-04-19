@@ -129,7 +129,7 @@ export function prepareRun() {
   disposeAnimations();
 
   setupAwards();
-  setupObjects();
+  setupObjects({ onFinish: () => endRun(true, true) });
   // set up players after objects so player upgrades, which may use randomness, don't affect object randomness
   setupPlayers();
   setupBullets();
@@ -165,7 +165,7 @@ function endRun(immediate = false, win = false) {
 
   setTimeout(
     () => {
-      toggleEndRunScreen(true);
+      toggleEndRunScreen(true, win);
 
       setTimeout(() => {
         playing = false;

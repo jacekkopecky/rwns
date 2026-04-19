@@ -118,11 +118,15 @@ export function updateAwardsView(delta: number) {
   }
 }
 
-export function toggleEndRunScreen(value?: boolean) {
-  el.endRunScreen.classList.toggle('visible', value);
+export function toggleEndRunScreen(visible?: boolean, win?: boolean) {
+  el.endRunScreen.classList.toggle('visible', visible);
+  if (visible) {
+    el.endRunScreen.classList.toggle('win', win);
+  }
 }
 
 export function updateEndRunScreen() {
   fillOrHide(el.endRunScreenCoins, wallet.read('coin'));
   fillOrHide(el.endRunScreenGems, wallet.read('gem'));
+  el.endRunScreen.classList.toggle('collected', Boolean(wallet.read('coin') || wallet.read('gem')));
 }
