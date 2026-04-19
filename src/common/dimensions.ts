@@ -7,7 +7,7 @@ export const spriteSizes: Record<string, [number, number]> = {
   fire: [15, 15],
   gems: [10, 10],
   coins: [12, 12],
-  coin: [6, 6],
+  coin: [4, 4],
   gem: [8, 8],
   object: [15, 15],
   defaultSize: [15, 25],
