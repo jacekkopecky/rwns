@@ -1,16 +1,15 @@
 # A Shoot'em game
 
-This was inspired by Timeline Up, but without any spending of real money.
+This is a game that was inspired by Timeline Up, which I played without spending any real money.
+
+It's not really a game yet.
 
 Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 
 ## todo
 
-- [x] some kind of run ending, and distinguishing between finishing and dying
 - [ ] only reset transient upgrades when a run is successfully finished?
   - so they should be called currentLevelUpgrade rather than nextRunUpgrade?
-- [ ] change explosion so it's a flat SVG standing upright, not a sprite, then make gate extent max
-      y 0, not 2
 - [ ] add stable track generation
   - using level (per type of run?)
   - [ ] try to get objects not to overlap too much, like trees that are too close
@@ -48,6 +47,9 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
     - lower probability of a run type if I lose in it?
   - daily tickets for special wave types?
   - [ ] state should have a current seed for track generation?
+- [ ] update README and index to say it's a game now? make it public?
+- [ ] change explosion so it's a flat SVG standing upright, not a sprite,
+  - [ ] then make gate extent max y 0.01 or somesuch, not 2?
 - [ ] remove code that deals with sprites? or replace remaining emoji with my svgs?
   - it seems to be used for explosions and flying coins only now so much of it can go
 - [ ] reposition players when one dies, if gaps appear in a row? or in front of them?
@@ -123,6 +125,7 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 
 ## done by 2026-04-19
 
+- [x] some kind of run ending, and distinguishing between finishing and dying
 - [x] add 3d models
   - [x] make 2d picture for money instead of the money emoji
   - [x] money bag
