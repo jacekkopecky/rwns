@@ -27,6 +27,7 @@ export function init() {
   initRunScreen();
   initUpgrades();
   el.canvas.addEventListener('touchstart', startPlaying);
+  el.canvas.addEventListener('mousedown', startPlaying);
   el.endRunScreenOK.addEventListener('click', showMainScreen);
   el.settingsBtn.addEventListener('click', showSettings);
 

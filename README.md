@@ -10,7 +10,11 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 
 - [ ] only reset transient upgrades when a run is successfully finished?
   - so they should be called currentLevelUpgrade rather than nextRunUpgrade?
+  - [ ] which upgrades are allowed should be in state, computed from level or other props (quests,
+        achievements etc.)
+- [ ] center level and played on screen
 - [ ] add stable track generation
+  - [ ] we'll want some kind of dim.runLength, or a different one per run type
   - using level (per type of run?)
   - [ ] try to get objects not to overlap too much, like trees that are too close
   - waves? reset gates? multi-run stages? (like eras and timelines)
@@ -54,7 +58,6 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
   - it seems to be used for explosions and flying coins only now so much of it can go
 - [ ] reposition players when one dies, if gaps appear in a row? or in front of them?
   - so that players smoothly move into their position
-- [ ] todo add 'mousemove' like touchmove in touch handler?
 - [ ] add daily energy, disabled in dev build
 - [ ] random:
   - [ ] for randomness during a run, do we want predictable but independent prngs?
@@ -122,6 +125,11 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
   - https://vite-pwa-org.netlify.app/guide/pwa-minimal-requirements.html
 
 ---
+
+## done by 2026-04-22
+
+- with the help of AI
+  - [x] todo add 'mousemove' like touchmove in touch handler?
 
 ## done by 2026-04-19
 

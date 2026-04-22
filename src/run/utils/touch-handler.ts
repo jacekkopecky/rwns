@@ -1,7 +1,8 @@
 export class TouchHandler {
-  private lastTouchFraction: number | null = null;
+  private lastPosition: number | null = null;
   private speedUp: number;
   private enabled = true;
+  private isActive = false;
 
   constructor(
     private el: HTMLElement,
@@ -11,30 +12,37 @@ export class TouchHandler {
       onMoveBy?(deltaX: number): void;
     },
   ) {
-    el.addEventListener('touchstart', this.handleTouchStart, { passive: true });
-    el.addEventListener('touchend', this.handleTouchEnd, { passive: true });
-    el.addEventListener('touchmove', this.handleTouchMove, { passive: true });
+    el.addEventListener('touchstart', this.handleStart, { passive: true });
+    el.addEventListener('touchend', this.handleEnd, { passive: true });
+    el.addEventListener('touchmove', this.handleMove, { passive: true });
+    el.addEventListener('mousedown', this.handleStart, { passive: true });
+    el.addEventListener('mouseup', this.handleEnd, { passive: true });
+    el.addEventListener('mouseleave', this.handleEnd, { passive: true });
+    el.addEventListener('mousemove', this.handleMove, { passive: true });
     this.speedUp = opts.speedUp ?? 1;
   }
 
-  handleTouchStart = (e: TouchEvent) => {
-    this.lastTouchFraction = this.getTouchFraction(e);
+  private handleStart = (e: TouchEvent | MouseEvent) => {
+    this.lastPosition = this.getPositionFraction(e);
+    this.isActive = true;
   };
 
-  handleTouchEnd = (e: TouchEvent) => {
-    this.lastTouchFraction = this.getTouchFraction(e);
+  private handleEnd = () => {
+    this.lastPosition = null;
+    this.isActive = false;
   };
 
-  handleTouchMove = (e: TouchEvent) => {
-    if (!this.enabled) return;
-    const touchFraction = this.getTouchFraction(e);
-    if (touchFraction != null && this.lastTouchFraction != null) {
-      const delta = (touchFraction - this.lastTouchFraction) * this.speedUp;
+  private handleMove = (e: TouchEvent | MouseEvent) => {
+    if (!this.enabled || !this.isActive) return;
+
+    const position = this.getPositionFraction(e);
+    if (position != null && this.lastPosition != null) {
+      const delta = (position - this.lastPosition) * this.speedUp;
       if (delta) {
         this.opts.onMoveBy?.(delta);
       }
 
-      this.lastTouchFraction = touchFraction;
+      this.lastPosition = position;
     }
   };
 
@@ -43,13 +51,22 @@ export class TouchHandler {
   };
 
   shutdown = () => {
-    this.el.removeEventListener('touchstart', this.handleTouchStart);
-    this.el.removeEventListener('touchend', this.handleTouchEnd);
-    this.el.removeEventListener('touchmove', this.handleTouchMove);
+    this.el.removeEventListener('touchstart', this.handleStart);
+    this.el.removeEventListener('touchend', this.handleEnd);
+    this.el.removeEventListener('touchmove', this.handleMove);
+    this.el.removeEventListener('mousedown', this.handleStart);
+    this.el.removeEventListener('mouseup', this.handleEnd);
+    this.el.removeEventListener('mouseleave', this.handleEnd);
+    this.el.removeEventListener('mousemove', this.handleMove);
   };
 
-  private getTouchFraction = (e: TouchEvent) => {
-    const t = e.touches[0];
-    return t ? t.clientX / this.el.clientWidth : null;
+  private getPositionFraction = (e: TouchEvent | MouseEvent) => {
+    const clientX = e instanceof TouchEvent ? e.touches[0]?.clientX : e.clientX;
+
+    if (clientX != null) {
+      return clientX / this.el.clientWidth;
+    } else {
+      return null;
+    }
   };
 }
