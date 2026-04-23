@@ -8,13 +8,16 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 
 ## todo
 
-- [ ] only reset transient upgrades when a run is successfully finished?
+- [ ] only reset upgrades from main screen when a run is successfully finished?
   - so they should be called currentLevelUpgrade rather than nextRunUpgrade?
+  - they should be much more expensive so you can only max out after a number of tries
   - [ ] which upgrades are allowed should be in state, computed from level or other props (quests,
         achievements etc.)
-- [ ] center level and played on screen
+- [ ] in-run upgrades? fire rate, damage, extra players?
 - [ ] add stable track generation
   - [ ] we'll want some kind of dim.runLength, or a different one per run type
+    - maybe choose a random or round-robin-ish level _type_ (e.g. forest, maze/mine, battle, tower)
+      which dictates a number of sections of different type which then add up to a length?
   - using level (per type of run?)
   - [ ] try to get objects not to overlap too much, like trees that are too close
   - waves? reset gates? multi-run stages? (like eras and timelines)
@@ -25,7 +28,8 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
       - with a constrained firing rate starting just at one block shot down per block's distance
         walked
       - so at first we kinda have to choose a straight line and can only change when there's a gap
-      - upgrades: every now and then throw a bomb or a drill in front of you
+      - upgrades: every now and then throw a bomb or a drill upgrade in front of you?
+        - they might fire immediately or after a second so you can choose where they go
     - kinda normal with multiplication and strength upgrades and boxes in the end (like normal
       timeline)
     - kinda normal with small strength upgrades and plenty enemies to mow down (and maybe an end
@@ -80,7 +84,7 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
       - max damage upgrade
       - max rate upgrade
   - it should take time to get "learn" skills?
-- [ ] add multi-stage objects (like a pile of jewels)
+- [ ] add multi-stage objects (like a pile of jewels)?
   - [ ] use jewels for treasure? maybe if you shoot the biggest you get one jewel and it becomes a
         smaller one? or a pile?
   - well, a pile could just be a bunch of jewels closely behind each other
@@ -123,6 +127,7 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
       version (no longer updated) - important from v2
 - [ ] make it an installable app with icons etc.
   - https://vite-pwa-org.netlify.app/guide/pwa-minimal-requirements.html
+- [ ] center level and played on screen?
 
 ---
 
