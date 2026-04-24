@@ -8,11 +8,6 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 
 ## todo
 
-- [ ] only reset upgrades from main screen when a run is successfully finished?
-  - so they should be called currentLevelUpgrade rather than nextRunUpgrade?
-  - they should be much more expensive so you can only max out after a number of tries
-  - [x] which upgrades are allowed should be in state, computed from level or other props (quests,
-        achievements etc.)
 - [ ] in-run upgrades? fire rate, damage, extra players?
 - [ ] add stable track generation
   - [ ] we'll want some kind of dim.runLength, or a different one per run type
@@ -130,6 +125,14 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 - [ ] center level and played on screen?
 
 ---
+
+## done by 2026-04-24
+
+- [x] only reset upgrades from main screen when a run is successfully finished?
+  - so they should be called currentLevelUpgrade rather than nextRunUpgrade?
+  - they should be much more expensive so you can only max out after a number of tries
+  - [x] which upgrades are allowed should be in state, computed from level or other props (quests,
+        achievements etc.)
 
 ## done by 2026-04-23
 
