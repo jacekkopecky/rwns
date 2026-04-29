@@ -19,7 +19,6 @@ export function createEndBlock(stageFraction: number) {
     ];
   const block = createBoulderModel(material);
   const [w] = dim.modelSizes.boulder;
-  console.log(w);
 
   block.userData.extent2d = new THREE.Box2(
     new THREE.Vector2(-w / 2, -w / 2),

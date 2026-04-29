@@ -100,6 +100,14 @@ export function getExtentTranslatedToPosition(
   }
 }
 
+export function getExtentFrontY(extent: THREE.Box2 | Circle, x: number): number {
+  if (extent instanceof Circle) {
+    return Math.sqrt(extent.radius ** 2 - (x - extent.center.x) ** 2) + extent.center.y;
+  } else {
+    return extent.max.y;
+  }
+}
+
 function translateBox2XZ(box: THREE.Box2, pos: THREE.Vector3) {
   box.min.x += pos.x;
   box.max.x += pos.x;

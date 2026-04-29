@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 
-import { markAsDying } from '../resources';
+import { getExtentFrontY, markAsDying } from '../resources';
 import { createBulletModel, explosionTemplate } from '../models';
 import { Circle } from '../../types';
 import { rotateAlways } from '../animations';
@@ -19,11 +19,14 @@ export function createBullet(player: THREE.Object3D): THREE.Object3D {
   return bullet;
 }
 
-export function killBullet(bullet: THREE.Object3D) {
+export function killBullet(bullet: THREE.Object3D, objectExtent: THREE.Box2 | Circle) {
   if (bullet instanceof THREE.Mesh) {
     bullet.geometry = explosionTemplate.geometry;
     bullet.material = explosionTemplate.material;
   }
+
+  bullet.position.z =
+    getExtentFrontY(objectExtent, bullet.position.x) + 0.1 - bullet.parent!.position.z;
 
   markAsDying(bullet);
 

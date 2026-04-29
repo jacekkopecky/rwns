@@ -51,8 +51,8 @@ export const cameraDirection = new THREE.Vector3(0, -100, -200);
 // position for debugging bullets
 // export const cameraPosition = new THREE.Vector3(70, 70, 10);
 // export const cameraDirection = new THREE.Vector3(-70, -70, -20);
-// options.timeScale = 0.1;
 // options.stopCamera = true;
+// options.timeScale = 0.1;
 
 export const cameraTarget = cameraPosition.clone().addScaledVector(cameraDirection, 4);
 export const cameraFoV = 60;

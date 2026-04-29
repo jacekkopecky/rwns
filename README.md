@@ -45,6 +45,13 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
         - can play with upgrades but only to try it, making the prize a bit lower
         - allows the player to pass or the quest times out and moves to the next one - in case it's
           randomly too hard
+        - endless, starting from current level difficulty and slowly getting harder?
+          - maybe from forest, through savanna, to desert with occasional dead trees and smaller
+            boulders, and back?
+          - track tiles could get replaced rather than moved, with start and end zone (earthy,
+            grassy, rocky, sandy) where the bricks smoothly change color probabilities so it starts
+            one color set and ends another
+          - enemies could be animals of some sort?
     - some level types can restrict types of available upgrades, e.g. mine should not permit more
       players
   - gradation
@@ -81,8 +88,6 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 - [ ] any other randomness in runs in the same level? what should be random?
   - maybe amount of coins in bags?
   - which end blocks have what rewards?
-- [ ] place explosion in front of the object that was hit, because some bullets hit the end gate too
-      late and the explosion is missing
 - [ ] remove code that deals with sprites? or replace remaining emoji with my svgs?
   - it seems to be used for explosions and flying coins only now so much of it can go
 - [ ] reposition players when one dies, if gaps appear in a row? or in front of them?
@@ -138,6 +143,11 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 - [ ] check if LatheGeometry makes two triangles even if the point is on the axis, fix it
 
 ---
+
+## done by 2026-04-29
+
+- [x] place explosion in front of the object that was hit, because some bullets hit the end gate too
+      late and the explosion is missing
 
 ## done by 2026-04-27
 

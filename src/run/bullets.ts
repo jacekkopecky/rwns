@@ -38,12 +38,12 @@ export function createPlayerBullet(
 
 export function movePlayerBullets(delta: number) {
   const deltaZ = dim.playerBulletSpeed * delta;
+  bulletsGroup.position.z -= deltaZ;
 
   for (const bullet of [...bulletsGroup.children]) {
     checkBulletHit(bullet);
   }
 
-  bulletsGroup.position.z -= deltaZ;
   const bulletsZ = bulletsGroup.position.z;
 
   // remove bullets that are now past their range
@@ -88,16 +88,12 @@ function checkBulletHit(bullet: THREE.Object3D) {
 
     if (objNear < bulletTip) return; // we're done, remaining objects are too far for this bullet to hit
 
-    if (
-      objFar < bulletButt &&
-      intersects(
-        getExtentTranslatedToPosition(obj, oData.extent2d, _box1, _circle1),
-        getExtentTranslatedToPosition(bullet, bData.extent2d, _box2, _circle2),
-      )
-    ) {
+    const oExtent = getExtentTranslatedToPosition(obj, oData.extent2d, _box1, _circle1);
+    const bExtent = getExtentTranslatedToPosition(bullet, bData.extent2d, _box2, _circle2);
+    if (objFar < bulletButt && intersects(oExtent, bExtent)) {
       const isHit = hitObject(obj, bData.hitPoints);
       if (isHit) {
-        killBullet(bullet);
+        killBullet(bullet, oExtent);
         return;
       }
     }

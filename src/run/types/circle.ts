@@ -9,7 +9,7 @@ const _vector = new Vector2();
  */
 export class Circle {
   constructor(
-    private center = new Vector2(0, 0),
+    public center = new Vector2(0, 0),
     public radius = 0,
   ) {}
 
