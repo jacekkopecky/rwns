@@ -6,6 +6,7 @@ import { random } from '#utils';
 import { giveAward } from './awards';
 import { getObjectData } from './types';
 
+import { updateHitBar } from './three/models';
 import { createObject, killObject } from './three/run-objects';
 import { isDying, scaleExtent } from './three/resources';
 import { resetGroup, removeGroupChildrenBehindCamera } from './three/tools';
@@ -87,6 +88,7 @@ export function setupObjects(opts: { onFinish: () => void }) {
 
   for (const obj of objects) {
     objectsGroup.add(obj);
+    obj.userData.maxHitPoints = obj.userData.hitPoints;
   }
 }
 
@@ -111,6 +113,9 @@ export function hitObject(obj: THREE.Object3D, hitPoints: number, playerHit = fa
   if (!playerHit && oData.collectible) return false;
 
   oData.hitPoints -= hitPoints;
+  if (oData.maxHitPoints && oData.hitPoints < oData.maxHitPoints) {
+    updateHitBar(obj, oData.hitPoints / oData.maxHitPoints);
+  }
 
   if (
     oData.collectible ||

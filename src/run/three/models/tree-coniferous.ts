@@ -24,16 +24,19 @@ const crowns = [
   ...range(heightVariations).map((i) => {
     const height = minCrownHeight * 1.11 ** i;
 
-    return [
-      ...range(crownSegments).map((j) => {
-        const distanceFromTop = height * (1 - 0.9 ** (crownSegments - 1 - j));
-        const ratio = 0.8 ** j;
-        const r = (crownDiameter / 2) * ratio ** 0.55;
-        const h = height * ratio - distanceFromTop;
-        const bottom = height - distanceFromTop - h;
-        return new THREE.ConeGeometry(r, h, 4, 1, j > 0).translate(0, h / 2 + bottom, 0);
-      }),
-    ];
+    return {
+      height,
+      cones: [
+        ...range(crownSegments).map((j) => {
+          const distanceFromTop = height * (1 - 0.9 ** (crownSegments - 1 - j));
+          const ratio = 0.8 ** j;
+          const r = (crownDiameter / 2) * ratio ** 0.55;
+          const h = height * ratio - distanceFromTop;
+          const bottom = height - distanceFromTop - h;
+          return new THREE.ConeGeometry(r, h, 4, 1, j > 0).translate(0, h / 2 + bottom, 0);
+        }),
+      ],
+    };
   }),
 ];
 
@@ -65,11 +68,11 @@ export function createConiferTree(isRandom = true) {
   const retval = new THREE.Group();
   if (isRandom) retval.rotation.y = random() * Math.PI;
 
-  const crownGeometries = isRandom ? randomItem(crowns) : crowns[0]!;
+  const { height, cones } = isRandom ? randomItem(crowns) : crowns[0]!;
 
-  for (let i = 0; i < crownGeometries.length; i += 1) {
+  for (let i = 0; i < cones.length; i += 1) {
     const material = greens[i % greens.length]!;
-    const obj = new THREE.Mesh(crownGeometries[i], material);
+    const obj = new THREE.Mesh(cones[i], material);
     obj.castShadow = true;
     obj.receiveShadow = true;
     obj.position.y = crownBottom;
@@ -83,6 +86,7 @@ export function createConiferTree(isRandom = true) {
 
   retval.userData.extent2d = new Circle(undefined, crownDiameter / 2);
   retval.userData.type = 'object';
+  retval.userData.height = height + crownBottom;
 
   return retval;
 }

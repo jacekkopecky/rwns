@@ -26,6 +26,8 @@ export interface BulletData extends AnyObjectData {
 export interface ObjectData extends AnyObjectData {
   type: 'object';
   hitPoints: number;
+  maxHitPoints: number;
+  height: number;
   // collectible objects can be collected by walking over them, not by shooting them
   collectible?: boolean;
   // benign objects just disappear when walking through with no harm to the player

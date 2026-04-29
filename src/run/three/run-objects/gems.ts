@@ -18,6 +18,7 @@ export function createGem() {
 
   // tweak position so bullet hits look good
   gem.translateY(dim.modelSizes.player[1] / 2);
+  gem.userData.height = dim.modelSizes.gem[1];
 
   const action = rotateAlways(gem, dim.gemRotationsPerSecond, 'y');
   gem.addEventListener('removed', () => action.stop());

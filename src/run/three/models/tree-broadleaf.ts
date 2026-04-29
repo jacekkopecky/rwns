@@ -74,6 +74,8 @@ export function createBroadLeafTree(isRandom = true) {
 
   retval.userData.extent2d = new Circle(undefined, crownDiameter / 2);
   retval.userData.type = 'object';
+  retval.userData.height =
+    bottom + crownGeometry.boundingBox!.max.y - crownGeometry.boundingBox!.min.y;
 
   retval.userData._crownIndex = crowns.indexOf(crownGeometry);
 

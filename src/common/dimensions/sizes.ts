@@ -16,6 +16,7 @@ export const modelSizes = {
   bag: [6, 6],
   gatePost: [2, 20],
   boulder: [dim.trackWidth / bouldersPerEndRow - 3, 25],
+  hitBar: [10, 2],
 
   // bullets: it's tetrahedron-radius(ish) and extent radius
   // extent radius = 0 means bullets act as tiny - kill when they're in the object, but they can graze an object harmlessly

@@ -7,6 +7,7 @@ import { createGem, killGem } from './gems';
 import { createBag, killBag } from './money';
 import { createRandomTree, killTree } from './tree';
 import { createEndBlock, killEndBlock } from './end-blocks';
+import { createHitBar } from '../models';
 
 const typeFns = {
   tree: [createRandomTree, killTree],
@@ -23,6 +24,11 @@ export function createObject<T extends keyof typeof typeFns>(
   // @ts-expect-error ...args complains about the spread but it's OK
   const retval = typeFns[type][0](...args);
   retval.userData._createObject_type = type;
+
+  if (retval.userData.height) {
+    retval.add(createHitBar().translateY(retval.userData.height));
+  }
+
   return retval;
 }
 

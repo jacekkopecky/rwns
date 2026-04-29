@@ -105,7 +105,6 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
   - [ ] use jewels for treasure? maybe if you shoot the biggest you get one jewel and it becomes a
         smaller one? or a pile?
   - well, a pile could just be a bunch of jewels closely behind each other
-- [ ] add objects with a visible damage countdown (health bar)
 - [ ] when items are gained (like a better gun), make it fly towards player?
 - [ ] add objects that shoot at us?
 - [ ] add objects/gates that move left/right?
@@ -146,6 +145,7 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 
 ## done by 2026-04-29
 
+- [x] add objects with a visible damage countdown (hit bar / health bar)
 - [x] place explosion in front of the object that was hit, because some bullets hit the end gate too
       late and the explosion is missing
 

@@ -18,13 +18,14 @@ export function createEndBlock(stageFraction: number) {
       Math.min(boulderColors.length - 1, Math.floor(stageFraction * boulderColors.length))
     ];
   const block = createBoulderModel(material);
-  const [w] = dim.modelSizes.boulder;
+  const [w, h] = dim.modelSizes.boulder;
 
   block.userData.extent2d = new THREE.Box2(
     new THREE.Vector2(-w / 2, -w / 2),
     new THREE.Vector2(w / 2, w / 2),
   );
   block.userData.type = 'object';
+  block.userData.height = h;
 
   return block;
 }
