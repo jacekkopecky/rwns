@@ -9,6 +9,7 @@ import { createBoulderModel } from '../models';
 const boulderColors = [
   colorFlatMaterials.beige1,
   colorFlatMaterials.brown1,
+  colorFlatMaterials.brown2,
   colorFlatMaterials.brown3,
 ];
 
