@@ -1,7 +1,7 @@
 import { fillOrHide } from '#utils';
 
 import { initUpgrades, updateUpgrades } from './main-screen-upgrades';
-import { init as initRunScreen, prepareRun, startRun } from './run';
+import { init as initRunScreen, handleRetryButton, prepareRun, startRun } from './run';
 import { initState, readState, resetState } from './state';
 
 const el = {
@@ -11,6 +11,7 @@ const el = {
   exitBtn: document.querySelector<HTMLButtonElement>('#exitBtn')!,
   settingsBtn: document.querySelector<HTMLButtonElement>('#settingsBtn')!,
   endRunScreenOK: document.querySelector('#endRunScreen button.ok')!,
+  endRunScreenRetry: document.querySelector('#endRunScreen button.retry')!,
   wallet: {
     gem: document.querySelector('#mainScreenWallet .gem')!,
     coin: document.querySelector('#mainScreenWallet .coin')!,
@@ -29,6 +30,7 @@ export function init() {
   el.canvas.addEventListener('touchstart', startPlaying);
   el.canvas.addEventListener('mousedown', startPlaying);
   el.endRunScreenOK.addEventListener('click', showMainScreen);
+  el.endRunScreenRetry.addEventListener('click', retry);
   el.settingsBtn.addEventListener('click', showSettings);
 
   // touching near or between the buttons shouldn't start a run
@@ -43,6 +45,11 @@ export function startPlaying() {
     el.main.classList.add('run');
     startRun();
   }
+}
+
+function retry() {
+  handleRetryButton();
+  showMainScreen();
 }
 
 export function showMainScreen() {

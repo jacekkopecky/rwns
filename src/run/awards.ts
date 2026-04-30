@@ -125,6 +125,12 @@ export function toggleEndRunScreen(visible?: boolean, win?: boolean) {
   }
 }
 
+export function handleRetryButton() {
+  if (el.endRunScreen.classList.contains('visible') && el.endRunScreen.classList.contains('win')) {
+    state.retryLevel();
+  }
+}
+
 export function updateEndRunScreen() {
   fillOrHide(el.endRunScreenCoins, wallet.read('coin'));
   fillOrHide(el.endRunScreenGems, wallet.read('gem'));

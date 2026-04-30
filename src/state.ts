@@ -4,7 +4,17 @@ import { parseUpgrades, type Upgrade, type UpgradeBag, type UpgradeType } from '
 
 const LOCAL_STORAGE_KEY = 'jacekkopecky-shoot-em-state';
 
-function createInitialState() {
+interface State {
+  wallet: Wallet;
+  level: number;
+  played: number;
+  currentLevelUpgrades: UpgradeBag;
+  previousLevel?: Pick<State, 'level' | 'currentLevelUpgrades'>;
+}
+
+export type ReadonlyState = Omit<Readonly<State>, 'wallet'> & { wallet: ReadonlyWallet };
+
+function createInitialState(): State {
   const currentLevelUpgrades: UpgradeBag = {};
   return {
     wallet: new Wallet(),
@@ -15,8 +25,6 @@ function createInitialState() {
 }
 
 let state = createInitialState();
-
-export type ReadonlyState = Omit<Readonly<typeof state>, 'wallet'> & { wallet: ReadonlyWallet };
 
 export function initState() {
   loadState();
@@ -40,9 +48,21 @@ export function pay(type: CurrencyType, amount: number) {
 }
 
 export function increaseLevel() {
+  state.previousLevel = {
+    level: state.level,
+    currentLevelUpgrades: state.currentLevelUpgrades,
+  };
   state.level += 1;
   state.currentLevelUpgrades = {};
   saveState();
+}
+
+export function retryLevel() {
+  if (state.previousLevel) {
+    Object.assign(state, state.previousLevel);
+    delete state.previousLevel;
+    saveState();
+  }
 }
 
 export function increasePlayed() {

@@ -8,6 +8,19 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 
 ## todo
 
+- [ ] tracks
+  1.  short, just trees
+  - custom message: don't run into trees
+  2. longer, trees and 10 bags with up to 3 coins (avg 2)
+  - custom message: find and collect coins
+- [ ] add a settings screen
+  - don't show settings in first level
+  - "reset"
+  - "go back to previous level"
+  - "show tutorials again"
+  - after second level, show the new settings button to the user
+  - in state, there could be a "tutorials seen" array, and an "enabled" function (instead of
+    isUpgradeAllowed?)
 - [ ] add stable track generation
   - much longer than now
   - first level without end blocks?
@@ -71,6 +84,7 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
     - a gun upgrade for only a limited number of my creatures - e.g. upgrades 1, 2 or 3 of them
       only, for that run only
 - [ ] add daily energy, disabled in dev build
+  - only enable after the first few levels
 - [ ] add permanent upgrades
   - cards, skills etc.
     - general: starting player number, fire rate, damage
@@ -142,6 +156,13 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
 - [ ] check if LatheGeometry makes two triangles even if the point is on the axis, fix it
 
 ---
+
+## done by 2026-04-30
+
+- [x] add a "retry" button on end of level, rename "ok" to "next"
+  - retry decreases level again if it was increased by a win
+  - it has to be increased immediately on win because otherwise a reload on the "well done" screen
+    would lose that progress
 
 ## done by 2026-04-29
 

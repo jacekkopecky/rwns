@@ -198,9 +198,20 @@ button {
 
   font-size: 1.5em;
 
-  button.ok {
+  .buttons {
     margin-top: 30%;
-    min-width: 4em;
+    display: flex;
+    gap: 1em;
+
+    button {
+      min-width: 4em;
+      &.ok {
+        background-color: #a2ff44;
+      }
+      &.retry {
+        background-color: #ffc04a;
+      }
+    }
   }
 
   &.visible {
