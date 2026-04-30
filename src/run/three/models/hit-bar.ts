@@ -4,8 +4,8 @@ import * as dim from '#dimensions';
 
 export const barColors = [
   { from: 0.1, color: new THREE.Color(0xff4444) },
-  { from: 0.35, color: new THREE.Color(0xff8800) },
-  { from: 0.9, color: new THREE.Color(0x00bb00) },
+  { from: 0.25, color: new THREE.Color(0xff8800) },
+  { from: 0.6, color: new THREE.Color(0x00bb00) },
 ] as const;
 
 const [w, h] = dim.modelSizes.hitBar;
