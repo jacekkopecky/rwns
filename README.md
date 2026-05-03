@@ -1,26 +1,25 @@
-# A Shoot'em game
+# A Robot Walkin'n'Shootin game
 
 This is a game that was inspired by Timeline Up, which I played without spending any real money.
 
 It's not really a game yet.
 
-Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
+Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
+- [ ] get notes into here from google keep
 - [ ] tracks
-  1.  short, just trees
-  - custom message: don't run into trees
+  1. just trees, one hit point each
+     - custom message: don't run into trees
   2. longer, trees and 10 bags with up to 3 coins (avg 2)
-  - custom message: find and collect coins
-- [ ] add a settings screen
-  - don't show settings in first level
-  - "reset"
-  - "go back to previous level"
-  - "show tutorials again"
-  - after second level, show the new settings button to the user
-  - in state, there could be a "tutorials seen" array, and an "enabled" function (instead of
-    isUpgradeAllowed?)
+     - custom message: find and collect coins
+  3. same as above with end blocks
+     - custom message: some things take more than one bullet
+     - [ ] custom message with balanced text wrapping
+     - [ ] add achievement for passing tutorial levels, enables fire rate or damage upgrade?
+     - [ ] hide in-run wallet until there's something in it
+     - [ ] hide main wallet until there's something in it
 - [ ] add stable track generation
   - much longer than now
   - first level without end blocks?
@@ -75,6 +74,10 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
   - [ ] state should have a current seed for track generation?
 - [ ] make end blocks give rewards?
   - an end block with a jewel could have that jewel encrusted inside
+- [ ] achievements
+  - gather 100 coins
+  - finish tutorial levels (3) (unlocks first upgrade - fire rate?)
+  - [ ] list of achievements, showing progress?
 - [ ] in-run upgrades? fire rate, damage, extra players?
   - as gates? (move gate creation and then killing to run/object/object.ts so run/objects.ts doesn't
     call createGate directly?)
@@ -154,8 +157,20 @@ Runs on [github pages](https://jacekkopecky.github.io/shoot-em).
   - https://vite-pwa-org.netlify.app/guide/pwa-minimal-requirements.html
 - [ ] center level and played on screen?
 - [ ] check if LatheGeometry makes two triangles even if the point is on the axis, fix it
+- [ ] add a settings screen
+  - don't show settings in first level
+  - "reset"
+  - "go back to previous level"
+  - "show tutorials again"
+  - after second level, show the new settings button to the user
+  - in state, there could be a "tutorials seen" array, and an "enabled" function (instead of
+    isUpgradeAllowed?)
 
 ---
+
+## done by 2026-05-03
+
+- [x] rename to RWNS (Robot Walkin'n'Shootin)
 
 ## done by 2026-04-30
 
