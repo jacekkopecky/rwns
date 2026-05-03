@@ -14,7 +14,7 @@ export const firstLevels: LevelFunction[] =
 function first() {
   // just trees, one hit point each
   return {
-    objects: makeTrees(dim.runLength, dim.treesPerTreeWidth, dim.playerBulletHitPoints * 10),
+    objects: makeTrees(dim.runLength, dim.treesPerTreeWidth, dim.playerBulletHitPoints),
     customMessage: `don't run into trees`,
   };
 }

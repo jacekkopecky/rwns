@@ -104,11 +104,15 @@ main {
     justify-content: center;
     align-items: center;
 
+    --shadow-color: white;
+
+    & > * {
       text-shadow:
-      0 0 0.3em white,
-      0 0 0.3em white,
-      0 0 0.3em white,
-      0 0 0.3em white;
+        0 0 0.3em var(--shadow-color),
+        0 0 0.3em var(--shadow-color),
+        0 0 0.3em var(--shadow-color),
+        0 0 0.3em var(--shadow-color);
+    }
 
     :empty {
       display: none;
@@ -118,6 +122,8 @@ main {
 
 #shortMessage {
   font-style: italic;
+  text-align: center;
+  text-wrap: balance;
 }
 
 button {

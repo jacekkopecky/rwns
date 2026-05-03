@@ -9,12 +9,19 @@ export type LevelFunction = (state: ReadonlyState) => {
   customMessage?: string;
 };
 
-export function createLevelObjects(state: ReadonlyState) {
-  if (state.level < firstLevels.length) {
-    return firstLevels[state.level]!(state);
-  }
+export function createLevelObjects(state: ReadonlyState): ReturnType<LevelFunction> {
+  try {
+    if (state.level < firstLevels.length) {
+      return firstLevels[state.level]!(state);
+    }
 
-  throw new Error(`no function to make level ${state.level}`);
+    throw new Error('run out of levels');
+  } catch (e) {
+    console.error(`error making a level`, e);
+
+    // use first level as a fallback
+    return { ...firstLevels[0]!(state), customMessage: 'unexpected intermission' };
+  }
 }
 
 // const otherGate = createObject('gate', 'other', () => {});
