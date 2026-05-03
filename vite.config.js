@@ -8,6 +8,9 @@ export default defineConfig({
     tsconfigPaths(),
     VitePWA({
       registerType: 'autoUpdate',
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,svg}'],
+      },
     }),
   ],
   build: {
