@@ -89,6 +89,7 @@ main {
     color: #664422;
     border-width: thick 0 thick thick;
     text-align: right;
+    pointer-events: none;
   }
 
   & #touchToStart {
@@ -103,7 +104,7 @@ main {
     justify-content: center;
     align-items: center;
 
-    text-shadow:
+      text-shadow:
       0 0 0.3em white,
       0 0 0.3em white,
       0 0 0.3em white,

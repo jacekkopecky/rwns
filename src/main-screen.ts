@@ -1,4 +1,4 @@
-import { fillOrHide } from '#utils';
+import { fillOrHide, showIfAnyValue } from '#utils';
 
 import { initUpgrades, updateUpgrades } from './main-screen-upgrades';
 import { init as initRunScreen, handleRetryButton, prepareRun, startRun } from './run';
@@ -12,6 +12,7 @@ const el = {
   settingsBtn: document.querySelector<HTMLButtonElement>('#settingsBtn')!,
   endRunScreenOK: document.querySelector('#endRunScreen button.ok')!,
   endRunScreenRetry: document.querySelector('#endRunScreen button.retry')!,
+  walletContainer: document.querySelector('#mainScreenWallet')!,
   wallet: {
     gem: document.querySelector('#mainScreenWallet .gem')!,
     coin: document.querySelector('#mainScreenWallet .coin')!,
@@ -65,6 +66,7 @@ export function updateMainScreen() {
 
   fillOrHide(el.wallet.coin, state.wallet.read('coin'));
   fillOrHide(el.wallet.gem, state.wallet.read('gem'));
+  showIfAnyValue(el.walletContainer, state.wallet.read('coin') || state.wallet.read('gem'));
 
   fillOrHide(el.playStats.level, state.level, String);
   fillOrHide(el.playStats.played, state.played, String);

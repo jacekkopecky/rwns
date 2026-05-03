@@ -40,6 +40,10 @@ export function fillOrHide(
   el.classList.toggle('hidden', !value);
 }
 
+export function showIfAnyValue(el: Element, value: number | boolean) {
+  el.classList.toggle('hidden', !value);
+}
+
 export function* range(n: number) {
   for (let i = 0; i < n; i += 1) {
     yield i;

@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 import { type CurrencyType, Wallet } from '#types';
-import { fillOrHide, formatNumber, random } from '#utils';
+import { fillOrHide, random } from '#utils';
 
 import * as state from '../state';
 
@@ -16,9 +16,10 @@ const el = {
   endRunScreen: document.querySelector('#endRunScreen')!,
   endRunScreenCoins: document.querySelector('#endRunScreen .coin')!,
   endRunScreenGems: document.querySelector('#endRunScreen .gem')!,
+  inRunContainer: document.querySelector('#inRunWallet')!,
   inRun: {
-    gem: document.querySelector('#inRunWallet .gem .value')!,
-    coin: document.querySelector('#inRunWallet .coin .value')!,
+    gem: document.querySelector('#inRunWallet .gem')!,
+    coin: document.querySelector('#inRunWallet .coin')!,
   },
 };
 
@@ -32,9 +33,10 @@ export function setupAwards() {
   wallet.reset();
   awardsShowing.clear();
   toggleEndRunScreen(false);
-  for (const valueEl of Object.values(el.inRun)) {
-    valueEl.textContent = ' ';
+  for (const walletEl of Object.values(el.inRun)) {
+    fillOrHide(walletEl, 0);
   }
+  el.inRunContainer.classList.add('hidden');
 }
 
 export async function giveAward(fromObj: THREE.Object3D, oData: ObjectData) {
@@ -112,9 +114,12 @@ function splitAward(n: number): number[] {
 
 export function updateAwardsView(delta: number) {
   for (const [currencyType, countup] of awardsShowing.entries()) {
-    const valueEl = el.inRun[currencyType];
+    const walletEl = el.inRun[currencyType];
     const showing = countup.updateShowing(delta);
-    if (countup) valueEl.textContent = formatNumber(showing);
+    fillOrHide(walletEl, showing);
+    if (showing) {
+      el.inRunContainer.classList.remove('hidden');
+    }
   }
 }
 
