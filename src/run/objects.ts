@@ -65,7 +65,11 @@ export function hitObject(obj: THREE.Object3D, hitPoints: number, playerHit = fa
   // cannot shoot a collectible
   if (!playerHit && oData.collectible) return false;
 
-  oData.hitPoints -= hitPoints;
+  // cannot harm a benign object with a player
+  if (!(playerHit && oData.benign)) {
+    oData.hitPoints -= hitPoints;
+  }
+
   if (oData.maxHitPoints && oData.hitPoints < oData.maxHitPoints) {
     updateHitBar(obj, oData.hitPoints / oData.maxHitPoints);
   }

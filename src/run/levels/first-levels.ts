@@ -30,9 +30,9 @@ function second() {
 
   for (const i of treeIndexesToReplace) {
     const tree = objects[i]!;
-    const gem = makeBag(removeRandomItem(amounts));
-    objects[i] = gem;
-    gem.position.copy(tree.position);
+    const bag = makeBag(removeRandomItem(amounts));
+    objects[i] = bag;
+    bag.position.add(tree.position);
   }
 
   return { objects, customMessage: 'find and collect coins' };

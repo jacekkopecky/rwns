@@ -8,31 +8,13 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
-- [ ] get notes into here from google keep
 - [ ] tracks
-  1. just trees, one hit point each
-     - custom message: don't run into trees
-  2. longer, trees and 10 bags with up to 3 coins (avg 2)
-     - custom message: find and collect coins
-  3. same as above with end blocks
-     - custom message: some things take more than one bullet
-     - [ ] custom message with balanced text wrapping
-     - [ ] add achievement for passing tutorial levels, enables fire rate or damage upgrade?
-     - [ ] hide in-run wallet until there's something in it
-     - [ ] hide main wallet until there's something in it
-- [ ] add stable track generation
-  - much longer than now
-  - first level without end blocks?
   - a few scattered end blocks in the middle of first few levels, which can be killed but also can
     be walked around
-  - [ ] we'll want some kind of dim.runLength, or a different one per run type
-    - maybe choose a random or round-robin-ish level _type_ (e.g. forest, maze/mine, battle, tower)
-      which dictates a number of sections of different type which then add up to a length?
   - using level (per type of run?)
   - [ ] try to get objects not to overlap too much, like trees that are too close
-  - waves? reset gates? multi-run stages? (like eras and timelines)
-    - where there are rewards, make sure they are relatively evenly spaced in Z, and that some are
-      near the ends so we don't end up with a long ending without rewards
+  - waves? reset gates? multi-stage runs?
+  - ideas:
     - many little obstacles, try to get through and gather awards (like dungeon)
     - boxy blocks and everything on a grid, like a mine?
       - with a constrained firing rate starting just at one block shot down per block's distance
@@ -76,7 +58,9 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - an end block with a jewel could have that jewel encrusted inside
 - [ ] achievements
   - gather 100 coins
-  - finish tutorial levels (3) (unlocks first upgrade - fire rate?)
+  - clear out a level
+  - finish tutorial levels (3) (unlocks first upgrade - fire rate?, and unlocks achievements
+    showing)
   - [ ] list of achievements, showing progress?
 - [ ] in-run upgrades? fire rate, damage, extra players?
   - as gates? (move gate creation and then killing to run/object/object.ts so run/objects.ts doesn't
@@ -86,6 +70,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - other in-run upgrades:
     - a gun upgrade for only a limited number of my creatures - e.g. upgrades 1, 2 or 3 of them
       only, for that run only
+  - [ ] gates that only change Marvin's colour, quests like break 20 end blocks with red robot
+    - the gates could be random per play because they have little effect on the level outcome
 - [ ] add daily energy, disabled in dev build
   - only enable after the first few levels
 - [ ] add permanent upgrades
@@ -130,7 +116,11 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - this needs to carefully handle the Z sorting of objectsGroup
 - [ ] quests?
   - with timeout - daily, weekly?, monthly
-  - add a give-up possibility to remove clutter
+  - add a give-up possibility to remove clutter, or re-roll?
+  - quest re-roll buttons could only work once a day, and use a diamond or cost some other price?
+  - quest types:
+    - break 20 end blocks
+    - break 20 end blocks with red/green/blue robot
 - others?
   - [ ] use LoadManager from https://threejs.org/manual/#en/textures for progress bars?
   - [ ] use SpriteMixer? https://github.com/felixmariotto/three-SpriteMixer/
@@ -147,7 +137,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] add particles showing damage?
 - [ ] should some upgrades expire? should they be more/less expensive after expiry?
 - [ ] add specific bigger occasional awards like the key in ice?
-- [ ] publish on github pages
+- [ ] let the world know about the game
+  - reddit three.js? reddit games?
   - when all artwork is mine
   - when there are some upgrades
   - when there are at least two different types of runs
@@ -171,6 +162,25 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 ## done by 2026-05-03
 
 - [x] rename to RWNS (Robot Walkin'n'Shootin)
+- [x] get notes into here from google keep
+  - [x] Why are gems losing hp when I walk over them?
+- [.] tracks
+  - much longer than now
+  - [x] we'll want some kind of dim.runLength, or a different one per run type
+    - maybe choose a random or round-robin-ish level _type_ (e.g. forest, maze/mine, battle, tower)
+      which dictates a number of sections of different type which then add up to a length?
+  1. just trees, one hit point each
+     - first level without end blocks?
+     - custom message: don't run into trees
+  2. longer, trees and 10 bags with up to 3 coins (avg 2)
+     - custom message: find and collect coins
+  3. same as above with end blocks
+     - custom message: some things take more than one bullet
+     - [x] custom message with balanced text wrapping
+     - [x] hide in-run wallet until there's something in it
+     - [x] hide main wallet until there's something in it
+  - [x] where there are rewards, make sure they are relatively evenly spaced in Z, and that some are
+        near the ends so we don't end up with a long ending without rewards
 
 ## done by 2026-04-30
 
