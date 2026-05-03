@@ -9,12 +9,14 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 ## todo
 
 - [ ] tracks
-  - a few scattered end blocks in the middle of first few levels, which can be killed but also can
-    be walked around
+  - [ ] 4—? increasing difficulty until it's impossible
+    - in the level where it's impossible, introduce gems so we can start buying permanent upgrades
   - using level (per type of run?)
   - [ ] try to get objects not to overlap too much, like trees that are too close
   - waves? reset gates? multi-stage runs?
   - ideas:
+    - a few scattered end blocks in the middle of first few levels, which can be killed but also can
+      be walked around
     - many little obstacles, try to get through and gather awards (like dungeon)
     - boxy blocks and everything on a grid, like a mine?
       - with a constrained firing rate starting just at one block shot down per block's distance
@@ -54,14 +56,34 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
     - lower probability of a run type if I lose in it?
   - daily tickets for special wave types?
   - [ ] state should have a current seed for track generation?
-- [ ] make end blocks give rewards?
-  - an end block with a jewel could have that jewel encrusted inside
+- [.] currencies analysis
+  - coins: normal upgrades in a run
+    - every now and then, these could be reset to 0, just in case it's too easy to collect them?
+    - we don't have the end of a timeline (after several eras)
+  - gems: what for? cards with permanent upgrades?
+  - what do we get for quests?
+    - points towards levels? different points per quest?
+    - what do we get for levels? extra energy, gems, some other special currency…?
+  - what do we get in a mine?
+    - in Timeline Up, it's coal and iron, for delayed general upgrades, could do something similar?
+  - some other special currency: buy robot upgrades, e.g. military ranks
+    - these could be buyable as many times as I can add new robots, each gives me one upgraded robot
+    - I could choose to buy the second sergeant sooner, or the only corporal for more money if I
+      don't often upgrade to more robots
+    - officer ranks could have a limit where the lowest rank must be X levels below or else you
+      can't buy the next officer rank
+      - if you get an upgrade where you have a new robot, you'd then have to get all the lower ranks
+        for that robot before you can upgrade the best officer
+- [ ] make end blocks give rewards? (only when you get that card)
+  - an end block with a jewel could have that jewel encrusted inside, random-rotated in x&z?
 - [ ] achievements
   - gather 100 coins
   - clear out a level
   - finish tutorial levels (3) (unlocks first upgrade - fire rate?, and unlocks achievements
     showing)
   - [ ] list of achievements, showing progress?
+    - achievements should at some point be sorted by ETA, not by fraction of achievement, so that
+      long-taking achievements that are 2/3 done aren't hogging top ranks
 - [ ] in-run upgrades? fire rate, damage, extra players?
   - as gates? (move gate creation and then killing to run/object/object.ts so run/objects.ts doesn't
     call createGate directly?)
@@ -76,11 +98,11 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - only enable after the first few levels
 - [ ] add permanent upgrades
   - cards, skills etc.
-    - general: starting player number, fire rate, damage
+    - general: starting fire rate, damage (with probability decreasing with upgrade price)
     - specific:
-      - end block award
+      - end block award (starts from 0)
       - end block strength
-      - tree strength
+      - normal object (e.g. tree) strength
       - price of damage upgrade
       - price of rate upgrade
       - max damage upgrade
