@@ -98,6 +98,8 @@ main {
     font-size: 2em;
 
     display: flex;
+    flex-direction: column;
+    gap: 1em;
     justify-content: center;
     align-items: center;
 
@@ -106,7 +108,15 @@ main {
       0 0 0.3em white,
       0 0 0.3em white,
       0 0 0.3em white;
+
+    :empty {
+      display: none;
+    }
   }
+}
+
+#shortMessage {
+  font-style: italic;
 }
 
 button {

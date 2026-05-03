@@ -42,6 +42,7 @@ const el = {
   main: document.querySelector('main')!,
   canvas: document.querySelector<HTMLCanvasElement>('#webglCanvas')!,
   exitBtn: document.querySelector<HTMLButtonElement>('#exitBtn')!,
+  shortMessage: document.querySelector<HTMLElement>('#shortMessage')!,
 };
 
 /**
@@ -129,7 +130,12 @@ export function prepareRun() {
   disposeAnimations();
 
   setupAwards();
-  setupObjects({ onFinish: () => endRun(true, true) });
+  setupObjects({
+    onFinish: () => endRun(true, true),
+    setCustomMessage: (msg) => {
+      el.shortMessage.textContent = msg;
+    },
+  });
   // set up players after objects so player upgrades, which may use randomness, don't affect object randomness
   setupPlayers();
   setupBullets();

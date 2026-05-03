@@ -18,8 +18,6 @@ export const endDistance = 35;
 export const behindCamera = 100;
 export const shadowsEnabled = true;
 
-export const N = 60;
-export const objectSpeedPerSecond = 10;
 export const objectDyingDuration = 0.3;
 export const treeDyingDuration = 0.5;
 export const objectHitPoints = 1;
@@ -35,6 +33,7 @@ export const runAwardsFlyTime = 0.8;
 
 export const countupMaxTime = 0.6;
 
+export const playerSpeedPerSecond = 10;
 export const playerShotsPerSecond = 1;
 export const playerBulletRange = 40;
 export const playerBulletLength = 2;
@@ -44,6 +43,9 @@ export const playerBulletDyingDuration = 0.2;
 export const playerHitPoints = 1;
 export const playerDyingDuration = 0.6;
 export const bulletRotationsPerSecond = 8;
+
+// a run takes 60-ish seconds
+export const runLength = 60 * playerSpeedPerSecond - startDistance;
 
 export const cameraPosition = new THREE.Vector3(0, 100, 100);
 export const cameraDirection = new THREE.Vector3(0, -100, -200);

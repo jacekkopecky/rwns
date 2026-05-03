@@ -1,18 +1,8 @@
-import { Wallet, type ReadonlyWallet, type Currency, type CurrencyType } from '#types';
+import { Wallet, type Currency, type CurrencyType, type ReadonlyState, type State } from '#types';
 
 import { parseUpgrades, type Upgrade, type UpgradeBag, type UpgradeType } from './upgrades';
 
 const LOCAL_STORAGE_KEY = 'jacekkopecky-shoot-em-state';
-
-interface State {
-  wallet: Wallet;
-  level: number;
-  played: number;
-  currentLevelUpgrades: UpgradeBag;
-  previousLevel?: Pick<State, 'level' | 'currentLevelUpgrades'>;
-}
-
-export type ReadonlyState = Omit<Readonly<State>, 'wallet'> & { wallet: ReadonlyWallet };
 
 function createInitialState(): State {
   const currentLevelUpgrades: UpgradeBag = {};

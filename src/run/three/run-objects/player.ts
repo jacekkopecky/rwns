@@ -22,7 +22,7 @@ export function createPlayer(): THREE.Object3D {
       hipWidth: w,
       legLength: h / 2,
       legRadius: h * 0.053, // seems to work OK
-      speed: dim.objectSpeedPerSecond,
+      speed: dim.playerSpeedPerSecond,
     },
     normalMaterial,
     normalGunMaterial,

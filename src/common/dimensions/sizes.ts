@@ -7,6 +7,7 @@ export const spriteSizes: Record<string, [number, number]> = {
 export const spriteResolution = 64;
 
 export const bouldersPerEndRow = 4;
+export const treesPerTreeWidth = 3;
 
 export const modelSizes = {
   conifer: [20, 35],

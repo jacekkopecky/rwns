@@ -1,4 +1,3 @@
-import seedrandom from 'seedrandom';
 import * as THREE from 'three';
 
 export function formatNumber(n: number): string {
@@ -41,43 +40,11 @@ export function fillOrHide(
   el.classList.toggle('hidden', !value);
 }
 
-export function randomItem<T>(arr: readonly T[], prng = random): T {
-  if (arr.length === 0) {
-    throw new Error('cannot pick a random item from an empty array');
-  }
-
-  return arr[Math.floor(prng() * arr.length)]!;
-}
-
 export function* range(n: number) {
   for (let i = 0; i < n; i += 1) {
     yield i;
   }
 }
-
-const defaultSeed = '2';
-
-export function createRandom(seed = defaultSeed) {
-  return seedrandom(seed);
-}
-
-export // intentionally on its line for ease of commenting out
-let random = seedrandom(defaultSeed);
-
-export function resetRandom(seed = defaultSeed) {
-  random = createRandom(seed);
-  // randomCount = 0;
-}
-
-// let randomCount = 0;
-// function rnd() {
-//   randomCount += 1;
-//   return random();
-// }
-// export function getRandomCount() {
-//   return randomCount;
-// }
-// export { rnd as random };
 
 export function getByName<T extends THREE.Object3D>(objects: T[], name: string) {
   const retval = objects.find((obj) => obj.name === name);

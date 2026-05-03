@@ -26,8 +26,8 @@
       <div id="topBar" class="partial-in-run">
         <button id="exitBtn" class="in-run">Exit</button>
         <div id="mainScreenWallet">
-          <div class="coin"><span class="value">0</span> <i class="i coins"></i></div>
-          <div class="gem"><span class="value">0</span> <i class="i gem"></i></div>
+          <div class="coin hiddenGone"><span class="value">0</span> <i class="i coins"></i></div>
+          <div class="gem hiddenGone"><span class="value">0</span> <i class="i gem"></i></div>
         </div>
         <button id="settingsBtn">⚙️</button>
       </div>
@@ -37,11 +37,14 @@
         <div class="played">Played: <span class="value"></span></div>
       </div>
 
-      <div id="touchToStart">touch to start</div>
+      <div id="touchToStart">
+        <span id="shortMessage" class="hiddenGone"></span>
+        <span>touch to start</span>
+      </div>
 
       <div id="inRunWallet" class="only-in-run">
-        <div class="coin"><span class="value"></span> <i class="i coins"></i></div>
-        <div class="gem"><span class="value"></span> <i class="i gem"></i></div>
+        <div class="coin hiddenGone"><span class="value"></span> <i class="i coins"></i></div>
+        <div class="gem hiddenGone"><span class="value"></span> <i class="i gem"></i></div>
       </div>
 
       <div id="endRunScreen">

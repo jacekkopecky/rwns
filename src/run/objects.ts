@@ -1,76 +1,38 @@
 import * as THREE from 'three';
 
 import * as dim from '#dimensions';
-import { random } from '#utils';
+
+import * as state from '../state';
 
 import { giveAward } from './awards';
+import { createLevelObjects } from './levels';
 import { getObjectData } from './types';
 
 import { updateHitBar } from './three/models';
 import { createObject, killObject } from './three/run-objects';
-import { isDying, scaleExtent } from './three/resources';
+import { isDying } from './three/resources';
 import { resetGroup, removeGroupChildrenBehindCamera } from './three/tools';
 
 export const objectsGroup = new THREE.Group();
 
-export function setupObjects(opts: { onFinish: () => void }) {
+export function setupObjects(opts: {
+  onFinish: () => void;
+  setCustomMessage: (msg: string) => void;
+}) {
   resetGroup(objectsGroup);
 
-  const objects: THREE.Object3D[] = [];
-  for (let i = 0; i < dim.N; i++) {
-    const x = random() * 80 - 40;
-    const y = -(dim.trackLength / dim.N) * i - dim.startDistance;
+  objectsGroup.position.z = -dim.startDistance;
 
-    const r = random();
-    const type =
-      r < dim.gemProbability
-        ? 'gems'
-        : r < dim.gemProbability + dim.coinProbability
-          ? 'coins'
-          : 'tree';
+  const { objects, customMessage } = createLevelObjects(state.readState());
+  opts.setCustomMessage(customMessage ?? '');
 
-    const obj = createObject(type);
+  for (const obj of objects) {
     const oData = getObjectData(obj);
-    obj.position.x = x;
-    obj.position.z = y;
-
-    switch (type) {
-      case 'gems':
-        oData.hitPoints = dim.gemHitPoints;
-        oData.benign = true;
-        oData.award = { type: 'gem', amount: 1 };
-        oData.useForAward = true;
-        break;
-      case 'coins':
-        oData.collectible = true;
-        oData.award = { type: 'coin', amount: Math.floor(random() * dim.coinAwardMax + 1) };
-        // make the reach of coins bigger to be easier to collect
-        scaleExtent(oData.extent2d, 3);
-        break;
-      default:
-        oData.hitPoints = dim.objectHitPoints;
-        // let the player "rub shoulders" with the object
-        scaleExtent(oData.extent2d, 0.9);
-    }
+    oData.maxHitPoints = oData.hitPoints;
     obj.userData.maxZ = obj.position.z + oData.extent2d.max.y;
-    objects.push(obj);
   }
 
-  const blockStart = objects.at(-1)!.userData.maxZ - dim.endDistance;
-  const blockRows = 4;
-  const blockWidth = dim.trackWidth / dim.bouldersPerEndRow;
-  for (let i = 0; i < blockRows; i += 1) {
-    for (let j = 0; j < dim.bouldersPerEndRow; j += 1) {
-      const block = createObject('endBlock', i / (blockRows - 1));
-      block.position.x = j * blockWidth + blockWidth / 2 - dim.trackWidth / 2;
-      block.position.z = blockStart - (i + 1) * blockWidth * 1.5;
-      const oData = getObjectData(block);
-      block.userData.maxZ = block.position.z + oData.extent2d.max.y;
-      objects.push(block);
-      getObjectData(block).hitPoints =
-        (blockWidth / dim.objectSpeedPerSecond) * dim.playerShotsPerSecond * (i / 2);
-    }
-  }
+  objects.sort(compareByMaxZ);
 
   const endGate = createObject('gate', 'end', opts.onFinish);
   endGate.userData.maxZ = objects.at(-1)!.userData.maxZ - dim.endDistance;
@@ -78,17 +40,8 @@ export function setupObjects(opts: { onFinish: () => void }) {
   getObjectData(endGate).hitPoints = Infinity; // make the gate swallow bullets
   objects.push(endGate);
 
-  // const otherGate = createObject('gate', 'other', () => {});
-  // otherGate.userData.maxZ = -dim.trackLength / 4;
-  // otherGate.translateZ(otherGate.userData.maxZ);
-  // getObjectData(otherGate).collectible = true;
-  // objects.push(otherGate);
-
-  objects.sort(compareByMaxZ);
-
   for (const obj of objects) {
     objectsGroup.add(obj);
-    obj.userData.maxHitPoints = obj.userData.hitPoints;
   }
 }
 
@@ -98,7 +51,7 @@ function compareByMaxZ(a: THREE.Object3D, b: THREE.Object3D) {
 }
 
 export function moveObjects(delta: number) {
-  const deltaZ = dim.objectSpeedPerSecond * delta;
+  const deltaZ = dim.playerSpeedPerSecond * delta;
   objectsGroup.position.z += deltaZ;
 
   removeGroupChildrenBehindCamera(objectsGroup);

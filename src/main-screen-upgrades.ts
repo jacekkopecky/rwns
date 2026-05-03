@@ -1,14 +1,9 @@
+import type { ReadonlyState } from '#types';
 import { formatNumber } from '#utils';
 
 import { updateMainScreen } from './main-screen';
 import { prepareRun } from './run';
-import {
-  type ReadonlyState,
-  readState,
-  setCurrentLevelUpgrade,
-  pay,
-  isUpgradeAllowed,
-} from './state';
+import { readState, setCurrentLevelUpgrade, pay, isUpgradeAllowed } from './state';
 import type { UpgradeFn, UpgradeType } from './upgrades';
 
 const el = {

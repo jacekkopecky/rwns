@@ -16,7 +16,7 @@ export function setupDyingGroup() {
 }
 
 export function moveAndSweepDyingGroup(delta: number) {
-  const deltaZ = dim.objectSpeedPerSecond * delta;
+  const deltaZ = dim.playerSpeedPerSecond * delta;
   dyingGroup.position.z += deltaZ;
 
   removeGroupChildrenBehindCamera(dyingGroup, false);
