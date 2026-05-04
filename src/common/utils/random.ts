@@ -82,3 +82,37 @@ export function spacedRandomIndexes(arr: readonly unknown[], n: number, prng = r
     })
     .toArray();
 }
+
+export function randomXNotTooClose(
+  minX: number,
+  maxX: number,
+  lastX: number,
+  yDist: number,
+  minDist: number,
+): number {
+  const minXDist = Math.sqrt(Math.max(0, minDist ** 2 - yDist ** 2));
+  const width = maxX - minX;
+  const availableLeft = Math.min(width, Math.max(0, lastX - minX - minXDist));
+  const availableRight = Math.min(width, Math.max(0, maxX - lastX - minXDist));
+  const available = availableLeft + availableRight;
+
+  const posWithinAvailable = random() * available;
+  if (posWithinAvailable <= availableLeft) {
+    return posWithinAvailable + minX;
+  } else {
+    return maxX - (available - posWithinAvailable);
+  }
+}
+
+// {
+//   const treeWidth = 40;
+//   let lastX = Infinity;
+//   const dist = treeWidth / 3;
+//   const N = 50000;
+//   for (let i = 0; i <= N; i++) {
+//     const x = randomXNotTooClose(0, 100, lastX, dist, treeWidth);
+//     // const x = random() * usableWidth - usableWidth / 2;
+//     lastX = x;
+//     console.log(x);
+//   }
+// }

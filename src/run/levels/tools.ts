@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 import * as dim from '#dimensions';
-import { random } from '#utils';
+import { random, randomXNotTooClose } from '#utils';
 
 import { createObject } from '../three/run-objects';
 import { getObjectData } from '../types';
@@ -18,10 +18,18 @@ export function makeTrees(
   const N = Math.round(length / (treeWidth / treesPerTreeWidth)) + 1;
 
   const usableWidth = dim.trackWidth - treeWidth;
+  let lastX = Infinity;
 
   for (let i = 0; i <= N; i++) {
-    const x = random() * usableWidth - usableWidth / 2;
     const y = (-i * length) / N;
+    const x = randomXNotTooClose(
+      -usableWidth / 2,
+      usableWidth / 2,
+      lastX,
+      length / N,
+      treeWidth * 0.75,
+    );
+    lastX = x;
 
     const obj = createObject('tree');
     const oData = getObjectData(obj);
