@@ -20,9 +20,7 @@ export const shadowsEnabled = true;
 
 export const objectDyingDuration = 0.3;
 export const treeDyingDuration = 0.5;
-export const objectHitPoints = 1;
 
-export const gemHitPoints = 2;
 export const gemProbability = 0.05;
 export const gemRotationsPerSecond = 0.5;
 export const coinProbability = 0.1;
@@ -38,11 +36,16 @@ export const playerShotsPerSecond = 1;
 export const playerBulletRange = 40;
 export const playerBulletLength = 2;
 export const playerBulletSpeed = 40;
-export const playerBulletHitPoints = 1;
 export const playerBulletDyingDuration = 0.2;
-export const playerHitPoints = 1;
 export const playerDyingDuration = 0.6;
 export const bulletRotationsPerSecond = 8;
+
+// hit points
+export const objectHitPoints = 1;
+export const playerHitPoints = 1;
+export const gemHitPoints = 2;
+export const playerBulletHitPoints = 1;
+export const maxEndBlockHitPoints = 6;
 
 // a run takes 60-ish seconds
 export const runLength = 60 * playerSpeedPerSecond - startDistance;

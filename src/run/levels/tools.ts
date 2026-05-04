@@ -55,3 +55,24 @@ export function makeBag(amount: number) {
 
   return obj;
 }
+
+export function makeEndBlocks(startZ: number, rows: number, maxHP = dim.maxEndBlockHitPoints) {
+  const objects = [];
+
+  const blockWidth = dim.trackWidth / dim.bouldersPerEndRow;
+
+  for (let i = 0; i < rows; i += 1) {
+    for (let j = 0; j < dim.bouldersPerEndRow; j += 1) {
+      const block = createObject('endBlock', i / (rows - 1));
+      block.position.x = j * blockWidth + blockWidth / 2 - dim.trackWidth / 2;
+      block.position.z = startZ - (i + 1) * blockWidth * 1.5;
+
+      const oData = getObjectData(block);
+      oData.hitPoints = THREE.MathUtils.lerp(dim.objectHitPoints, maxHP, (i + 1) / rows);
+
+      objects.push(block);
+    }
+  }
+
+  return objects;
+}
