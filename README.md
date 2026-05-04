@@ -9,10 +9,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 ## todo
 
 - [ ] tracks
-  - [.] 4—? increasing difficulty until it's impossible
-    - in the level where it's impossible, introduce gems so we can start buying permanent upgrades
+  - [ ] in the level where it's impossible, introduce gems so we can start buying permanent upgrades
   - using level (per type of run?)
-  - [ ] try to get objects not to overlap too much, like trees that are too close
   - waves? reset gates? multi-stage runs?
   - ideas:
     - a few scattered end blocks in the middle of first few levels, which can be killed but also can
@@ -184,6 +182,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## done by 2026-05-04
 
+- [x] try to get objects not to overlap too much, like trees that are too close
+- [x] level 4+ increasing difficulty until it's impossible
 - [x] make buttons react visibly to clicks
 - [x] bug: marvin doesn't receive shadow
 
