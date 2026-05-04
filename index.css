@@ -129,10 +129,6 @@ main {
 button {
   font-size: 1.5em;
 
-  #upgradeButtons & {
-    font-size: inherit;
-  }
-
   padding: 0.25em 0.5em;
   border-radius: 1rem;
   border-width: medium;
@@ -267,6 +263,10 @@ button {
   flex-direction: row;
   gap: 0.5em;
 
+  button {
+    font-size: 1.2em;
+  }
+
   & > * {
     flex: 1 1 0%;
 
@@ -276,7 +276,7 @@ button {
     color: #664422;
     border-width: medium;
 
-    padding: 1em 0.5em;
+    padding: 0.2em 0.5em;
     text-align: center;
 
     &.disabled {
@@ -295,7 +295,7 @@ button {
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-evenly;
   }
 }
 
