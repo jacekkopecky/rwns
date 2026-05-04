@@ -26,7 +26,7 @@ type ButtonUpgrade = keyof typeof el.upgrades;
 export function updateUpgrades(state: ReadonlyState) {
   // only allow upgrades depending on state
   for (const upgradeType of Object.keys(el.upgrades) as ButtonUpgrade[]) {
-    el.upgrades[upgradeType].classList.toggle('hidden', isUpgradeAllowed(upgradeType, state));
+    el.upgrades[upgradeType].classList.toggle('hidden', !isUpgradeAllowed(upgradeType, state));
     updatePriceAndLevel(upgradeType, state);
   }
 }
