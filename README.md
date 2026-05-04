@@ -181,6 +181,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ---
 
+## done by 2026-05-04
+
+- [x] make buttons react visibly to clicks
+
 ## done by 2026-05-03
 
 - [x] rename to RWNS (Robot Walkin'n'Shootin)
