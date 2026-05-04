@@ -7,7 +7,12 @@ import { createObject } from '../three/run-objects';
 import { getObjectData } from '../types';
 import { scaleExtent } from '../three/resources';
 
-export function makeTrees(length: number, treesPerTreeWidth: number, hp: number): THREE.Object3D[] {
+export function makeTrees(
+  length: number,
+  treesPerTreeWidth: number,
+  hp: number,
+  minHP = hp,
+): THREE.Object3D[] {
   const objects = [];
   const treeWidth = dim.modelSizes.conifer[0];
   const N = Math.round(length / (treeWidth / treesPerTreeWidth)) + 1;
@@ -23,7 +28,9 @@ export function makeTrees(length: number, treesPerTreeWidth: number, hp: number)
     obj.position.x = x;
     obj.position.z = y;
 
-    oData.hitPoints = hp;
+    // trees hit points vary from hp/2 (at least minHP) to hp
+    const objectHP = hp === minHP ? hp : Math.max(minHP, (1 - random() / 2) * hp);
+    oData.hitPoints = objectHP;
     // let the player "rub shoulders" with the tree
     scaleExtent(oData.extent2d, 0.9);
 
@@ -33,11 +40,11 @@ export function makeTrees(length: number, treesPerTreeWidth: number, hp: number)
   return objects;
 }
 
-export function makeGem() {
+export function makeGem(hp: number) {
   const obj = createObject('gems');
   const oData = getObjectData(obj);
 
-  oData.hitPoints = dim.gemHitPoints;
+  oData.hitPoints = hp;
   oData.benign = true;
   oData.award = { type: 'gem', amount: 1 };
   oData.useForAward = true;
@@ -56,7 +63,7 @@ export function makeBag(amount: number) {
   return obj;
 }
 
-export function makeEndBlocks(startZ: number, rows: number, maxHP = dim.maxEndBlockHitPoints) {
+export function makeEndBlocks(startZ: number, rows: number, maxHP: number, objectHP: number) {
   const objects = [];
 
   const blockWidth = dim.trackWidth / dim.bouldersPerEndRow;
@@ -68,11 +75,13 @@ export function makeEndBlocks(startZ: number, rows: number, maxHP = dim.maxEndBl
       block.position.z = startZ - (i + 1) * blockWidth * 1.5;
 
       const oData = getObjectData(block);
-      oData.hitPoints = THREE.MathUtils.lerp(dim.objectHitPoints, maxHP, (i + 1) / rows);
+      oData.hitPoints = THREE.MathUtils.lerp(objectHP, maxHP, (i + 1) / rows);
 
       objects.push(block);
     }
   }
+
+  console.log('max end block HP', maxHP);
 
   return objects;
 }

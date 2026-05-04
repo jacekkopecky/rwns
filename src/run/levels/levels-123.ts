@@ -19,10 +19,10 @@ function first() {
 function second() {
   // same as furst but with 10 bags with up to 3 coins (avg 2)
 
+  const { objects } = first();
+
   const amounts = [1, 2, 3, 1, 2, 3, 1, 2, 3, 2];
   const bags = amounts.length;
-
-  const { objects } = first();
   const treeIndexesToReplace = spacedRandomIndexes(objects, bags);
 
   for (const i of treeIndexesToReplace) {
@@ -44,7 +44,7 @@ function third() {
     objects.at(-1)!.position.z - dim.modelSizes.boulder[0] - dim.modelSizes.conifer[0];
 
   // make endBlocks that are definitely possible to beat
-  const blocks = makeEndBlocks(blockStart, 4, 3);
+  const blocks = makeEndBlocks(blockStart, 4, 3, 1);
 
   return { objects: objects.concat(blocks), customMessage };
 }

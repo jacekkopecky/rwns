@@ -102,12 +102,12 @@ export function isUpgradeAllowed(upgrade: UpgradeType, state: ReadonlyState): bo
   // hide upgrades when starting from scratch until played a bit
   switch (upgrade) {
     case 'rate':
-      return state.level > 3;
+      return state.level >= 4;
 
     case 'damage':
-      return state.level > 4;
+      return state.level >= 10;
 
     case 'player':
-      return state.level > 10;
+      return state.level > 20;
   }
 }

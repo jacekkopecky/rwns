@@ -9,7 +9,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 ## todo
 
 - [ ] tracks
-  - [ ] 4—? increasing difficulty until it's impossible
+  - [.] 4—? increasing difficulty until it's impossible
     - in the level where it's impossible, introduce gems so we can start buying permanent upgrades
   - using level (per type of run?)
   - [ ] try to get objects not to overlap too much, like trees that are too close
@@ -178,6 +178,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - after second level, show the new settings button to the user
   - in state, there could be a "tutorials seen" array, and an "enabled" function (instead of
     isUpgradeAllowed?)
+- [ ] seasons? winter, spring, summer, autumn
 
 ---
 

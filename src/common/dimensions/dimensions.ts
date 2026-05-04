@@ -42,10 +42,11 @@ export const bulletRotationsPerSecond = 8;
 
 // hit points
 export const objectHitPoints = 1;
-export const playerHitPoints = 1;
-export const gemHitPoints = 2;
-export const playerBulletHitPoints = 1;
+export const playerHitPoints = objectHitPoints;
+export const playerBulletHitPoints = objectHitPoints;
+export const gemHitPoints = 3;
 export const maxEndBlockHitPoints = 6;
+export const difficultyIncreasePerLevel = 1.05;
 
 // a run takes 60-ish seconds
 export const runLength = 60 * playerSpeedPerSecond - startDistance;

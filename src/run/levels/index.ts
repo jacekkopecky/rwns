@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import type { ReadonlyState } from '#types';
 
 import { firstLevels } from './levels-123';
+import { level4Plus } from './levels-4-xx';
 
 export type LevelFunction = (state: ReadonlyState) => {
   objects: THREE.Object3D[];
@@ -15,7 +16,7 @@ export function createLevelObjects(state: ReadonlyState): ReturnType<LevelFuncti
       return firstLevels[state.level]!(state);
     }
 
-    throw new Error('run out of levels');
+    return level4Plus(state);
   } catch (e) {
     console.error(`error making a level`, e);
 
