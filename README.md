@@ -185,6 +185,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 ## done by 2026-05-04
 
 - [x] make buttons react visibly to clicks
+- [x] bug: marvin doesn't receive shadow
 
 ## done by 2026-05-03
 
