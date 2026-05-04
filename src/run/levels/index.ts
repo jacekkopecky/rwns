@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 import type { ReadonlyState } from '#types';
 
-import { firstLevels } from './first-levels';
+import { firstLevels } from './levels-123';
 
 export type LevelFunction = (state: ReadonlyState) => {
   objects: THREE.Object3D[];
