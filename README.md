@@ -8,6 +8,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
+- [ ] add daily energy, disabled in dev build
+  - only enable after the first few levels
 - [ ] tracks
   - [ ] in the level where it's impossible, introduce gems so we can start buying permanent upgrades
   - using level (per type of run?)
@@ -92,8 +94,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
       only, for that run only
   - [ ] gates that only change Marvin's colour, quests like break 20 end blocks with red robot
     - the gates could be random per play because they have little effect on the level outcome
-- [ ] add daily energy, disabled in dev build
-  - only enable after the first few levels
 - [ ] add permanent upgrades
   - cards, skills etc.
     - general: starting fire rate, damage (with probability decreasing with upgrade price)
