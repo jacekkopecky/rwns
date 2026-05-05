@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 import * as dim from '#dimensions';
-import { random, randomXNotTooClose } from '#utils';
+import { assignEndBunchedRewards, random, randomXNotTooClose } from '#utils';
 
 import { createObject } from '../three/run-objects';
 import { getObjectData } from '../types';
@@ -71,10 +71,18 @@ export function makeBag(amount: number) {
   return obj;
 }
 
-export function makeEndBlocks(startZ: number, rows: number, maxHP: number, minHP: number) {
+export function makeEndBlocks(
+  startZ: number,
+  rows: number,
+  maxHP: number,
+  minHP: number,
+  coinAward = 0,
+) {
   const objects = [];
 
   const blockWidth = dim.trackWidth / dim.bouldersPerEndRow;
+
+  const awards = assignEndBunchedRewards(coinAward, rows);
 
   for (let i = 0; i < rows; i += 1) {
     for (let j = 0; j < dim.bouldersPerEndRow; j += 1) {
@@ -84,6 +92,10 @@ export function makeEndBlocks(startZ: number, rows: number, maxHP: number, minHP
 
       const oData = getObjectData(block);
       oData.hitPoints = THREE.MathUtils.lerp(minHP, maxHP, i / (rows - 1));
+
+      if (awards[i]) {
+        oData.award = { amount: awards[i]!, type: 'coin' };
+      }
 
       objects.push(block);
     }
