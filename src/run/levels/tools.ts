@@ -71,7 +71,7 @@ export function makeBag(amount: number) {
   return obj;
 }
 
-export function makeEndBlocks(startZ: number, rows: number, maxHP: number, objectHP: number) {
+export function makeEndBlocks(startZ: number, rows: number, maxHP: number, minHP: number) {
   const objects = [];
 
   const blockWidth = dim.trackWidth / dim.bouldersPerEndRow;
@@ -83,13 +83,11 @@ export function makeEndBlocks(startZ: number, rows: number, maxHP: number, objec
       block.position.z = startZ - (i + 1) * blockWidth * 1.5;
 
       const oData = getObjectData(block);
-      oData.hitPoints = THREE.MathUtils.lerp(objectHP, maxHP, (i + 1) / rows);
+      oData.hitPoints = THREE.MathUtils.lerp(minHP, maxHP, i / (rows - 1));
 
       objects.push(block);
     }
   }
-
-  console.log('max end block HP', maxHP);
 
   return objects;
 }

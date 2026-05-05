@@ -36,7 +36,12 @@ export function level4Plus(state: ReadonlyState): ReturnType<LevelFunction> {
   const blockStart =
     objects.at(-1)!.position.z - dim.modelSizes.boulder[0] - dim.modelSizes.conifer[0];
 
-  const blocks = makeEndBlocks(blockStart, 8, dim.maxEndBlockHitPoints * hardness, currObjectHP);
+  const blocks = makeEndBlocks(
+    blockStart,
+    8,
+    dim.maxEndBlockHitPoints * hardness,
+    currObjectHP / 2,
+  );
 
   return { objects: objects.concat(blocks), customMessage };
 }
