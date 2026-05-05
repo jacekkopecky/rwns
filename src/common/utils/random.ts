@@ -1,6 +1,6 @@
 import seedrandom from 'seedrandom';
 
-import { range } from './utils';
+import { range } from './arrays';
 
 const defaultSeed = '2';
 
