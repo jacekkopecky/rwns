@@ -66,6 +66,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
     - what do we get for levels? extra energy, gems, some other special currency…?
   - what do we get in a mine?
     - in Timeline Up, it's coal and iron, for delayed general upgrades, could do something similar?
+    - could be points for learning skills
   - some other special currency: buy robot upgrades, e.g. military ranks
     - these could be buyable as many times as I can add new robots, each gives me one upgraded robot
     - I could choose to buy the second sergeant sooner, or the only corporal for more money if I
@@ -95,18 +96,32 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - [ ] gates that only change Marvin's colour, quests like break 20 end blocks with red robot
     - the gates could be random per play because they have little effect on the level outcome
 - [ ] add permanent upgrades
-  - cards, skills etc.
-    - general: starting fire rate, damage (with probability decreasing with upgrade price)
-    - specific:
-      - end block award (starts from 0)
-      - end block strength
-      - normal object (e.g. tree) strength
-      - price of damage upgrade
-      - price of rate upgrade
-      - max damage upgrade
-      - max rate upgrade
-      - max player number
-  - it should take time to "learn" skills?
+  - cards (each card with a max level)
+    - common:
+      - increase range by 1 (most common?)
+      - decrease normal object (e.g. tree) HP
+      - increase end block award (starts from 0)
+        - amounts are assigned so that they bunch up at the end
+    - rare:
+      - decrease end block HP
+      - increase fire rate
+      - increase bullet damage
+    - epic:
+      - increase max damage upgrade
+      - increase max rate upgrade
+      - decrease price of damage upgrade
+      - decrease price of rate upgrade
+      - decrease price of player upgrade
+    - legendary:
+      - increase max player number
+      - increase starting player number
+  - skills (it should take time to "learn" skills? should need a special currency?)
+    - extra damage against specific objects/opponents?
+    - small chance of surviving hitting a tree
+    - extra damage in certain special types of runs?
+    - extra damage by marvins of a certain colour?
+    - always start with a marvin of a given colour?
+      - this could be re-learned to a different colour
 - [ ] update README and index to say it's a game now? make it public?
 - [ ] any other randomness in runs in the same level? what should be random?
   - maybe amount of coins in bags?
@@ -172,11 +187,16 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - don't show settings in first level
   - "reset"
   - "go back to previous level"
+  - "reset back to a certain stage" that you've already achieved:
+    - after tutorials
+    - when you get gems?
   - "show tutorials again"
   - after second level, show the new settings button to the user
   - in state, there could be a "tutorials seen" array, and an "enabled" function (instead of
     isUpgradeAllowed?)
 - [ ] seasons? winter, spring, summer, autumn
+  - day and night?
+  - inside a tunnel?
 
 ---
 
