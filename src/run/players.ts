@@ -13,6 +13,7 @@ import { updateCameraPosition } from './three/camera';
 import { getExtentTranslatedToPosition, intersects, isDying } from './three/resources';
 import { createPlayer, killPlayer, setPlayerWalking } from './three/run-objects';
 import { getObjectZ, resetGroup } from './three/tools';
+import { random } from '#utils';
 
 export const playersGroup = new THREE.Group();
 
@@ -23,12 +24,15 @@ export function setupPlayers() {
   const shotsPerSecond = applyUpgrade(dim.playerShotsPerSecond, state.currentLevelUpgrades.rate);
   const players = applyUpgrade(1, state.currentLevelUpgrades.player);
 
+  // mirror so we don't always start with the same orientation
+  const mirror = random() < 0.5;
+
   for (let i = 0; i < players; i += 1) {
     const player = createPlayer();
 
     const { row, column } = generatePlayerPosition(i);
     player.position.z = row * dim.modelSizes.player[0] * 1.35;
-    player.position.x = column * dim.modelSizes.player[0] * 2.5;
+    player.position.x = column * dim.modelSizes.player[0] * 2.5 * (mirror ? -1 : 1);
 
     const pData = getPlayerData(player);
 
@@ -59,7 +63,9 @@ function generatePlayerPosition(i: number) {
   const awayFromCenter = Math.floor(inCurrentRow / 2) * ((inCurrentRow % 2) * 2 - 1);
   const column = center + awayFromCenter;
 
-  return { row, column };
+  const rowJitter = row > 0 ? (random() - 0.5) / 4 : 0;
+
+  return { row: row + rowJitter, column };
 }
 
 function computePlayersGroupMinMax(group: THREE.Group) {

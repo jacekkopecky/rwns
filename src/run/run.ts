@@ -136,7 +136,7 @@ export function prepareRun() {
       el.shortMessage.textContent = msg;
     },
   });
-  // set up players after objects so player upgrades, which may use randomness, don't affect object randomness
+  // set up players after objects so player upgrades and positioning, which may use randomness, don't affect object randomness
   setupPlayers();
   setupBullets();
   setupDyingGroup();
