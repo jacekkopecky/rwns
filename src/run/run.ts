@@ -153,6 +153,10 @@ export function prepareRun() {
 }
 
 export function startRun() {
+  if (!playing) {
+    state.increasePlayed();
+  }
+
   playing = true;
   ending = false;
   updateTouchHandlerEnabled();
@@ -180,8 +184,6 @@ function endRun(immediate = false, win = false) {
     },
     immediate ? 0 : 1000,
   );
-
-  state.increasePlayed();
 }
 
 function toggleFullscreenPause(value: boolean) {

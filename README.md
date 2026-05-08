@@ -8,10 +8,22 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
-- [ ] add daily energy, disabled in dev build
-  - only enable after the first few levels
+- [ ] end screen: show level just finished, change buttons
+  - replay alone should be OK
+  - replay/ok should be just stay/progress?
 - [ ] tracks
   - [ ] in the level where it's impossible, introduce gems so we can start buying permanent upgrades
+    - some embedded in the blocks
+      - useForAward could have a string, then getByName() would be used to get the one to use
+    - some hidden among the trees
+    - gems could be collected once per level, but with stable generation so those not collected stay
+      where they were
+      - should there be a gap or a tree where we collected a gem, if the gem originally replaced a
+        tree?
+      - needs to show how many are left
+      - this gives both a bit of a reward for repeating, but also a reason to progress when all are
+        collected
+    - and then cards
   - using level (per type of run?)
   - waves? reset gates? multi-stage runs?
   - ideas:
@@ -196,9 +208,25 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
     isUpgradeAllowed?)
 - [ ] seasons? winter, spring, summer, autumn
   - day and night?
+    - with glowing things!!!
+    - with street lamps!!!
+      - but it might be expensive FPS-wise, with shadows; maybe it could work with short lamp
+        fall-off
   - inside a tunnel?
+- [ ] can we add some kind rolling landscape on the sides of the road? With lambert shading,
+      low-poly random waves could work; tiles would need to share vertex coordinates and normals
+      though
+  - normals straight up by the road; towards or away from the road on the sides, but also
+    forwards/backwards as if the tile was a valley or a hill
+    - maybe the surface could actually be flat?
+- [ ] add energy countdown and automatic refresh
 
 ---
+
+## done by 2026-05-08
+
+- [x] add daily energy, disabled in dev build
+  - only enable after the first few levels
 
 ## done by 2026-05-04
 

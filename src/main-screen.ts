@@ -1,8 +1,8 @@
-import { fillOrHide, showIfAnyValue } from '#utils';
+import { fillOrHide, toggleHidden } from '#utils';
 
 import { initUpgrades, updateUpgrades } from './main-screen-upgrades';
 import { init as initRunScreen, handleRetryButton, prepareRun, startRun } from './run';
-import { initState, readState, resetState } from './state';
+import { initState, readState, resetState, getEnergy, subtractEnergy } from './state';
 
 const el = {
   main: document.querySelector('main')!,
@@ -20,6 +20,7 @@ const el = {
   playStats: {
     played: document.querySelector('#playStats .played')!,
     level: document.querySelector('#playStats .level')!,
+    energy: document.querySelector('#playStats .energy')!,
   },
   upgradeButtons: document.querySelector<HTMLElement>('#upgradeButtons')!,
 };
@@ -42,7 +43,10 @@ export function init() {
 }
 
 export function startPlaying() {
+  // this gets called on every touch of the screen, so ignore it if already in a game
   if (!el.main.classList.contains('run')) {
+    if (!subtractEnergy()) return; // wait until next energy
+
     el.main.classList.add('run');
     startRun();
   }
@@ -66,12 +70,28 @@ export function updateMainScreen() {
 
   fillOrHide(el.wallet.coin, state.wallet.read('coin'));
   fillOrHide(el.wallet.gem, state.wallet.read('gem'));
-  showIfAnyValue(el.walletContainer, state.wallet.read('coin') || state.wallet.read('gem'));
+  toggleHidden(el.walletContainer, !state.wallet.read('coin') && !state.wallet.read('gem'));
 
   fillOrHide(el.playStats.level, state.level, String);
   fillOrHide(el.playStats.played, state.played, String);
 
+  updateEnergyCount();
   updateUpgrades(state);
+}
+
+function updateEnergyCount() {
+  const { energy, nextEnergyMs } = getEnergy();
+  if (energy < Infinity) {
+    if (energy) {
+      fillOrHide(el.playStats.energy, energy);
+    } else {
+      const energyMin = Math.floor(nextEnergyMs / 60000);
+      const energyStr = energyMin ? `${energyMin}min` : `${Math.ceil(nextEnergyMs / 1000)}s`;
+      fillOrHide(el.playStats.energy, `0 (next in ${energyStr})`);
+    }
+  } else {
+    toggleHidden(el.playStats.energy, true);
+  }
 }
 
 function showSettings() {

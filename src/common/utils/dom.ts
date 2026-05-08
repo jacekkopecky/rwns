@@ -1,3 +1,6 @@
+/**
+ * Format the number to use up to 4 characters and a decimal point but only with reasonable precision.
+ */
 export function formatNumber(n: number): string {
   switch (true) {
     case n >= 100000: {
@@ -31,13 +34,13 @@ export function formatNumber(n: number): string {
 
 export function fillOrHide(
   el: Element,
-  value: number,
+  value: number | string,
   formatFn: (v: any) => string = formatNumber,
 ) {
   el.querySelector('.value')!.textContent = typeof value === 'string' ? value : formatFn(value);
   el.classList.toggle('hidden', !value);
 }
 
-export function showIfAnyValue(el: Element, value: number | boolean) {
-  el.classList.toggle('hidden', !value);
+export function toggleHidden(el: Element, value: number | boolean) {
+  el.classList.toggle('hidden', Boolean(value));
 }

@@ -1,3 +1,4 @@
+import * as dim from '#dimensions';
 import { Wallet, type Currency, type CurrencyType, type ReadonlyState, type State } from '#types';
 
 import { parseUpgrades, type Upgrade, type UpgradeBag, type UpgradeType } from './upgrades';
@@ -10,6 +11,8 @@ function createInitialState(): State {
     wallet: new Wallet(),
     level: 1,
     played: 0,
+    energy: Infinity,
+    lastEnergyGiven: Date.now(),
     currentLevelUpgrades,
   };
 }
@@ -44,6 +47,8 @@ export function increaseLevel() {
   };
   state.level += 1;
   state.currentLevelUpgrades = {};
+
+  handleLevelChanges();
   saveState();
 }
 
@@ -51,6 +56,7 @@ export function retryLevel() {
   if (state.previousLevel) {
     Object.assign(state, state.previousLevel);
     delete state.previousLevel;
+    handleLevelChanges();
     saveState();
   }
 }
@@ -81,9 +87,11 @@ function loadState() {
     const wallet = new Wallet(data.wallet);
     const level = getNumber(data.level, 1);
     const played = getNumber(data.played, 0);
+    const energy = getNumber(data.energy, Infinity);
+    const lastEnergyGiven = getNumber(data.lastEnergyGiven, Date.now());
     const currentLevelUpgrades = parseUpgrades(data.currentLevelUpgrades);
 
-    state = { wallet, level, played, currentLevelUpgrades };
+    state = { wallet, level, played, energy, lastEnergyGiven, currentLevelUpgrades };
   } catch (e) {
     const newKey = LOCAL_STORAGE_KEY + new Date().toISOString();
     localStorage.setItem(newKey, dataString);
@@ -109,5 +117,52 @@ export function isUpgradeAllowed(upgrade: UpgradeType, state: ReadonlyState): bo
 
     case 'player':
       return state.level > 20;
+  }
+}
+
+function handleLevelChanges() {
+  if (state.energy === Infinity && state.level >= 4) {
+    state.energy = dim.energyMax;
+  }
+
+  if (state.level < 4) {
+    state.energy = Infinity;
+  }
+}
+
+export function getEnergy(): { energy: number; nextEnergyMs: number } {
+  const now = Date.now();
+  if (state.energy >= dim.energyMax) {
+    return { energy: state.energy, nextEnergyMs: now + dim.energyGainInterval };
+  } else {
+    const msSinceLast = now - state.lastEnergyGiven;
+    const energySinceLast = Math.floor(msSinceLast / dim.energyGainInterval);
+    if (energySinceLast > 0) {
+      state.energy = Math.min(dim.energyMax, state.energy + energySinceLast);
+      state.lastEnergyGiven =
+        state.energy === dim.energyMax
+          ? now
+          : state.lastEnergyGiven + energySinceLast * dim.energyGainInterval;
+      saveState();
+    }
+    return {
+      energy: state.energy,
+      nextEnergyMs: state.lastEnergyGiven + dim.energyGainInterval - now,
+    };
+  }
+}
+
+export function subtractEnergy(): boolean {
+  if (state.energy === Infinity || import.meta.env.DEV) {
+    return true;
+  }
+
+  getEnergy();
+  if (state.energy > 0) {
+    state.energy -= 1;
+    saveState();
+    return true;
+  } else {
+    return false;
   }
 }

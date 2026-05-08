@@ -78,6 +78,9 @@ const upgradeLevels: Partial<Record<UpgradeType, UpgradeLevel[]>> = {
     { value: 59, price: 7 },
     { value: 78, price: 12 },
     { value: 100, price: 20 },
+    // keeps going up
+    // value *= 2^(1/6)
+    // price *= 3^(1/2)
   ],
   player: [
     { value: 1, price: 40 },
@@ -85,6 +88,10 @@ const upgradeLevels: Partial<Record<UpgradeType, UpgradeLevel[]>> = {
     { value: 3, price: 64 },
     { value: 4, price: 80 },
     { value: 5, price: 100 },
+    // keeps going up, value by 1, price by cca 25%
+    // price = Math.round(40.15 * 1.2577**i)
+    // price = Math.round((40.15 * 1.2577**i).toPrecision(2))
+    // chosen for nice first 5 numbers, then precision of 2 so prices are clear
   ],
   damage: [
     { value: 12, price: 1 },

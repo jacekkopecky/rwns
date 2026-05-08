@@ -5,6 +5,8 @@ export interface State {
   wallet: Wallet;
   level: number;
   played: number;
+  energy: number;
+  lastEnergyGiven: number; // milliseconds since epoch
   currentLevelUpgrades: UpgradeBag;
   previousLevel?: Pick<State, 'level' | 'currentLevelUpgrades'>;
 }
