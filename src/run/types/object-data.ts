@@ -36,8 +36,8 @@ export interface ObjectData extends AnyObjectData {
   award?: Currency;
   // whether this object should be used for the award animation
   useForAward?: boolean;
-  // a function to call when a player hits the gate
-  callback?: (player?: THREE.Object3D) => void;
+  // a function to call when a player hits the object
+  onPlayerCollision?: (player?: THREE.Object3D) => void;
 }
 
 export function getPlayerData(obj: THREE.Object3D): PlayerData {

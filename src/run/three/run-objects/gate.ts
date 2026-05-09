@@ -14,7 +14,7 @@ export function createGate(type: dim.Gate, callback: (player?: THREE.Object3D) =
     new THREE.Vector2(w / 2, 1),
   );
   gate.userData.type = 'object';
-  gate.userData.callback = callback;
+  gate.userData.onPlayerCollision = callback;
   gate.userData.benign = true;
 
   return gate;

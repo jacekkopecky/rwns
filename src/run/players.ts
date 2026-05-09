@@ -161,8 +161,8 @@ function checkPlayerHit(player: THREE.Object3D) {
     ) {
       // we're colliding with the object
 
-      if (oData.callback) {
-        oData.callback(player);
+      if (oData.onPlayerCollision) {
+        oData.onPlayerCollision(player);
       }
 
       const objHP = oData.hitPoints;
