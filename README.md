@@ -8,9 +8,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
-- [ ] end screen: show level just finished, change buttons
-  - replay alone should be OK
-  - replay/ok should be just stay/progress?
 - [ ] tracks
   - [ ] in the level where it's impossible, introduce gems so we can start buying permanent upgrades
     - some embedded in the blocks
@@ -249,6 +246,9 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## done by 2026-05-09
 
+- [x] end screen: ~~show level just finished~~, change buttons
+  - replay alone should be OK
+  - replay/ok should be just stay/progress? replay/next level
 - [x] Update main screen on page becoming visible, fullscreen change
 - [x] Touch to start should say out of energy - that could also be the energy indicator
   - [x] Touch without energy should just update energy display
