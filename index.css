@@ -118,6 +118,11 @@ main {
       display: none;
     }
   }
+
+  &.no-energy .if-energy,
+  &:not(.no-energy) .if-no-energy {
+    display: none;
+  }
 }
 
 #shortMessage {

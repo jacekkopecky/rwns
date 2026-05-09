@@ -39,12 +39,20 @@ export function init() {
   el.topButtons.addEventListener('touchdown', (e) => e.stopPropagation());
   el.upgradeButtons.addEventListener('touchdown', (e) => e.stopPropagation());
 
+  el.main.addEventListener('fullscreenchange', updateMainScreen);
+  document.addEventListener('visibilitychange', updateMainScreen);
+
   showMainScreen();
 }
 
 export function startPlaying() {
   // this gets called on every touch of the screen, so ignore it if already in a game
   if (!el.main.classList.contains('run')) {
+    if (el.main.classList.contains('no-energy')) {
+      updateEnergyCount();
+      return;
+    }
+
     if (!subtractEnergy()) return; // wait until next energy
 
     el.main.classList.add('run');
@@ -86,12 +94,18 @@ function updateEnergyCount() {
       fillOrHide(el.playStats.energy, energy);
     } else {
       const energyMin = Math.floor(nextEnergyMs / 60000);
+      // const energySec = Math.floor(nextEnergyMs / 1000 - energyMin * 60);
+      // const energyStr = energyMin
+      //   ? `${energyMin}:${String(energySec).padStart(2, '0')}`
+      //   : `${Math.ceil(nextEnergyMs / 1000)}s`;
       const energyStr = energyMin ? `${energyMin}min` : `${Math.ceil(nextEnergyMs / 1000)}s`;
       fillOrHide(el.playStats.energy, `0 (next in ${energyStr})`);
     }
   } else {
     toggleHidden(el.playStats.energy, true);
   }
+
+  el.main.classList.toggle('no-energy', !energy);
 }
 
 function showSettings() {

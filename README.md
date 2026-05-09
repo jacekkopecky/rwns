@@ -134,6 +134,29 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
     - extra damage by marvins of a certain colour?
     - always start with a marvin of a given colour?
       - this could be re-learned to a different colour
+  - [ ] Cards can have type, name and picture, also ID like type+number in case we have to rename a
+        card
+  - [ ] Card: 
+    - [ ] energy max plus 1, also energy plus 1 at the same time? Up to 24
+    - [ ] @ lightning bolt, electron, flash - add adjectives
+    - [ ] Coins per level plus one, coins in blocks plus one
+    - [ ] @gold nugget, credit card, rwnsCoin (R with two lines), finishing prize, treasure chest -
+          add adjectives
+    - [ ] Rarer: gems per level plus one, gems in end blocks plus one
+    - [ ] @ Emerald, ruby, sapphire; diamond, smoky quartz, obsidian - add adjectives
+    - [ ] Range: @ longbow, sniper rifle, 
+    - [ ] Fire rate: @ Gatling, robo reload
+  - [ ] Card mechanics: first one works alone, 1,2,2,3,3,3,4,4,4,4,5x5 etc
+  - [ ] State:
+    - [ ] cards:{[id]: {level, cardsTowardsNext}}
+    - [ ] max energy, coins per level, coins in end blocks, any such stuff from dim should go into
+          initial state
+  - [ ] Probabilities: select what rarity level of card we get (common, rare etc.) then random pick
+        from those? 
+    - [ ] We could have counters since last of a rarity level so e.g. a rare comes at least every N
+          cards?
+- [ ] I can calculate how long it would take someone to reach high levels depending on supply of
+      gems 
 - [ ] update README and index to say it's a game now? make it public?
 - [ ] any other randomness in runs in the same level? what should be random?
   - maybe amount of coins in bags?
@@ -219,9 +242,16 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - normals straight up by the road; towards or away from the road on the sides, but also
     forwards/backwards as if the tile was a valley or a hill
     - maybe the surface could actually be flat?
-- [ ] add energy countdown and automatic refresh
+- [ ] add energy countdown and automatic refresh, maybe as part of "touch to start"
+- [ ] Could a Marvin that took a hit flash a bit somehow?
 
 ---
+
+## done by 2026-05-09
+
+- [x] Update main screen on page becoming visible, fullscreen change
+- [x] Touch to start should say out of energy - that could also be the energy indicator
+  - [x] Touch without energy should just update energy display
 
 ## done by 2026-05-08
 
