@@ -2,6 +2,8 @@
  * This is the code that controls fullscreen behaviour and the splash screen.
  */
 
+import { fillOrHide } from '#utils';
+
 import { init as initMainScreen } from './main-screen';
 
 let useFullscreen = true;
@@ -14,6 +16,7 @@ const el = {
   startBtn: document.querySelector('#startBtn')!,
   exitBtn: document.querySelector('#exitBtn')!,
   main: document.querySelector('main')!,
+  version: document.querySelector('#version')!,
 };
 
 export function init() {
@@ -26,6 +29,8 @@ export function init() {
     el.startBtn.addEventListener('click', goFullscreen);
     el.exitBtn.addEventListener('click', exit);
   }
+
+  fillOrHide(el.version, import.meta.env.VITE_BUILD_VERSION);
 
   // disable context menu
   document.addEventListener('contextmenu', (e) => e.preventDefault());
