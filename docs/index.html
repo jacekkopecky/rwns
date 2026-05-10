@@ -4,8 +4,8 @@
   <meta charset="utf8" />
   <title>RWNS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  <script type="module" crossorigin src="/rwns/assets/index-BdX2bm5L.js"></script>
-  <link rel="stylesheet" crossorigin href="/rwns/assets/index-MaxB3G0t.css">
+  <script type="module" crossorigin src="/rwns/assets/index-DIadIvDi.js"></script>
+  <link rel="stylesheet" crossorigin href="/rwns/assets/index-MNNsED1B.css">
 <link rel="manifest" href="/rwns/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/rwns/registerSW.js"></script></head>
 
 <body class="using-fullscreen">
@@ -54,15 +54,22 @@
         <h2 class="if-not-win">Better luck next time!</h2>
         <div class="collected">Collected</div>
         <div class="coin hiddenGone"><span class="value"></span> <i class="i coins"></i></div>
-        <div class="gem hiddenGone"><span class="value"></span> <i class="i gem"></i></div>
+        <div class="if-got-gems">
+          <span class="gem neverHidden"><span class="value"></span></span>
+          out of
+          <span class="gemCount hiddenGone"><span class="value"></span> <i class="i gem"></i></span>
+        </div>
         <div class="buttons">
-          <button class="retry"><span class="if-win">Retry</span><span class="if-not-win">OK</span></button>
-          <button class="ok if-win">Next</button>
+          <button class="retry">
+            <span class="if-win">Replay</span>
+            <span class="if-not-win">OK</span>
+          </button>
+          <button class="ok if-win">Next level</button>
         </div>
       </div>
 
       <div id="upgradeButtons">
-        <button class="player">
+        <button class="players">
           <span>Add player</span>
           <div class="level"><span class="value">0</span></div>
           <div class="cost"><span class="value">0</span> <i class="i coins"></i></div>
