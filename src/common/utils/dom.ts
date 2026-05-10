@@ -39,6 +39,8 @@ export function fillOrHide(
 ) {
   el.querySelector('.value')!.textContent = typeof value === 'string' ? value : formatFn(value);
   el.classList.toggle('hidden', !value);
+
+  return Boolean(value);
 }
 
 export function toggleHidden(el: Element, value: number | boolean) {

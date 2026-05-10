@@ -8,6 +8,7 @@ import { level4Plus } from './levels-4-xx';
 export type LevelFunction = (state: ReadonlyState) => {
   objects: THREE.Object3D[];
   customMessage?: string;
+  gemCount?: number;
 };
 
 export function createLevelObjects(state: ReadonlyState): ReturnType<LevelFunction> {

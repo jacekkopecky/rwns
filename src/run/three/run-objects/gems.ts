@@ -6,12 +6,14 @@ import { random } from '#utils';
 import { shrinkToGone, rotateAlways } from '../animations';
 import { createGemModel } from '../models';
 import { Circle } from '../../types';
+import { collectGem } from '../../../state';
 
-export function createGem() {
+export function createGem(id?: string) {
   const gem = createGemModel();
 
   gem.userData.extent2d = new Circle(undefined, dim.modelSizes.gem[0] / 2);
   gem.userData.type = 'object';
+  if (id) gem.userData.id = id;
 
   gem.rotateY(random() * Math.PI);
   gem.castShadow = true;
@@ -27,6 +29,11 @@ export function createGem() {
 }
 
 export function killGem(obj: THREE.Object3D, givingAward = false) {
+  if (givingAward && obj.userData.id) {
+    // remember this gem has been collected
+    collectGem(obj.userData.id);
+  }
+
   if (!givingAward) {
     shrinkToGone(obj, dim.objectDyingDuration);
   }

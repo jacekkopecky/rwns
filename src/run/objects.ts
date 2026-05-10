@@ -15,16 +15,17 @@ import { resetGroup, removeGroupChildrenBehindCamera } from './three/tools';
 
 export const objectsGroup = new THREE.Group();
 
-export function setupObjects(opts: {
-  onFinish: () => void;
-  setCustomMessage: (msg: string) => void;
-}) {
+interface LevelInfo {
+  msg: string;
+  gemCount: number;
+}
+
+export function setupObjects(opts: { onFinish: () => void }): LevelInfo {
   resetGroup(objectsGroup);
 
   objectsGroup.position.z = -dim.startDistance;
 
-  const { objects, customMessage } = createLevelObjects(state.readState());
-  opts.setCustomMessage(customMessage ?? '');
+  const { objects, customMessage = '', gemCount = 0 } = createLevelObjects(state.readState());
 
   for (const obj of objects) {
     const oData = getObjectData(obj);
@@ -43,6 +44,11 @@ export function setupObjects(opts: {
   for (const obj of objects) {
     objectsGroup.add(obj);
   }
+
+  return {
+    msg: customMessage ?? '',
+    gemCount: gemCount ?? 0,
+  };
 }
 
 // order by maxZ from largest to smallest

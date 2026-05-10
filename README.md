@@ -8,19 +8,26 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
+- [.] introduce gems so we can start buying permanent upgrades
+  - some hidden among the trees
+  - some embedded in the blocks
+    - useForAward could have a string, then getByName() would be used to get the one to use
+  - gems could be collected once per level, but with stable generation so those not collected stay
+    where they were
+    - should there be a gap or a tree where we collected a gem, if the gem originally replaced a
+      tree? let's make it a tree
+    - needs to show how many are left
+    - this gives both a bit of a reward for repeating, but also a reason to progress when all are
+      collected
+  - [x] replace some trees with gems, except where already collected
+  - [x] clear collected gems on next level
+  - [ ] add gems to some blocks, make them collect correctly by reusing the 3d object and adding
+        them to collected
+  - [x] show number of collected gems on end screen
+  - [x] show number of total gems on end screen
+  - [x] don't show number of gems on end screen if there weren't any
+- [ ] and then cards
 - [ ] tracks
-  - [ ] in the level where it's impossible, introduce gems so we can start buying permanent upgrades
-    - some embedded in the blocks
-      - useForAward could have a string, then getByName() would be used to get the one to use
-    - some hidden among the trees
-    - gems could be collected once per level, but with stable generation so those not collected stay
-      where they were
-      - should there be a gap or a tree where we collected a gem, if the gem originally replaced a
-        tree?
-      - needs to show how many are left
-      - this gives both a bit of a reward for repeating, but also a reason to progress when all are
-        collected
-    - and then cards
   - using level (per type of run?)
   - waves? reset gates? multi-stage runs?
   - ideas:

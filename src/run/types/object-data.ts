@@ -25,6 +25,7 @@ export interface BulletData extends AnyObjectData {
 
 export interface ObjectData extends AnyObjectData {
   type: 'object';
+  id?: string;
   hitPoints: number;
   maxHitPoints: number;
   height: number;

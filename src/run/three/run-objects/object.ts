@@ -38,3 +38,7 @@ export function killObject(obj: THREE.Object3D, givingAward = false) {
   markAsDying(obj);
   typeFns[type][1](obj, givingAward);
 }
+
+export function isOfType(obj: THREE.Object3D, type: string) {
+  return obj.userData._createObject_type === type;
+}

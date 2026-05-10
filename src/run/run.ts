@@ -12,6 +12,7 @@ import {
   toggleEndRunScreen,
   updateAwardsView,
   updateEndRunScreen,
+  updateEndRunScreenGemCount,
 } from './awards';
 import { bulletsGroup, movePlayerBullets, setupBullets } from './bullets';
 import { dyingGroup, moveAndSweepDyingGroup, setupDyingGroup } from './dying-group';
@@ -130,12 +131,12 @@ export function prepareRun() {
   disposeAnimations();
 
   setupAwards();
-  setupObjects({
+  const levelInfo = setupObjects({
     onFinish: () => endRun(true, true),
-    setCustomMessage: (msg) => {
-      el.shortMessage.textContent = msg;
-    },
   });
+  el.shortMessage.textContent = levelInfo.msg;
+  updateEndRunScreenGemCount(levelInfo.gemCount);
+
   // set up players after objects so player upgrades and positioning, which may use randomness, don't affect object randomness
   setupPlayers();
   setupBullets();

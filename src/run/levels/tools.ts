@@ -48,8 +48,8 @@ export function makeTrees(
   return objects;
 }
 
-export function makeGem(hp: number) {
-  const obj = createObject('gems');
+export function makeGem(hp: number, id?: string) {
+  const obj = createObject('gems', id);
   const oData = getObjectData(obj);
 
   oData.hitPoints = hp;

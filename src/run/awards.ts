@@ -16,6 +16,7 @@ const el = {
   endRunScreen: document.querySelector('#endRunScreen')!,
   endRunScreenCoins: document.querySelector('#endRunScreen .coin')!,
   endRunScreenGems: document.querySelector('#endRunScreen .gem')!,
+  endRunScreenGemCount: document.querySelector<HTMLElement>('#endRunScreen .gemCount')!,
   inRunContainer: document.querySelector('#inRunWallet')!,
   inRun: {
     gem: document.querySelector('#inRunWallet .gem')!,
@@ -137,7 +138,20 @@ export function handleRetryButton() {
 }
 
 export function updateEndRunScreen() {
-  fillOrHide(el.endRunScreenCoins, wallet.read('coin'));
-  fillOrHide(el.endRunScreenGems, wallet.read('gem'));
-  el.endRunScreen.classList.toggle('collected', Boolean(wallet.read('coin') || wallet.read('gem')));
+  let showingAny = false;
+  showingAny = fillOrHide(el.endRunScreenCoins, wallet.read('coin')) || showingAny;
+  showingAny = fillOrHide(el.endRunScreenGems, wallet.read('gem')) || showingAny;
+
+  // update gemCount here from what's stored in the dataset
+  const gemCount = el.endRunScreenGemCount.dataset.gemCount ?? '';
+  el.endRunScreen.classList.toggle('gotGems', Boolean(gemCount));
+  showingAny = fillOrHide(el.endRunScreenGemCount, gemCount) || showingAny;
+
+  el.endRunScreen.classList.toggle('collected', showingAny);
+}
+
+export function updateEndRunScreenGemCount(count: number) {
+  // we can't put the count in the end screen yet because this is called when a new level is prepared,
+  // which is also when we press a button on the end run screen that stays visible for a bit
+  el.endRunScreenGemCount.dataset.gemCount = count ? String(count) : '';
 }

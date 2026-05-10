@@ -1,5 +1,13 @@
 import * as dim from '#dimensions';
-import { Wallet, type Currency, type CurrencyType, type ReadonlyState, type State } from '#types';
+import {
+  Wallet,
+  type Currency,
+  type CurrencyType,
+  type CurrentLevelState,
+  type ReadonlyState,
+  type State,
+} from '#types';
+import { parseNumber, parseStringArray } from '#utils';
 
 import { parseUpgrades, type Upgrade, type UpgradeBag, type UpgradeType } from './upgrades';
 
@@ -14,6 +22,7 @@ function createInitialState(): State {
     energy: Infinity,
     lastEnergyGiven: Date.now(),
     currentLevelUpgrades,
+    collectedGemIds: [],
   };
 }
 
@@ -44,9 +53,16 @@ export function increaseLevel() {
   state.previousLevel = {
     level: state.level,
     currentLevelUpgrades: state.currentLevelUpgrades,
+    collectedGemIds: state.collectedGemIds,
   };
-  state.level += 1;
-  state.currentLevelUpgrades = {};
+
+  // make the type system tell us when we've forgotten to reset a new property
+  const newLevelState: CurrentLevelState = {
+    level: state.level + 1,
+    currentLevelUpgrades: {},
+    collectedGemIds: [],
+  };
+  Object.assign(state, newLevelState);
 
   handleLevelChanges();
   saveState();
@@ -84,26 +100,20 @@ function loadState() {
   try {
     const data = JSON.parse(dataString);
 
-    const wallet = new Wallet(data.wallet);
-    const level = getNumber(data.level, 1);
-    const played = getNumber(data.played, 0);
-    const energy = getNumber(data.energy, Infinity);
-    const lastEnergyGiven = getNumber(data.lastEnergyGiven, Date.now());
-    const currentLevelUpgrades = parseUpgrades(data.currentLevelUpgrades);
-
-    state = { wallet, level, played, energy, lastEnergyGiven, currentLevelUpgrades };
+    state = {
+      wallet: new Wallet(data.wallet),
+      level: parseNumber(data.level, 1),
+      played: parseNumber(data.played, 0),
+      energy: parseNumber(data.energy, Infinity),
+      lastEnergyGiven: parseNumber(data.lastEnergyGiven, Date.now()),
+      currentLevelUpgrades: parseUpgrades(data.currentLevelUpgrades),
+      collectedGemIds: parseStringArray(data.collectedGemIds),
+    };
   } catch (e) {
     const newKey = LOCAL_STORAGE_KEY + new Date().toISOString();
     localStorage.setItem(newKey, dataString);
     console.warn(`cannot read state, saving in "${newKey}"`, e);
   }
-}
-
-function getNumber(value: unknown, defaultValue?: number): number {
-  if (typeof value === 'number') return value;
-  if (value == null && defaultValue != null) return defaultValue;
-
-  throw new TypeError(`expected number, got ${value}`);
 }
 
 export function isUpgradeAllowed(upgrade: UpgradeType, state: ReadonlyState): boolean {
@@ -165,4 +175,9 @@ export function subtractEnergy(): boolean {
   } else {
     return false;
   }
+}
+
+export function collectGem(id: string) {
+  state.collectedGemIds.push(id);
+  saveState();
 }

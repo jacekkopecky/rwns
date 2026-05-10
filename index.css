@@ -250,7 +250,8 @@ button {
   }
 
   &:not(.win) .if-win,
-  &.win .if-not-win {
+  &.win .if-not-win,
+  &:not(.gotGems) .if-got-gems {
     display: none;
   }
 
@@ -306,7 +307,7 @@ button {
   }
 }
 
-.hidden {
+.hidden:not(.neverHidden) {
   visibility: hidden;
 
   .hiddenGone &,
