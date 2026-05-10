@@ -1,6 +1,8 @@
 import * as dim from '#dimensions';
-import type { ReadonlyState } from '#types';
+import type { ReadonlyState, UpgradablePermanentParameters } from '#types';
 import { range, removeRandomItem, spacedRandomIndexes } from '#utils';
+
+import { isFeatureAllowed } from '../../state';
 
 import type { LevelFunction } from './index';
 import { makeBag, makeEndBlocks, makeGem, makeTrees } from './tools';
@@ -8,10 +10,13 @@ import { makeBag, makeEndBlocks, makeGem, makeTrees } from './tools';
 export const MIN = 4;
 export const MAX = Infinity;
 
-export function level4Plus(state: ReadonlyState): ReturnType<LevelFunction> {
+export function level4Plus(
+  state: ReadonlyState,
+  params: UpgradablePermanentParameters,
+): ReturnType<LevelFunction> {
   const hardness = dim.difficultyIncreasePerLevel ** (state.level - MIN + 1);
 
-  const currObjectHP = dim.objectHitPoints * hardness;
+  const currObjectHP = params.objectHitPoints * hardness;
 
   const customMessage = state.level === MIN ? 'from now on\nit gets harder' : '';
 
@@ -19,10 +24,13 @@ export function level4Plus(state: ReadonlyState): ReturnType<LevelFunction> {
     dim.runLength,
     dim.treesPerTreeWidth,
     currObjectHP,
-    dim.objectHitPoints,
+    params.objectHitPoints,
   );
 
-  const amounts = [...gemsWithIds(2, 'tree'), ...coinBagAmounts(10, 20)];
+  const amounts: ExtraObjectInfo[] = coinBagAmounts(dim.maxCoinBagsPerRun, params.coinsPerLevel);
+  if (isFeatureAllowed('cards', state)) {
+    amounts.push(...gemsWithIds(2, 'tree'));
+  }
   const bags = amounts.length;
   const treeIndexesToReplace = spacedRandomIndexes(objects, bags);
   let gemCount = 0;
@@ -35,7 +43,7 @@ export function level4Plus(state: ReadonlyState): ReturnType<LevelFunction> {
 
     if (item.type === 'gem') {
       // create every gem so we use the same random() calls, but don't put in the ones already collected
-      const gem = makeGem(dim.gemHitPoints * hardness, item.id);
+      const gem = makeGem(params.gemHitPoints * hardness, item.id);
       if (!state.collectedGemIds.includes(item.id)) {
         object = gem;
         gemCount += 1;
@@ -58,18 +66,28 @@ export function level4Plus(state: ReadonlyState): ReturnType<LevelFunction> {
   const blocks = makeEndBlocks(
     blockStart,
     8,
-    dim.maxEndBlockHitPoints * hardness,
+    params.maxEndBlockHitPoints * hardness,
     currObjectHP / 2,
   );
 
   return { objects: objects.concat(blocks), customMessage, gemCount };
 }
 
-function gemsWithIds(n: number, idPrefix = ''): Iterable<{ type: 'gem'; id: string }> {
+interface GemInfo {
+  type: 'gem';
+  id: string;
+}
+interface BagInfo {
+  type: 'bag';
+  amount: number;
+}
+type ExtraObjectInfo = GemInfo | BagInfo;
+
+function gemsWithIds(n: number, idPrefix = ''): Iterable<GemInfo> {
   return range(n).map((x) => ({ type: 'gem', id: `gem_${idPrefix}${x}` }));
 }
 
-function coinBagAmounts(bags: number, total: number): { type: 'bag'; amount: number }[] {
+function coinBagAmounts(bags: number, total: number): BagInfo[] {
   if (total <= bags) {
     return Array(total).fill({ type: 'bag', amount: 1 });
   }

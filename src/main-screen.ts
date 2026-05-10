@@ -1,8 +1,16 @@
+import type { UpgradablePermanentParameters } from '#types';
 import { fillOrHide, toggleHidden } from '#utils';
 
 import { initUpgrades, updateUpgrades } from './main-screen-upgrades';
 import { init as initRunScreen, handleRetryButton, prepareRun, startRun } from './run';
-import { initState, readState, resetState, getEnergy, subtractEnergy } from './state';
+import {
+  initState,
+  readState,
+  resetState,
+  getEnergy,
+  subtractEnergy,
+  getUpgradablePermanentParameters,
+} from './state';
 
 const el = {
   main: document.querySelector('main')!,
@@ -39,21 +47,22 @@ export function init() {
   el.topButtons.addEventListener('touchdown', (e) => e.stopPropagation());
   el.upgradeButtons.addEventListener('touchdown', (e) => e.stopPropagation());
 
-  el.main.addEventListener('fullscreenchange', updateMainScreen);
-  document.addEventListener('visibilitychange', updateMainScreen);
+  el.main.addEventListener('fullscreenchange', () => updateMainScreen());
+  document.addEventListener('visibilitychange', () => updateMainScreen());
 
   showMainScreen();
 }
 
 export function startPlaying() {
+  const params = getUpgradablePermanentParameters();
   // this gets called on every touch of the screen, so ignore it if already in a game
   if (!el.main.classList.contains('run')) {
     if (el.main.classList.contains('no-energy')) {
-      updateEnergyCount();
+      updateEnergyCount(params);
       return;
     }
 
-    if (!subtractEnergy()) return; // wait until next energy
+    if (!subtractEnergy(params)) return; // wait until next energy
 
     el.main.classList.add('run');
     startRun();
@@ -68,14 +77,15 @@ function retry() {
 export function showMainScreen() {
   el.main.classList.remove('run');
   el.exitBtn.disabled = false;
-  prepareRun();
 
-  updateMainScreen();
+  const state = readState();
+  const params = getUpgradablePermanentParameters();
+
+  prepareRun(state, params);
+  updateMainScreen(state, params);
 }
 
-export function updateMainScreen() {
-  const state = readState();
-
+export function updateMainScreen(state = readState(), params = getUpgradablePermanentParameters()) {
   fillOrHide(el.wallet.coin, state.wallet.read('coin'));
   fillOrHide(el.wallet.gem, state.wallet.read('gem'));
   toggleHidden(el.walletContainer, !state.wallet.read('coin') && !state.wallet.read('gem'));
@@ -83,12 +93,12 @@ export function updateMainScreen() {
   fillOrHide(el.playStats.level, state.level, String);
   fillOrHide(el.playStats.played, state.played, String);
 
-  updateEnergyCount();
-  updateUpgrades(state);
+  updateEnergyCount(params);
+  updateUpgrades(state, params);
 }
 
-function updateEnergyCount() {
-  const { energy, nextEnergyMs } = getEnergy();
+function updateEnergyCount(params: UpgradablePermanentParameters) {
+  const { energy, nextEnergyMs } = getEnergy(params);
   if (energy < Infinity) {
     if (energy) {
       fillOrHide(el.playStats.energy, energy);

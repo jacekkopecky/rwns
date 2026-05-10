@@ -2,9 +2,10 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 import { logFps } from '#log';
+import type { ReadonlyState, UpgradablePermanentParameters } from '#types';
 import { resetRandom } from '#utils';
 
-import * as state from '../state';
+import * as stateModule from '../state';
 
 import {
   awardsGroup,
@@ -125,20 +126,22 @@ function setupScene() {
 /**
  * make objects, reset in-run scores, show
  */
-export function prepareRun() {
-  resetRandom(String(state.readState().level));
+export function prepareRun(state: ReadonlyState, params: UpgradablePermanentParameters) {
+  resetRandom(String(state.level));
 
   disposeAnimations();
 
   setupAwards();
   const levelInfo = setupObjects({
+    state,
+    params,
     onFinish: () => endRun(true, true),
   });
   el.shortMessage.textContent = levelInfo.msg;
   updateEndRunScreenGemCount(levelInfo.gemCount);
 
   // set up players after objects so player upgrades and positioning, which may use randomness, don't affect object randomness
-  setupPlayers();
+  setupPlayers(state, params);
   setupBullets();
   setupDyingGroup();
 
@@ -155,7 +158,7 @@ export function prepareRun() {
 
 export function startRun() {
   if (!playing) {
-    state.increasePlayed();
+    stateModule.increasePlayed();
   }
 
   playing = true;
@@ -169,7 +172,7 @@ function endRun(immediate = false, win = false) {
 
   ending = true;
   el.exitBtn.disabled = true;
-  if (win) state.increaseLevel();
+  if (win) stateModule.increaseLevel();
 
   updateTouchHandlerEnabled();
   updateEndRunScreen();

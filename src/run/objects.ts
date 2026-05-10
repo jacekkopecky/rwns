@@ -1,8 +1,7 @@
 import * as THREE from 'three';
 
 import * as dim from '#dimensions';
-
-import * as state from '../state';
+import type { ReadonlyState, UpgradablePermanentParameters } from '#types';
 
 import { giveAward } from './awards';
 import { createLevelObjects } from './levels';
@@ -20,12 +19,16 @@ interface LevelInfo {
   gemCount: number;
 }
 
-export function setupObjects(opts: { onFinish: () => void }): LevelInfo {
+export function setupObjects(opts: {
+  state: ReadonlyState;
+  params: UpgradablePermanentParameters;
+  onFinish: () => void;
+}): LevelInfo {
   resetGroup(objectsGroup);
 
   objectsGroup.position.z = -dim.startDistance;
 
-  const { objects, customMessage = '', gemCount = 0 } = createLevelObjects(state.readState());
+  const { objects, customMessage = '', gemCount = 0 } = createLevelObjects(opts.state, opts.params);
 
   for (const obj of objects) {
     const oData = getObjectData(obj);

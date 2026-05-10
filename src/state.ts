@@ -1,27 +1,29 @@
 import * as dim from '#dimensions';
-import {
-  Wallet,
-  type Currency,
-  type CurrencyType,
-  type CurrentLevelState,
-  type ReadonlyState,
-  type State,
+import type {
+  Currency,
+  CurrencyType,
+  CurrentLevelState,
+  Feature,
+  ReadonlyState,
+  RunUpgradeType,
+  State,
+  UpgradablePermanentParameters,
 } from '#types';
+import { Wallet } from '#types';
 import { parseNumber, parseStringArray } from '#utils';
 
-import { parseUpgrades, type Upgrade, type UpgradeBag, type UpgradeType } from './upgrades';
+import { parseUpgrades } from './main-screen-upgrades';
 
 const LOCAL_STORAGE_KEY = 'jacekkopecky-shoot-em-state';
 
 function createInitialState(): State {
-  const currentLevelUpgrades: UpgradeBag = {};
   return {
     wallet: new Wallet(),
     level: 1,
     played: 0,
     energy: Infinity,
     lastEnergyGiven: Date.now(),
-    currentLevelUpgrades,
+    runUpgradeLevels: {},
     collectedGemIds: [],
   };
 }
@@ -52,14 +54,14 @@ export function pay(type: CurrencyType, amount: number) {
 export function increaseLevel() {
   state.previousLevel = {
     level: state.level,
-    currentLevelUpgrades: state.currentLevelUpgrades,
+    runUpgradeLevels: state.runUpgradeLevels,
     collectedGemIds: state.collectedGemIds,
   };
 
   // make the type system tell us when we've forgotten to reset a new property
   const newLevelState: CurrentLevelState = {
     level: state.level + 1,
-    currentLevelUpgrades: {},
+    runUpgradeLevels: {},
     collectedGemIds: [],
   };
   Object.assign(state, newLevelState);
@@ -86,8 +88,8 @@ export function readState(): ReadonlyState {
   return state;
 }
 
-export function setCurrentLevelUpgrade(type: UpgradeType, upgrade: Upgrade) {
-  state.currentLevelUpgrades[type] = upgrade;
+export function setRunUpgradeLevel(type: RunUpgradeType, level: number) {
+  state.runUpgradeLevels[type] = level;
   saveState();
 }
 
@@ -106,7 +108,7 @@ function loadState() {
       played: parseNumber(data.played, 0),
       energy: parseNumber(data.energy, Infinity),
       lastEnergyGiven: parseNumber(data.lastEnergyGiven, Date.now()),
-      currentLevelUpgrades: parseUpgrades(data.currentLevelUpgrades),
+      runUpgradeLevels: parseUpgrades(data.runUpgradeLevels),
       collectedGemIds: parseStringArray(data.collectedGemIds),
     };
   } catch (e) {
@@ -116,23 +118,29 @@ function loadState() {
   }
 }
 
-export function isUpgradeAllowed(upgrade: UpgradeType, state: ReadonlyState): boolean {
-  // hide upgrades when starting from scratch until played a bit
+export function isFeatureAllowed(upgrade: Feature, state: ReadonlyState): boolean {
   switch (upgrade) {
-    case 'rate':
+    case 'limitedEnergy':
       return state.level >= 4;
 
-    case 'damage':
+    case 'rateUpgrade':
+      return state.level >= 4;
+
+    case 'damageUpgrade':
       return state.level >= 10;
 
-    case 'player':
-      return state.level > 20;
+    case 'playersUpgrade':
+      return state.level >= 20;
+
+    case 'cards':
+      return state.level >= 30;
   }
 }
 
 function handleLevelChanges() {
-  if (state.energy === Infinity && state.level >= 4) {
-    state.energy = dim.energyMax;
+  const params = getUpgradablePermanentParameters();
+  if (state.energy === Infinity && isFeatureAllowed('limitedEnergy', state)) {
+    state.energy = params.energyMax;
   }
 
   if (state.level < 4) {
@@ -140,17 +148,20 @@ function handleLevelChanges() {
   }
 }
 
-export function getEnergy(): { energy: number; nextEnergyMs: number } {
+export function getEnergy(params: UpgradablePermanentParameters): {
+  energy: number;
+  nextEnergyMs: number;
+} {
   const now = Date.now();
-  if (state.energy >= dim.energyMax) {
+  if (state.energy >= params.energyMax) {
     return { energy: state.energy, nextEnergyMs: now + dim.energyGainInterval };
   } else {
     const msSinceLast = now - state.lastEnergyGiven;
     const energySinceLast = Math.floor(msSinceLast / dim.energyGainInterval);
     if (energySinceLast > 0) {
-      state.energy = Math.min(dim.energyMax, state.energy + energySinceLast);
+      state.energy = Math.min(params.energyMax, state.energy + energySinceLast);
       state.lastEnergyGiven =
-        state.energy === dim.energyMax
+        state.energy === params.energyMax
           ? now
           : state.lastEnergyGiven + energySinceLast * dim.energyGainInterval;
       saveState();
@@ -162,12 +173,12 @@ export function getEnergy(): { energy: number; nextEnergyMs: number } {
   }
 }
 
-export function subtractEnergy(): boolean {
+export function subtractEnergy(params: UpgradablePermanentParameters): boolean {
   if (state.energy === Infinity || import.meta.env.DEV) {
     return true;
   }
 
-  getEnergy();
+  getEnergy(params);
   if (state.energy > 0) {
     state.energy -= 1;
     saveState();
@@ -180,4 +191,28 @@ export function subtractEnergy(): boolean {
 export function collectGem(id: string) {
   state.collectedGemIds.push(id);
   saveState();
+}
+
+export function getUpgradablePermanentParameters(): UpgradablePermanentParameters {
+  // todo this will apply various upgrades the player gets
+  return {
+    energyMax: dim.initialEnergyMax,
+    coinsPerLevel: dim.initialCoinsPerLevel,
+    gemsPerLevel: dim.initialGemsPerLevel,
+    endBlockCoinsPerLevel: dim.initialEndBlockCoinsPerLevel,
+    damageUpgradePrice: dim.initialDamageUpgradePrice,
+    rateUpgradePrice: dim.initialRateUpgradePrice,
+    playersUpgradePrice: dim.initialPlayersUpgradePrice,
+    damageMaxUpgrade: dim.initialDamageMaxUpgrade,
+    rateMaxUpgrade: dim.initialRateMaxUpgrade,
+    playersMaxUpgrade: dim.initialPlayersMaxUpgrade,
+    objectHitPoints: dim.initialObjectHitPoints,
+    maxEndBlockHitPoints: dim.initialMaxEndBlockHitPoints,
+    gemHitPoints: dim.initialGemHitPoints,
+    playerBulletHitPoints: dim.initialPlayerBulletHitPoints,
+    playerBulletRange: dim.initialPlayerBulletRange,
+    playerHitPoints: dim.initialPlayerHitPoints,
+    playerShotsPerSecond: dim.initialPlayerShotsPerSecond,
+    startingPlayers: dim.initialStartingPlayers,
+  };
 }

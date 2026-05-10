@@ -1,9 +1,10 @@
 import * as THREE from 'three';
 
 import * as dim from '#dimensions';
+import { random } from '#utils';
+import type { ReadonlyState, UpgradablePermanentParameters } from '#types';
 
-import { readState } from '../state';
-import { applyUpgrade } from '../upgrades';
+import { applyRunUpgrade } from '../main-screen-upgrades';
 
 import { createPlayerBullet } from './bullets';
 import { hitObject, objectsGroup } from './objects';
@@ -13,16 +14,18 @@ import { updateCameraPosition } from './three/camera';
 import { getExtentTranslatedToPosition, intersects, isDying } from './three/resources';
 import { createPlayer, killPlayer, setPlayerWalking } from './three/run-objects';
 import { getObjectZ, resetGroup } from './three/tools';
-import { random } from '#utils';
 
 export const playersGroup = new THREE.Group();
 
-export function setupPlayers() {
+export function setupPlayers(state: ReadonlyState, params: UpgradablePermanentParameters) {
   resetGroup(playersGroup);
 
-  const state = readState();
-  const shotsPerSecond = applyUpgrade(dim.playerShotsPerSecond, state.currentLevelUpgrades.rate);
-  const players = applyUpgrade(1, state.currentLevelUpgrades.player);
+  const shotsPerSecond = applyRunUpgrade(
+    params.playerShotsPerSecond,
+    state.runUpgradeLevels,
+    'rate',
+  );
+  const players = applyRunUpgrade(params.startingPlayers, state.runUpgradeLevels, 'players');
 
   // mirror so we don't always start with the same orientation
   const mirror = random() < 0.5;
@@ -39,13 +42,14 @@ export function setupPlayers() {
     pData.shotTime = 1 / shotsPerSecond;
     pData.remainingShotTime = (pData.shotTime / players) * i + pData.shotTime / 2;
 
-    pData.range = dim.playerBulletRange;
-    pData.bulletHitPoints = applyUpgrade(
-      dim.playerBulletHitPoints,
-      state.currentLevelUpgrades.damage,
+    pData.range = params.playerBulletRange;
+    pData.bulletHitPoints = applyRunUpgrade(
+      params.playerBulletHitPoints,
+      state.runUpgradeLevels,
+      'damage',
     );
 
-    pData.hitPoints = dim.playerHitPoints;
+    pData.hitPoints = params.playerHitPoints;
     playersGroup.add(player);
   }
 

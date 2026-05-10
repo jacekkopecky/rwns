@@ -1,44 +1,58 @@
-import type { ReadonlyState } from '#types';
-import { formatNumber } from '#utils';
+import type {
+  RunUpgradeLevels,
+  ReadonlyState,
+  RunUpgradeType,
+  UpgradablePermanentParameters,
+} from '#types';
+import { RUN_UPGRADE_TYPES } from '#types';
+import { parseNumber, formatNumber } from '#utils';
 
 import { updateMainScreen } from './main-screen';
 import { prepareRun } from './run';
-import { readState, setCurrentLevelUpgrade, pay, isUpgradeAllowed } from './state';
-import type { UpgradeFn, UpgradeType } from './upgrades';
+import {
+  readState,
+  pay,
+  isFeatureAllowed,
+  getUpgradablePermanentParameters,
+  setRunUpgradeLevel,
+} from './state';
 
 const el = {
   upgradeButtons: document.querySelector<HTMLElement>('#upgradeButtons')!,
   upgrades: {
-    player: document.querySelector<HTMLElement>('#upgradeButtons > .player')!,
+    players: document.querySelector<HTMLElement>('#upgradeButtons > .players')!,
     rate: document.querySelector<HTMLElement>('#upgradeButtons > .rate')!,
     damage: document.querySelector<HTMLElement>('#upgradeButtons > .damage')!,
   },
 };
 
 export function initUpgrades() {
-  el.upgrades.player.addEventListener('click', upgradeHandler(upgradePlayer));
-  el.upgrades.rate.addEventListener('click', upgradeHandler(upgradeRate));
-  el.upgrades.damage.addEventListener('click', upgradeHandler(upgradeDamage));
+  el.upgrades.players.addEventListener('click', upgradeHandler('players'));
+  el.upgrades.rate.addEventListener('click', upgradeHandler('rate'));
+  el.upgrades.damage.addEventListener('click', upgradeHandler('damage'));
 }
 
 type ButtonUpgrade = keyof typeof el.upgrades;
 
-export function updateUpgrades(state: ReadonlyState) {
+export function updateUpgrades(state: ReadonlyState, params: UpgradablePermanentParameters) {
   // only allow upgrades depending on state
   for (const upgradeType of Object.keys(el.upgrades) as ButtonUpgrade[]) {
-    el.upgrades[upgradeType].classList.toggle('hidden', !isUpgradeAllowed(upgradeType, state));
-    updatePriceAndLevel(upgradeType, state);
+    el.upgrades[upgradeType].classList.toggle(
+      'hidden',
+      !isFeatureAllowed(`${upgradeType}Upgrade`, state),
+    );
+    updatePriceAndLevel(upgradeType, state, params);
   }
 }
 
-function updatePriceAndLevel(type: ButtonUpgrade, state: ReadonlyState) {
-  const [currentLevel, nextLevel] = lookupCurrentUpgradeLevel(
-    type,
-    state.currentLevelUpgrades[type]?.value,
-  );
+function updatePriceAndLevel(
+  type: ButtonUpgrade,
+  state: ReadonlyState,
+  params: UpgradablePermanentParameters,
+) {
+  const { currentLevel, nextLevel, nextPrice } = getCurrentAndNextLevel(type, state, params);
 
-  const price = nextLevel?.price ?? 0;
-  const canAfford = state.wallet.read('coin') >= price;
+  const canAfford = state.wallet.read('coin') >= (nextPrice ?? 0);
   const isMax = nextLevel == null;
 
   const buttonEl = el.upgrades[type];
@@ -49,103 +63,115 @@ function updatePriceAndLevel(type: ButtonUpgrade, state: ReadonlyState) {
   buttonEl.classList.toggle('max', isMax);
 
   const costEl = buttonEl.querySelector<HTMLElement>('.cost .value')!;
-  costEl.textContent = price ? formatNumber(price) : '—';
+  costEl.textContent = nextPrice ? formatNumber(nextPrice) : '—';
 
   const levelEl = buttonEl.querySelector<HTMLElement>('.level .value')!;
-  levelEl.textContent = isMax ? 'MAX' : `Level ${currentLevel}`;
+  levelEl.textContent = isMax ? 'MAX' : `Level ${currentLevel + 1}`; // humans start with 1
 }
 
-function upgradeHandler(fn: () => void): (e: PointerEvent) => void {
+function upgradeHandler(type: RunUpgradeType): (e: PointerEvent) => void {
   return (e) => {
     if (e.currentTarget instanceof HTMLElement && !e.currentTarget.classList.contains('disabled')) {
-      fn();
-      prepareRun();
-      updateMainScreen();
+      const state = readState();
+      const params = getUpgradablePermanentParameters();
+      doUpgrade(type, state, params);
+      prepareRun(state, params);
+      updateMainScreen(state, params);
     }
   };
 }
 
-interface UpgradeLevel {
-  price: number;
-  value: number;
+type RunUpgradeFn = (baseValue: number, level: number) => number;
+type RunUpgradePriceFn = (level: number, params: UpgradablePermanentParameters) => number;
+
+const RUN_UPGRADE_FUNCTIONS: Record<
+  RunUpgradeType,
+  { price: RunUpgradePriceFn; value: RunUpgradeFn }
+> = {
+  damage: {
+    price: (level, params) =>
+      pricePrecision(params.damageUpgradePrice, 1.3 * 3 ** ((level - 1) / 2)), // so we start with 1,2,4,7,12,20
+    value: (value, level) => value * 2 ** (level / 6),
+  },
+  rate: {
+    price: (level, params) => pricePrecision(params.rateUpgradePrice, 1.3 * 3 ** ((level - 1) / 2)), // so we start with 1,2,4,7,12,20
+    value: (value, level) => value * 2 ** (level / 6),
+  },
+  players: {
+    price: (level, params) => pricePrecision(params.playersUpgradePrice, 31.92 * 1.2577 ** level), // so we start with 40, 50, 64, 80, 100
+    value: (value, level) => value + level,
+  },
+};
+
+function doUpgrade(
+  type: RunUpgradeType,
+  state: ReadonlyState,
+  params: UpgradablePermanentParameters,
+) {
+  const { nextLevel, nextPrice } = getCurrentAndNextLevel(type, state, params);
+
+  if (!nextLevel) return; // we're at max
+
+  if (state.wallet.read('coin') < nextPrice) return; // cannot afford
+  pay('coin', nextPrice);
+
+  setRunUpgradeLevel(type, nextLevel);
 }
 
-const upgradeLevels: Partial<Record<UpgradeType, UpgradeLevel[]>> = {
-  rate: [
-    { value: 12, price: 1 },
-    { value: 26, price: 2 },
-    { value: 41, price: 4 },
-    { value: 59, price: 7 },
-    { value: 78, price: 12 },
-    { value: 100, price: 20 },
-    // keeps going up
-    // value *= 2^(1/6)
-    // price *= 3^(1/2)
-  ],
-  player: [
-    { value: 1, price: 40 },
-    { value: 2, price: 50 },
-    { value: 3, price: 64 },
-    { value: 4, price: 80 },
-    { value: 5, price: 100 },
-    // keeps going up, value by 1, price by cca 25%
-    // price = Math.round(40.15 * 1.2577**i)
-    // price = Math.round((40.15 * 1.2577**i).toPrecision(2))
-    // chosen for nice first 5 numbers, then precision of 2 so prices are clear
-  ],
-  damage: [
-    { value: 12, price: 1 },
-    { value: 26, price: 2 },
-    { value: 41, price: 4 },
-    { value: 59, price: 7 },
-    { value: 78, price: 12 },
-    { value: 100, price: 20 },
-  ],
-} as const;
+function getCurrentAndNextLevel(
+  type: RunUpgradeType,
+  state: ReadonlyState,
+  params: UpgradablePermanentParameters,
+) {
+  const currentLevel = state.runUpgradeLevels[type] ?? 0;
 
-export function lookupCurrentUpgradeLevel(
-  type: UpgradeType,
-  value?: number,
-): [currentLevel: number, nextLevel: UpgradeLevel | null] {
-  const levels = upgradeLevels[type];
-  if (!levels?.length) {
-    return [1, null];
+  const maxLevel = getValue(`${type}MaxUpgrade`, params);
+  if (currentLevel === maxLevel) return { currentLevel };
+
+  const nextLevel = currentLevel + 1;
+
+  const priceFn = RUN_UPGRADE_FUNCTIONS[type].price;
+  const nextPrice = priceFn(nextLevel, params);
+
+  return { currentLevel, nextLevel, nextPrice };
+}
+
+export function applyRunUpgrade(
+  value: number,
+  runUpgradeLevels: RunUpgradeLevels,
+  type: RunUpgradeType,
+): number {
+  const level = runUpgradeLevels[type];
+  if (!level) return value;
+
+  const valueFn = RUN_UPGRADE_FUNCTIONS[type].value;
+  return valueFn(value, level);
+}
+
+export function parseUpgrades(data: unknown): RunUpgradeLevels {
+  if (data == null) return {};
+  if (typeof data !== 'object') {
+    throw new TypeError('malformed run upgrade levels data');
   }
 
-  if (!value) return [1, levels[0]!];
+  const retval: RunUpgradeLevels = {};
+  for (const [key, value] of Object.entries(data)) {
+    if (!RUN_UPGRADE_TYPES.includes(key as RunUpgradeType)) {
+      throw new TypeError(`unknown upgrade type ${key}`);
+    }
+    retval[key as RunUpgradeType] = parseNumber(value);
+  }
+  return retval;
+}
 
-  // find first level we _haven't_ reached
-  // return level starting with 1
-  for (let i = 0; i < levels.length; i += 1) {
-    const nextLevel = levels[i];
-    if (nextLevel != null && value < nextLevel.value) return [i + 1, nextLevel];
+function pricePrecision(base: number, n: number) {
+  return Math.max(1, Math.round(base * Number(n.toPrecision(2))));
+}
+
+function getValue<Key extends keyof T & string, T extends object>(key: Key, obj: T): T[Key] {
+  if (!(key in obj)) {
+    throw new Error(`cannot find ${key} in ${JSON.stringify(obj)}`);
   }
 
-  // we're at the top level
-  return [levels.length + 1, null];
-}
-
-function upgradeRate() {
-  upgradeWithFn('rate', 'addPercent');
-}
-
-function upgradeDamage() {
-  upgradeWithFn('damage', 'addPercent');
-}
-
-function upgradePlayer() {
-  upgradeWithFn('player', 'add');
-}
-
-function upgradeWithFn(type: UpgradeType, fn: UpgradeFn) {
-  const state = readState();
-  const currentValue = state.currentLevelUpgrades[type]?.value;
-  const [_, nextLevel] = lookupCurrentUpgradeLevel(type, currentValue);
-
-  if (nextLevel == null) return; // at max level
-
-  if (state.wallet.read('coin') < nextLevel.price) return; // cannot afford
-
-  pay('coin', nextLevel.price);
-  setCurrentLevelUpgrade(type, { fn, value: nextLevel.value });
+  return obj[key];
 }
