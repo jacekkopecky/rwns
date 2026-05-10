@@ -34,6 +34,11 @@ header {
     height: 1.5em;
     vertical-align: -25%;
   }
+
+  #version {
+    position: absolute;
+    bottom: 0;
+  }
 }
 
 main {

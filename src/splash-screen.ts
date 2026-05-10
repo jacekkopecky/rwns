@@ -30,7 +30,7 @@ export function init() {
     el.exitBtn.addEventListener('click', exit);
   }
 
-  fillOrHide(el.version, import.meta.env.VITE_BUILD_VERSION ?? '');
+  fillOrHide(el.version, import.meta.env.VITE_BUILD_VERSION ?? 'unknown');
 
   // disable context menu
   document.addEventListener('contextmenu', (e) => e.preventDefault());
