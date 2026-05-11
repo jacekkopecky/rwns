@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { getByName, indexByName } from '#utils';
 
-import { betweener, addMixer } from '../animations';
+import { betweener, addMixer, rotateOccasionally } from '../animations';
 
 import { createBonyTubeGeometry } from './tools/bony-tube';
 
@@ -20,6 +20,8 @@ export interface MarvinSizeOptions {
   torsoOffset?: number;
   gunRadius?: number;
   gunLength?: number;
+  idleTurnDelay?: number;
+  idleTurnDuration?: number;
 }
 
 type Size = Required<MarvinSizeOptions> & {
@@ -29,7 +31,9 @@ type Size = Required<MarvinSizeOptions> & {
 export class Marvin {
   public readonly object: THREE.Group;
   private actions: THREE.AnimationAction[];
+  private idleAction?: THREE.AnimationAction;
   private gunHeight: number;
+  private _size: Size;
 
   private walking = false;
 
@@ -50,7 +54,10 @@ export class Marvin {
       gunLength: sizeOptions.gunLength ?? sizeOptions.hipWidth,
       maxStride,
       ...chooseStrideLength(sizeOptions.speed, maxStride, sizeOptions.strideDuration ?? 1.2),
+      idleTurnDelay: sizeOptions.idleTurnDelay ?? 20,
+      idleTurnDuration: sizeOptions.idleTurnDuration ?? 1.6,
     };
+    this._size = size;
 
     const fullObject = new THREE.Group();
     this.object = fullObject;
@@ -148,6 +155,16 @@ export class Marvin {
 
     const gunTurnClip = createTurnClip(size.strideDuration, -bobAngle);
     this.actions.push(mixer.clipAction(gunTurnClip, gun));
+
+    if (size.idleTurnDuration) {
+      this.idleAction = rotateOccasionally(
+        this.object,
+        size.idleTurnDuration,
+        size.idleTurnDelay,
+        'y',
+      );
+      this.idleAction.time = Math.random() * this._size.idleTurnDuration * 2;
+    }
   }
 
   getGunHeight() {
@@ -156,6 +173,10 @@ export class Marvin {
 
   // todo add a speed parameter?
   startWalking() {
+    if (this.idleAction) {
+      this.idleAction.stop();
+    }
+
     if (!this.walking) {
       this.walking = true;
       const dur = this.actions[0]!.getClip().duration;
@@ -181,6 +202,9 @@ export class Marvin {
       this.walking = false;
       for (const action of this.actions) {
         action.fadeOut(0.5);
+      }
+      if (this.idleAction) {
+        this.idleAction.play();
       }
     }
   }
@@ -340,7 +364,7 @@ function createArmGeometry(side: 'left' | 'right', size: Size) {
   }
 
   // have one arm raised a bit higher with a spread angle
-  const armSpread = (Math.PI / 180) * (41 - dir * 10);
+  const armSpread = (Math.PI / 180) * (41 + dir * 10);
 
   return new THREE.TubeGeometry(path, size.armSegmentCount, r, 8).rotateX(armSpread);
 }

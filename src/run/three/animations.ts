@@ -129,6 +129,39 @@ export function rotateAlways(
   return addClipAction(obj, duration, clip, false, THREE.LoopRepeat);
 }
 
+export function rotateOccasionally(
+  obj: THREE.Object3D,
+  turnDuration: number,
+  timeBetweenTurns: number,
+  axis: 'x' | 'y' | 'z',
+) {
+  const duration = turnDuration + timeBetweenTurns;
+  const axisRotation = obj.rotation[axis];
+
+  const clip = new THREE.AnimationClip('rotate', duration, [
+    new THREE.KeyframeTrack(
+      `.rotation[${axis}]`,
+      [
+        0,
+        timeBetweenTurns,
+        timeBetweenTurns + turnDuration * 0.1,
+        duration - turnDuration * 0.1,
+        duration,
+      ],
+      [
+        axisRotation,
+        axisRotation,
+        axisRotation + Math.PI * 2 * 0.05,
+        axisRotation + Math.PI * 2 * 0.95,
+        axisRotation + Math.PI * 2,
+      ],
+      THREE.InterpolateLinear,
+    ),
+  ]);
+
+  return addClipAction(obj, duration, clip, false, THREE.LoopRepeat);
+}
+
 /**
  * A helper function that given two numbers, returns a function that turns fractions into linear
  * interpolations between the two numbers.
