@@ -9,6 +9,7 @@ export const barColors = [
 ] as const;
 
 const [w, h] = dim.modelSizes.hitBar;
+const minWFraction = 0.05;
 
 export function createHitBar() {
   const retval = new THREE.Sprite(
@@ -31,7 +32,7 @@ export function updateHitBar(obj: THREE.Object3D, fraction: number) {
     return;
   }
 
-  barObj.scale.x = w * fraction;
+  barObj.scale.x = w * (fraction * (1 - minWFraction) + minWFraction);
   setColor(fraction, barObj.material.color);
 
   // make the hit bar visible
