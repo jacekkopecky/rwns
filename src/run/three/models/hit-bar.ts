@@ -21,6 +21,10 @@ export function createHitBar() {
   return retval;
 }
 
+export function getHitBar(obj: THREE.Object3D) {
+  return obj.getObjectByName('hitBar');
+}
+
 export function updateHitBar(obj: THREE.Object3D, fraction: number) {
   const barObj = obj.getObjectByName('hitBar');
   if (!barObj || !(barObj instanceof THREE.Sprite)) {

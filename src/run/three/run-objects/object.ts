@@ -8,6 +8,7 @@ import { createBag, killBag } from './money';
 import { createRandomTree, killTree } from './tree';
 import { createEndBlock, killEndBlock } from './end-blocks';
 import { createHitBar } from '../models';
+import { getObjectData } from '../../types';
 
 const typeFns = {
   tree: [createRandomTree, killTree],
@@ -37,6 +38,15 @@ export function killObject(obj: THREE.Object3D, givingAward = false) {
 
   markAsDying(obj);
   typeFns[type][1](obj, givingAward);
+
+  // if we're using a subobject for award, also kill it (so e.g. gems are now collected)
+  const oData = getObjectData(obj);
+  if (typeof oData.useForAward === 'string') {
+    const subObj = obj.getObjectByName(oData.useForAward);
+    if (subObj) {
+      killObject(subObj, givingAward);
+    }
+  }
 }
 
 export function isOfType(obj: THREE.Object3D, type: string) {

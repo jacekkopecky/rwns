@@ -1,8 +1,12 @@
+import * as THREE from 'three';
+
 import * as dim from '#dimensions';
 import type { ReadonlyState, UpgradablePermanentParameters } from '#types';
-import { range, removeRandomItem, spacedRandomIndexes } from '#utils';
+import { random, range, removeRandomItem, spacedRandomIndexes } from '#utils';
 
 import { isFeatureAllowed } from '../../state';
+import { getHitBar } from '../three/models';
+import { getObjectData } from '../types';
 
 import type { LevelFunction } from './index';
 import { makeBag, makeEndBlocks, makeGem, makeTrees } from './tools';
@@ -27,17 +31,19 @@ export function level4Plus(
     params.objectHitPoints,
   );
 
-  const amounts: ExtraObjectInfo[] = coinBagAmounts(dim.maxCoinBagsPerRun, params.coinsPerLevel);
-  if (isFeatureAllowed('cards', state)) {
-    amounts.push(...gemsWithIds(2, 'tree'));
-  }
-  const bags = amounts.length;
-  const treeIndexesToReplace = spacedRandomIndexes(objects, bags);
-  let gemCount = 0;
+  const gemCount = isFeatureAllowed('cards', state) ? params.gemsPerLevel : 0;
+  const gemsInRun = Math.round(gemCount / 2);
+  const gemsInBlocks = gemCount - gemsInRun;
+
+  const extraItems: ExtraObjectInfo[] = coinBagAmounts(dim.maxCoinBagsPerRun, params.coinsPerLevel);
+  extraItems.push(...gemsWithIds(gemsInRun, 'tree'));
+
+  const treeIndexesToReplace = spacedRandomIndexes(objects, extraItems.length);
+  let actualGemCount = 0;
 
   for (const i of treeIndexesToReplace) {
     const tree = objects[i]!;
-    const item = removeRandomItem(amounts);
+    const item = removeRandomItem(extraItems);
 
     let object = null;
 
@@ -46,7 +52,7 @@ export function level4Plus(
       const gem = makeGem(params.gemHitPoints * hardness, item.id);
       if (!state.collectedGemIds.includes(item.id)) {
         object = gem;
-        gemCount += 1;
+        actualGemCount += 1;
       }
     } else if (item.type === 'bag') {
       object = makeBag(item.amount);
@@ -70,7 +76,14 @@ export function level4Plus(
     currObjectHP / 2,
   );
 
-  return { objects: objects.concat(blocks), customMessage, gemCount };
+  const extraGemsInBlocks = [...gemsWithIds(gemsInBlocks, 'block')];
+  const blockIndexesToAddGemsTo = spacedRandomIndexes(blocks, extraGemsInBlocks.length);
+  for (const i of blockIndexesToAddGemsTo) {
+    const gemInfo = extraGemsInBlocks.pop()!;
+    if (addGemToEndBlock(gemInfo, blocks[i]!, state)) actualGemCount += 1;
+  }
+
+  return { objects: objects.concat(blocks), customMessage, gemCount: actualGemCount };
 }
 
 interface GemInfo {
@@ -107,14 +120,45 @@ function coinBagAmounts(bags: number, total: number): BagInfo[] {
   const spread = Math.round(avg * 0.26);
   if (spread >= 1) {
     const stepLength = bags / (spread + 0.5);
-    // console.log({ stepLength });
     for (let i = 0; i < bags - 1; i += 2) {
       const currSpread = spread - Math.floor((i + 1) / stepLength);
-      // console.log({ currSpread });
       amounts[i] -= currSpread;
       amounts[i + 1] += currSpread;
     }
   }
 
   return amounts.map((amount) => ({ type: 'bag', amount }));
+}
+
+function addGemToEndBlock(gemInfo: GemInfo, block: THREE.Object3D, state: ReadonlyState): boolean {
+  const gem = makeGem(0, gemInfo.id, true);
+
+  // rotate the gem randomly
+  // compute the angles outside of the condition below so we always use the same randoms
+  const yRotation = Math.PI * 2 * random();
+  const zRotation = Math.PI * (random() * 0.05 + 0.05);
+
+  if (!state.collectedGemIds.includes(gemInfo.id)) {
+    // shift the gem to the top of the boulder
+    gem.position.y = dim.modelSizes.boulder[1] - dim.modelSizes.gem[1] * 0.3;
+
+    // shift hitBar higher
+    const hitBar = getHitBar(block);
+    if (hitBar) hitBar.position.y += dim.modelSizes.gem[1] * 0.3;
+
+    gem.name = gemInfo.id;
+    gem.castShadow = false;
+
+    gem.rotation.y = yRotation;
+    gem.rotation.z = zRotation;
+    block.add(gem);
+
+    const oData = getObjectData(block);
+    oData.award = { amount: 1, type: 'gem' };
+    oData.useForAward = gemInfo.id;
+
+    return true;
+  } else {
+    return false;
+  }
 }

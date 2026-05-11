@@ -8,24 +8,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
-- [.] introduce gems so we can start buying permanent upgrades
-  - some hidden among the trees
-  - some embedded in the blocks
-    - useForAward could have a string, then getByName() would be used to get the one to use
-  - gems could be collected once per level, but with stable generation so those not collected stay
-    where they were
-    - should there be a gap or a tree where we collected a gem, if the gem originally replaced a
-      tree? let's make it a tree
-    - needs to show how many are left
-    - this gives both a bit of a reward for repeating, but also a reason to progress when all are
-      collected
-  - [x] replace some trees with gems, except where already collected
-  - [x] clear collected gems on next level
-  - [ ] add gems to some blocks, make them collect correctly by reusing the 3d object and adding
-        them to collected
-  - [x] show number of collected gems on end screen
-  - [x] show number of total gems on end screen
-  - [x] don't show number of gems on end screen if there weren't any
+- [ ] put in-run wallet at the top, aligned with the exit button
+- [ ] check Marvin's shadow, maybe switch hands?
 - [ ] and then cards
 - [ ] tracks
   - using level (per type of run?)
@@ -248,8 +232,32 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
     - maybe the surface could actually be flat?
 - [ ] add energy countdown and automatic refresh, maybe as part of "touch to start"
 - [ ] Could a Marvin that took a hit flash a bit somehow?
+- [ ] could Marvins sit down when out of energy?
 
 ---
+
+## done by 2026-05-11
+
+- [x] maybe fix a shadow artifact of blocks passing just to the right under the camera
+- [x] add non-zero min width on hit bars
+- [x] introduce gems so we can start buying permanent upgrades
+  - some hidden among the trees
+  - some embedded in the blocks
+    - useForAward could have a string, then getByName() would be used to get the one to use
+  - gems could be collected once per level, but with stable generation so those not collected stay
+    where they were
+    - should there be a gap or a tree where we collected a gem, if the gem originally replaced a
+      tree? let's make it a tree
+    - needs to show how many are left
+    - this gives both a bit of a reward for repeating, but also a reason to progress when all are
+      collected
+  - [x] replace some trees with gems, except where already collected
+  - [x] clear collected gems on next level
+  - [x] add gems to some blocks, make them collect correctly by reusing the 3d object and adding
+        them to collected
+  - [x] show number of collected gems on end screen
+  - [x] show number of total gems on end screen
+  - [x] don't show number of gems on end screen if there weren't any
 
 ## done by 2026-05-09
 
