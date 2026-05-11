@@ -8,7 +8,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
-- [ ] put in-run wallet at the top, aligned with the exit button
 - [ ] check Marvin's shadow, maybe switch hands?
 - [ ] and then cards
 - [ ] tracks
@@ -238,6 +237,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## done by 2026-05-11
 
+- [x] put in-run wallet at the top, aligned with the exit button
 - [x] maybe fix a shadow artifact of blocks passing just to the right under the camera
 - [x] add non-zero min width on hit bars
 - [x] introduce gems so we can start buying permanent upgrades

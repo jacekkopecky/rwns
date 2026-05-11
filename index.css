@@ -81,7 +81,7 @@ main {
 
   #inRunWallet {
     position: absolute;
-    bottom: 85%;
+    top: 1em;
     right: 0;
     display: flex;
     flex-direction: column;
