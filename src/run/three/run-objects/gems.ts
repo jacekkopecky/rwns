@@ -8,22 +8,25 @@ import { createGemModel } from '../models';
 import { Circle } from '../../types';
 import { collectGem } from '../../../state';
 
-export function createGem(id?: string) {
+export function createGem(id?: string, withoutRotation = false) {
   const gem = createGemModel();
 
   gem.userData.extent2d = new Circle(undefined, dim.modelSizes.gem[0] / 2);
   gem.userData.type = 'object';
   if (id) gem.userData.id = id;
 
-  gem.rotateY(random() * Math.PI);
   gem.castShadow = true;
 
   // tweak position so bullet hits look good
   gem.translateY(dim.modelSizes.player[1] / 2);
   gem.userData.height = dim.modelSizes.gem[1];
 
-  const action = rotateAlways(gem, dim.gemRotationsPerSecond, 'y');
-  gem.addEventListener('removed', () => action.stop());
+  if (!withoutRotation) {
+    gem.rotateY(random() * Math.PI);
+
+    const action = rotateAlways(gem, dim.gemRotationsPerSecond, 'y');
+    gem.addEventListener('removed', () => action.stop());
+  }
 
   return gem;
 }

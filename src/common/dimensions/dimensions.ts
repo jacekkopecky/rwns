@@ -26,7 +26,7 @@ export const treeDyingDuration = 0.5;
 export const gemRotationsPerSecond = 0.5;
 
 export const runAwardsTargetCoordinates = [0.95, 0.85] as const;
-export const runAwardsFlyTime = 0.8;
+export const runAwardsFlyDuration = 0.8;
 
 export const countupMaxTime = 0.6; // for counting up when awards fly to the wallet
 

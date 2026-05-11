@@ -53,13 +53,7 @@ export async function giveAward(fromObj: THREE.Object3D, oData: ObjectData) {
     ...dim.runAwardsTargetCoordinates,
   );
 
-  const position = new THREE.Vector3();
-  fromObj.getWorldPosition(position);
-
-  const obj = oData.useForAward ? fromObj : createSpriteObject(type);
-  if (obj !== fromObj) {
-    obj.position.copy(position);
-  }
+  const [obj, position] = makeAwardObject(type, oData.useForAward, fromObj);
 
   const subAwards = splitAward(amount);
   let first = true;
@@ -76,7 +70,7 @@ export async function giveAward(fromObj: THREE.Object3D, oData: ObjectData) {
     }
 
     awardsGroup.attach(subObj);
-    flyToTarget(subObj, targetCoords, dim.runAwardsFlyTime);
+    flyToTarget(subObj, targetCoords, dim.runAwardsFlyDuration);
 
     subObj.addEventListener('removed', () => {
       addToShow(type, subAmount);
@@ -84,6 +78,34 @@ export async function giveAward(fromObj: THREE.Object3D, oData: ObjectData) {
 
     first = false;
   }
+}
+
+/**
+ * If the object is marked as used for the award, return that object (or the marked subobject),
+ * otherwise create a new sprite for the animation. Also, return the world position of the object.
+ */
+function makeAwardObject(
+  type: CurrencyType,
+  useForAward: ObjectData['useForAward'],
+  fromObj: THREE.Object3D,
+): [obj: THREE.Object3D, position: THREE.Vector3] {
+  const position = new THREE.Vector3();
+  let obj;
+
+  if (typeof useForAward === 'string') {
+    obj = fromObj.getObjectByName(useForAward);
+  } else if (useForAward) {
+    obj = fromObj;
+  }
+
+  if (obj) {
+    obj.getWorldPosition(position);
+  } else {
+    fromObj.getWorldPosition(position);
+    obj = createSpriteObject(type);
+    obj.position.copy(position);
+  }
+  return [obj, position];
 }
 
 function addToShow(type: CurrencyType, amount: number) {

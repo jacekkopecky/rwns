@@ -1,7 +1,10 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-import * as models from '../run/three/models';
+import * as dim from '#dimensions';
+
+import { createGem } from '../run/three/run-objects/gems';
+import { createObject } from '../run/three/run-objects';
 
 // const N = 1800;
 
@@ -11,7 +14,7 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 (window as any).renderer = renderer;
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.shadowMap.enabled = true;
+// renderer.shadowMap.enabled = true;
 
 container?.appendChild(renderer.domElement);
 
@@ -44,12 +47,12 @@ sunlight.updateMatrixWorld();
 sunlight.target.updateMatrixWorld();
 scene.add(sunlight);
 scene.add(sunlight.target);
-sunlight.castShadow = true;
-sunlight.shadow.camera.left = -100;
-sunlight.shadow.camera.updateProjectionMatrix();
+// sunlight.castShadow = true;
+// sunlight.shadow.camera.left = -100;
+// sunlight.shadow.camera.updateProjectionMatrix();
 
-const cameraHelper = new THREE.CameraHelper(sunlight.shadow.camera);
-scene.add(cameraHelper);
+// const cameraHelper = new THREE.CameraHelper(sunlight.shadow.camera);
+// scene.add(cameraHelper);
 
 //
 //
@@ -61,8 +64,15 @@ scene.add(cameraHelper);
 //
 //
 
-const boulder = models.createBoulderModel();
-scene.add(boulder);
+const block = createObject('endBlock', 0);
+scene.add(block);
+
+const gem = createGem('a', true);
+gem.position.y = dim.modelSizes.boulder[1] - dim.modelSizes.gem[1] * 0.3;
+
+gem.rotation.y = Math.PI * 0.6;
+gem.rotation.z = Math.PI * 0.1;
+block.add(gem);
 
 //
 //
@@ -93,7 +103,7 @@ function render() {
 function animate() {
   requestAnimationFrame(animate);
   controls.update();
-  cameraHelper.update();
+  // cameraHelper.update();
   render();
 }
 
