@@ -13,10 +13,11 @@ const topR = r - h * top * Math.sqrt(2);
 const topR2 = topR * Math.sqrt(2);
 
 const geo = BufferGeometryUtils.mergeGeometries([
-  // no bottom side, will never see it
+  // with bottom side because it casts shadows
   new THREE.PlaneGeometry(topR2, topR2).rotateX(-Math.PI / 2).translate(0, h, 0),
   new THREE.LatheGeometry(
     [
+      [0, 0],
       [r * 0.8, 0],
       [r, h * 0.4],
       [r, h * (1 - top)],
