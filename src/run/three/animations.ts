@@ -5,6 +5,8 @@ import * as dim from '#dimensions';
 export const timer = new THREE.Timer();
 timer.connect(document);
 
+(window as any).gameTimer = timer;
+
 if (typeof dim.options.timeScale === 'number') timer.setTimescale(dim.options.timeScale);
 
 const mixers = new Map<THREE.AnimationMixer, () => void>();
@@ -95,8 +97,8 @@ export function flyToTarget(obj: THREE.Object3D, target: THREE.Vector3, duration
     ),
     new THREE.KeyframeTrack(
       '.position[z]',
-      durations(0, 0.5, 1),
-      z(0, 0.2, 1),
+      durations(0, 0.2, 0.5, 1),
+      z(0, 0, 0.2, 1),
       THREE.InterpolateSmooth,
     ),
   ]);
