@@ -2,13 +2,57 @@
 
 This is a game that was inspired by Timeline Up, which I played without spending any real money.
 
-It's not really a game yet.
+It's nearly a game.
 
 Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
-- [ ] and then cards
+- [ ] add permanent upgrades
+  - cards (each card with a max level)
+    - common:
+      - number of colour gates in a run?
+      - increase range by 1 (most common?)
+      - decrease normal object (e.g. tree) HP
+      - increase end block award (starts from 0)
+        - amounts are assigned so that they bunch up at the end
+    - rare:
+      - decrease end block HP
+      - increase fire rate
+      - increase bullet damage
+    - epic:
+      - increase max damage upgrade
+      - increase max rate upgrade
+      - decrease price of damage upgrade
+      - decrease price of rate upgrade
+      - decrease price of player upgrade
+    - legendary:
+      - increase max player number
+      - increase starting player number
+  - [ ] Cards can have type, name and picture, also ID like type+number in case we have to rename a
+        card
+    - card button next to the track, just above upgrades
+    - cards can have minimum level from which they become available; isFeatureAvailable could use a
+      pre-computed min level from those for gems
+  - [ ] Card: 
+    - [ ] energy max plus 1, also energy plus 1 at the same time? Up to 24
+    - [ ] @ lightning bolt, electron, flash - add adjectives
+    - [ ] Coins per level plus one, coins in blocks plus one
+    - [ ] @gold nugget, credit card, rwnsCoin (R with two lines), finishing prize, treasure chest -
+          add adjectives
+    - [ ] Rarer: gems per level plus one, gems in end blocks plus one
+    - [ ] @ Emerald, ruby, sapphire; diamond, smoky quartz, obsidian - add adjectives
+    - [ ] Range: @ longbow, sniper rifle, 
+    - [ ] Fire rate: @ Gatling, robo reload
+  - [ ] Card mechanics: first one works alone, 1,2,2,3,3,3,4,4,4,4,5x5 etc
+  - [ ] State:
+    - [ ] cards:{[id]: {level, cardsTowardsNext}}
+    - [ ] max energy, coins per level, coins in end blocks, any such stuff from dim should go into
+          initial state
+  - [ ] Probabilities: select what rarity level of card we get (common, rare etc.) then random pick
+        from those? 
+    - [ ] We could have counters since last of a rarity level so e.g. a rare comes at least every N
+          cards?
 - [ ] tracks
   - using level (per type of run?)
   - waves? reset gates? multi-stage runs?
@@ -93,54 +137,14 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
       only, for that run only
   - [ ] gates that only change Marvin's colour, quests like break 20 end blocks with red robot
     - the gates could be random per play because they have little effect on the level outcome
-- [ ] add permanent upgrades
-  - cards (each card with a max level)
-    - common:
-      - increase range by 1 (most common?)
-      - decrease normal object (e.g. tree) HP
-      - increase end block award (starts from 0)
-        - amounts are assigned so that they bunch up at the end
-    - rare:
-      - decrease end block HP
-      - increase fire rate
-      - increase bullet damage
-    - epic:
-      - increase max damage upgrade
-      - increase max rate upgrade
-      - decrease price of damage upgrade
-      - decrease price of rate upgrade
-      - decrease price of player upgrade
-    - legendary:
-      - increase max player number
-      - increase starting player number
-  - skills (it should take time to "learn" skills? should need a special currency?)
-    - extra damage against specific objects/opponents?
-    - small chance of surviving hitting a tree
-    - extra damage in certain special types of runs?
-    - extra damage by marvins of a certain colour?
-    - always start with a marvin of a given colour?
-      - this could be re-learned to a different colour
-  - [ ] Cards can have type, name and picture, also ID like type+number in case we have to rename a
-        card
-  - [ ] Card: 
-    - [ ] energy max plus 1, also energy plus 1 at the same time? Up to 24
-    - [ ] @ lightning bolt, electron, flash - add adjectives
-    - [ ] Coins per level plus one, coins in blocks plus one
-    - [ ] @gold nugget, credit card, rwnsCoin (R with two lines), finishing prize, treasure chest -
-          add adjectives
-    - [ ] Rarer: gems per level plus one, gems in end blocks plus one
-    - [ ] @ Emerald, ruby, sapphire; diamond, smoky quartz, obsidian - add adjectives
-    - [ ] Range: @ longbow, sniper rifle, 
-    - [ ] Fire rate: @ Gatling, robo reload
-  - [ ] Card mechanics: first one works alone, 1,2,2,3,3,3,4,4,4,4,5x5 etc
-  - [ ] State:
-    - [ ] cards:{[id]: {level, cardsTowardsNext}}
-    - [ ] max energy, coins per level, coins in end blocks, any such stuff from dim should go into
-          initial state
-  - [ ] Probabilities: select what rarity level of card we get (common, rare etc.) then random pick
-        from those? 
-    - [ ] We could have counters since last of a rarity level so e.g. a rare comes at least every N
-          cards?
+- [ ] skills (it should take time to "learn" skills? should need a special currency?)
+  - extra damage against specific objects/opponents?
+  - small chance of surviving hitting a tree
+  - extra damage in certain special types of runs?
+  - extra damage by marvins of a certain colour?
+  - critical damage by marvins of a certain colour against blocks of that colour?
+  - always start with a marvin of a given colour?
+    - this could be re-learned to a different colour
 - [ ] I can calculate how long it would take someone to reach high levels depending on supply of
       gems 
 - [ ] update README and index to say it's a game now? make it public?
