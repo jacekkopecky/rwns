@@ -8,7 +8,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
-- [ ] check Marvin's shadow, maybe switch hands?
 - [ ] and then cards
 - [ ] tracks
   - using level (per type of run?)
@@ -237,6 +236,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## done by 2026-05-11
 
+- [x] check Marvin's shadow, maybe switch hands?
 - [x] put in-run wallet at the top, aligned with the exit button
 - [x] maybe fix a shadow artifact of blocks passing just to the right under the camera
 - [x] add non-zero min width on hit bars

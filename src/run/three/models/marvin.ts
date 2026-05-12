@@ -54,7 +54,7 @@ export class Marvin {
       gunLength: sizeOptions.gunLength ?? sizeOptions.hipWidth,
       maxStride,
       ...chooseStrideLength(sizeOptions.speed, maxStride, sizeOptions.strideDuration ?? 1.2),
-      idleTurnDelay: sizeOptions.idleTurnDelay ?? 20,
+      idleTurnDelay: sizeOptions.idleTurnDelay ?? 2,
       idleTurnDuration: sizeOptions.idleTurnDuration ?? 1.6,
     };
     this._size = size;
@@ -174,7 +174,7 @@ export class Marvin {
   // todo add a speed parameter?
   startWalking() {
     if (this.idleAction) {
-      this.idleAction.stop();
+      this.idleAction.fadeOut(0.3);
     }
 
     if (!this.walking) {
