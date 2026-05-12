@@ -54,7 +54,7 @@ export class Marvin {
       gunLength: sizeOptions.gunLength ?? sizeOptions.hipWidth,
       maxStride,
       ...chooseStrideLength(sizeOptions.speed, maxStride, sizeOptions.strideDuration ?? 1.2),
-      idleTurnDelay: sizeOptions.idleTurnDelay ?? 2,
+      idleTurnDelay: sizeOptions.idleTurnDelay ?? 20,
       idleTurnDuration: sizeOptions.idleTurnDuration ?? 1.6,
     };
     this._size = size;
