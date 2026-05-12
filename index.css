@@ -56,13 +56,6 @@ main {
   perspective: 50vh;
   position: relative;
 
-  & > section {
-    display: contents;
-    & > * {
-      position: absolute;
-    }
-  }
-
   & * {
     transform-style: preserve-3d;
   }
@@ -98,6 +91,7 @@ main {
   }
 
   & #touchToStart {
+    position: absolute;
     pointer-events: none;
     inset: 0;
 
@@ -130,6 +124,30 @@ main {
   }
 }
 
+#mainScreen {
+  position: absolute;
+  inset: 0;
+
+  display: grid;
+  grid-template:
+    'top top' auto
+    'l1  r1' auto
+    'l2  r2' auto
+    'l3  r3' 1fr
+    'l4  r4' auto
+    'l5  r5' auto
+    'bottom bottom' auto
+    / 50% 50%;
+}
+
+/* prettier-ignore */
+#mainScreen {
+  #log            { grid-area: l2; }
+  #topBar         { grid-area: top; }
+  #upgradeButtons { grid-area: bottom; }
+  #sectionButtons { grid-area: l5; }
+}
+
 #shortMessage {
   font-style: italic;
   text-align: center;
@@ -155,9 +173,6 @@ button {
 }
 
 #topBar {
-  top: 0;
-  left: 0;
-  right: 0;
   padding: 1em;
   display: flex;
   flex-direction: row;
@@ -165,10 +180,8 @@ button {
 }
 
 #playStats {
-  top: 4em;
   line-height: 1.5em;
-  left: 0;
-  padding: 1em;
+  padding: 0 1em 1em;
 }
 
 #mainScreenWallet {
@@ -202,9 +215,6 @@ button {
   white-space: pre-line;
   font-size: 0.7em;
   font-family: monospace;
-  position: absolute;
-  top: 8rem;
-  left: 5%;
   max-height: 15em;
   line-height: 1em;
   overflow: hidden;
@@ -212,7 +222,7 @@ button {
   align-items: end;
 }
 
-#webgl-canvas {
+#webglCanvas {
   position: absolute;
   inset: 0;
 }
@@ -265,10 +275,45 @@ button {
   }
 }
 
+#sectionButtons {
+  max-width: 25%;
+
+  button {
+    background: #eeceb2;
+    border: solid #aa8a70;
+    color: #664422;
+
+    border-left-width: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: 0.5em;
+  }
+
+  .cards {
+    padding: 1em;
+
+    .card {
+      transform-origin: bottom left;
+
+      &.behind {
+        position: absolute;
+        border-width: 0.07em;
+      }
+
+      &:nth-child(1) {
+        transform: rotate(5deg);
+      }
+      &:nth-child(2) {
+        transform: rotate(0deg);
+      }
+      &:nth-child(3) {
+        transform: rotate(-5deg);
+      }
+    }
+  }
+}
+
 #upgradeButtons {
-  bottom: 0;
-  left: 0;
-  right: 0;
   height: 9em;
   padding: 1em;
 
@@ -318,5 +363,40 @@ button {
   .hiddenGone &,
   &.hiddenGone {
     display: none;
+  }
+}
+
+.card {
+  height: 3em;
+  width: 2em;
+  border-radius: 0.3em;
+  border: 0.1em solid;
+  position: relative;
+  overflow: hidden;
+
+  background: #f2dec8;
+
+  &.back {
+    /* inside sheet with gradient color */
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translateZ(-1px);
+      background: linear-gradient(34deg, #b853ff 0, #d293fe 30%, #d293fe 70%, #e7c4ff 100%);
+    }
+
+    /* back cover */
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translateZ(-2px);
+
+      background-size: 1.3em 1.3em;
+      background-image: url('assets/gem.svg');
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+    }
   }
 }
