@@ -4,7 +4,7 @@
 
 import { fillOrHide } from '#utils';
 
-import { init as initMainScreen } from './main-screen';
+import { init as initSections, showSection } from './sections';
 
 let useFullscreen = true;
 
@@ -22,7 +22,7 @@ const el = {
 export function init() {
   document.body.classList.toggle('using-fullscreen', useFullscreen);
 
-  initMainScreen();
+  initSections();
 
   if (useFullscreen) {
     document.body.addEventListener('keyup', handleTopLevelSpaceKey);
@@ -34,6 +34,8 @@ export function init() {
 
   // disable context menu
   document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+  showSection('mainScreen');
 }
 
 async function goFullscreen() {

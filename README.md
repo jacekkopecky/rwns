@@ -9,6 +9,14 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 ## todo
 
 - [ ] add permanent upgrades
+  - [x] add cards button that moves us to the cards section
+  - [x] style cards section so it's a transition to the left?
+  - [.] cards section
+    - [ ] big part to show your cards, scrollable
+    - [.] close button
+    - [ ] buy one card button
+    - [ ] buy 9 or 12 cards button (price of 8 or 10?)
+  - [ ] a card that needs to flip can be a card and a card back in a single 3d-rotated package
   - cards (each card with a max level)
     - common:
       - number of colour gates in a run?
@@ -235,6 +243,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] add energy countdown and automatic refresh, maybe as part of "touch to start"
 - [ ] Could a Marvin that took a hit flash a bit somehow?
 - [ ] could Marvins sit down when out of energy?
+- [ ] allow use of back button for navigation at least through sections, and from a run?
 
 ---
 

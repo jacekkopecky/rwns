@@ -56,17 +56,23 @@ main {
   perspective: 50vh;
   position: relative;
 
-  & * {
+  * {
     transform-style: preserve-3d;
+    transition: opacity 1s ease-in-out;
   }
 
-  * {
-    transition: opacity 1s ease-in-out;
+  & > section {
+    background: black;
+    color: white;
+
+    &.inactive {
+      pointer-events: none;
+    }
   }
 
   &.run .partial-in-run > :not(.in-run):not(.only-in-run),
   &:not(.run) .partial-in-run > .only-in-run,
-  &.run > section > :not(.in-run):not(.only-in-run):not(.partial-in-run),
+  &.run > #mainScreen > :not(.in-run):not(.only-in-run):not(.partial-in-run):not(#endRunScreen),
   &:not(.run) > section > .only-in-run {
     opacity: 0;
     pointer-events: none;
@@ -128,6 +134,9 @@ main {
   position: absolute;
   inset: 0;
 
+  background: white;
+  color: black;
+
   display: grid;
   grid-template:
     'top top' auto
@@ -136,7 +145,7 @@ main {
     'l3  r3' 1fr
     'l4  r4' auto
     'l5  r5' auto
-    'bottom bottom' auto
+    'bottom bottom' 9em
     / 50% 50%;
 }
 
@@ -291,6 +300,7 @@ button {
 
   .cards {
     padding: 1em;
+    font-size: 1rem;
 
     .card {
       transform-origin: bottom left;
@@ -314,7 +324,6 @@ button {
 }
 
 #upgradeButtons {
-  height: 9em;
   padding: 1em;
 
   display: flex;
@@ -363,6 +372,21 @@ button {
   .hiddenGone &,
   &.hiddenGone {
     display: none;
+  }
+}
+
+#cards {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.5s ease-in-out;
+  transform: translateX(0);
+
+  background-color: #3f115f;
+
+  box-shadow: 0 0 20vw 20vw #3f115f;
+
+  &.inactive {
+    transform: translateX(-140%);
   }
 }
 

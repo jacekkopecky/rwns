@@ -11,6 +11,7 @@ import {
   subtractEnergy,
   getUpgradablePermanentParameters,
 } from './state';
+import { showSection } from './sections';
 
 const el = {
   main: document.querySelector('main')!,
@@ -39,7 +40,7 @@ export function init() {
   initUpgrades();
   el.canvas.addEventListener('touchstart', startPlaying);
   el.canvas.addEventListener('mousedown', startPlaying);
-  el.endRunScreenOK.addEventListener('click', showMainScreen);
+  el.endRunScreenOK.addEventListener('click', () => showSection('mainScreen'));
   el.endRunScreenRetry.addEventListener('click', retry);
   el.settingsBtn.addEventListener('click', showSettings);
 
@@ -49,8 +50,6 @@ export function init() {
 
   el.main.addEventListener('fullscreenchange', () => updateMainScreen());
   document.addEventListener('visibilitychange', () => updateMainScreen());
-
-  showMainScreen();
 }
 
 export function startPlaying() {
@@ -71,7 +70,7 @@ export function startPlaying() {
 
 function retry() {
   handleRetryButton();
-  showMainScreen();
+  showSection('mainScreen');
 }
 
 export function showMainScreen() {
@@ -121,6 +120,6 @@ function updateEnergyCount(params: UpgradablePermanentParameters) {
 function showSettings() {
   if (window.confirm('reset all data?')) {
     resetState();
-    showMainScreen();
+    showSection('mainScreen');
   }
 }
