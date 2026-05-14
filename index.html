@@ -69,7 +69,7 @@
         </div>
       </div>
 
-      <div id="sectionButtons">
+      <div class="sectionButtons">
         <button class="cards">
           <!-- 2 background cards and one main card, rotated in CSS -->
           <div class="card back behind"></div>
@@ -78,7 +78,7 @@
         </button>
       </div>
 
-      <div id="upgradeButtons">
+      <div class="upgradeButtons">
         <button class="players">
           <span>Add player</span>
           <div class="level"><span class="value">0</span></div>
@@ -98,7 +98,19 @@
     </section>
 
     <section id="cards" class="inactive">
-      <button class="close">close</button>
+      <div class="sectionButtons">
+        <button class="close"><span>╳</span></button>
+      </div>
+      <div class="upgradeButtons">
+        <button>
+          <div>1 card</div>
+          <div class="cost">5 <i class="i gem"></i></div>
+        </button>
+        <button class="hidden hiddenGone">
+          <div>9 cards</div>
+          <div class="cost">42 <i class="i gem"></i></div>
+        </button>
+      </div>
     </section>
   </main>
 

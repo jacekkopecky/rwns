@@ -18,11 +18,10 @@ import {
 } from './state';
 
 const el = {
-  upgradeButtons: document.querySelector<HTMLElement>('#upgradeButtons')!,
   upgrades: {
-    players: document.querySelector<HTMLElement>('#upgradeButtons > .players')!,
-    rate: document.querySelector<HTMLElement>('#upgradeButtons > .rate')!,
-    damage: document.querySelector<HTMLElement>('#upgradeButtons > .damage')!,
+    players: document.querySelector<HTMLElement>('#mainScreen .upgradeButtons > .players')!,
+    rate: document.querySelector<HTMLElement>('#mainScreen .upgradeButtons > .rate')!,
+    damage: document.querySelector<HTMLElement>('#mainScreen .upgradeButtons > .damage')!,
   },
 };
 

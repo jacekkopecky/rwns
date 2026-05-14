@@ -153,8 +153,8 @@ main {
 #mainScreen {
   #log            { grid-area: l2; }
   #topBar         { grid-area: top; }
-  #upgradeButtons { grid-area: bottom; }
-  #sectionButtons { grid-area: l5; }
+  .upgradeButtons { grid-area: bottom; }
+  .sectionButtons { grid-area: l5; }
 }
 
 #shortMessage {
@@ -284,7 +284,7 @@ button {
   }
 }
 
-#sectionButtons {
+.sectionButtons {
   max-width: 25%;
 
   button {
@@ -295,12 +295,10 @@ button {
     border-left-width: 0;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
-    padding: 0.5em;
   }
 
   .cards {
     padding: 1em;
-    font-size: 1rem;
 
     .card {
       transform-origin: bottom left;
@@ -323,7 +321,7 @@ button {
   }
 }
 
-#upgradeButtons {
+.upgradeButtons {
   padding: 1em;
 
   display: flex;
@@ -387,6 +385,29 @@ button {
 
   &.inactive {
     transform: translateX(-140%);
+  }
+
+  display: grid;
+  grid-template:
+    'top top' auto
+    'middle middle' 1fr
+    'l5  r5' auto
+    'bottom bottom' 9em
+    / auto 1fr;
+
+  .sectionButtons {
+    grid-area: l5;
+
+    button {
+      span {
+        font-size: 2.4em;
+      }
+    }
+  }
+
+  .upgradeButtons {
+    grid-area: bottom;
+    font-size: 1.2em;
   }
 }
 

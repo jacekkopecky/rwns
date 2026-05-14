@@ -40,7 +40,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - [ ] Cards can have type, name and picture, also ID like type+number in case we have to rename a
         card
     - card button next to the track, just above upgrades
-    - cards can have minimum level from which they become available; isFeatureAvailable could use a
+    - cards can have minimum level from which they become available; isFeatureAllowed could use a
       pre-computed min level from those for gems
   - [ ] Card: 
     - [ ] energy max plus 1, also energy plus 1 at the same time? Up to 24
@@ -145,7 +145,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
       only, for that run only
   - [ ] gates that only change Marvin's colour, quests like break 20 end blocks with red robot
     - the gates could be random per play because they have little effect on the level outcome
-- [ ] skills (it should take time to "learn" skills? should need a special currency?)
+- [ ] skills (it should take time to "learn" skills? should need a special currency? from quests?)
+  - buying in bulk (9 cards for 42 gems if one is for 5, for example, or 12 for 56)
   - extra damage against specific objects/opponents?
   - small chance of surviving hitting a tree
   - extra damage in certain special types of runs?

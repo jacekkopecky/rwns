@@ -31,7 +31,7 @@ const el = {
     level: document.querySelector('#playStats .level')!,
     energy: document.querySelector('#playStats .energy')!,
   },
-  upgradeButtons: document.querySelector<HTMLElement>('#upgradeButtons')!,
+  upgradeButtons: document.querySelector<HTMLElement>('#mainScreen .upgradeButtons')!,
 };
 
 export function init() {
