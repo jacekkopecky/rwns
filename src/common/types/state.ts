@@ -18,4 +18,4 @@ export interface State extends CurrentLevelState {
 
 export type ReadonlyState = Omit<DeepReadonly<State>, 'wallet'> & { wallet: ReadonlyWallet };
 
-export type Feature = 'limitedEnergy' | `${RunUpgradeType}Upgrade` | 'cards';
+export type Feature = 'limitedEnergy' | `${RunUpgradeType}Upgrade` | 'cards' | 'bulkCards';

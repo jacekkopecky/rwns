@@ -53,6 +53,10 @@ export const initialCoinsPerLevel = 20;
 export const initialEndBlockCoinsPerLevel = 0;
 export const initialGemsPerLevel = 3;
 
+// costs
+export const cardPriceGems = 5;
+export const cardBulkCount = 9;
+
 // hit points
 export const initialObjectHitPoints = 1;
 export const initialPlayerHitPoints = initialObjectHitPoints;

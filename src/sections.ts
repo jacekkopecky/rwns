@@ -1,5 +1,5 @@
 import { init as initMainScreen, showMainScreen } from './main-screen';
-import { init as initCardsScreen } from './cards';
+import { init as initCardsScreen, showCardsScreen } from './cards';
 
 export function init() {
   initMainScreen();
@@ -8,7 +8,7 @@ export function init() {
 
 const sections = {
   ...prepSection('mainScreen', showMainScreen),
-  ...prepSection('cards'),
+  ...prepSection('cards', showCardsScreen),
 };
 
 type Section = keyof typeof sections;

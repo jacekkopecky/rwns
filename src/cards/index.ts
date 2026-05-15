@@ -1,1 +1,1 @@
-export { init } from './cards';
+export { init, showCardsScreen } from './cards';

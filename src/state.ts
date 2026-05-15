@@ -134,6 +134,9 @@ export function isFeatureAllowed(upgrade: Feature, state: ReadonlyState): boolea
 
     case 'cards':
       return state.level >= 30;
+
+    case 'bulkCards':
+      return false; // for now
   }
 }
 
@@ -214,5 +217,6 @@ export function getUpgradablePermanentParameters(): UpgradablePermanentParameter
     playerHitPoints: dim.initialPlayerHitPoints,
     playerShotsPerSecond: dim.initialPlayerShotsPerSecond,
     startingPlayers: dim.initialStartingPlayers,
+    cardsBulkRate: 1,
   };
 }

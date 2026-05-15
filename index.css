@@ -407,6 +407,10 @@ button {
   .upgradeButtons {
     grid-area: bottom;
     font-size: 1.2em;
+
+    .unaffordable .cost {
+      color: red;
+    }
   }
 
   .cardsContainer {

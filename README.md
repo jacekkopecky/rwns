@@ -146,7 +146,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - [ ] gates that only change Marvin's colour, quests like break 20 end blocks with red robot
     - the gates could be random per play because they have little effect on the level outcome
 - [ ] skills (it should take time to "learn" skills? should need a special currency? from quests?)
-  - buying in bulk (9 cards for 42 gems if one is for 5, for example, or 12 for 56)
+  - buying in bulk
+    - 9 cards at once
+    - then cheaper for 42 gems if one is for 5
+    - then maybe cheaper still?
   - "finding treasure" - more gems per level?
   - extra damage against specific objects/opponents?
   - small chance of surviving hitting a tree

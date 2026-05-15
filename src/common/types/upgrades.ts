@@ -16,6 +16,8 @@ export interface UpgradablePermanentParameters {
   rateUpgradePrice: number;
   playersUpgradePrice: number;
 
+  cardsBulkRate: number; // e.g. 0.95 means that buying cards in bulk gives us 5% off
+
   // max upgrades
   damageMaxUpgrade: number;
   rateMaxUpgrade: number;
