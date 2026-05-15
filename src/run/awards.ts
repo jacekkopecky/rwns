@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 import * as dim from '#dimensions';
-import { type CurrencyType, Wallet } from '#types';
+import { CURRENCIES, type CurrencyType, Wallet } from '#types';
 import { fillOrHide, random } from '#utils';
 
 import * as state from '../state';
@@ -24,7 +24,7 @@ const el = {
   },
 };
 
-const wallet = new Wallet();
+const wallet = new Wallet(CURRENCIES);
 const awardsShowing = new Map<CurrencyType, AnimatedCount>();
 
 export const awardsGroup = new THREE.Group();

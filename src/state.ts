@@ -9,7 +9,7 @@ import type {
   State,
   UpgradablePermanentParameters,
 } from '#types';
-import { Wallet } from '#types';
+import { CURRENCIES, Wallet } from '#types';
 import { parseNumber, parseStringArray } from '#utils';
 
 import { parseUpgrades } from './main-screen-upgrades';
@@ -18,7 +18,7 @@ const LOCAL_STORAGE_KEY = 'jacekkopecky-shoot-em-state';
 
 function createInitialState(): State {
   return {
-    wallet: new Wallet(),
+    wallet: new Wallet(CURRENCIES),
     level: 1,
     played: 0,
     energy: Infinity,

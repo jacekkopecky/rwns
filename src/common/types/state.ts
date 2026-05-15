@@ -1,3 +1,4 @@
+import type { CurrencyType } from './currencies';
 import type { RunUpgradeLevels, RunUpgradeType } from './upgrades';
 import type { DeepReadonly } from './utils';
 import type { ReadonlyWallet, Wallet } from './wallet';
@@ -9,13 +10,15 @@ export interface CurrentLevelState {
 }
 
 export interface State extends CurrentLevelState {
-  wallet: Wallet;
+  wallet: Wallet<CurrencyType>;
   played: number;
   energy: number;
   lastEnergyGiven: number; // milliseconds since epoch
   previousLevel?: CurrentLevelState;
 }
 
-export type ReadonlyState = Omit<DeepReadonly<State>, 'wallet'> & { wallet: ReadonlyWallet };
+export type ReadonlyState = Omit<DeepReadonly<State>, 'wallet'> & {
+  wallet: ReadonlyWallet<CurrencyType>;
+};
 
 export type Feature = 'limitedEnergy' | `${RunUpgradeType}Upgrade` | 'cards' | 'bulkCards';

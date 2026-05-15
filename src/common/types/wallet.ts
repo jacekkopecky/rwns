@@ -1,11 +1,9 @@
-import { CURRENCIES, type CurrencyType } from './currencies';
+export type ReadonlyWallet<T extends string> = Pick<Wallet<T>, 'read' | 'readAll'>;
 
-export type ReadonlyWallet = Pick<Wallet, 'read' | 'readAll'>;
+export class Wallet<T extends string = string> {
+  private wallet: Partial<Record<T, number>> = {};
 
-export class Wallet {
-  private wallet: Partial<Record<CurrencyType, number>> = {};
-
-  constructor(jsonData?: unknown) {
+  constructor(currencies: readonly T[], jsonData?: unknown) {
     if (jsonData) {
       if (
         typeof jsonData !== 'object' ||
@@ -18,7 +16,7 @@ export class Wallet {
 
       const walletData = jsonData.wallet as Record<string, unknown>;
 
-      for (const currency of CURRENCIES) {
+      for (const currency of currencies) {
         const value = walletData[currency];
         if (typeof value === 'number') {
           this.wallet[currency] = value;
@@ -29,11 +27,11 @@ export class Wallet {
     }
   }
 
-  add = (type: CurrencyType, amount: number) => {
+  add = (type: T, amount: number) => {
     this.wallet[type] = (this.wallet[type] ?? 0) + amount;
   };
 
-  read = (type: CurrencyType): number => {
+  read = (type: T): number => {
     return this.wallet[type] ?? 0;
   };
 
@@ -45,10 +43,10 @@ export class Wallet {
     return this.wallet;
   };
 
-  addAll = (otherWallet: Wallet) => {
+  addAll = (otherWallet: Wallet<T>) => {
     const other = otherWallet.readAll();
     for (const [type, amount] of Object.entries(other)) {
-      this.add(type as CurrencyType, amount);
+      this.add(type as T, amount as number);
     }
   };
 }
