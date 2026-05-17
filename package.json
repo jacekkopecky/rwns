@@ -9,7 +9,7 @@
   "scripts": {
     "start": "vite --host 0.0.0.0",
     "build": "VITE_BUILD_VERSION=`git rev-parse --short HEAD` vite build",
-    "test": "npm run type-check",
+    "test": "npm run type-check && vitest run",
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
@@ -17,7 +17,8 @@
     "@types/three": "^0.183.1",
     "tsx": "^4.21.0",
     "typescript": "^6.0.1-rc",
-    "vite-plugin-pwa": "^1.2.0"
+    "vite-plugin-pwa": "^1.2.0",
+    "vitest": "^4.1.6"
   },
   "dependencies": {
     "@tweenjs/tween.js": "^25.0.0",
