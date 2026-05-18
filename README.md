@@ -36,6 +36,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - [ ] a card that needs to flip can be a card and a card back in a single 3d-rotated package
   - [ ] add card pictures
   - [ ] add card descriptions under a question mark?
+  - [ ] style by rarity (e.g. stars for increasing rarities), but also include it in the description
 - [ ] 2-stage localStorage key change to just `rwns-*` and not jacekkopecky or shoot-em
 - [ ] tracks
   - using level (per type of run?)

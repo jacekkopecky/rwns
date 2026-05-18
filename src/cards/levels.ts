@@ -1,4 +1,4 @@
-import type { CardType, Wallet } from '#types';
+import type { CardType, ReadonlyWallet } from '#types';
 
 // cache the cards-for-a-level computations
 const cardsToLevel: number[] = [0];
@@ -54,12 +54,12 @@ export const _test = {
 
 export function getCardLevel(
   type: CardType,
-  wallet: Wallet<CardType>,
+  wallet: ReadonlyWallet<CardType>,
   cardsToGive: number | undefined,
 ): {
   level: number;
   nextLevelCards: number;
-  nextLevelCardsHave: number | undefined;
+  nextLevelCardsHave: number;
 } {
   const amount = wallet.read(type);
   if (!amount) {

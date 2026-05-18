@@ -300,6 +300,8 @@ button {
     padding: 1em;
 
     .card {
+      border-color: #664422;
+
       transform-origin: bottom left;
 
       &.behind {
@@ -468,12 +470,17 @@ button {
   height: 3em;
   width: 2em;
   border-radius: 0.3em;
-  border: 0.1em solid;
+  border: 0.1em solid #7d2ab7;
   position: relative;
   overflow: hidden;
 
   background: #f2dec8;
-  color: #664422;
+  color: black;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
 
   /* inside sheet with gradient color */
   &::before {
@@ -499,5 +506,70 @@ button {
     background-image: url('assets/gem.svg');
     background-repeat: no-repeat;
     background-position: 50% 50%;
+  }
+
+  .rarity {
+    color: #efd9ff;
+    background: #7d2ab7;
+    padding: 0.2em 0.5em 0.3em;
+    border-radius: 0 0 0.5em 0.5em;
+    margin-bottom: 0.5em;
+    font-size: x-small;
+    line-height: 1em;
+    text-transform: uppercase;
+  }
+
+  .name {
+    margin: auto;
+    text-align: center;
+  }
+
+  .label {
+    align-self: stretch;
+    text-align: center;
+    border: solid;
+    border-width: thin 0;
+    background: #fff6;
+    margin-top: auto;
+    font-size: x-small;
+    line-height: 1em;
+    padding: 0.3em 0;
+    text-transform: uppercase;
+  }
+
+  .nextLevel {
+    align-self: stretch;
+    position: relative;
+    font-size: smaller;
+
+    padding: 0.3em 0;
+    text-align: center;
+
+    .have::after {
+      content: ' / ';
+    }
+
+    .have,
+    .outOf {
+      position: relative;
+      z-index: 1;
+    }
+
+    .box {
+      position: absolute;
+      inset: 0.3em 1em;
+      background: #fce;
+      z-index: 0;
+      border-radius: 0.3em;
+      overflow: hidden;
+    }
+
+    .partBox {
+      background: #afa;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+    }
   }
 }
