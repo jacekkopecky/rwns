@@ -9,14 +9,18 @@
   "scripts": {
     "start": "vite --host 0.0.0.0",
     "build": "VITE_BUILD_VERSION=`git rev-parse --short HEAD` vite build",
-    "test": "npm run type-check && vitest run",
-    "type-check": "tsc --noEmit"
+    "test": "npm run lint && npm run type-check && vitest run",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint --ext .ts,.tsx src"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/seedrandom": "^3.0.8",
     "@types/three": "^0.183.1",
+    "eslint": "^10.4.0",
     "tsx": "^4.21.0",
-    "typescript": "^6.0.1-rc",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.4",
     "vite-plugin-pwa": "^1.2.0",
     "vitest": "^4.1.6"
   },
