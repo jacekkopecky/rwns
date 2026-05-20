@@ -3,7 +3,7 @@ import type { CardType, ReadonlyWallet } from '#types';
 // cache the cards-for-a-level computations
 const cardsToLevel: number[] = [0];
 const cardLevels: number[] = [0];
-let nextLevelCards = generateCardsForLevel();
+const nextLevelCards = generateCardsForLevel();
 
 function* generateCardsForLevel() {
   let n = 1;

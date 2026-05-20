@@ -5,7 +5,7 @@ import * as dim from '#dimensions';
 
 export let camera: THREE.PerspectiveCamera;
 let cameraTween: TWEEN.Tween<THREE.Vector3>;
-let cameraTimer = new THREE.Timer();
+const cameraTimer = new THREE.Timer();
 
 export function initCamera(canvas: HTMLCanvasElement) {
   camera = new THREE.PerspectiveCamera(

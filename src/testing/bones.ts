@@ -59,7 +59,7 @@ function initScene() {
   initBones();
 }
 
-let players: Marvin[] = [];
+const players: Marvin[] = [];
 
 function initBones() {
   const material = new THREE.MeshLambertMaterial({
