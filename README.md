@@ -8,16 +8,29 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
+- [ ] make final gate taller than the blocks, or the blocks shorter?
+  - with height 30, the explosions aren't showing right
 - [ ] add eslint (it would already have found a bug)
 - [ ] in wallets, count down when buying
+- [ ] end boxes still have a shadow artifact - are they too low so their floor doesn't cast the
+      shadow?
+- [ ] show full wallet at the top of end screen? Change "collected" to "collected this time"?
+- [ ] when leaving full screen, pressing start on splash screen should go back to main screen;
+      unless it's paused and then the splash screen should say we're paused and the button is
+      "resume"
 - [ ] more cards
+  - [ ] card tweaks: revisit progression of incoming new cards: money cards earlier, space
+        range/rate/damage cards so new ones come on a similar staggered schedule?
   - [ ] see in `src/cards/types.ts`
   - [ ] any such stuff from dim should go into initial state
 - [ ] better cards UI
+  - [ ] (ai) sort cards in order received or in descending order or rarity then order received or
+        level?
   - [ ] a card that needs to flip can be a card and a card back in a single 3d-rotated package
-  - [ ] add card pictures
+  - [ ] (ai?) add card pictures
   - [ ] add card descriptions under a question mark?
   - [ ] style by rarity (e.g. stars for increasing rarities), but also include it in the description
+  - [ ] style type strip by type, at least background color
   - [ ] level/progress highlight could pulsate
   - [ ] animation when buying cards
 - [ ] 2-stage localStorage key change to just `rwns-*` and not jacekkopecky or shoot-em
@@ -46,8 +59,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
       - gather all (or a given number of) treasure without any upgrades (basic one player)
         - could be:
           - find all treasure in forest or maze
-          - hit your choice of diamonds with every bullet you have (multiple hits necessary)
+          - hit your choice of gems with every bullet you have (multiple hits necessary)
           - simply don't waste a bullet
+          - shoot moving gems with enough bullets (like round-robin five levels with 3-4-5-6-7
+            gems?)
         - can play with upgrades but only to try it, making the prize a bit lower
         - allows the player to pass or the quest times out and moves to the next one - in case it's
           randomly too hard
@@ -149,7 +164,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] quests?
   - with timeout - daily, weekly?, monthly
   - add a give-up possibility to remove clutter, or re-roll?
-  - quest re-roll buttons could only work once a day, and use a diamond or cost some other price?
+  - quest re-roll buttons could only work once a day, and use a gem or cost some other price?
   - quest types:
     - break 20 end blocks
     - break 20 end blocks with red/green/blue robot
