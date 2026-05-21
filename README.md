@@ -10,7 +10,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 - [ ] make final gate taller than the blocks, or the blocks shorter?
   - with height 30, the explosions aren't showing right
-- [ ] add eslint (it would already have found a bug)
 - [ ] in wallets, count down when buying
 - [ ] end boxes still have a shadow artifact - are they too low so their floor doesn't cast the
       shadow?
@@ -227,6 +226,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] daily gift? (use a spinning wheel with a conic gradient)
   - some coins, a card or three, energy or two, any other currencies, extra ticket for special
     plays, extra roll (ensured only once)
+- [ ] add stricter eslint rules, commented out in eslint.config.mjs
 
 ---
 

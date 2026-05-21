@@ -108,7 +108,7 @@ function saveState() {
 }
 
 function loadState() {
-  const dataString = localStorage.getItem(LOCAL_STORAGE_KEY) || '{}';
+  const dataString = localStorage.getItem(LOCAL_STORAGE_KEY) ?? '{}';
   try {
     const data = JSON.parse(dataString);
 

@@ -8,7 +8,7 @@ export default defineConfig(
   // tseslint.configs.strict,
   // tseslint.configs.recommendedTypeChecked,
   // tseslint.configs.strictTypeChecked,
-  // tseslint.configs.stylisticTypeChecked,
+  tseslint.configs.stylisticTypeChecked,
   globalIgnores(['./*.js', './*.cjs', './*.mjs', 'docs', 'dist', 'dev-dist', 'node_modules']),
   {
     languageOptions: {
