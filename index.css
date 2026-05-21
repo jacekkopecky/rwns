@@ -193,13 +193,13 @@ button {
   padding: 0 1em 1em;
 }
 
-#mainScreenWallet,
 .wallet {
   flex-grow: 1;
 
   padding: 0.25em 0.5em;
   border-radius: 1rem;
   min-height: 3em;
+  min-width: 16em;
 
   display: flex;
   flex-direction: row;
@@ -249,9 +249,15 @@ button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1em;
+  gap: 1.5em;
 
   font-size: 1.5em;
+
+  .wallet {
+    position: absolute;
+    top: 1em;
+    font-size: 0.66666em; /* reverse the font-size above */
+  }
 
   .buttons {
     margin-top: 30%;
@@ -281,7 +287,11 @@ button {
     display: none;
   }
 
-  &:not(.collected) .collected {
+  .collected {
+    display: contents;
+  }
+
+  &:not(.has-collected) .collected {
     display: none;
   }
 }
@@ -400,10 +410,8 @@ button {
 
   .wallet {
     grid-area: top;
+    justify-self: center;
     margin: 0.7em;
-    min-width: 16em;
-    padding-left: 2em;
-    padding-right: 2em;
   }
 
   .sectionButtons {

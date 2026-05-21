@@ -14,30 +14,34 @@ import { AnimatedCount } from './utils/animated-count';
 
 const el = {
   endRunScreen: document.querySelector('#endRunScreen')!,
-  endRunScreenCoins: document.querySelector('#endRunScreen .coin')!,
-  endRunScreenGems: document.querySelector('#endRunScreen .gem')!,
+  endRunScreenCoins: document.querySelector('#endRunScreen .collected .coin')!,
+  endRunScreenGems: document.querySelector('#endRunScreen .collected .gem')!,
   endRunScreenGemCount: document.querySelector<HTMLElement>('#endRunScreen .gemCount')!,
-  inRunContainer: document.querySelector('#inRunWallet')!,
+  endRunWallet: {
+    gem: document.querySelector('#endRunScreen .wallet .gem')!,
+    coin: document.querySelector('#endRunScreen .wallet .coin')!,
+  },
+  inRunWalletContainer: document.querySelector('#inRunWallet')!,
   inRun: {
     gem: document.querySelector('#inRunWallet .gem')!,
     coin: document.querySelector('#inRunWallet .coin')!,
   },
 };
 
-const wallet = new Wallet(CURRENCIES);
+const inRunWallet = new Wallet(CURRENCIES);
 const awardsShowing = new Map<CurrencyType, AnimatedCount>();
 
 export const awardsGroup = new THREE.Group();
 
 export function setupAwards() {
   awardsGroup.clear();
-  wallet.reset();
+  inRunWallet.reset();
   awardsShowing.clear();
   toggleEndRunScreen(false);
   for (const walletEl of Object.values(el.inRun)) {
     fillOrHide(walletEl, 0);
   }
-  el.inRunContainer.classList.add('hidden');
+  el.inRunWalletContainer.classList.add('hidden');
 }
 
 export async function giveAward(fromObj: THREE.Object3D, oData: ObjectData) {
@@ -45,7 +49,7 @@ export async function giveAward(fromObj: THREE.Object3D, oData: ObjectData) {
 
   const { type, amount } = oData.award;
 
-  wallet.add(type, amount);
+  inRunWallet.add(type, amount);
   state.addAward(oData.award);
 
   const targetCoords = getScreenCoordinates(
@@ -141,7 +145,7 @@ export function updateAwardsView(delta: number) {
     const showing = countup.updateShowing(delta);
     fillOrHide(walletEl, showing);
     if (showing) {
-      el.inRunContainer.classList.remove('hidden');
+      el.inRunWalletContainer.classList.remove('hidden');
     }
   }
 }
@@ -161,15 +165,19 @@ export function handleRetryButton() {
 
 export function updateEndRunScreen() {
   let showingAny = false;
-  showingAny = fillOrHide(el.endRunScreenCoins, wallet.read('coin')) || showingAny;
-  showingAny = fillOrHide(el.endRunScreenGems, wallet.read('gem')) || showingAny;
+  showingAny = fillOrHide(el.endRunScreenCoins, inRunWallet.read('coin')) || showingAny;
+  showingAny = fillOrHide(el.endRunScreenGems, inRunWallet.read('gem')) || showingAny;
+
+  const wallet = state.readState().wallet;
+  fillOrHide(el.endRunWallet.coin, wallet.read('coin'));
+  fillOrHide(el.endRunWallet.gem, wallet.read('gem'));
 
   // update gemCount here from what's stored in the dataset
   const gemCount = el.endRunScreenGemCount.dataset.gemCount ?? '';
   el.endRunScreen.classList.toggle('gotGems', Boolean(gemCount));
   showingAny = fillOrHide(el.endRunScreenGemCount, gemCount) || showingAny;
 
-  el.endRunScreen.classList.toggle('collected', showingAny);
+  el.endRunScreen.classList.toggle('has-collected', showingAny);
 }
 
 export function updateEndRunScreenGemCount(count: number) {

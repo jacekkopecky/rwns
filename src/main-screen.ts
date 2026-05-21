@@ -22,10 +22,10 @@ const el = {
   settingsBtn: document.querySelector<HTMLButtonElement>('#settingsBtn')!,
   endRunScreenOK: document.querySelector('#endRunScreen button.ok')!,
   endRunScreenRetry: document.querySelector('#endRunScreen button.retry')!,
-  walletContainer: document.querySelector('#mainScreenWallet')!,
+  walletContainer: document.querySelector('#topBar .wallet')!,
   wallet: {
-    gem: document.querySelector('#mainScreenWallet .gem')!,
-    coin: document.querySelector('#mainScreenWallet .coin')!,
+    gem: document.querySelector('#topBar .wallet .gem')!,
+    coin: document.querySelector('#topBar .wallet .coin')!,
   },
   playStats: {
     played: document.querySelector('#playStats .played')!,
