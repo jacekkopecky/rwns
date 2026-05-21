@@ -132,6 +132,9 @@ function loadState() {
 
 export function isFeatureAllowed(upgrade: Feature, state: ReadonlyState): boolean {
   switch (upgrade) {
+    case 'coins':
+      return state.level >= 2; // guarantee wallet is showing
+
     case 'limitedEnergy':
       return state.level >= 4;
 

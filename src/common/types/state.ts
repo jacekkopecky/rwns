@@ -24,4 +24,9 @@ export type ReadonlyState = Omit<DeepReadonly<State>, 'wallet' | 'cards'> & {
   cards: ReadonlyWallet<CardType>;
 };
 
-export type Feature = 'limitedEnergy' | `${RunUpgradeType}Upgrade` | 'cards' | 'bulkCards';
+export type Feature =
+  | 'coins'
+  | 'limitedEnergy'
+  | `${RunUpgradeType}Upgrade`
+  | 'cards'
+  | 'bulkCards';

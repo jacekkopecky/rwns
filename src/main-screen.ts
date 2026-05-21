@@ -10,6 +10,7 @@ import {
   getEnergy,
   subtractEnergy,
   getUpgradablePermanentParameters,
+  isFeatureAllowed,
 } from './state';
 import { showSection } from './sections';
 
@@ -87,7 +88,7 @@ export function showMainScreen() {
 export function updateMainScreen(state = readState(), params = getUpgradablePermanentParameters()) {
   fillOrHide(el.wallet.coin, state.wallet.read('coin'));
   fillOrHide(el.wallet.gem, state.wallet.read('gem'));
-  toggleHidden(el.walletContainer, !state.wallet.read('coin') && !state.wallet.read('gem'));
+  toggleHidden(el.walletContainer, !isFeatureAllowed('coins', state));
 
   fillOrHide(el.playStats.level, state.level, String);
   fillOrHide(el.playStats.played, state.played, String);
