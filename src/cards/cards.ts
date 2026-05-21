@@ -1,6 +1,6 @@
 import * as dim from '#dimensions';
 import type { CardType, ReadonlyState } from '#types';
-import { fillOrHide, formatNumber, makeEl } from '#utils';
+import { fillOrHide, formatNumber, getEl, makeEl } from '#utils';
 
 import { showSection } from '../sections';
 import {
@@ -16,15 +16,15 @@ import { cardDefinitions, CARDS } from './types';
 import { selectNextsCard } from './next-card';
 
 const el = {
-  goToCardsSectionButton: document.querySelector('#mainScreen .sectionButtons .cards')!,
-  closeCardsSectionButton: document.querySelector('#cards button.close')!,
-  buyOne: document.querySelector('#cards button.buyOne')!,
-  buyBulk: document.querySelector('#cards button.buyBulk')!,
-  theCards: document.querySelector('#cards .theCards')!,
-  walletContainer: document.querySelector('#cards .wallet')!,
+  goToCardsSectionButton: getEl('#mainScreen .sectionButtons .cards'),
+  closeCardsSectionButton: getEl('#cards button.close'),
+  buyOne: getEl('#cards button.buyOne'),
+  buyBulk: getEl('#cards button.buyBulk'),
+  theCards: getEl('#cards .theCards'),
+  walletContainer: getEl('#cards .wallet'),
   wallet: {
-    gem: document.querySelector('#cards .wallet .gem')!,
-    coin: document.querySelector('#cards .wallet .coin')!,
+    gem: getEl('#cards .wallet .gem'),
+    coin: getEl('#cards .wallet .coin'),
   },
 };
 

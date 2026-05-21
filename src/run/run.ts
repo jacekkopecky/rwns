@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import * as dim from '#dimensions';
 import { logFps } from '#log';
 import type { ReadonlyState, UpgradablePermanentParameters } from '#types';
-import { resetRandom } from '#utils';
+import { getEl, resetRandom } from '#utils';
 
 import * as stateModule from '../state';
 
@@ -41,10 +41,10 @@ let ending = false;
 let fullscreenPaused = false;
 
 const el = {
-  main: document.querySelector('main')!,
-  canvas: document.querySelector<HTMLCanvasElement>('#webglCanvas')!,
-  exitBtn: document.querySelector<HTMLButtonElement>('#exitBtn')!,
-  shortMessage: document.querySelector<HTMLElement>('#shortMessage')!,
+  main: getEl('main'),
+  canvas: getEl('#webglCanvas'),
+  exitBtn: getEl('#exitBtn', HTMLButtonElement),
+  shortMessage: getEl('#shortMessage'),
 };
 
 /**

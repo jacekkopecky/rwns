@@ -5,7 +5,7 @@ import type {
   UpgradablePermanentParameters,
 } from '#types';
 import { RUN_UPGRADE_TYPES } from '#types';
-import { parseNumber, formatNumber } from '#utils';
+import { parseNumber, formatNumber, getEl } from '#utils';
 
 import { updateMainScreen } from './main-screen';
 import { prepareRun } from './run';
@@ -19,9 +19,9 @@ import {
 
 const el = {
   upgrades: {
-    players: document.querySelector<HTMLElement>('#mainScreen .upgradeButtons > .players')!,
-    rate: document.querySelector<HTMLElement>('#mainScreen .upgradeButtons > .rate')!,
-    damage: document.querySelector<HTMLElement>('#mainScreen .upgradeButtons > .damage')!,
+    players: getEl('#mainScreen .upgradeButtons > .players'),
+    rate: getEl('#mainScreen .upgradeButtons > .rate'),
+    damage: getEl('#mainScreen .upgradeButtons > .damage'),
   },
 };
 

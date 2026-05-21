@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 import { CURRENCIES, type CurrencyType, Wallet } from '#types';
-import { fillOrHide, random } from '#utils';
+import { fillOrHide, getEl, random } from '#utils';
 
 import * as state from '../state';
 
@@ -13,18 +13,18 @@ import { type ObjectData } from './types';
 import { AnimatedCount } from './utils/animated-count';
 
 const el = {
-  endRunScreen: document.querySelector('#endRunScreen')!,
-  endRunScreenCoins: document.querySelector('#endRunScreen .collected .coin')!,
-  endRunScreenGems: document.querySelector('#endRunScreen .collected .gem')!,
-  endRunScreenGemCount: document.querySelector<HTMLElement>('#endRunScreen .gemCount')!,
+  endRunScreen: getEl('#endRunScreen'),
+  endRunScreenCoins: getEl('#endRunScreen .collected .coin'),
+  endRunScreenGems: getEl('#endRunScreen .collected .gem'),
+  endRunScreenGemCount: getEl('#endRunScreen .gemCount'),
   endRunWallet: {
-    gem: document.querySelector('#endRunScreen .wallet .gem')!,
-    coin: document.querySelector('#endRunScreen .wallet .coin')!,
+    gem: getEl('#endRunScreen .wallet .gem'),
+    coin: getEl('#endRunScreen .wallet .coin'),
   },
-  inRunWalletContainer: document.querySelector('#inRunWallet')!,
+  inRunWalletContainer: getEl('#inRunWallet'),
   inRun: {
-    gem: document.querySelector('#inRunWallet .gem')!,
-    coin: document.querySelector('#inRunWallet .coin')!,
+    gem: getEl('#inRunWallet .gem'),
+    coin: getEl('#inRunWallet .coin'),
   },
 };
 

@@ -2,7 +2,7 @@
  * This is the code that controls fullscreen behaviour and the splash screen.
  */
 
-import { fillOrHide } from '#utils';
+import { fillOrHide, getEl } from '#utils';
 
 import { init as initSections, showSection } from './sections';
 
@@ -13,10 +13,10 @@ if (import.meta.env.DEV) {
 }
 
 const el = {
-  startBtn: document.querySelector('#startBtn')!,
-  exitBtn: document.querySelector('#exitBtn')!,
-  main: document.querySelector('main')!,
-  version: document.querySelector('#version')!,
+  startBtn: getEl('#startBtn'),
+  exitBtn: getEl('#exitBtn'),
+  main: getEl('main'),
+  version: getEl('#version'),
 };
 
 export function init() {

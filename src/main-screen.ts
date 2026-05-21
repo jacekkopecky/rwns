@@ -1,5 +1,5 @@
 import type { UpgradablePermanentParameters } from '#types';
-import { fillOrHide, toggleHidden } from '#utils';
+import { fillOrHide, getEl, toggleHidden } from '#utils';
 
 import { initUpgrades, updateUpgrades } from './main-screen-upgrades';
 import { init as initRunScreen, handleRetryButton, prepareRun, startRun } from './run';
@@ -15,24 +15,24 @@ import {
 import { showSection } from './sections';
 
 const el = {
-  main: document.querySelector('main')!,
-  canvas: document.querySelector<HTMLCanvasElement>('#webglCanvas')!,
-  topButtons: document.querySelector<HTMLElement>('#topBar')!,
-  exitBtn: document.querySelector<HTMLButtonElement>('#exitBtn')!,
-  settingsBtn: document.querySelector<HTMLButtonElement>('#settingsBtn')!,
-  endRunScreenOK: document.querySelector('#endRunScreen button.ok')!,
-  endRunScreenRetry: document.querySelector('#endRunScreen button.retry')!,
-  walletContainer: document.querySelector('#topBar .wallet')!,
+  main: getEl('main'),
+  canvas: getEl('#webglCanvas'),
+  topButtons: getEl('#topBar'),
+  exitBtn: getEl('#exitBtn', HTMLButtonElement),
+  settingsBtn: getEl('#settingsBtn', HTMLButtonElement),
+  endRunScreenOK: getEl('#endRunScreen button.ok'),
+  endRunScreenRetry: getEl('#endRunScreen button.retry'),
+  walletContainer: getEl('#topBar .wallet'),
   wallet: {
-    gem: document.querySelector('#topBar .wallet .gem')!,
-    coin: document.querySelector('#topBar .wallet .coin')!,
+    gem: getEl('#topBar .wallet .gem'),
+    coin: getEl('#topBar .wallet .coin'),
   },
   playStats: {
-    played: document.querySelector('#playStats .played')!,
-    level: document.querySelector('#playStats .level')!,
-    energy: document.querySelector('#playStats .energy')!,
+    played: getEl('#playStats .played'),
+    level: getEl('#playStats .level'),
+    energy: getEl('#playStats .energy'),
   },
-  upgradeButtons: document.querySelector<HTMLElement>('#mainScreen .upgradeButtons')!,
+  upgradeButtons: getEl('#mainScreen .upgradeButtons'),
 };
 
 export function init() {
