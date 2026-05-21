@@ -8,10 +8,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
-- [ ] show full wallet at the top of end screen? Change "collected" to "collected this time"?
-- [ ] when leaving full screen, pressing start on splash screen should go back to main screen;
-      unless it's paused and then the splash screen should say we're paused and the button is
-      "resume"
 - [ ] more cards
   - [ ] card tweaks: revisit progression of incoming new cards: money cards earlier, space
         range/rate/damage cards so new ones come on a similar staggered schedule?
@@ -231,10 +227,15 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## done by 2026-05-21
 
+- [x] when leaving full screen, pressing start on splash screen should go back to main screen;
+      unless it's paused and then the splash screen should say we're paused and the button is
+      "resume"
 - always show wallet after coins are available
 - [x] end boxes still have a shadow artifact - are they too low so their floor doesn't cast the
       shadow?
   - in the end it's solved with an extra plane inside the boulder that casts the extra shadow
+- [x] show full wallet at the top of end screen?
+  - Change "collected" to "collected this time"? (no, no need)
 
 ## done by 2026-05-18
 

@@ -56,7 +56,7 @@ export function init() {
 export function startPlaying() {
   const params = getUpgradablePermanentParameters();
   // this gets called on every touch of the screen, so ignore it if already in a game
-  if (!el.main.classList.contains('run')) {
+  if (!isInRun()) {
     if (el.main.classList.contains('no-energy')) {
       updateEnergyCount(params);
       return;
@@ -67,6 +67,10 @@ export function startPlaying() {
     el.main.classList.add('run');
     startRun();
   }
+}
+
+export function isInRun() {
+  return el.main.classList.contains('run');
 }
 
 function retry() {

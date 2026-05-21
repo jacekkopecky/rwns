@@ -4,6 +4,7 @@
 
 import { fillOrHide, getEl } from '#utils';
 
+import { isInRun } from './main-screen';
 import { init as initSections, showSection } from './sections';
 
 let useFullscreen = true;
@@ -28,6 +29,7 @@ export function init() {
     document.body.addEventListener('keyup', handleTopLevelSpaceKey);
     el.startBtn.addEventListener('click', goFullscreen);
     el.exitBtn.addEventListener('click', exit);
+    el.main.addEventListener('fullscreenchange', updateSplashScreen);
   }
 
   fillOrHide(el.version, import.meta.env.VITE_BUILD_VERSION ?? 'unknown');
@@ -40,6 +42,7 @@ export function init() {
 
 async function goFullscreen() {
   await el.main.requestFullscreen();
+  if (!isInRun()) showSection('mainScreen');
 }
 
 function exit() {
@@ -50,4 +53,8 @@ function handleTopLevelSpaceKey(e: KeyboardEvent): void {
   if (e.key === ' ' && !document.fullscreenElement) {
     goFullscreen();
   }
+}
+
+function updateSplashScreen() {
+  el.startBtn.textContent = isInRun() ? 'Resume' : 'Start';
 }
