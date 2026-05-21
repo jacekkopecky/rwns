@@ -1,11 +1,12 @@
 import * as THREE from 'three';
 
 import * as dim from '#dimensions';
+import { exposeGlobalWindowProp } from '#utils';
 
 export const timer = new THREE.Timer();
 timer.connect(document);
 
-(window as any).gameTimer = timer;
+exposeGlobalWindowProp('gameTimer', timer);
 
 if (typeof dim.options.timeScale === 'number') timer.setTimescale(dim.options.timeScale);
 

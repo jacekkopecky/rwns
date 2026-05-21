@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 import { logFps } from '#log';
+import { exposeGlobalWindowProp } from '#utils';
 
 import { updateAnimations, timer } from '../run/three/animations';
 import { Marvin } from '../run/three/models';
@@ -10,7 +11,7 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100000);
 const scene = new THREE.Scene();
 
-(window as any).THREE = THREE;
+exposeGlobalWindowProp('THREE', THREE);
 
 const playerSize = {
   legLength: 40,

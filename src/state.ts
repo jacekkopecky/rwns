@@ -11,7 +11,7 @@ import type {
   UpgradablePermanentParameters,
 } from '#types';
 import { CARDS, CURRENCIES, Wallet } from '#types';
-import { parseNumber, parseStringArray } from '#utils';
+import { exposeGlobalWindowProp, parseNumber, parseStringArray } from '#utils';
 
 import { cardDefinitions, lookupLevelByNumberOfCards, minLevelForCards } from './cards';
 import { parseUpgrades } from './main-screen-upgrades';
@@ -35,12 +35,12 @@ let state: State;
 
 export function initState() {
   loadState();
-  (window as any).gameState = state;
+  exposeGlobalWindowProp('gameState', state);
 }
 
 export function resetState() {
   state = createInitialState();
-  (window as any).gameState = state;
+  exposeGlobalWindowProp('gameState', state, true);
   saveState();
 }
 

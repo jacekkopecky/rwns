@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import * as dim from '#dimensions';
+import { exposeGlobalWindowProp } from '#utils';
 
 import { createGem } from '../run/three/run-objects/gems';
 import { createObject } from '../run/three/run-objects';
@@ -11,7 +12,7 @@ import { createObject } from '../run/three/run-objects';
 const container = document.getElementById('container');
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
-(window as any).renderer = renderer;
+exposeGlobalWindowProp('renderer', renderer);
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 // renderer.shadowMap.enabled = true;

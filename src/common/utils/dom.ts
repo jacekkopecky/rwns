@@ -35,7 +35,7 @@ export function formatNumber(n: number): string {
 export function fillOrHide(
   el: Element,
   value: number | string,
-  formatFn: (v: any) => string = formatNumber,
+  formatFn: (v: number) => string = formatNumber,
 ) {
   el.querySelector('.value')!.textContent = typeof value === 'string' ? value : formatFn(value);
   el.classList.toggle('hidden', !value);
@@ -53,4 +53,13 @@ export function makeEl(parent: Element, nodeName = 'div', className: string, con
   el.textContent = content;
   parent.append(el);
   return el;
+}
+
+export function exposeGlobalWindowProp(propName: string, value: unknown, overwrite = false) {
+  if (propName in window && !overwrite) {
+    console.error(new Error('prop already exposed'));
+  } else {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any)[propName] = value;
+  }
 }

@@ -42,18 +42,18 @@ export interface ObjectData extends AnyObjectData {
 }
 
 export function getPlayerData(obj: THREE.Object3D): PlayerData {
-  return getUserData(obj, 'player');
+  return getUserData(obj, 'player') as PlayerData;
 }
 
 export function getBulletData(obj: THREE.Object3D): BulletData {
-  return getUserData(obj, 'bullet');
+  return getUserData(obj, 'bullet') as BulletData;
 }
 
 export function getObjectData(obj: THREE.Object3D): ObjectData {
-  return getUserData(obj, 'object');
+  return getUserData(obj, 'object') as ObjectData;
 }
 
-function getUserData(obj: THREE.Object3D, type: string): any {
+function getUserData(obj: THREE.Object3D, type: string) {
   const userData = obj.userData;
   if (userData.type === type) {
     return userData;

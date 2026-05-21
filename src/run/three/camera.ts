@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import * as TWEEN from '@tweenjs/tween.js';
 
 import * as dim from '#dimensions';
+import { exposeGlobalWindowProp } from '#utils';
 
 export let camera: THREE.PerspectiveCamera;
 let cameraTween: TWEEN.Tween<THREE.Vector3>;
@@ -22,8 +23,8 @@ export function initCamera(canvas: HTMLCanvasElement) {
     camera.lookAt(dim.cameraTarget);
   });
 
-  (window as any).gameCamera = camera;
-  (window as any).gameCameraTween = cameraTween;
+  exposeGlobalWindowProp('gameCamera', camera);
+  exposeGlobalWindowProp('gameCameraTween', cameraTween);
 }
 
 /**

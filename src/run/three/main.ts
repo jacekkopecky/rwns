@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 
 import * as dim from '#dimensions';
+import { exposeGlobalWindowProp } from '#utils';
 
 import { camera, initCamera } from './camera';
 
@@ -18,8 +19,8 @@ export function init(main: HTMLElement) {
 
   initCamera(canvas);
 
-  (window as any).gameScene = scene;
-  (window as any).gameRenderer = renderer;
+  exposeGlobalWindowProp('gameScene', scene);
+  exposeGlobalWindowProp('gameRenderer', renderer);
 
   onWindowResize();
 
