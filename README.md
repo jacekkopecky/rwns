@@ -8,9 +8,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
-- [ ] in wallets, count down when buying
-- [ ] end boxes still have a shadow artifact - are they too low so their floor doesn't cast the
-      shadow?
 - [ ] show full wallet at the top of end screen? Change "collected" to "collected this time"?
 - [ ] when leaving full screen, pressing start on splash screen should go back to main screen;
       unless it's paused and then the splash screen should say we're paused and the button is
@@ -227,12 +224,17 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] add stricter eslint rules, commented out in eslint.config.mjs
 - [ ] make final gate taller than the blocks, or the blocks shorter?
   - with height 30, the explosions aren't showing right
+- [ ] remove circular dependencies
+- [ ] in wallets, count down when buying
 
 ---
 
 ## done by 2026-05-21
 
 - always show wallet after coins are available
+- [x] end boxes still have a shadow artifact - are they too low so their floor doesn't cast the
+      shadow?
+  - in the end it's solved with an extra plane inside the boulder that casts the extra shadow
 
 ## done by 2026-05-18
 
