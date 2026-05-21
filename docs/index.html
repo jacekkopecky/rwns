@@ -4,8 +4,8 @@
   <meta charset="utf8" />
   <title>RWNS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  <script type="module" crossorigin src="/rwns/assets/index-Bq4__Yw2.js"></script>
-  <link rel="stylesheet" crossorigin href="/rwns/assets/index-DOcmeaXy.css">
+  <script type="module" crossorigin src="/rwns/assets/index-BkkbbQ6D.js"></script>
+  <link rel="stylesheet" crossorigin href="/rwns/assets/index-IBP8oFgK.css">
 <link rel="manifest" href="/rwns/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/rwns/registerSW.js"></script></head>
 
 <body class="using-fullscreen">
@@ -26,8 +26,8 @@
 
       <div id="topBar" class="partial-in-run">
         <button id="exitBtn" class="in-run">Exit</button>
-        <div id="mainScreenWallet">
-          <div class="coin hiddenGone"><span class="value">0</span> <i class="i coins"></i></div>
+        <div class="wallet">
+          <div class="coin neverHidden"><span class="value">0</span> <i class="i coins"></i></div>
           <div class="gem hiddenGone"><span class="value">0</span> <i class="i gem"></i></div>
         </div>
         <button id="settingsBtn">⚙️</button>
@@ -51,14 +51,20 @@
       </div>
 
       <div id="endRunScreen">
+        <div class="wallet">
+          <div class="coin neverHidden"><span class="value">0</span> <i class="i coins"></i></div>
+          <div class="gem hiddenGone"><span class="value">0</span> <i class="i gem"></i></div>
+        </div>
         <h2 class="if-win">Well done!</h2>
         <h2 class="if-not-win">Better luck next time!</h2>
-        <div class="collected">Collected</div>
-        <div class="coin hiddenGone"><span class="value"></span> <i class="i coins"></i></div>
-        <div class="if-got-gems">
-          <span class="gem neverHidden"><span class="value"></span></span>
-          out of
-          <span class="gemCount hiddenGone"><span class="value"></span> <i class="i gem"></i></span>
+        <div class="collected">
+          <div>Collected</div>
+          <div class="coin hiddenGone"><span class="value"></span> <i class="i coins"></i></div>
+          <div class="if-got-gems">
+            <span class="gem neverHidden"><span class="value"></span></span>
+            out of
+            <span class="gemCount hiddenGone"><span class="value"></span> <i class="i gem"></i></span>
+          </div>
         </div>
         <div class="buttons">
           <button class="retry">
