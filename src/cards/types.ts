@@ -8,7 +8,7 @@ export const RARITIES = ['common', 'rare', 'epic', 'legendary'] as const;
 export type Rarity = (typeof RARITIES)[number];
 
 // short label for card types
-type TypeLabel = 'damage' | 'fire rate' | 'range' | 'income';
+type TypeLabel = 'damage' | 'fire rate' | 'range' | 'income' | 'energy';
 
 export type CardDefinition = Readonly<{
   name: string; // funny name
@@ -18,7 +18,10 @@ export type CardDefinition = Readonly<{
   typeLabel: TypeLabel;
   // description: string; // something to show under a question mark icon?
   // picture?: string; // url
+  // this function will give the card's effect
   performUpgrade(level: number, params: UpgradablePermanentParameters): void;
+  // this function will be called every time this card levels up
+  onLevelUp?(): void;
 }>;
 
 export type CardTemplate = Omit<CardDefinition, 'name' | 'minPlayerLevel' | 'cardsToGive'>;
@@ -35,23 +38,24 @@ export const cardDefinitions = {
       console.error("this should never be called, it's a testing card");
     },
   }),
-  range1:    tCard( 25, 'Atlatl          ', t.range,                             ),
-  range2:    tCard(100, 'Longbow         ', t.range,                             ),
-  range3:    tCard(200, 'Sniper Rifle    ', t.range,                             ),
-  rate1:     tCard( 25, 'Practice        ', t.rate,                              ),
-  rate2:     tCard(100, 'Reload Bot      ', t.rate,                              ),
-  rate3:     tCard(200, 'Gatling Gun     ', t.rate,                              ),
-  damage1:   tCard( 50, 'Sharp Rock      ', t.damage,                            ),
-  damage2:   tCard(100, 'Heavy Bullet    ', t.damage,                            ),
-  damage3:   tCard(150, 'Grenade         ', t.damage,                            ),
-  coins1:    tCard( 25, 'Gold Nugget     ', t.inRunCoins,    dim.coinCardMaxLevel),
-  coins2:    tCard( 60, 'Pay Raise       ', t.inRunCoins,    dim.coinCardMaxLevel),
-  coins3:    tCard(100, '1337 Loot       ', t.inRunCoins,    dim.coinCardMaxLevel),
-  coins4:    tCard(140, 'RwnsCoin        ', t.inRunCoins,    dim.coinCardMaxLevel),
-  coins5:    tCard(180, 'Inflation       ', t.inRunCoins,    dim.coinCardMaxLevel),
-  endCoins1: tCard( 25, 'Harvest         ', t.endBlockCoins, dim.coinCardMaxLevel),
-  endCoins2: tCard( 60, 'Treasure Chest  ', t.endBlockCoins, dim.coinCardMaxLevel),
-  endCoins3: tCard(100, 'Pot of Gold     ', t.endBlockCoins, dim.coinCardMaxLevel),
+  range1:    tCard( 25, 'Atlatl          ', t.range,                                  ),
+  range2:    tCard(100, 'Longbow         ', t.range,                                  ),
+  range3:    tCard(200, 'Sniper Rifle    ', t.range,                                  ),
+  rate1:     tCard( 25, 'Practice        ', t.rate,                                   ),
+  rate2:     tCard(100, 'Reload Bot      ', t.rate,                                   ),
+  rate3:     tCard(200, 'Gatling Gun     ', t.rate,                                   ),
+  damage1:   tCard( 50, 'Sharp Rock      ', t.damage,                                 ),
+  damage2:   tCard(100, 'Heavy Bullet    ', t.damage,                                 ),
+  damage3:   tCard(150, 'Grenade         ', t.damage,                                 ),
+  coins1:    tCard( 25, 'Gold Nugget     ', t.inRunCoins,    dim.coinCardMaxLevel     ),
+  coins2:    tCard( 60, 'Pay Raise       ', t.inRunCoins,    dim.coinCardMaxLevel     ),
+  coins3:    tCard(100, '1337 Loot       ', t.inRunCoins,    dim.coinCardMaxLevel     ),
+  coins4:    tCard(140, 'RwnsCoin        ', t.inRunCoins,    dim.coinCardMaxLevel     ),
+  coins5:    tCard(180, 'Inflation       ', t.inRunCoins,    dim.coinCardMaxLevel     ),
+  endCoins1: tCard( 25, 'Harvest         ', t.endBlockCoins, dim.coinCardMaxLevel     ),
+  endCoins2: tCard( 60, 'Treasure Chest  ', t.endBlockCoins, dim.coinCardMaxLevel     ),
+  endCoins3: tCard(100, 'Pot of Gold     ', t.endBlockCoins, dim.coinCardMaxLevel     ),
+  energy1:   tCard( 42, 'Electron Boost  ', t.energy,        24 - dim.initialEnergyMax),
 } as const;
 
 // interaction between levels and cards

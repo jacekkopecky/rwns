@@ -1,4 +1,5 @@
 import type { CardTemplate } from './types';
+import * as state from '../state';
 
 export const range: CardTemplate = {
   rarity: 'common',
@@ -37,5 +38,16 @@ export const damage: CardTemplate = {
   typeLabel: 'damage',
   performUpgrade(level, params) {
     params.playerBulletHitPoints *= 1.5 ** level;
+  },
+};
+
+export const energy: CardTemplate = {
+  rarity: 'rare',
+  typeLabel: 'energy',
+  performUpgrade(level, params) {
+    params.energyMax += level;
+  },
+  onLevelUp() {
+    state.addEnergy(1);
   },
 };

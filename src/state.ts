@@ -35,6 +35,7 @@ let state: State;
 
 export function initState() {
   loadState();
+  handleLevelChanges();
   exposeGlobalWindowProp('gameState', state);
 }
 
@@ -190,6 +191,11 @@ export function getEnergy(params: UpgradablePermanentParameters): {
       nextEnergyMs: state.lastEnergyGiven + dim.energyGainInterval - now,
     };
   }
+}
+
+export function addEnergy(n = 1) {
+  state.energy += n;
+  saveState();
 }
 
 export function subtractEnergy(params: UpgradablePermanentParameters): boolean {

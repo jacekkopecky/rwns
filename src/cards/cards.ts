@@ -138,22 +138,26 @@ function buyOne() {
     return;
   }
 
+  const definition = cardDefinitions[cardType];
+
   // get the level before we buy the card
   const { nextLevelCards, nextLevelCardsHave } = getCardLevel(
     cardType,
     state.cards,
-    cardDefinitions[cardType].cardsToGive,
+    definition.cardsToGive,
   );
 
   // buy it
   pay('gem', dim.cardPriceGems);
   addCards([cardType]);
 
+  const levelingUp = !(nextLevelCards - nextLevelCardsHave > 1);
+  if (levelingUp && definition.onLevelUp) definition.onLevelUp();
+
   const levelHighlights = new Set<CardType>();
   const nextProgressHighlights = new Set<CardType>();
 
-  const setToAdd =
-    nextLevelCards - nextLevelCardsHave > 1 ? nextProgressHighlights : levelHighlights;
+  const setToAdd = levelingUp ? levelHighlights : nextProgressHighlights;
   setToAdd.add(cardType);
 
   // update the screen and show cards, highlighting that which just got a new one
