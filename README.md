@@ -8,7 +8,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
-- [.] 2-stage localStorage key change to just `rwns-*` and not jacekkopecky or shoot-em
 - [ ] more cards
   - [ ] card tweaks: revisit progression of incoming new cards: money cards earlier, space
         range/rate/damage cards so new ones come on a similar staggered schedule?
@@ -226,6 +225,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] in wallets, count down when buying
 
 ---
+
+## done by 2026-05-23
+
+- [x] 2-stage localStorage key change to just `rwns-*` and not jacekkopecky or shoot-em
 
 ## done by 2026-05-21
 
