@@ -125,7 +125,7 @@ function getCurrentAndNextLevel(
   const currentLevel = state.runUpgradeLevels[type] ?? 0;
 
   const maxLevel = getValue(`${type}MaxUpgrade`, params);
-  if (currentLevel === maxLevel) return { currentLevel };
+  if (currentLevel >= maxLevel) return { currentLevel };
 
   const nextLevel = currentLevel + 1;
 

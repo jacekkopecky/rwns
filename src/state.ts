@@ -115,11 +115,11 @@ function loadState() {
     const data = JSON.parse(dataString);
 
     state = {
+      level: parseNumber(data.level, 1),
+      energy: parseNumber(data.energy, Infinity),
       wallet: new Wallet(CURRENCIES, data.wallet),
       cards: new Wallet(CARDS, data.cards),
-      level: parseNumber(data.level, 1),
       played: parseNumber(data.played, 0),
-      energy: parseNumber(data.energy, Infinity),
       lastEnergyGiven: parseNumber(data.lastEnergyGiven, Date.now()),
       runUpgradeLevels: parseUpgrades(data.runUpgradeLevels),
       collectedGemIds: parseStringArray(data.collectedGemIds),

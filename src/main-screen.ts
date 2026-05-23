@@ -13,6 +13,7 @@ import {
   isFeatureAllowed,
 } from './state';
 import { showSection } from './sections';
+import { updateCardsVisibility } from './cards';
 
 const el = {
   main: getEl('main'),
@@ -99,6 +100,7 @@ export function updateMainScreen(state = readState(), params = getUpgradablePerm
 
   updateEnergyCount(params);
   updateUpgrades(state, params);
+  updateCardsVisibility(state);
 }
 
 function updateEnergyCount(params: UpgradablePermanentParameters) {

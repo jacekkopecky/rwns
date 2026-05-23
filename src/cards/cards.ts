@@ -1,6 +1,6 @@
 import * as dim from '#dimensions';
 import type { CardType, ReadonlyState } from '#types';
-import { fillOrHide, formatNumber, getEl, makeEl } from '#utils';
+import { fillOrHide, formatNumber, getEl, makeEl, toggleHidden } from '#utils';
 
 import { showSection } from '../sections';
 import {
@@ -34,6 +34,10 @@ export function init() {
 
   el.buyOne.addEventListener('click', buyOne);
   el.buyBulk.addEventListener('click', buyBulk);
+}
+
+export function updateCardsVisibility(state: ReadonlyState) {
+  toggleHidden(el.goToCardsSectionButton, !isFeatureAllowed('cards', state));
 }
 
 export function showCardsScreen(
