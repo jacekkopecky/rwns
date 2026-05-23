@@ -52,15 +52,17 @@ export const _test = {
   cardLevels,
 };
 
+export interface CardLevelData {
+  level: number;
+  nextLevelCards: number;
+  nextLevelCardsHave: number;
+}
+
 export function getCardLevel(
   type: CardType,
   wallet: ReadonlyWallet<CardType>,
   cardsToGive: number,
-): {
-  level: number;
-  nextLevelCards: number;
-  nextLevelCardsHave: number;
-} {
+): CardLevelData {
   const amount = wallet.read(type);
   if (!amount) {
     return {

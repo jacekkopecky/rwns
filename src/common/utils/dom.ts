@@ -47,11 +47,16 @@ export function toggleHidden(el: Element, value: number | boolean) {
   el.classList.toggle('hidden', Boolean(value));
 }
 
-export function makeEl(parent: Element, nodeName = 'div', className: string, content = '') {
+export function makeEl(
+  parent: Element | undefined,
+  nodeName = 'div',
+  className: string,
+  content = '',
+) {
   const el = document.createElement(nodeName);
   el.className = className;
   el.textContent = content;
-  parent.append(el);
+  parent?.append(el);
   return el;
 }
 
