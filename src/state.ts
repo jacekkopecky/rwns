@@ -119,10 +119,10 @@ function loadState() {
       energy: parseNumber(data.energy, Infinity),
       wallet: new Wallet(CURRENCIES, data.wallet),
       cards: new Wallet(CARDS, data.cards),
-      played: parseNumber(data.played, 0),
-      lastEnergyGiven: parseNumber(data.lastEnergyGiven, Date.now()),
       runUpgradeLevels: parseUpgrades(data.runUpgradeLevels),
       collectedGemIds: parseStringArray(data.collectedGemIds),
+      played: parseNumber(data.played, 0),
+      lastEnergyGiven: parseNumber(data.lastEnergyGiven, Date.now()),
     };
   } catch (e) {
     const newKey = LOCAL_STORAGE_KEY + new Date().toISOString();
