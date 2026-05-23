@@ -62,9 +62,9 @@ export const cardBulkCount = 9;
 export const initialObjectHitPoints = 1;
 export const initialPlayerHitPoints = initialObjectHitPoints;
 export const initialPlayerBulletHitPoints = initialObjectHitPoints;
-export const initialGemHitPoints = 3;
+export const initialGemHitPoints = 2.5;
 export const initialMaxEndBlockHitPoints = 6;
-export const difficultyIncreasePerLevel = 1.05;
+export const difficultyIncreasePerLevel = 1.04;
 
 // card limits
 export const cardDefaultMaxLevel = 20;
