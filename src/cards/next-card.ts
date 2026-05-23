@@ -29,7 +29,5 @@ export function selectNextsCard(state: ReadonlyState): CardType | undefined {
 
 function isTypeAvailable(state: ReadonlyState, type: CardType) {
   const defn = cardDefinitions[type];
-  return (
-    state.level >= defn.minPlayerLevel && state.cards.read(type) < (defn.cardsToGive ?? Infinity)
-  );
+  return state.level >= defn.minPlayerLevel && state.cards.read(type) < defn.cardsToGive;
 }

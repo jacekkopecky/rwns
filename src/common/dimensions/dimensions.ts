@@ -58,6 +58,7 @@ export const initialGemsExtraPerRun = 1;
 // costs
 export const cardPriceGems = 5;
 export const cardBulkCount = 9;
+export const cardDefaultMaxLevel = 20;
 
 // hit points
 export const initialObjectHitPoints = 1;

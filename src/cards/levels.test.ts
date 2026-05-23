@@ -6,7 +6,11 @@ import { _test, getCardLevel, getCardsToLevel, lookupLevelByNumberOfCards } from
 
 describe('getCardsToLevel', () => {
   it('should work', () => {
+    // a few numbers that are used in various places
     expect(getCardsToLevel(5)).toEqual(11);
+    expect(getCardsToLevel(10)).toEqual(30);
+    expect(getCardsToLevel(12)).toEqual(40);
+    expect(getCardsToLevel(20)).toEqual(85);
 
     // test the insides
     expect(_test.cardsToLevel.slice(0, 6)).toEqual([0, 1, 3, 5, 8, 11]);
@@ -30,19 +34,19 @@ describe('lookupLevelByNumberOfCards', () => {
 
 describe('getCardLevel', () => {
   it('should work', () => {
-    expect(getCardLevel('_test', mockWallet(10), undefined)).toEqual({
+    expect(getCardLevel('_test', mockWallet(10), Infinity)).toEqual({
       level: 4,
       nextLevelCards: 3,
       nextLevelCardsHave: 2,
     });
 
-    expect(getCardLevel('_test', mockWallet(11), undefined)).toEqual({
+    expect(getCardLevel('_test', mockWallet(11), Infinity)).toEqual({
       level: 5,
       nextLevelCards: 3,
       nextLevelCardsHave: 0,
     });
 
-    expect(getCardLevel('_test', mockWallet(12), undefined)).toEqual({
+    expect(getCardLevel('_test', mockWallet(12), Infinity)).toEqual({
       level: 5,
       nextLevelCards: 3,
       nextLevelCardsHave: 1,

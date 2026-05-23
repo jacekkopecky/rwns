@@ -1,5 +1,7 @@
 import type { UpgradablePermanentParameters } from '#types';
+import * as dim from '#dimensions';
 
+import { getCardsToLevel } from './levels';
 import * as t from './templates';
 
 export const RARITIES = ['common', 'rare', 'epic', 'legendary'] as const;
@@ -12,14 +14,15 @@ export type CardDefinition = Readonly<{
   name: string; // funny name
   rarity: Rarity;
   minPlayerLevel: number;
-  cardsToGive?: number; // if empty, it's Infinity
+  cardsToGive: number; // it can be Infinity
   typeLabel: TypeLabel;
   // description: string; // something to show under a question mark icon?
   // picture?: string; // url
   performUpgrade(level: number, upgradableParameters: UpgradablePermanentParameters): void;
 }>;
 
-export type CardTemplate = Omit<CardDefinition, 'name' | 'minPlayerLevel'>;
+export type CardTemplate = Omit<CardDefinition, 'name' | 'minPlayerLevel' | 'cardsToGive'> &
+  Partial<Pick<CardDefinition, 'cardsToGive'>>;
 
 export const cardDefinitions = {
   _test: card({
@@ -66,6 +69,7 @@ export const cardDefinitions = {
 //     - decrease price of damage upgrade
 //     - decrease price of rate upgrade
 //     - decrease price of player upgrade
+//     - increase gems extra per run by one (or this could be a skill?)
 //   - legendary:
 //     - increase max player number
 //     - increase starting player number
@@ -83,6 +87,7 @@ function card(defn: CardDefinition): CardDefinition {
 
 function tCard(name: string, template: CardTemplate, minPlayerLevel: number): CardDefinition {
   return {
+    cardsToGive: getCardsToLevel(dim.cardDefaultMaxLevel),
     ...template,
     name,
     minPlayerLevel,

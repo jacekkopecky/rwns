@@ -55,7 +55,7 @@ export const _test = {
 export function getCardLevel(
   type: CardType,
   wallet: ReadonlyWallet<CardType>,
-  cardsToGive: number | undefined,
+  cardsToGive: number,
 ): {
   level: number;
   nextLevelCards: number;
@@ -72,7 +72,7 @@ export function getCardLevel(
 
   const level = lookupLevelByNumberOfCards(amount);
 
-  if (cardsToGive && amount >= cardsToGive) {
+  if (amount >= cardsToGive) {
     return {
       level,
       nextLevelCards: 0,
