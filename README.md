@@ -16,8 +16,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - [ ] a card that needs to flip can be a card and a card back in a single 3d-rotated package
   - [ ] (Maya? ai?) add card pictures
   - [ ] add card descriptions under a question mark?
-  - [ ] style by rarity (e.g. stars for increasing rarities), but also include it in the description
-  - [ ] style type strip by type, at least background color
   - [ ] level/progress highlight could pulsate
   - [ ] animation when buying cards
 - [ ] bug: where an award comes after dying (because a bullet was still flying and hits the target
@@ -229,6 +227,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## done by 2026-05-23
 
+- [x] style by rarity (e.g. stars for increasing rarities), but also include it in the description
+- [x] style type strip by type, at least background color
 - [x] rarity has to work differently, if we have more common cards than rare available, rare become
       more common
 - [x] (ai) sort cards in order received or in descending order or rarity then order received or

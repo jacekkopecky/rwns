@@ -537,6 +537,20 @@ button {
     font-size: small;
     line-height: 1em;
     text-transform: uppercase;
+
+    .rarity-rare & {
+      background: blue;
+      color: white;
+    }
+    .rarity-epic & {
+      background: #ffaa00;
+      color: black;
+    }
+    .rarity-legendary & {
+      background: yellow;
+      color: black;
+      letter-spacing: -0.5px;
+    }
   }
 
   .name {
@@ -556,6 +570,22 @@ button {
     line-height: 1em;
     padding: 0.3em 0;
     text-transform: uppercase;
+
+    .type-income & {
+      background: #ffff88aa;
+    }
+    .type-energy & {
+      background: #88aaff88;
+    }
+    .type-damage & {
+      background: #ffaaaa88;
+    }
+    .type-fire-rate & {
+      background: #aaffaa88;
+    }
+    .type-range & {
+      background: #88ffff77;
+    }
   }
 
   .nextLevel {

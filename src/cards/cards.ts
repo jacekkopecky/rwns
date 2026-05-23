@@ -82,11 +82,12 @@ export function showCardsScreen(
 
   for (const { cardType, definition, cardData } of cardsToRender) {
     const cardEl = makeEl(el.theCards, 'div', 'card');
-    cardEl.classList.add(definition.rarity);
-
     if (highlightLevel?.has(cardType) || highlightProgressToNext?.has(cardType)) {
       firstHighlightedCard ??= cardEl;
     }
+
+    cardEl.classList.add(toCssClass('rarity', definition.rarity));
+    cardEl.classList.add(toCssClass('type', definition.typeLabel));
 
     makeEl(cardEl, 'div', 'rarity', definition.rarity);
 
@@ -118,6 +119,10 @@ export function showCardsScreen(
       1,
     );
   }
+}
+
+function toCssClass(prefix: string, s: string) {
+  return `${prefix}-${s.replaceAll(/\s+/g, '-')}`;
 }
 
 function updateButtonPriceAndAmount(

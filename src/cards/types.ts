@@ -8,7 +8,7 @@ export const RARITIES = ['common', 'rare', 'epic', 'legendary'] as const;
 export type Rarity = (typeof RARITIES)[number];
 
 // short label for card types
-type TypeLabel = 'damage' | 'fire rate' | 'range' | 'income' | 'energy';
+type TypeLabel = 'damage' | 'fire rate' | 'range' | 'income' | 'energy'; // add new ones to the CSS as well
 
 export type CardDefinition = Readonly<{
   name: string; // funny name
