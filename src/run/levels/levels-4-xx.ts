@@ -31,14 +31,12 @@ export function level4Plus(
     params.objectHitPoints,
   );
 
-  const gemCount = isFeatureAllowed('cards', state)
-    ? params.gemsPerLevel + params.gemsExtraPerRun
-    : 0;
+  const gemCount = isFeatureAllowed('cards', state) ? params.gemsPerLevel : 0;
   const gemsInRun = Math.round(gemCount / 2);
   const gemsInBlocks = gemCount - gemsInRun;
 
   const extraItems: ExtraObjectInfo[] = coinBagAmounts(dim.maxCoinBagsPerRun, params.coinsPerLevel);
-  extraItems.push(...gemsWithIds(gemsInRun, params.gemsExtraPerRun, 'tree'));
+  extraItems.push(...gemsWithIds(gemsInRun, params.gemsGuaranteedPerRun, 'tree'));
 
   const treeIndexesToReplace = spacedRandomIndexes(objects, extraItems.length);
   let actualGemCount = 0;

@@ -9,7 +9,7 @@ export interface UpgradablePermanentParameters {
   // awards
   coinsPerLevel: number;
   gemsPerLevel: number;
-  gemsExtraPerRun: number;
+  gemsGuaranteedPerRun: number;
   endBlockCoinsPerLevel: number;
 
   // upgrade prices

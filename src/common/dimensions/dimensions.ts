@@ -52,8 +52,8 @@ export const initialStartingPlayers = 1;
 // rewards
 export const initialCoinsPerLevel = 20;
 export const initialEndBlockCoinsPerLevel = 0;
-export const initialGemsPerLevel = 3;
-export const initialGemsExtraPerRun = 1;
+export const initialGemsPerLevel = 4;
+export const initialGemsGuaranteeedPerRun = 1; // this only affects gems in run, not in end blocks, so there may be fewer
 
 // costs
 export const cardPriceGems = 5;
