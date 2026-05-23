@@ -16,7 +16,8 @@ import { exposeGlobalWindowProp, parseNumber, parseStringArray } from '#utils';
 import { cardDefinitions, lookupLevelByNumberOfCards, minLevelForCards } from './cards';
 import { parseUpgrades } from './main-screen-upgrades';
 
-const LOCAL_STORAGE_KEY = 'jacekkopecky-shoot-em-state';
+const OLD_LOCAL_STORAGE_KEY = 'jacekkopecky-shoot-em-state';
+const LOCAL_STORAGE_KEY = 'rwns-game-state';
 
 function createInitialState(): State {
   return {
@@ -108,7 +109,9 @@ function saveState() {
 }
 
 function loadState() {
-  const dataString = localStorage.getItem(LOCAL_STORAGE_KEY) ?? '{}';
+  const dataString =
+    localStorage.getItem(LOCAL_STORAGE_KEY) ?? localStorage.getItem(OLD_LOCAL_STORAGE_KEY) ?? '{}';
+
   try {
     const data = JSON.parse(dataString);
 

@@ -8,6 +8,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
+- [.] 2-stage localStorage key change to just `rwns-*` and not jacekkopecky or shoot-em
 - [ ] more cards
   - [ ] card tweaks: revisit progression of incoming new cards: money cards earlier, space
         range/rate/damage cards so new ones come on a similar staggered schedule?
@@ -23,7 +24,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - [ ] style type strip by type, at least background color
   - [ ] level/progress highlight could pulsate
   - [ ] animation when buying cards
-- [ ] 2-stage localStorage key change to just `rwns-*` and not jacekkopecky or shoot-em
+- [ ] bug: where an award comes after dying (because a bullet was still flying and hits the target
+      after we're dead), it counts but doesn't show up on the end screen
 - [ ] tracks
   - using level (per type of run?)
   - waves? reset gates? multi-stage runs?
