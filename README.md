@@ -115,6 +115,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
     - then cheaper for 42 gems if one is for 5
     - then maybe cheaper still?
   - "finding treasure" - more gems per level?
+  - "always finding treasure" - extra gems per run (which should then go to 0 initially)
   - extra damage against specific objects/opponents?
   - small chance of surviving hitting a tree
   - extra damage in certain special types of runs?
@@ -122,6 +123,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - critical damage by marvins of a certain colour against blocks of that colour?
   - always start with a marvin of a given colour?
     - this could be re-learned to a different colour
+  - always start fire rate or damage on level 2, 3 etc.?
 - [ ] I can calculate how long it would take someone to reach high levels depending on supply of
       gems 
 - [ ] update README and index to say it's a game now? make it public?

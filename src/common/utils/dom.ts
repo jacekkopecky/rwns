@@ -75,3 +75,9 @@ export function getEl<T extends Element = HTMLElement>(selector: string, c?: new
 
   return retval;
 }
+
+let _nextId = 0;
+export function nextId(): string {
+  _nextId += 1;
+  return `_id_${_nextId}`;
+}

@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 import type { ReadonlyState, UpgradablePermanentParameters } from '#types';
-import { random, range, removeRandomItem, spacedRandomIndexes } from '#utils';
+import { nextId, random, range, removeRandomItem, spacedRandomIndexes } from '#utils';
 
 import { isFeatureAllowed } from '../../state';
 import { getHitBar } from '../three/models';
@@ -31,12 +31,14 @@ export function level4Plus(
     params.objectHitPoints,
   );
 
-  const gemCount = isFeatureAllowed('cards', state) ? params.gemsPerLevel : 0;
+  const gemCount = isFeatureAllowed('cards', state)
+    ? params.gemsPerLevel + params.gemsExtraPerRun
+    : 0;
   const gemsInRun = Math.round(gemCount / 2);
   const gemsInBlocks = gemCount - gemsInRun;
 
   const extraItems: ExtraObjectInfo[] = coinBagAmounts(dim.maxCoinBagsPerRun, params.coinsPerLevel);
-  extraItems.push(...gemsWithIds(gemsInRun, 'tree'));
+  extraItems.push(...gemsWithIds(gemsInRun, params.gemsExtraPerRun, 'tree'));
 
   const treeIndexesToReplace = spacedRandomIndexes(objects, extraItems.length);
   let actualGemCount = 0;
@@ -50,7 +52,7 @@ export function level4Plus(
     if (item.type === 'gem') {
       // create every gem so we use the same random() calls, but don't put in the ones already collected
       const gem = makeGem(params.gemHitPoints * hardness, item.id);
-      if (!state.collectedGemIds.includes(item.id)) {
+      if (!item.id || !state.collectedGemIds.includes(item.id)) {
         object = gem;
         actualGemCount += 1;
       }
@@ -77,7 +79,7 @@ export function level4Plus(
     params.endBlockCoinsPerLevel,
   );
 
-  const extraGemsInBlocks = [...gemsWithIds(gemsInBlocks, 'block')];
+  const extraGemsInBlocks = [...gemsWithIds(gemsInBlocks, 0, 'block')];
   const blockIndexesToAddGemsTo = spacedRandomIndexes(blocks, extraGemsInBlocks.length);
   for (const i of blockIndexesToAddGemsTo) {
     const gemInfo = extraGemsInBlocks.pop()!;
@@ -89,7 +91,7 @@ export function level4Plus(
 
 interface GemInfo {
   type: 'gem';
-  id: string;
+  id: string | undefined;
 }
 interface BagInfo {
   type: 'bag';
@@ -97,8 +99,11 @@ interface BagInfo {
 }
 type ExtraObjectInfo = GemInfo | BagInfo;
 
-function gemsWithIds(n: number, idPrefix = ''): Iterable<GemInfo> {
-  return range(n).map((x) => ({ type: 'gem', id: `gem_${idPrefix}${x}` }));
+function gemsWithIds(n: number, nWithoutId: number, idPrefix = ''): Iterable<GemInfo> {
+  return range(n).map((x, i) => ({
+    type: 'gem',
+    id: i < nWithoutId ? undefined : `gem_${idPrefix}${x}`,
+  }));
 }
 
 function coinBagAmounts(bags: number, total: number): BagInfo[] {
@@ -139,7 +144,7 @@ function addGemToEndBlock(gemInfo: GemInfo, block: THREE.Object3D, state: Readon
   const yRotation = Math.PI * 2 * random();
   const zRotation = Math.PI * (random() * 0.05 + 0.05);
 
-  if (!state.collectedGemIds.includes(gemInfo.id)) {
+  if (!gemInfo.id || !state.collectedGemIds.includes(gemInfo.id)) {
     // shift the gem to the top of the boulder
     gem.position.y = dim.modelSizes.boulder[1] - dim.modelSizes.gem[1] * 0.3;
 
@@ -147,7 +152,7 @@ function addGemToEndBlock(gemInfo: GemInfo, block: THREE.Object3D, state: Readon
     const hitBar = getHitBar(block);
     if (hitBar) hitBar.position.y += dim.modelSizes.gem[1] * 0.3;
 
-    gem.name = gemInfo.id;
+    gem.name = gemInfo.id ?? nextId();
     gem.castShadow = false;
 
     gem.rotation.y = yRotation;
@@ -156,7 +161,7 @@ function addGemToEndBlock(gemInfo: GemInfo, block: THREE.Object3D, state: Readon
 
     const oData = getObjectData(block);
     oData.award = { amount: 1, type: 'gem' };
-    oData.useForAward = gemInfo.id;
+    oData.useForAward = gem.name;
 
     return true;
   } else {

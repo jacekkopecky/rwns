@@ -217,6 +217,7 @@ export function getUpgradablePermanentParameters(): UpgradablePermanentParameter
     energyMax: dim.initialEnergyMax,
     coinsPerLevel: dim.initialCoinsPerLevel,
     gemsPerLevel: dim.initialGemsPerLevel,
+    gemsExtraPerRun: dim.initialGemsExtraPerRun,
     endBlockCoinsPerLevel: dim.initialEndBlockCoinsPerLevel,
     damageUpgradePrice: dim.initialDamageUpgradePrice,
     rateUpgradePrice: dim.initialRateUpgradePrice,

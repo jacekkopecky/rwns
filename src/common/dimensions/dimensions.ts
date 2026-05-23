@@ -53,6 +53,7 @@ export const initialStartingPlayers = 1;
 export const initialCoinsPerLevel = 20;
 export const initialEndBlockCoinsPerLevel = 0;
 export const initialGemsPerLevel = 3;
+export const initialGemsExtraPerRun = 1;
 
 // costs
 export const cardPriceGems = 5;
