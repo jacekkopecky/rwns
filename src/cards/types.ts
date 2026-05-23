@@ -68,8 +68,6 @@ export const cardDefinitions = {
 // todo cards
 //   - rare:
 //     - number of colour gates in a run? (max level 3)
-//     - energy max plus 1, also energy plus 1 at the same time? Up to 24
-//       - lightning bolt, electron, flash - add adjectives
 //     - (?) decrease normal object (e.g. tree) HP (? or this might be a skill later)
 //     - (?) decrease end block HP (? or this might be a skill later)
 //     - increase gems per level by one, gems in end blocks plus one

@@ -232,6 +232,9 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 ## done by 2026-05-23
 
 - [x] 2-stage localStorage key change to just `rwns-*` and not jacekkopecky or shoot-em
+- give more gems
+- more cards - damage and energy
+  - more names for energy: lightning bolt, _adjective_ flash
 
 ## done by 2026-05-21
 
