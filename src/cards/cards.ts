@@ -12,7 +12,7 @@ import {
 } from '../state';
 
 import { getCardLevel } from './levels';
-import { cardDefinitions, CARDS } from './types';
+import { cardDefinitions, CARDS, RARITIES } from './types';
 import { selectNextsCard } from './next-card';
 
 const el = {
@@ -64,41 +64,50 @@ export function showCardsScreen(
   // clear out previous cards
   el.theCards.textContent = '';
 
+  const cardsToRender = CARDS.map((cardType) => ({
+    cardType,
+    cardsHave: state.cards.read(cardType),
+    definition: cardDefinitions[cardType],
+    cardData: getCardLevel(cardType, state.cards, cardDefinitions[cardType].cardsToGive),
+  }))
+    .filter(({ cardsHave }) => cardsHave > 0)
+    .sort((a, b) => {
+      // reverse order of rarity, then reverse order of how many cards we have
+      const rarityDiff =
+        RARITIES.indexOf(b.definition.rarity) - RARITIES.indexOf(a.definition.rarity);
+      return rarityDiff !== 0 ? rarityDiff : b.cardsHave - a.cardsHave;
+    });
+
   let firstHighlightedCard: Element | undefined;
 
-  for (const cardType of CARDS) {
-    const defn = cardDefinitions[cardType];
-    const cardData = getCardLevel(cardType, state.cards, defn.cardsToGive);
+  for (const { cardType, definition, cardData } of cardsToRender) {
+    const cardEl = makeEl(el.theCards, 'div', 'card');
+    cardEl.classList.add(definition.rarity);
 
-    if (cardData.level > 0) {
-      const cardEl = makeEl(el.theCards, 'div', 'card');
-      cardEl.classList.add(defn.rarity);
+    if (highlightLevel?.has(cardType) || highlightProgressToNext?.has(cardType)) {
+      firstHighlightedCard ??= cardEl;
+    }
 
-      if (highlightLevel?.has(cardType) || highlightProgressToNext?.has(cardType)) {
-        firstHighlightedCard ??= cardEl;
-      }
+    makeEl(cardEl, 'div', 'rarity', definition.rarity);
 
-      makeEl(cardEl, 'div', 'rarity', defn.rarity);
+    const nameEl = makeEl(cardEl, 'div', 'name', definition.name);
+    nameEl.append(' ');
+    makeEl(nameEl, 'span', 'level', String(cardData.level));
+    nameEl.classList.toggle('highlight', Boolean(highlightLevel?.has(cardType)));
 
-      const nameEl = makeEl(cardEl, 'div', 'name', defn.name);
-      nameEl.append(' ');
-      makeEl(nameEl, 'span', 'level', String(cardData.level));
-      nameEl.classList.toggle('highlight', Boolean(highlightLevel?.has(cardType)));
+    makeEl(cardEl, 'div', 'label', definition.typeLabel);
 
-      makeEl(cardEl, 'div', 'label', defn.typeLabel);
+    if (cardData.nextLevelCards > 0) {
+      const nextEl = makeEl(cardEl, 'div', 'nextLevel');
+      nextEl.classList.toggle('highlight', Boolean(highlightProgressToNext?.has(cardType)));
 
-      if (cardData.nextLevelCards > 0) {
-        const nextEl = makeEl(cardEl, 'div', 'nextLevel');
-        nextEl.classList.toggle('highlight', Boolean(highlightProgressToNext?.has(cardType)));
-
-        const boxEl = makeEl(nextEl, 'span', 'box');
-        const partBox = makeEl(boxEl, 'span', 'partBox');
-        makeEl(nextEl, 'span', 'have', String(cardData.nextLevelCardsHave));
-        makeEl(nextEl, 'span', 'outOf', String(cardData.nextLevelCards));
-        partBox.style.width = `${(cardData.nextLevelCardsHave / cardData.nextLevelCards) * 100}%`;
-      } else {
-        makeEl(cardEl, 'div', 'nextLevel max');
-      }
+      const boxEl = makeEl(nextEl, 'span', 'box');
+      const partBox = makeEl(boxEl, 'span', 'partBox');
+      makeEl(nextEl, 'span', 'have', String(cardData.nextLevelCardsHave));
+      makeEl(nextEl, 'span', 'outOf', String(cardData.nextLevelCards));
+      partBox.style.width = `${(cardData.nextLevelCardsHave / cardData.nextLevelCards) * 100}%`;
+    } else {
+      makeEl(cardEl, 'div', 'nextLevel max');
     }
   }
 

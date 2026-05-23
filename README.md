@@ -13,10 +13,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
         range/rate/damage cards so new ones come on a similar staggered schedule?
   - [ ] any new improvable stuff from dim should go into initial state
 - [ ] better cards UI
-  - [ ] (ai) sort cards in order received or in descending order or rarity then order received or
-        level?
   - [ ] a card that needs to flip can be a card and a card back in a single 3d-rotated package
-  - [ ] (ai?) add card pictures
+  - [ ] (Maya? ai?) add card pictures
   - [ ] add card descriptions under a question mark?
   - [ ] style by rarity (e.g. stars for increasing rarities), but also include it in the description
   - [ ] style type strip by type, at least background color
@@ -231,6 +229,9 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## done by 2026-05-23
 
+- [x] (ai) sort cards in order received or in descending order or rarity then order received or
+      level?
+  - then level
 - [x] 2-stage localStorage key change to just `rwns-*` and not jacekkopecky or shoot-em
 - give more gems
 - more cards - damage and energy

@@ -11,6 +11,7 @@ describe('getCardsToLevel', () => {
     expect(getCardsToLevel(10)).toEqual(30);
     expect(getCardsToLevel(11)).toEqual(35);
     expect(getCardsToLevel(12)).toEqual(40);
+    expect(getCardsToLevel(13)).toEqual(45);
     expect(getCardsToLevel(20)).toEqual(85);
 
     // test the insides
