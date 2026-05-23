@@ -13,7 +13,7 @@ import {
 
 import { getCardLevel } from './levels';
 import { cardDefinitions, CARDS, RARITIES } from './types';
-import { selectNextsCard } from './next-card';
+import { selectNextRandomCard } from './next-card';
 
 const el = {
   goToCardsSectionButton: getEl('#mainScreen .sectionButtons .cards'),
@@ -145,7 +145,7 @@ function buyOne() {
     return;
   }
 
-  const cardType = selectNextsCard(state);
+  const cardType = selectNextRandomCard(state);
   if (!cardType) {
     // no card available
     return;

@@ -229,6 +229,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## done by 2026-05-23
 
+- [x] rarity has to work differently, if we have more common cards than rare available, rare become
+      more common
 - [x] (ai) sort cards in order received or in descending order or rarity then order received or
       level?
   - then level

@@ -117,7 +117,7 @@ export function randomXNotTooClose(
 //   }
 // }
 
-export function pickWeightedItem<T extends string>(
+export function pickMapWeightedItem<T extends string>(
   items: readonly T[],
   weightMap: Record<T, number>,
   prng = random,
@@ -134,11 +134,33 @@ export function pickWeightedItem<T extends string>(
     .values()
     .map((item) => weightMap[item])
     .reduce((a, b) => a + b);
-  const x = prng() * sum;
+  const picked = prng() * sum;
   let soFar = 0;
   for (const item of items) {
     soFar += weightMap[item];
-    if (x < soFar) return item;
+    if (picked < soFar) return item;
   }
   return items.at(-1)!;
+}
+
+export function pickWeightedItem<T>(
+  items: readonly { value: T; weight: number }[],
+  prng = random,
+): T {
+  if (items.length < 1) {
+    throw new Error('cannot pick an item from an empty array');
+  }
+
+  if (items.length === 1) {
+    return items[0]!.value;
+  }
+
+  const weightSum = items.reduce((acc, item) => acc + item.weight, 0);
+  const picked = prng() * weightSum;
+  let soFar = 0;
+  for (const item of items) {
+    soFar += item.weight;
+    if (picked < soFar) return item.value;
+  }
+  return items.at(-1)!.value;
 }

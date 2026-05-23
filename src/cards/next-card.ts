@@ -1,5 +1,5 @@
 import { CARDS, type CardType, type ReadonlyState } from '#types';
-import { pickWeightedItem, randomItem } from '#utils';
+import { pickWeightedItem } from '#utils';
 
 import { cardDefinitions, type Rarity } from './types';
 
@@ -10,21 +10,16 @@ const rarityFactors: Readonly<Record<Rarity, number>> = {
   legendary: 1,
 };
 
-export function selectNextsCard(state: ReadonlyState): CardType | undefined {
+export function selectNextRandomCard(state: ReadonlyState): CardType | undefined {
   const availableTypes = CARDS.filter((type) => isTypeAvailable(state, type));
   if (availableTypes.length <= 1) return availableTypes[0];
 
-  const availableRarities = Array.from(
-    new Set(availableTypes.map((type) => cardDefinitions[type].rarity)),
-  );
+  const weightedTypes = availableTypes.map((type) => ({
+    value: type,
+    weight: rarityFactors[cardDefinitions[type].rarity],
+  }));
 
-  const randomRarity = pickWeightedItem(availableRarities, rarityFactors, Math.random);
-
-  const cardsAtSelectedRarity = availableTypes.filter(
-    (type) => cardDefinitions[type].rarity === randomRarity,
-  );
-
-  return randomItem(cardsAtSelectedRarity, Math.random);
+  return pickWeightedItem(weightedTypes, Math.random);
 }
 
 function isTypeAvailable(state: ReadonlyState, type: CardType) {
