@@ -8,11 +8,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
-- [ ] more cards
-  - [ ] card tweaks: revisit progression of incoming new cards: money cards earlier, space
+- [ ] more cards see in `src/cards/types.ts`
+  - [x] card tweaks: revisit progression of incoming new cards: money cards earlier, space
         range/rate/damage cards so new ones come on a similar staggered schedule?
-  - [ ] see in `src/cards/types.ts`
-  - [ ] any such stuff from dim should go into initial state
+  - [ ] any new improvable stuff from dim should go into initial state
 - [ ] better cards UI
   - [ ] (ai) sort cards in order received or in descending order or rarity then order received or
         level?
@@ -124,6 +123,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - always start with a marvin of a given colour?
     - this could be re-learned to a different colour
   - always start fire rate or damage on level 2, 3 etc.?
+  - increase max level of cards? (the user would really only choose this when they have a lot of
+    cards at top level)
 - [ ] I can calculate how long it would take someone to reach high levels depending on supply of
       gems 
 - [ ] update README and index to say it's a game now? make it public?

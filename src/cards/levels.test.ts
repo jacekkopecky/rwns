@@ -9,6 +9,7 @@ describe('getCardsToLevel', () => {
     // a few numbers that are used in various places
     expect(getCardsToLevel(5)).toEqual(11);
     expect(getCardsToLevel(10)).toEqual(30);
+    expect(getCardsToLevel(11)).toEqual(35);
     expect(getCardsToLevel(12)).toEqual(40);
     expect(getCardsToLevel(20)).toEqual(85);
 

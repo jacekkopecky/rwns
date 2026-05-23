@@ -1,11 +1,7 @@
-import * as dim from '#dimensions';
-
-import { getCardsToLevel } from './levels';
 import type { CardTemplate } from './types';
 
 export const range: CardTemplate = {
   rarity: 'common',
-  cardsToGive: getCardsToLevel(dim.playerBulletRangeMaxBonusPerCardType),
   typeLabel: 'range',
   performUpgrade(level, params) {
     params.playerBulletRange += level;
@@ -16,7 +12,7 @@ export const rate: CardTemplate = {
   rarity: 'common',
   typeLabel: 'fire rate',
   performUpgrade(level, params) {
-    params.playerShotsPerSecond *= 1.01 ** level;
+    params.playerShotsPerSecond *= 1.01 ** level; // extra small because we don't want a stream of bullets
   },
 };
 
@@ -33,5 +29,13 @@ export const inRunCoins: CardTemplate = {
   typeLabel: 'income',
   performUpgrade(level, params) {
     params.coinsPerLevel += level;
+  },
+};
+
+export const damage: CardTemplate = {
+  rarity: 'common',
+  typeLabel: 'damage',
+  performUpgrade(level, params) {
+    params.playerBulletHitPoints *= 1.5 ** level;
   },
 };

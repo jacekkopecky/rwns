@@ -18,12 +18,12 @@ export type CardDefinition = Readonly<{
   typeLabel: TypeLabel;
   // description: string; // something to show under a question mark icon?
   // picture?: string; // url
-  performUpgrade(level: number, upgradableParameters: UpgradablePermanentParameters): void;
+  performUpgrade(level: number, params: UpgradablePermanentParameters): void;
 }>;
 
-export type CardTemplate = Omit<CardDefinition, 'name' | 'minPlayerLevel' | 'cardsToGive'> &
-  Partial<Pick<CardDefinition, 'cardsToGive'>>;
+export type CardTemplate = Omit<CardDefinition, 'name' | 'minPlayerLevel' | 'cardsToGive'>;
 
+// prettier-ignore
 export const cardDefinitions = {
   _test: card({
     cardsToGive: 40, // level 12
@@ -35,26 +35,33 @@ export const cardDefinitions = {
       console.error("this should never be called, it's a testing card");
     },
   }),
-  range1: tCard('Atlatl', t.range, 30),
-  range2: tCard('Longbow', t.range, 50),
-  range3: tCard('Sniper Rifle', t.range, 70),
-  rate1: tCard('Practice', t.rate, 30),
-  rate2: tCard('Reload Bot', t.rate, 30),
-  rate3: tCard('Gatling Gun', t.rate, 30),
-  coins1: tCard('Gold Nugget', t.inRunCoins, 30),
-  coins2: tCard('Pay Raise', t.inRunCoins, 40),
-  coins3: tCard('1337 Loot', t.inRunCoins, 55),
-  coins4: tCard('RwnsCoin', t.inRunCoins, 100),
-  coins5: tCard('Inflation', t.inRunCoins, 200),
-  endCoins1: tCard('Harvest', t.endBlockCoins, 30),
-  endCoins2: tCard('Treasure Chest', t.endBlockCoins, 45),
-  endCoins3: tCard('Pot of Gold', t.endBlockCoins, 60),
+  range1:    tCard( 25, 'Atlatl          ', t.range,                             ),
+  range2:    tCard(100, 'Longbow         ', t.range,                             ),
+  range3:    tCard(200, 'Sniper Rifle    ', t.range,                             ),
+  rate1:     tCard( 25, 'Practice        ', t.rate,                              ),
+  rate2:     tCard(100, 'Reload Bot      ', t.rate,                              ),
+  rate3:     tCard(200, 'Gatling Gun     ', t.rate,                              ),
+  damage1:   tCard( 50, 'Sharp Rock      ', t.damage,                            ),
+  damage2:   tCard(100, 'Heavy Bullet    ', t.damage,                            ),
+  damage3:   tCard(150, 'Grenade         ', t.damage,                            ),
+  coins1:    tCard( 25, 'Gold Nugget     ', t.inRunCoins,    dim.coinCardMaxLevel),
+  coins2:    tCard( 60, 'Pay Raise       ', t.inRunCoins,    dim.coinCardMaxLevel),
+  coins3:    tCard(100, '1337 Loot       ', t.inRunCoins,    dim.coinCardMaxLevel),
+  coins4:    tCard(140, 'RwnsCoin        ', t.inRunCoins,    dim.coinCardMaxLevel),
+  coins5:    tCard(180, 'Inflation       ', t.inRunCoins,    dim.coinCardMaxLevel),
+  endCoins1: tCard( 25, 'Harvest         ', t.endBlockCoins, dim.coinCardMaxLevel),
+  endCoins2: tCard( 60, 'Treasure Chest  ', t.endBlockCoins, dim.coinCardMaxLevel),
+  endCoins3: tCard(100, 'Pot of Gold     ', t.endBlockCoins, dim.coinCardMaxLevel),
 } as const;
 
-// todo
-// - cards (each card with a max level, or max number of cards?)
-//   - common:
-//     - increase bullet damage
+// interaction between levels and cards
+// 25 - first batch of cards available
+// normal gem income is about 1 card per level, a 10-level card takes 30, a 20-level card takes 85
+// we give about 1-4 cards per level (more if the user takes more runs or gets cards in other ways)
+// we'll have about 5 common coins available initially, so we need 5*(between 30 and 85)/(between 1 and 4) levels to max them out
+// about 100 levels to max out cards, so new cards should come around 100-level increments
+
+// todo cards
 //   - rare:
 //     - number of colour gates in a run? (max level 3)
 //     - energy max plus 1, also energy plus 1 at the same time? Up to 24
@@ -66,9 +73,9 @@ export const cardDefinitions = {
 //   - epic:
 //     - increase max damage upgrade
 //     - increase max rate upgrade
-//     - decrease price of damage upgrade
-//     - decrease price of rate upgrade
-//     - decrease price of player upgrade
+//     - decrease price of damage upgrade (by a fraction, at least 1, but min price 1?)
+//     - decrease price of rate upgrade (by a fraction, at least 1, but min price 1?)
+//     - decrease price of player upgrade (by a fraction, at least 1, but min price 1?)
 //     - increase gems extra per run by one (or this could be a skill?)
 //   - legendary:
 //     - increase max player number
@@ -85,11 +92,16 @@ function card(defn: CardDefinition): CardDefinition {
   return defn;
 }
 
-function tCard(name: string, template: CardTemplate, minPlayerLevel: number): CardDefinition {
+function tCard(
+  minPlayerLevel: number,
+  name: string,
+  template: CardTemplate,
+  maxLevel = dim.cardDefaultMaxLevel,
+): CardDefinition {
   return {
-    cardsToGive: getCardsToLevel(dim.cardDefaultMaxLevel),
     ...template,
-    name,
+    cardsToGive: getCardsToLevel(maxLevel),
+    name: name.trim(),
     minPlayerLevel,
   };
 }

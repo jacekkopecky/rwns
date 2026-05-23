@@ -31,7 +31,6 @@ export const runAwardsFlyDuration = 0.8;
 export const countupMaxTime = 0.6; // for counting up when awards fly to the wallet
 
 export const initialPlayerShotsPerSecond = 1;
-export const playerBulletRangeMaxBonusPerCardType = 20;
 export const initialPlayerBulletRange = 40;
 
 export const playerSpeedPerSecond = 10;
@@ -58,7 +57,6 @@ export const initialGemsGuaranteeedPerRun = 1; // this only affects gems in run,
 // costs
 export const cardPriceGems = 5;
 export const cardBulkCount = 9;
-export const cardDefaultMaxLevel = 20;
 
 // hit points
 export const initialObjectHitPoints = 1;
@@ -67,6 +65,10 @@ export const initialPlayerBulletHitPoints = initialObjectHitPoints;
 export const initialGemHitPoints = 3;
 export const initialMaxEndBlockHitPoints = 6;
 export const difficultyIncreasePerLevel = 1.05;
+
+// card limits
+export const cardDefaultMaxLevel = 20;
+export const coinCardMaxLevel = 10; // small so that we can have more cards and the progression is faster
 
 // a run takes 60-ish seconds
 export const runLength = 60 * playerSpeedPerSecond - startDistance;
