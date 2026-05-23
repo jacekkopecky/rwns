@@ -18,8 +18,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - [ ] add card descriptions under a question mark?
   - [ ] level/progress highlight could pulsate
   - [ ] animation when buying cards
-- [ ] bug: where an award comes after dying (because a bullet was still flying and hits the target
-      after we're dead), it counts but doesn't show up on the end screen
 - [ ] tracks
   - using level (per type of run?)
   - waves? reset gates? multi-stage runs?
@@ -71,7 +69,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - coins: normal upgrades in a run
     - every now and then, these could be reset to 0, just in case it's too easy to collect them?
     - we don't have the end of a timeline (after several eras)
-  - gems: what for? cards with permanent upgrades?
+  - gems: cards with permanent upgrades
   - what do we get for quests?
     - points towards levels? different points per quest?
     - what do we get for levels? extra energy, gems, some other special currency…?
@@ -227,6 +225,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## done by 2026-05-23
 
+- [x] bug: where an award comes after dying (because a bullet was still flying and hits the target
+      after we're dead), it counts but doesn't show up on the end screen
 - [x] style by rarity (e.g. stars for increasing rarities), but also include it in the description
 - [x] style type strip by type, at least background color
 - [x] rarity has to work differently, if we have more common cards than rare available, rare become

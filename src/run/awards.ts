@@ -51,6 +51,8 @@ export async function giveAward(fromObj: THREE.Object3D, oData: ObjectData) {
 
   inRunWallet.add(type, amount);
   state.addAward(oData.award);
+  // in case we're already in the end-run screen
+  updateEndRunScreen();
 
   const targetCoords = getScreenCoordinates(
     dim.cameraToTrackEndLength,
