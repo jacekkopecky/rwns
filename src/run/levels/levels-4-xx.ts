@@ -31,7 +31,7 @@ export function level4Plus(
     params.objectHitPoints,
   );
 
-  const gemCount = isFeatureAllowed('cards', state) ? params.gemsPerLevel : 0;
+  const gemCount = isFeatureAllowed('gems', state) ? params.gemsPerLevel : 0;
   const gemsInRun = Math.round(gemCount / 2);
   const gemsInBlocks = gemCount - gemsInRun;
 

@@ -8,6 +8,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
+- [ ] re-create sprite textures on return to fullscreen? (it seems they disappear)
 - [ ] more cards see in `src/cards/types.ts`
   - [x] card tweaks: revisit progression of incoming new cards: money cards earlier, space
         range/rate/damage cards so new ones come on a similar staggered schedule?

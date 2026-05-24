@@ -36,7 +36,7 @@ export function setupPlayers(state: ReadonlyState, params: UpgradablePermanentPa
 
     const { row, column } = generatePlayerPosition(i, random);
     player.position.z = row * dim.modelSizes.player[0] * 1.3;
-    player.position.x = column * dim.modelSizes.player[0] * 2.2 * (mirror ? -1 : 1);
+    player.position.x = column * dim.modelSizes.player[0] * 2.1 * (mirror ? -1 : 1);
 
     const pData = getPlayerData(player);
 

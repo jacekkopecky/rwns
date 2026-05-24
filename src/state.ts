@@ -149,6 +149,9 @@ export function isFeatureAllowed(upgrade: Feature, state: ReadonlyState): boolea
     case 'playersUpgrade':
       return state.level >= 20;
 
+    case 'gems':
+      return state.level >= minLevelForCards - 1;
+
     case 'cards':
       return state.level >= minLevelForCards;
 

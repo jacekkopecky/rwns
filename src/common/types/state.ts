@@ -26,6 +26,7 @@ export type ReadonlyState = Omit<DeepReadonly<State>, 'wallet' | 'cards'> & {
 
 export type Feature =
   | 'coins'
+  | 'gems'
   | 'limitedEnergy'
   | `${RunUpgradeType}Upgrade`
   | 'cards'
