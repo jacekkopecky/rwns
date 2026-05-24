@@ -1,5 +1,6 @@
 import { init as initMainScreen, showMainScreen } from './main-screen';
 import { init as initCardsScreen, showCardsScreen } from './cards';
+import { getEl } from '#utils';
 
 export function init() {
   initMainScreen();
@@ -23,11 +24,7 @@ export function showSection(name: Section) {
 }
 
 function getSectionEl(name: string) {
-  const retval = document.querySelector(`main > section#${name}`);
-  if (!retval) {
-    throw new Error(`cannot find element for section ${name}`);
-  }
-  return retval;
+  return getEl(`main > section#${name}`);
 }
 
 function prepSection<T extends string>(

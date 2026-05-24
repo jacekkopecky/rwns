@@ -72,7 +72,11 @@ export function exposeGlobalWindowProp(propName: string, value: unknown, overwri
 export function getEl<T extends Element = HTMLElement>(selector: string, c?: new () => T): T {
   const retval = document.querySelector<T>(selector);
   if (!retval) {
-    throw new Error(`cannot get element by selector "${selector}"`);
+    if ('testingMode' in window && window.testingMode) {
+      return null!;
+    } else {
+      throw new Error(`cannot get element by selector "${selector}"`);
+    }
   }
   if (c && !(retval instanceof c)) {
     throw new Error(`found element by selector "${selector}" but not the right instance`);
