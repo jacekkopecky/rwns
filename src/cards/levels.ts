@@ -1,8 +1,8 @@
 import type { CardType, ReadonlyWallet } from '#types';
 
 // cache the cards-for-a-level computations
+const levelToCardsRequired: number[] = [0];
 const cardsToLevel: number[] = [0];
-const cardLevels: number[] = [0];
 const nextLevelCards = generateCardsForLevel();
 
 function* generateCardsForLevel() {
@@ -17,39 +17,39 @@ function* generateCardsForLevel() {
 
 function addLevel() {
   const levelCards = nextLevelCards.next().value!;
-  cardsToLevel.push(cardsToLevel.at(-1)! + levelCards);
-  const lastLevel = cardLevels.at(-1)!;
+  levelToCardsRequired.push(levelToCardsRequired.at(-1)! + levelCards);
+  const lastLevel = cardsToLevel.at(-1)!;
   for (let i = 0; i < levelCards - 1; i += 1) {
-    cardLevels.push(lastLevel);
+    cardsToLevel.push(lastLevel);
   }
-  cardLevels.push(lastLevel + 1);
+  cardsToLevel.push(lastLevel + 1);
 }
 
 export function getCardsToLevel(level: number): number {
   // make sure there are enough numbers in the array
-  while (level >= cardsToLevel.length) {
+  while (level >= levelToCardsRequired.length) {
     addLevel();
   }
 
-  return cardsToLevel[level]!;
+  return levelToCardsRequired[level]!;
 }
 
 export function getCardsToLevelAndNext(level: number): [number, number] {
   const toNext = getCardsToLevel(level + 1);
-  return [cardsToLevel[level]!, toNext];
+  return [levelToCardsRequired[level]!, toNext];
 }
 
 export function lookupLevelByNumberOfCards(n: number): number {
-  while (cardLevels.length < n + 1) {
+  while (cardsToLevel.length < n + 1) {
     addLevel();
   }
 
-  return cardLevels[n]!;
+  return cardsToLevel[n]!;
 }
 
 export const _test = {
+  levelToCardsRequired,
   cardsToLevel,
-  cardLevels,
 };
 
 export interface CardLevelData {
