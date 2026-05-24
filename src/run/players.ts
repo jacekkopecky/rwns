@@ -54,7 +54,16 @@ export function setupPlayers(state: ReadonlyState, params: UpgradablePermanentPa
     playersGroup.add(player);
   }
 
+  // center the initial player group
   computePlayersGroupMinMax(playersGroup);
+  const offCenter = (playersGroup.userData.maxX + playersGroup.userData.minX) / 2;
+  if (offCenter !== 0) {
+    for (const player of playersGroup.children) {
+      player.translateX(-offCenter);
+    }
+    computePlayersGroupMinMax(playersGroup);
+  }
+
   updateCameraPosition(0);
 }
 
