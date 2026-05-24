@@ -7,6 +7,10 @@ import { render, renderer } from '../run/three/main';
 
 state.initState();
 initRunScreen();
+
+let players = 0;
+state.setRunUpgradeLevel('players', players);
+
 prepareRun(state.readState(), state.getUpgradablePermanentParameters());
 
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -31,3 +35,13 @@ function animate() {
   // cameraHelper.update();
   render();
 }
+
+document.body.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') {
+    state.setRunUpgradeLevel('players', ++players);
+    prepareRun(state.readState(), state.getUpgradablePermanentParameters());
+  } else if (e.key === 'ArrowLeft') {
+    state.setRunUpgradeLevel('players', --players);
+    prepareRun(state.readState(), state.getUpgradablePermanentParameters());
+  }
+});

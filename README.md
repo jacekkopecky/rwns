@@ -223,6 +223,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ---
 
+## done by 2026-05-24
+
+- [x] rethink position of players, the current triangle isn't very good
+
 ## done by 2026-05-23
 
 - [x] bug: where an award comes after dying (because a bullet was still flying and hits the target
