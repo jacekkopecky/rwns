@@ -1,3 +1,5 @@
+import type { ReadonlyWallet } from '#types';
+
 /**
  * Format the number to use up to 4 characters and a decimal point but only with reasonable precision.
  */
@@ -41,6 +43,15 @@ export function fillOrHide(
   el.classList.toggle('hidden', !value);
 
   return Boolean(value);
+}
+
+export function fillWalletEls<T extends string>(
+  wallet: ReadonlyWallet<T>,
+  els: Record<T, HTMLElement>,
+) {
+  for (const type of wallet.currencies) {
+    fillOrHide(els[type], wallet.read(type));
+  }
 }
 
 export function toggleHidden(el: Element, value: number | boolean) {

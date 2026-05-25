@@ -1,5 +1,5 @@
 import type { UpgradablePermanentParameters } from '#types';
-import { fillOrHide, getEl, toggleHidden } from '#utils';
+import { fillOrHide, fillWalletEls, getEl, toggleHidden } from '#utils';
 
 import { initUpgrades, updateUpgrades } from './main-screen-upgrades';
 import { init as initRunScreen, handleRetryButton, prepareRun, startRun } from './run';
@@ -28,6 +28,7 @@ const el = {
   wallet: {
     gem: getEl('#topBar .wallet .gem'),
     coin: getEl('#topBar .wallet .coin'),
+    card: getEl('#topBar .wallet .card'),
   },
   playStats: {
     played: getEl('#playStats .played'),
@@ -96,8 +97,7 @@ export function showMainScreen() {
 }
 
 export function updateMainScreen(state = readState(), params = getUpgradablePermanentParameters()) {
-  fillOrHide(el.wallet.coin, state.wallet.read('coin'));
-  fillOrHide(el.wallet.gem, state.wallet.read('gem'));
+  fillWalletEls(state.wallet, el.wallet);
   toggleHidden(el.walletContainer, !isFeatureAllowed('coins', state));
 
   fillOrHide(el.playStats.level, state.level, String);

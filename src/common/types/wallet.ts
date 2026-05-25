@@ -1,9 +1,15 @@
-export type ReadonlyWallet<T extends string> = Pick<Wallet<T>, 'read' | 'readAll' | 'entries'>;
+export type ReadonlyWallet<T extends string> = Pick<
+  Wallet<T>,
+  'read' | 'readAll' | 'entries' | 'currencies'
+>;
 
 export class Wallet<T extends string = string> {
   private wallet: Partial<Record<T, number>> = {};
 
-  constructor(currencies: readonly T[], jsonData?: unknown) {
+  constructor(
+    public readonly currencies: readonly T[],
+    jsonData?: unknown,
+  ) {
     if (jsonData) {
       if (
         typeof jsonData !== 'object' ||

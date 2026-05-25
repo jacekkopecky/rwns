@@ -1,6 +1,6 @@
 import * as dim from '#dimensions';
 import type { CardType, ReadonlyState } from '#types';
-import { fillOrHide, formatNumber, getEl, makeEl, toggleHidden } from '#utils';
+import { fillWalletEls, formatNumber, getEl, makeEl, toggleHidden } from '#utils';
 
 import { showSection } from '../sections';
 import {
@@ -25,6 +25,7 @@ const el = {
   wallet: {
     gem: getEl('#cards .wallet .gem'),
     coin: getEl('#cards .wallet .coin'),
+    card: getEl('#cards .wallet .card'),
   },
 };
 
@@ -47,10 +48,7 @@ export function showCardsScreen(
   const state = readState();
   const params = getUpgradablePermanentParameters();
 
-  // show wallet
-  fillOrHide(el.wallet.coin, state.wallet.read('coin'));
-  // always show even 0 for gems
-  fillOrHide(el.wallet.gem, String(state.wallet.read('gem')));
+  fillWalletEls(state.wallet, el.wallet);
 
   updateButtonPriceAndAmount(el.buyOne, dim.cardPriceGems, 1, state);
   updateButtonPriceAndAmount(
