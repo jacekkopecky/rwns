@@ -309,27 +309,9 @@ button {
   }
 
   .cards {
-    padding: 1em;
-
-    .card {
-      border-color: #664422;
-
-      transform-origin: bottom left;
-
-      &.behind {
-        position: absolute;
-        border-width: 0.07em;
-      }
-
-      &:nth-child(1) {
-        transform: rotate(5deg);
-      }
-      &:nth-child(2) {
-        transform: rotate(0deg);
-      }
-      &:nth-child(3) {
-        transform: rotate(-5deg);
-      }
+    padding: 0.5em 0.3em;
+    i {
+      font-size: 3.5em;
     }
   }
 }
