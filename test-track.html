@@ -17,11 +17,16 @@
         <canvas id="webglCanvas" class="in-run"></canvas>
         <div id="log" class="in-run"></div>
 
+        <!-- copy of the rest from index.html so elements are found -->
+
         <div id="topBar" class="partial-in-run">
           <button id="exitBtn" class="in-run">Exit</button>
           <div class="wallet">
             <div class="coin neverHidden"><span class="value">0</span> <i class="i coins"></i></div>
             <div class="gem hiddenGone"><span class="value">0</span> <i class="i gem"></i></div>
+            <div class="card hiddenGone">
+              <span class="value">0</span> <i class="i cards-icon"></i>
+            </div>
           </div>
           <button id="settingsBtn">⚙️</button>
         </div>
@@ -41,12 +46,18 @@
         <div id="inRunWallet" class="only-in-run">
           <div class="coin hiddenGone"><span class="value"></span> <i class="i coins"></i></div>
           <div class="gem hiddenGone"><span class="value"></span> <i class="i gem"></i></div>
+          <div class="card hiddenGone">
+            <span class="value">0</span> <i class="i cards-icon"></i>
+          </div>
         </div>
 
         <div id="endRunScreen">
           <div class="wallet">
             <div class="coin neverHidden"><span class="value">0</span> <i class="i coins"></i></div>
             <div class="gem hiddenGone"><span class="value">0</span> <i class="i gem"></i></div>
+            <div class="card hiddenGone">
+              <span class="value">0</span> <i class="i cards-icon"></i>
+            </div>
           </div>
           <h2 class="if-win">Well done!</h2>
           <h2 class="if-not-win">Better luck next time!</h2>
@@ -56,9 +67,9 @@
             <div class="if-got-gems">
               <span class="gem neverHidden"><span class="value"></span></span>
               out of
-              <span class="gemCount hiddenGone"
-                ><span class="value"></span> <i class="i gem"></i
-              ></span>
+              <span class="gemCount hiddenGone">
+                <span class="value"></span> <i class="i gem"></i>
+              </span>
             </div>
           </div>
           <div class="buttons">
@@ -66,12 +77,14 @@
               <span class="if-win">Replay</span>
               <span class="if-not-win">OK</span>
             </button>
-            <button class="ok if-win">Next level</button>
+            <button class="progress if-win">Next level</button>
           </div>
         </div>
 
         <div class="sectionButtons">
-          <button class="cards"></button>
+          <button class="cards">
+            <i class="i cards-icon"></i>
+          </button>
         </div>
 
         <div class="upgradeButtons">
