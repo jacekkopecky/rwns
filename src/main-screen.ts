@@ -2,7 +2,7 @@ import type { UpgradablePermanentParameters } from '#types';
 import { fillOrHide, fillWalletEls, getEl, toggleHidden } from '#utils';
 
 import { initUpgrades, updateUpgrades } from './main-screen-upgrades';
-import { init as initRunScreen, handleRetryButton, prepareRun, startRun } from './run';
+import { init as initRunScreen, prepareRun, startRun } from './run';
 import {
   initState,
   readState,
@@ -12,6 +12,7 @@ import {
   getUpgradablePermanentParameters,
   isFeatureAllowed,
   canGiveDailyGift,
+  increaseLevel,
 } from './state';
 import { showSection } from './sections';
 import { updateCardsVisibility } from './cards';
@@ -22,7 +23,7 @@ const el = {
   topButtons: getEl('#topBar'),
   exitBtn: getEl('#exitBtn', HTMLButtonElement),
   settingsBtn: getEl('#settingsBtn', HTMLButtonElement),
-  endRunScreenOK: getEl('#endRunScreen button.ok'),
+  endRunScreenProgress: getEl('#endRunScreen button.progress', HTMLButtonElement),
   endRunScreenRetry: getEl('#endRunScreen button.retry'),
   walletContainer: getEl('#topBar .wallet'),
   wallet: {
@@ -44,7 +45,7 @@ export function init() {
   initUpgrades();
   el.canvas.addEventListener('touchstart', startPlaying);
   el.canvas.addEventListener('mousedown', startPlaying);
-  el.endRunScreenOK.addEventListener('click', () => showSection('mainScreen'));
+  el.endRunScreenProgress.addEventListener('click', nextLevel);
   el.endRunScreenRetry.addEventListener('click', retry);
   el.settingsBtn.addEventListener('click', showSettings);
 
@@ -57,6 +58,8 @@ export function init() {
 }
 
 export function startPlaying() {
+  el.endRunScreenProgress.disabled = false;
+
   const params = getUpgradablePermanentParameters();
   // this gets called on every touch of the screen, so ignore it if already in a game
   if (!isInRun()) {
@@ -77,7 +80,12 @@ export function isInRun() {
 }
 
 function retry() {
-  handleRetryButton();
+  showSection('mainScreen');
+}
+
+function nextLevel() {
+  el.endRunScreenProgress.disabled = true;
+  increaseLevel();
   showSection('mainScreen');
 }
 

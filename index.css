@@ -267,7 +267,7 @@ button {
 
     button {
       min-width: 4em;
-      &.ok {
+      &.progress {
         background-color: #a2ff44;
       }
       &.retry {

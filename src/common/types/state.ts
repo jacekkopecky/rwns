@@ -4,20 +4,16 @@ import type { RunUpgradeLevels, RunUpgradeType } from './upgrades';
 import type { DeepReadonly } from './utils';
 import type { ReadonlyWallet, Wallet } from './wallet';
 
-export interface CurrentLevelState {
+export interface State {
   level: number;
   runUpgradeLevels: RunUpgradeLevels;
   collectedGemIds: string[];
-}
-
-export interface State extends CurrentLevelState {
   wallet: Wallet<CurrencyType>;
   cards: Wallet<CardType>;
   played: number;
   energy: number;
   lastEnergyGiven: number; // milliseconds since epoch
   lastDailyGiftGiven?: string; // iso8601 date yyyy-mm-dd
-  previousLevel?: CurrentLevelState;
 }
 
 export type ReadonlyState = Omit<DeepReadonly<State>, 'wallet' | 'cards'> & {

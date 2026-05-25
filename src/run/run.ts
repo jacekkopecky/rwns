@@ -172,7 +172,6 @@ function endRun(immediate = false, win = false) {
 
   ending = true;
   el.exitBtn.disabled = true;
-  if (win) stateModule.increaseLevel();
 
   updateTouchHandlerEnabled();
   updateEndRunScreen();

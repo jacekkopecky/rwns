@@ -161,12 +161,6 @@ export function toggleEndRunScreen(visible?: boolean, win?: boolean) {
   }
 }
 
-export function handleRetryButton() {
-  if (el.endRunScreen.classList.contains('visible') && el.endRunScreen.classList.contains('win')) {
-    state.retryLevel();
-  }
-}
-
 export function updateEndRunScreen() {
   let showingAny = false;
   showingAny = fillOrHide(el.endRunScreenCoins, inRunWallet.read('coin')) || showingAny;

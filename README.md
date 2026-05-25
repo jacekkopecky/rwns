@@ -8,7 +8,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
-- [ ] we don't parse previousLevel on state load - drop it anyway, progress only on button press
+- [ ] re-do run screen and maybe end-run screen as sections, then it won't be possible to tab to an
+      invisible button from end screen OK
 - [ ] re-create sprite textures on return to fullscreen? (it seems they disappear)
 - [ ] more cards see in `src/cards/types.ts`
   - [x] card tweaks: revisit progression of incoming new cards: money cards earlier, space
@@ -224,6 +225,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## done by 2026-05-25
 
+- [x] we don't parse previousLevel on state load - drop it anyway, progress only on button press
 - [x] add cards currency in most wallets, add paying for cards with cards
 - [x] daily gift? (use a spinning wheel with a conic gradient)
   - some coins, a card or three, energy or two, any other currencies, extra ticket for special

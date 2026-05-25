@@ -22,8 +22,10 @@ export function showSection(name: Section) {
   const selectedSection = sections[name];
   for (const section of Object.values(sections)) {
     section.el.classList.add('inactive');
+    section.el.inert = true;
   }
   selectedSection.el.classList.remove('inactive');
+  selectedSection.el.inert = false;
   selectedSection.cb?.();
 }
 
