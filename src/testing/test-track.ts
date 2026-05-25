@@ -41,7 +41,8 @@ document.body.addEventListener('keydown', (e) => {
     state.setRunUpgradeLevel('players', ++players);
     prepareRun(state.readState(), state.getUpgradablePermanentParameters());
   } else if (e.key === 'ArrowLeft') {
-    state.setRunUpgradeLevel('players', --players);
+    players = Math.max(--players, 0);
+    state.setRunUpgradeLevel('players', players);
     prepareRun(state.readState(), state.getUpgradablePermanentParameters());
   }
 });
