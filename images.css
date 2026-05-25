@@ -5,11 +5,26 @@ i.i {
   width: 1em;
   vertical-align: text-top;
 
+  /* highlight unknown icons */
+  background-color: purple;
+
   &.gem {
     background-image: url('assets/gem.svg');
+    background-color: unset;
   }
 
   &.coins {
     background-image: url('assets/coins.svg');
+    background-color: unset;
+  }
+
+  &.cards-icon {
+    background-image: url('assets/cards.svg');
+    background-color: unset;
+  }
+
+  &.energy {
+    background-image: url('assets/energy.svg');
+    background-color: unset;
   }
 }
