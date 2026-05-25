@@ -101,3 +101,8 @@ export function nextId(): string {
   _nextId += 1;
   return `_id_${_nextId}`;
 }
+
+export function toggleTwoClasses(el: HTMLElement, c1: string, c2: string, isC1: boolean) {
+  el.classList.toggle(c1, isC1);
+  el.classList.toggle(c2, !isC1);
+}

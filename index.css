@@ -353,6 +353,11 @@ button {
       }
     }
 
+    .cost.gem ~ .i.cards-icon,
+    .cost.card ~ .i.gem {
+      display: none;
+    }
+
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;

@@ -1,6 +1,6 @@
 import * as dim from '#dimensions';
 import type { CardType, ReadonlyState } from '#types';
-import { fillWalletEls, formatNumber, getEl, makeEl, toggleHidden } from '#utils';
+import { fillWalletEls, formatNumber, getEl, makeEl, toggleHidden, toggleTwoClasses } from '#utils';
 
 import { showSection } from '../sections';
 import {
@@ -145,13 +145,15 @@ function updateButtonPriceAndAmount(
   amount: number,
   state: ReadonlyState,
 ) {
-  const canAfford = state.wallet.read('gem') >= price;
+  const canUseCardFromWallet = amount === 1 && state.wallet.read('card') >= 1;
+  const canAfford = canUseCardFromWallet || state.wallet.read('gem') >= price;
 
   buttonEl.classList.toggle('disabled', !canAfford);
   buttonEl.classList.toggle('unaffordable', !canAfford);
 
   const costEl = buttonEl.querySelector<HTMLElement>('.cost')!;
-  costEl.textContent = formatNumber(price);
+  costEl.textContent = formatNumber(canUseCardFromWallet ? 1 : price);
+  toggleTwoClasses(costEl, 'card', 'gem', canUseCardFromWallet);
 
   const amountEl = buttonEl.querySelector<HTMLElement>('.amount')!;
   amountEl.textContent = formatNumber(amount);
@@ -159,7 +161,10 @@ function updateButtonPriceAndAmount(
 
 function buyOne() {
   const state = readState();
-  if (state.wallet.read('gem') < dim.cardPriceGems) {
+
+  const canUseCardFromWallet = state.wallet.read('card') >= 1;
+
+  if (!canUseCardFromWallet && state.wallet.read('gem') < dim.cardPriceGems) {
     // cannot afford, how was the button clicked?
     return;
   }
@@ -180,7 +185,11 @@ function buyOne() {
   );
 
   // buy it
-  pay('gem', dim.cardPriceGems);
+  if (canUseCardFromWallet) {
+    pay('card', 1);
+  } else {
+    pay('gem', dim.cardPriceGems);
+  }
   addCards([cardType]);
 
   const levelingUp = !(nextLevelCards - nextLevelCardsHave > 1);
