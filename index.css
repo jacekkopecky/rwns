@@ -458,7 +458,7 @@ button {
       gap: 6cqw;
       grid-auto-rows: 39cqw;
 
-      .card {
+      .bigCard {
         width: 100%;
         height: 100%;
       }
@@ -466,185 +466,185 @@ button {
       font-size: 1.2em;
     }
   }
-}
 
-.card {
-  height: 3em;
-  width: 2em;
-  border-radius: 0.3em;
-  border: 0.1em solid #7d2ab7;
-  position: relative;
-  overflow: hidden;
-
-  background: #f2dec8;
-  color: black;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-
-  /* inside sheet with gradient color */
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    transform: translateZ(-1px);
-    background: linear-gradient(-20deg, #b853ff 0, #d293fe 20%, #d293fe 80%, #e7c4ff 100%);
-  }
-
-  &.back::before {
-    background: linear-gradient(34deg, #b853ff 0, #d293fe 30%, #d293fe 70%, #e7c4ff 100%);
-  }
-
-  /* back cover */
-  &.back::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    transform: translateZ(-2px);
-
-    background-size: 60% auto;
-    background-image: url('assets/gem.svg');
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-  }
-
-  .rarity {
-    color: #efd9ff;
-    background: #7d2ab7;
-    padding: 0.2em 0.5em 0.3em;
-    border-radius: 0 0 0.5em 0.5em;
-    margin-bottom: 0.5em;
-    font-size: small;
-    line-height: 1em;
-    text-transform: uppercase;
-
-    .rarity-rare & {
-      background: blue;
-      color: white;
-    }
-    .rarity-epic & {
-      background: #ffaa00;
-      color: black;
-    }
-    .rarity-legendary & {
-      background: yellow;
-      color: black;
-      letter-spacing: -0.5px;
-    }
-  }
-
-  .name {
-    margin: auto;
-    text-align: center;
-    text-wrap: balance;
-  }
-
-  .label {
-    align-self: stretch;
-    text-align: center;
-    border: solid;
-    border-width: thin 0;
-    background: #fff6;
-    margin-top: auto;
-    font-size: small;
-    line-height: 1em;
-    padding: 0.3em 0;
-    text-transform: uppercase;
-
-    .type-income & {
-      background: #ffff88aa;
-    }
-    .type-energy & {
-      background: #88aaff88;
-    }
-    .type-damage & {
-      background: #ffaaaa88;
-    }
-    .type-fire-rate & {
-      background: #aaffaa88;
-    }
-    .type-range & {
-      background: #88ffff77;
-    }
-  }
-
-  .nextLevel {
-    align-self: stretch;
+  .bigCard {
+    height: 3em;
+    width: 2em;
+    border-radius: 0.3em;
+    border: 0.1em solid #7d2ab7;
     position: relative;
-    font-size: small;
+    overflow: hidden;
 
-    padding: 0.3em 0;
-    text-align: center;
+    background: #f2dec8;
+    color: black;
 
-    &.max::after {
-      content: 'MAX';
-    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
 
-    .have::after {
-      content: ' / ';
-    }
-
-    .have,
-    .outOf {
-      position: relative;
-      z-index: 1;
-    }
-
-    .box {
-      position: absolute;
-      inset: 0.2em 0.8em;
-      background: #fce;
-      z-index: 0;
-      border-radius: 0.3em;
-    }
-
-    .partBox {
-      background: #afa;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      border-radius: 0.3em;
-    }
-  }
-
-  .name.highlight .level {
-    position: relative;
-    display: inline-block;
-    z-index: -1;
-
+    /* inside sheet with gradient color */
     &::before {
-      content: ' ';
-      height: 2em;
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translateZ(-1px);
+      background: linear-gradient(-20deg, #b853ff 0, #d293fe 20%, #d293fe 80%, #e7c4ff 100%);
+    }
+
+    &.back::before {
+      background: linear-gradient(34deg, #b853ff 0, #d293fe 30%, #d293fe 70%, #e7c4ff 100%);
+    }
+
+    /* back cover */
+    &.back::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translateZ(-2px);
+
+      background-size: 60% auto;
+      background-image: url('assets/gem.svg');
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+    }
+
+    .rarity {
+      color: #efd9ff;
+      background: #7d2ab7;
+      padding: 0.2em 0.5em 0.3em;
+      border-radius: 0 0 0.5em 0.5em;
+      margin-bottom: 0.5em;
+      font-size: small;
+      line-height: 1em;
+      text-transform: uppercase;
+
+      .rarity-rare & {
+        background: blue;
+        color: white;
+      }
+      .rarity-epic & {
+        background: #ffaa00;
+        color: black;
+      }
+      .rarity-legendary & {
+        background: yellow;
+        color: black;
+        letter-spacing: -0.5px;
+      }
+    }
+
+    .name {
+      margin: auto;
+      text-align: center;
+      text-wrap: balance;
+    }
+
+    .label {
+      align-self: stretch;
+      text-align: center;
+      border: solid;
+      border-width: thin 0;
+      background: #fff6;
+      margin-top: auto;
+      font-size: small;
+      line-height: 1em;
+      padding: 0.3em 0;
+      text-transform: uppercase;
+
+      .type-income & {
+        background: #ffff88aa;
+      }
+      .type-energy & {
+        background: #88aaff88;
+      }
+      .type-damage & {
+        background: #ffaaaa88;
+      }
+      .type-fire-rate & {
+        background: #aaffaa88;
+      }
+      .type-range & {
+        background: #88ffff77;
+      }
+    }
+
+    .nextLevel {
+      align-self: stretch;
+      position: relative;
+      font-size: small;
+
+      padding: 0.3em 0;
+      text-align: center;
+
+      &.max::after {
+        content: 'MAX';
+      }
+
+      .have::after {
+        content: ' / ';
+      }
+
+      .have,
+      .outOf {
+        position: relative;
+        z-index: 1;
+      }
+
+      .box {
+        position: absolute;
+        inset: 0.2em 0.8em;
+        background: #fce;
+        z-index: 0;
+        border-radius: 0.3em;
+      }
+
+      .partBox {
+        background: #afa;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        border-radius: 0.3em;
+      }
+    }
+
+    .name.highlight .level {
+      position: relative;
+      display: inline-block;
       z-index: -1;
 
-      /* make it a circle around the middle of the center number */
+      &::before {
+        content: ' ';
+        height: 2em;
+        z-index: -1;
+
+        /* make it a circle around the middle of the center number */
+        position: absolute;
+        inset: 50%;
+        width: 2.5em;
+        height: 2.5em;
+        transform: translate(-50%, -50%);
+        border-radius: 100%;
+        background: yellow;
+        background: radial-gradient(circle closest-side, #ff0 0%, #ff0 50%, #ff00 100%);
+      }
+    }
+
+    .nextLevel.highlight .box::before {
+      content: ' ';
+      height: 2em;
+
+      /* make it a circle around the top right corner of the box */
       position: absolute;
-      inset: 50%;
-      width: 2.5em;
-      height: 2.5em;
+      left: 100%;
+      top: 0;
+      width: 2em;
+      height: 2em;
       transform: translate(-50%, -50%);
       border-radius: 100%;
       background: yellow;
-      background: radial-gradient(circle closest-side, #ff0 0%, #ff0 50%, #ff00 100%);
+      background: radial-gradient(circle closest-side, #ff0 0%, #ff0 30%, #ff00 100%);
     }
-  }
-
-  .nextLevel.highlight .box::before {
-    content: ' ';
-    height: 2em;
-
-    /* make it a circle around the top right corner of the box */
-    position: absolute;
-    left: 100%;
-    top: 0;
-    width: 2em;
-    height: 2em;
-    transform: translate(-50%, -50%);
-    border-radius: 100%;
-    background: yellow;
-    background: radial-gradient(circle closest-side, #ff0 0%, #ff0 30%, #ff00 100%);
   }
 }

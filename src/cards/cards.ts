@@ -107,7 +107,7 @@ function makeCardEl(
   highlightLevel: boolean,
   highlightProgress: boolean,
 ) {
-  const cardEl = makeEl(undefined, 'div', 'card');
+  const cardEl = makeEl(undefined, 'div', 'bigCard');
 
   cardEl.classList.add(toCssClass('rarity', definition.rarity));
   cardEl.classList.add(toCssClass('type', definition.typeLabel));
