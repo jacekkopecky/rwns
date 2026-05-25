@@ -9,7 +9,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 ## todo
 
 - [ ] add cards currency in most wallets, add paying for cards with cards
-- [ ] highlight the prize when we stop spinning
 - [ ] we don't parse previousLevel on state load - drop it anyway, progress only on button press
 - [ ] re-create sprite textures on return to fullscreen? (it seems they disappear)
 - [ ] more cards see in `src/cards/types.ts`
@@ -229,6 +228,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [x] daily gift? (use a spinning wheel with a conic gradient)
   - some coins, a card or three, energy or two, any other currencies, extra ticket for special
     plays, extra roll (ensured only once)
+  - [x] highlight the prize when we stop spinning
 
 ## done by 2026-05-24
 

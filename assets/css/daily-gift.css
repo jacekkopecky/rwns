@@ -125,7 +125,8 @@
     font-size: 10vmin;
     position: absolute;
     --translation: translateY(-32vmin);
-    transform: var(--translation);
+    --rotation: rotate(0deg);
+    transform: var(--rotation) var(--translation);
 
     display: flex;
     flex-direction: column;
@@ -154,21 +155,25 @@
       line-height: 1.15em;
       text-transform: uppercase;
     }
+
+    .spinner:not(.spinning) &.winning {
+      animation: pulsatePrize 0.5s ease-in-out alternate infinite;
+    }
   }
 
   /* prettier-ignore */
   .prize {
-    &:nth-child(2) { transform: rotate(30deg) var(--translation); }
-    &:nth-child(3) { transform: rotate(60deg) var(--translation); }
-    &:nth-child(4) { transform: rotate(90deg) var(--translation); }
-    &:nth-child(5) { transform: rotate(120deg) var(--translation); }
-    &:nth-child(6) { transform: rotate(150deg) var(--translation); }
-    &:nth-child(7) { transform: rotate(180deg) var(--translation); }
-    &:nth-child(8) { transform: rotate(210deg) var(--translation); }
-    &:nth-child(9) { transform: rotate(240deg) var(--translation); }
-    &:nth-child(10) { transform: rotate(270deg) var(--translation); }
-    &:nth-child(11) { transform: rotate(300deg) var(--translation); }
-    &:nth-child(12) { transform: rotate(330deg) var(--translation); }
+    &:nth-child(2) { --rotation: rotate(30deg); }
+    &:nth-child(3) { --rotation: rotate(60deg); }
+    &:nth-child(4) { --rotation: rotate(90deg); }
+    &:nth-child(5) { --rotation: rotate(120deg); }
+    &:nth-child(6) { --rotation: rotate(150deg); }
+    &:nth-child(7) { --rotation: rotate(180deg); }
+    &:nth-child(8) { --rotation: rotate(210deg); }
+    &:nth-child(9) { --rotation: rotate(240deg); }
+    &:nth-child(10) { --rotation: rotate(270deg); }
+    &:nth-child(11) { --rotation: rotate(300deg); }
+    &:nth-child(12) { --rotation: rotate(330deg); }
   }
 }
 
@@ -179,5 +184,14 @@
   }
   to {
     transform: rotate(var(--target-angle));
+  }
+}
+
+@keyframes pulsatePrize {
+  from {
+    transform: var(--rotation) var(--translation) scale(1);
+  }
+  to {
+    transform: var(--rotation) var(--translation) scale(1.2);
   }
 }

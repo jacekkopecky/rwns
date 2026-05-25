@@ -1,8 +1,6 @@
+import * as dim from '#dimensions';
 import { isCurrency, type CurrencyType } from '#types';
 import { formatNumber, getEl, makeEl, pickWeightedItem, spread } from '#utils';
-import * as dim from '#dimensions';
-
-import '/assets/css/daily-gift.css';
 
 import {
   addAward,
@@ -14,8 +12,9 @@ import {
   readState,
   setDailyGiftGivenToday,
 } from './state';
-import { updateMainScreen } from './main-screen';
 import { showSection } from './sections';
+
+import '/assets/css/daily-gift.css';
 
 const el = {
   section: getEl('#dailyGift'),
@@ -112,13 +111,17 @@ function spin() {
     `${Math.round(360 - (index / currentPrizes.length) * 360)}deg`,
   );
 
+  for (const child of el.spinner.children) {
+    child.classList.remove('winning');
+  }
+  el.spinner.children[index]?.classList.add('winning');
+
   el.spinner.classList.add('spinning');
   spinTimeout = setTimeout(spinDone, dim.dailyRewardSpinSeconds * 1000);
 }
 
 function spinDone() {
   spinTimeout = null;
-  updateMainScreen();
   // cancel the spin
   el.spinner.classList.remove('spinning');
   el.spinner.style.setProperty(
