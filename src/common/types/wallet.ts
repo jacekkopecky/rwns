@@ -59,4 +59,8 @@ export class Wallet<T extends string = string> {
       this.add(type as T, amount as number);
     }
   };
+
+  toJSON = () => {
+    return { wallet: this.wallet };
+  };
 }
