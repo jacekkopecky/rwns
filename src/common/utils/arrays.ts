@@ -71,3 +71,18 @@ export function assignEndBunchedRewards(amount: number, rows: number): number[] 
 // for (let i = 1; i <= 40; i += 1) {
 //   console.log(i, assignEndBunchedRewards(i, 8).join(','));
 // }
+
+/**
+ * Spread the `from` array into the `into` array,
+ * starting with the first element of `from` and spacing the rest evenly inside `into`.
+ */
+export function spread<T>(into: T[], from: T[]): T[] {
+  const retval = [...into];
+  const N = from.length;
+  for (let i = 0; i < N; i += 1) {
+    const pos = Math.round((into.length / N) * (N - i - 1));
+    retval.splice(pos, 0, from[N - 1 - i]!);
+  }
+
+  return retval;
+}

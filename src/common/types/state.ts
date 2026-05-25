@@ -16,6 +16,7 @@ export interface State extends CurrentLevelState {
   played: number;
   energy: number;
   lastEnergyGiven: number; // milliseconds since epoch
+  lastDailyGiftGiven?: string; // iso8601 date yyyy-mm-dd
   previousLevel?: CurrentLevelState;
 }
 
@@ -28,6 +29,7 @@ export type Feature =
   | 'coins'
   | 'gems'
   | 'limitedEnergy'
+  | 'dailyGift'
   | `${RunUpgradeType}Upgrade`
   | 'cards'
   | 'bulkCards';

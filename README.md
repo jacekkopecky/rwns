@@ -8,6 +8,9 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
+- [ ] add cards currency in most wallets, add paying for cards with cards
+- [ ] highlight the prize when we stop spinning
+- [ ] we don't parse previousLevel on state load - drop it anyway, progress only on button press
 - [ ] re-create sprite textures on return to fullscreen? (it seems they disappear)
 - [ ] more cards see in `src/cards/types.ts`
   - [x] card tweaks: revisit progression of incoming new cards: money cards earlier, space
@@ -159,7 +162,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
     - break 20 end blocks with red/green/blue robot
 - others?
   - [ ] use LoadManager from https://threejs.org/manual/#en/textures for progress bars?
-  - [ ] use SpriteMixer? https://github.com/felixmariotto/three-SpriteMixer/
+  - [/] use SpriteMixer? https://github.com/felixmariotto/three-SpriteMixer/
     - probably can be done with AnimationMixer and discrete tracks?
 - [ ] error handling - unhandled exceptions and promises
 - [ ] add slow-down areas so we can have big bosses
@@ -187,7 +190,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] add a settings screen
   - don't show settings in first level
   - "reset"
-  - "go back to previous level"
+  - ~~"go back to previous level"~~
   - "reset back to a certain stage" that you've already achieved:
     - after tutorials
     - when you get gems?
@@ -213,9 +216,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] Could a Marvin that took a hit flash a bit somehow?
 - [ ] could Marvins sit down when out of energy?
 - [ ] allow use of back button for navigation at least through sections, and from a run?
-- [ ] daily gift? (use a spinning wheel with a conic gradient)
-  - some coins, a card or three, energy or two, any other currencies, extra ticket for special
-    plays, extra roll (ensured only once)
 - [ ] add stricter eslint rules, commented out in eslint.config.mjs
 - [ ] make final gate taller than the blocks, or the blocks shorter?
   - with height 30, the explosions aren't showing right
@@ -223,6 +223,12 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] in wallets, count down when buying
 
 ---
+
+## done by 2026-05-25
+
+- [x] daily gift? (use a spinning wheel with a conic gradient)
+  - some coins, a card or three, energy or two, any other currencies, extra ticket for special
+    plays, extra roll (ensured only once)
 
 ## done by 2026-05-24
 

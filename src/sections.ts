@@ -1,15 +1,19 @@
+import { getEl } from '#utils';
+
 import { init as initMainScreen, showMainScreen } from './main-screen';
 import { init as initCardsScreen, showCardsScreen } from './cards';
-import { getEl } from '#utils';
+import { init as initDailyGiftScreen, showDailyGiftScreen } from './daily-gift';
 
 export function init() {
   initMainScreen();
   initCardsScreen();
+  initDailyGiftScreen();
 }
 
 const sections = {
   ...prepSection('mainScreen', showMainScreen),
   ...prepSection('cards', showCardsScreen),
+  ...prepSection('dailyGift', showDailyGiftScreen),
 };
 
 type Section = keyof typeof sections;

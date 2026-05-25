@@ -1,0 +1,183 @@
+#dailyGift {
+  &.inactive {
+    opacity: 0;
+  }
+
+  position: absolute;
+  inset: 0;
+  background: #0006;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .outer {
+    width: 85vmin;
+    height: 85vmin;
+    background: #fea;
+    border-radius: 100%;
+
+    /* colored dot border */
+    &::after {
+      content: ' ';
+      display: block;
+      position: absolute;
+      inset: -1.5vmin;
+      border-radius: 100%;
+      border: dotted 3vmin #f00;
+    }
+
+    /* top pointer into selected field */
+    &::before {
+      color: #f00;
+      content: '▼';
+      font-size: 4vmin;
+      line-height: 1em;
+      position: absolute;
+      inset: 0;
+      text-align: center;
+      z-index: 1;
+    }
+
+    position: relative;
+
+    box-shadow: 0 0 5vmin 5vmin #fea;
+
+    .spinner {
+      position: absolute;
+      inset: -1vmin;
+      border-radius: 100%;
+      border: double 2vmin #d80;
+
+      --color1: #fe0;
+      --color2: #f92;
+      --start-angle: 0deg;
+      --target-angle: 360deg;
+      color: #642;
+
+      --gradient: conic-gradient(
+        var(--color2) 0deg,
+        var(--color2) 15deg,
+        var(--color1) 15deg,
+        var(--color1) 45deg,
+        var(--color2) 45deg,
+        var(--color2) 75deg,
+        var(--color1) 75deg,
+        var(--color1) 105deg,
+        var(--color2) 90deg,
+        var(--color2) 135deg,
+        var(--color1) 135deg,
+        var(--color1) 165deg,
+        var(--color2) 165deg,
+        var(--color2) 195deg,
+        var(--color1) 195deg,
+        var(--color1) 225deg,
+        var(--color2) 225deg,
+        var(--color2) 255deg,
+        var(--color1) 255deg,
+        var(--color1) 285deg,
+        var(--color2) 285deg,
+        var(--color2) 315deg,
+        var(--color1) 315deg,
+        var(--color1) 345deg,
+        var(--color2) 345deg,
+        var(--color2) 360deg
+      );
+
+      background: var(--gradient);
+
+      transform: rotate(calc(-1800deg + var(--start-angle, 0deg)));
+      --spin-easing: cubic-bezier(0.1, 0, 0.4, 1);
+      &.spinning {
+        animation: spin var(--spin-time, 5s) var(--spin-easing) forwards;
+      }
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      /* center */
+      &::after {
+        width: 20vmin;
+        height: 20vmin;
+
+        border-radius: 100%;
+        border: double 2vmin var(--color2);
+        background: #642;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+
+        content: '🎁';
+        font-size: 10vmin;
+        text-shadow: -0.1em 0.1em 0.4em black;
+
+        /* spin a bit extra to always end upright */
+        transition: transform var(--spin-time, 0s) var(--spin-easing);
+        transform: rotate(calc(0deg - var(--target-angle)));
+      }
+    }
+  }
+
+  .prize {
+    font-size: 10vmin;
+    position: absolute;
+    --translation: translateY(-32vmin);
+    transform: var(--translation);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    & > :not(.amount) {
+      filter: drop-shadow(0 0 0.1em #642a);
+    }
+
+    .amount {
+      font-size: 40%;
+      position: absolute;
+      top: 120%;
+
+      &.times::after {
+        content: '×';
+        display: inline;
+      }
+    }
+
+    .text {
+      display: block;
+      font-size: 3.6vmin;
+      max-width: min-content;
+      text-align: center;
+      line-height: 1.15em;
+      text-transform: uppercase;
+    }
+  }
+
+  /* prettier-ignore */
+  .prize {
+    &:nth-child(2) { transform: rotate(30deg) var(--translation); }
+    &:nth-child(3) { transform: rotate(60deg) var(--translation); }
+    &:nth-child(4) { transform: rotate(90deg) var(--translation); }
+    &:nth-child(5) { transform: rotate(120deg) var(--translation); }
+    &:nth-child(6) { transform: rotate(150deg) var(--translation); }
+    &:nth-child(7) { transform: rotate(180deg) var(--translation); }
+    &:nth-child(8) { transform: rotate(210deg) var(--translation); }
+    &:nth-child(9) { transform: rotate(240deg) var(--translation); }
+    &:nth-child(10) { transform: rotate(270deg) var(--translation); }
+    &:nth-child(11) { transform: rotate(300deg) var(--translation); }
+    &:nth-child(12) { transform: rotate(330deg) var(--translation); }
+  }
+}
+
+@keyframes spin {
+  from {
+    /* do 5 full turns */
+    transform: rotate(calc(-1800deg + var(--start-angle, 0deg)));
+  }
+  to {
+    transform: rotate(var(--target-angle));
+  }
+}

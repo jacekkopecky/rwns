@@ -42,7 +42,9 @@ export function init() {
 
 async function goFullscreen() {
   await el.main.requestFullscreen();
-  if (!isInRun()) showSection('mainScreen');
+  if (!isInRun()) {
+    showSection('mainScreen');
+  }
 }
 
 function exit() {

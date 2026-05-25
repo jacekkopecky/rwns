@@ -25,6 +25,7 @@ const el = {
   inRun: {
     gem: getEl('#inRunWallet .gem'),
     coin: getEl('#inRunWallet .coin'),
+    card: getEl('#inRunWallet .card'),
   },
 };
 

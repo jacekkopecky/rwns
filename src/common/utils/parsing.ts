@@ -5,6 +5,13 @@ export function parseNumber(value: unknown, defaultValue?: number): number {
   throw new TypeError(`expected number, got ${value}`);
 }
 
+export function parseString(value: unknown, defaultValue?: string): string {
+  if (typeof value === 'string') return value;
+  if (value == null && defaultValue != null) return defaultValue;
+
+  throw new TypeError(`expected number, got ${value}`);
+}
+
 export function parseStringArray(value: unknown): string[] {
   if (Array.isArray(value) && value.every((item) => typeof item === 'string')) return value;
   if (value == null) return [];

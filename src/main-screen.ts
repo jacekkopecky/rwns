@@ -11,6 +11,7 @@ import {
   subtractEnergy,
   getUpgradablePermanentParameters,
   isFeatureAllowed,
+  canGiveDailyGift,
 } from './state';
 import { showSection } from './sections';
 import { updateCardsVisibility } from './cards';
@@ -88,6 +89,10 @@ export function showMainScreen() {
 
   prepareRun(state, params);
   updateMainScreen(state, params);
+
+  if (canGiveDailyGift(state)) {
+    showSection('dailyGift');
+  }
 }
 
 export function updateMainScreen(state = readState(), params = getUpgradablePermanentParameters()) {

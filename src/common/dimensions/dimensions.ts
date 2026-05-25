@@ -24,6 +24,7 @@ export const shadowsEnabled = true;
 export const objectDyingDuration = 0.3;
 export const treeDyingDuration = 0.5;
 export const gemRotationsPerSecond = 0.5;
+export const dailyRewardSpinSeconds = 5;
 
 export const runAwardsTargetCoordinates = [0.95, 0.95] as const;
 export const runAwardsFlyDuration = 0.8;

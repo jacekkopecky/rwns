@@ -11,7 +11,7 @@ import type {
   UpgradablePermanentParameters,
 } from '#types';
 import { CARDS, CURRENCIES, Wallet } from '#types';
-import { exposeGlobalWindowProp, parseNumber, parseStringArray } from '#utils';
+import { exposeGlobalWindowProp, parseNumber, parseString, parseStringArray } from '#utils';
 
 import { cardDefinitions, lookupLevelByNumberOfCards, minLevelForCards } from './cards';
 import { parseUpgrades } from './main-screen-upgrades';
@@ -123,7 +123,9 @@ function loadState() {
       collectedGemIds: parseStringArray(data.collectedGemIds),
       played: parseNumber(data.played, 0),
       lastEnergyGiven: parseNumber(data.lastEnergyGiven, Date.now()),
-    };
+      lastDailyGiftGiven: parseString(data.lastDailyGiftGiven, ''),
+      // we don't parse previousLevel - todo drop it anyway
+    } satisfies Required<Omit<State, 'previousLevel'>>;
   } catch (e) {
     const newKey = LOCAL_STORAGE_KEY + new Date().toISOString();
     localStorage.setItem(newKey, dataString);
@@ -139,6 +141,9 @@ export function isFeatureAllowed(upgrade: Feature, state: ReadonlyState): boolea
 
     case 'limitedEnergy':
       return state.level >= 4;
+
+    case 'dailyGift':
+      return state.level >= 5;
 
     case 'rateUpgrade':
       return state.level >= 4;
@@ -251,4 +256,31 @@ export function getUpgradablePermanentParameters(): UpgradablePermanentParameter
   }
 
   return params;
+}
+
+export function getDailyGiftMaxCoinsPerCurrentRun() {
+  // put together coins in run plus one column of end blocks
+  // technically, a strong-enough player can kill more end blocks and get more than this
+
+  const params = getUpgradablePermanentParameters();
+  return params.coinsPerLevel + params.endBlockCoinsPerLevel;
+}
+
+export function getCountOfAllCards(state: ReadonlyState) {
+  return Object.values(state.cards.readAll()).reduce((a, b) => a + b, 0);
+}
+
+export function canGiveDailyGift(state: ReadonlyState) {
+  const today = getToday();
+  return isFeatureAllowed('dailyGift', state) && state.lastDailyGiftGiven !== today;
+}
+
+export function setDailyGiftGivenToday() {
+  const today = getToday();
+  state.lastDailyGiftGiven = today;
+  saveState();
+}
+
+function getToday(): string {
+  return new Date().toISOString().split('T')[0]!;
 }
