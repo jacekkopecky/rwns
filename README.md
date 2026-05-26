@@ -8,6 +8,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
+- [ ] created players should be spread out evenly in stride stage, so two are 1/3 apart and no two
+      go the same
 - [ ] re-do run screen and maybe end-run screen as sections, then it won't be possible to tab to an
       invisible button from end screen OK
 - [ ] re-create sprite textures on return to fullscreen? (it seems they disappear)
@@ -34,6 +36,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
       - so at first we kinda have to choose a straight line and can only change when there's a gap
       - upgrades: every now and then throw a bomb or a drill upgrade in front of you?
         - they might fire immediately or after a second so you can choose where they go
+      - could have 3 goes at the same level, so we have a path cut already but also treasures taken
     - kinda normal with multiplication and strength upgrades and boxes in the end (like normal
       timeline)
     - kinda normal with small strength upgrades and plenty enemies to mow down (and maybe an end
@@ -222,6 +225,11 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] in wallets, count down when buying
 
 ---
+
+## done by 2026-05-26
+
+- [x] daily gift should show up after a bit of a delay, not be there when I press start on splash
+      screen
 
 ## done by 2026-05-25
 

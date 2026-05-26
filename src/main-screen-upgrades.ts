@@ -8,7 +8,6 @@ import { RUN_UPGRADE_TYPES } from '#types';
 import { parseNumber, formatNumber, getEl } from '#utils';
 
 import { updateMainScreen } from './main-screen';
-import { prepareRun } from './run';
 import {
   readState,
   pay,
@@ -74,7 +73,6 @@ function upgradeHandler(type: RunUpgradeType): (e: PointerEvent) => void {
       const state = readState();
       const params = getUpgradablePermanentParameters();
       doUpgrade(type, state, params);
-      prepareRun(state, params);
       updateMainScreen(state, params);
     }
   };

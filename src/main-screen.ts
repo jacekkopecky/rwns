@@ -1,8 +1,11 @@
 import type { UpgradablePermanentParameters } from '#types';
 import { fillOrHide, fillWalletEls, getEl, toggleHidden } from '#utils';
 
+import { updateCardsVisibility } from './cards';
 import { initUpgrades, updateUpgrades } from './main-screen-upgrades';
 import { init as initRunScreen, prepareRun, startRun } from './run';
+import { isSectionActive, showSection } from './sections';
+import { isOnSplashScreen } from './splash-screen';
 import {
   initState,
   readState,
@@ -14,8 +17,6 @@ import {
   canGiveDailyGift,
   increaseLevel,
 } from './state';
-import { showSection } from './sections';
-import { updateCardsVisibility } from './cards';
 
 const el = {
   main: getEl('main'),
@@ -89,22 +90,30 @@ function nextLevel() {
   showSection('mainScreen');
 }
 
+let dailyGiftTimeout: number | null = null;
+
 export function showMainScreen() {
+  if (dailyGiftTimeout) clearTimeout(dailyGiftTimeout);
   el.main.classList.remove('run');
   el.exitBtn.disabled = false;
 
   const state = readState();
   const params = getUpgradablePermanentParameters();
 
-  prepareRun(state, params);
   updateMainScreen(state, params);
 
   if (canGiveDailyGift(state)) {
-    showSection('dailyGift');
+    dailyGiftTimeout = setTimeout(() => {
+      if (isSectionActive('mainScreen') && !isInRun() && !isOnSplashScreen()) {
+        showSection('dailyGift');
+      }
+    }, 1000);
   }
 }
 
 export function updateMainScreen(state = readState(), params = getUpgradablePermanentParameters()) {
+  prepareRun(state, params);
+
   fillWalletEls(state.wallet, el.wallet);
   toggleHidden(el.walletContainer, !isFeatureAllowed('coins', state));
 

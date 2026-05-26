@@ -14,8 +14,6 @@ import {
 } from './state';
 import { showSection } from './sections';
 
-import '/assets/css/daily-gift.css';
-
 const el = {
   section: getEl('#dailyGift'),
   spinner: getEl('#dailyGift .spinner'),

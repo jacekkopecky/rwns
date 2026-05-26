@@ -42,3 +42,7 @@ function prepSection<T extends string>(
     { el: HTMLElement; cb?: () => void }
   >;
 }
+
+export function isSectionActive(sec: Section): boolean {
+  return !sections[sec].el.classList.contains('inactive');
+}

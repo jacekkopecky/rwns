@@ -5,7 +5,7 @@
 import { fillOrHide, getEl } from '#utils';
 
 import { isInRun } from './main-screen';
-import { init as initSections, showSection } from './sections';
+import { init as initSections, isSectionActive, showSection } from './sections';
 
 let useFullscreen = true;
 
@@ -30,14 +30,17 @@ export function init() {
     el.startBtn.addEventListener('click', goFullscreen);
     el.exitBtn.addEventListener('click', exit);
     el.main.addEventListener('fullscreenchange', updateSplashScreen);
+    updateIsOnSplashScreen(true);
+  } else {
+    // make sure the main screen is up to date
+    showSection('mainScreen');
+    updateIsOnSplashScreen(false);
   }
 
   fillOrHide(el.version, import.meta.env.VITE_BUILD_VERSION ?? 'unknown');
 
   // disable context menu
   document.addEventListener('contextmenu', (e) => e.preventDefault());
-
-  showSection('mainScreen');
 }
 
 async function goFullscreen() {
@@ -59,4 +62,17 @@ function handleTopLevelSpaceKey(e: KeyboardEvent): void {
 
 function updateSplashScreen() {
   el.startBtn.textContent = isInRun() ? 'Resume' : 'Start';
+
+  updateIsOnSplashScreen(useFullscreen && el.main !== document.fullscreenElement);
+  if (isOnSplashScreen() && isSectionActive('dailyGift')) {
+    showSection('mainScreen');
+  }
+}
+
+export function isOnSplashScreen() {
+  return useFullscreen && el.main.classList.contains('showingSplashScreen');
+}
+
+function updateIsOnSplashScreen(value: boolean) {
+  el.main.classList.toggle('showingSplashScreen', value);
 }
