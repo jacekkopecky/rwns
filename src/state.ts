@@ -84,6 +84,11 @@ export function setRunUpgradeLevel(type: RunUpgradeType, level: number) {
   saveState();
 }
 
+export function increaseRunUpgradeLevel(type: RunUpgradeType) {
+  state.runUpgradeLevels[type] = (state.runUpgradeLevels[type] ?? 0) + 1;
+  saveState();
+}
+
 function saveState() {
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state));
 }

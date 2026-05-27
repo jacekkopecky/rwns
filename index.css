@@ -569,7 +569,13 @@ button {
       .type-damage & {
         background: #ffaaaa88;
       }
+      .type-max-dmg & {
+        background: #ffaaaa88;
+      }
       .type-fire-rate & {
+        background: #aaffaa88;
+      }
+      .type-max-rate & {
         background: #aaffaa88;
       }
       .type-range & {

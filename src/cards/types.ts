@@ -1,6 +1,8 @@
 import type { UpgradablePermanentParameters } from '#types';
 import * as dim from '#dimensions';
 
+import * as state from '../state';
+
 import { getCardsToLevel } from './levels';
 import * as t from './templates';
 
@@ -8,7 +10,9 @@ export const RARITIES = ['common', 'rare', 'epic', 'legendary'] as const;
 export type Rarity = (typeof RARITIES)[number];
 
 // short label for card types
-type TypeLabel = 'damage' | 'fire rate' | 'range' | 'income' | 'energy'; // add new ones to the CSS as well
+type TypeLabel =
+  // add new ones to the CSS as well
+  'damage' | 'fire rate' | 'range' | 'income' | 'energy' | 'max dmg' | 'max rate';
 
 export type CardDefinition = Readonly<{
   name: string; // funny name
@@ -56,6 +60,32 @@ export const cardDefinitions = {
   endCoins2: tCard( 60, 'Treasure Chest  ', t.endBlockCoins, dim.coinCardMaxLevel     ),
   endCoins3: tCard(100, 'Pot of Gold     ', t.endBlockCoins, dim.coinCardMaxLevel     ),
   energy1:   tCard( 42, 'Electron Boost  ', t.energy,        24 - dim.initialEnergyMax),
+  maxDmg1: card({
+    minPlayerLevel: 42,
+    name: 'Steroids',
+    cardsToGive: getCardsToLevel(6),
+    rarity: 'epic',
+    typeLabel: 'max dmg',
+    performUpgrade(level, params) {
+      params.damageMaxUpgrade += level;
+    },
+    onLevelUp() {
+      state.increaseRunUpgradeLevel('damage');
+    },
+  }),
+  maxRate1: card({
+    minPlayerLevel: 42,
+    name: 'Machine Oil',
+    cardsToGive: getCardsToLevel(6),
+    rarity: 'epic',
+    typeLabel: 'max rate',
+    performUpgrade(level, params) {
+      params.rateMaxUpgrade += level;
+    },
+    onLevelUp() {
+      state.increaseRunUpgradeLevel('rate');
+    },
+  }),
 } as const;
 
 // interaction between levels and cards
@@ -70,11 +100,11 @@ export const cardDefinitions = {
 //     - number of colour gates in a run? (max level 3)
 //     - (?) decrease normal object (e.g. tree) HP (? or this might be a skill later)
 //     - (?) decrease end block HP (? or this might be a skill later)
+//     - starting damage upgrade?
+//     - starting fire rate upgrade?
 //     - increase gems per level by one, gems in end blocks plus one
 //       - Emerald, ruby, sapphire; diamond, smoky quartz, obsidian - add adjectives
 //   - epic:
-//     - increase max damage upgrade
-//     - increase max rate upgrade
 //     - decrease price of damage upgrade (by a fraction, at least 1, but min price 1?)
 //     - decrease price of rate upgrade (by a fraction, at least 1, but min price 1?)
 //     - decrease price of player upgrade (by a fraction, at least 1, but min price 1?)
