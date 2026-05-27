@@ -8,8 +8,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
-- [ ] created players should be spread out evenly in stride stage, so two are 1/3 apart and no two
-      go the same
 - [ ] re-do run screen and maybe end-run screen as sections, then it won't be possible to tab to an
       invisible button from end screen OK
 - [ ] re-create sprite textures on return to fullscreen? (it seems they disappear)
@@ -114,7 +112,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
     - then cheaper for 42 gems if one is for 5
     - then maybe cheaper still?
   - "finding treasure" - more gems per level?
-  - "always finding treasure" - extra gems per run (which should then go to 0 initially)
+  - "always finding treasure" - guaranteed gems per run (which should then go to 0 initially)
   - extra damage against specific objects/opponents?
   - small chance of surviving hitting a tree
   - extra damage in certain special types of runs?
@@ -228,6 +226,11 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## done by 2026-05-27
 
+- [/] created players could be spread out evenly in stride stage, so two are 1/3 apart and no two go
+  the same
+  - given N players, we should use stride phases from 0 to almost half but alternate over which half
+  - i from 0 to N-1, strideStage += stride/2 + stride\*i/N
+  - decided not to, the effect wouldn't necessarily be visible
 - [x] add current date and time to version info
 - [x] the guaranteed gem shouldn't be a set one: if I go through a run and get one of two diamonds,
       the next run shouldn't show me just two diamonds because the one I got was the guaranteed one
