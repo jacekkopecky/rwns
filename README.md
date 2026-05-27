@@ -8,9 +8,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
-- [ ] the guaranteed gem shouldn't be a set one: if I go through a run and get one of two diamonds,
-      the next run shouldn't show me just two diamonds because the one I got was the guaranteed one
-  - should it always be the last one in the run?
 - [ ] created players should be spread out evenly in stride stage, so two are 1/3 apart and no two
       go the same
 - [ ] re-do run screen and maybe end-run screen as sections, then it won't be possible to tab to an
@@ -232,6 +229,9 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 ## done by 2026-05-27
 
 - [x] add current date and time to version info
+- [x] the guaranteed gem shouldn't be a set one: if I go through a run and get one of two diamonds,
+      the next run shouldn't show me just two diamonds because the one I got was the guaranteed one
+  - should it always be the last one in the run?
 
 ## done by 2026-05-26
 

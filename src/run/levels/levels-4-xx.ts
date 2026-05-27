@@ -36,7 +36,10 @@ export function level4Plus(
   const gemsInBlocks = gemCount - gemsInRun;
 
   const extraItems: ExtraObjectInfo[] = coinBagAmounts(dim.maxCoinBagsPerRun, params.coinsPerLevel);
-  extraItems.push(...gemsWithIds(gemsInRun, params.gemsGuaranteedPerRun, 'tree'));
+  const runGems = [...gemsWithIds(gemsInRun, 'tree')];
+  extraItems.push(...runGems);
+
+  ensureGuaranteedGems(runGems, state, params);
 
   const treeIndexesToReplace = spacedRandomIndexes(objects, extraItems.length);
   let actualGemCount = 0;
@@ -77,7 +80,7 @@ export function level4Plus(
     params.endBlockCoinsPerLevel,
   );
 
-  const extraGemsInBlocks = [...gemsWithIds(gemsInBlocks, 0, 'block')];
+  const extraGemsInBlocks = [...gemsWithIds(gemsInBlocks, 'block')];
   const blockIndexesToAddGemsTo = spacedRandomIndexes(blocks, extraGemsInBlocks.length);
   for (const i of blockIndexesToAddGemsTo) {
     const gemInfo = extraGemsInBlocks.pop()!;
@@ -97,10 +100,27 @@ interface BagInfo {
 }
 type ExtraObjectInfo = GemInfo | BagInfo;
 
-function gemsWithIds(n: number, nWithoutId: number, idPrefix = ''): Iterable<GemInfo> {
-  return range(n).map((x, i) => ({
+// if we don't have enough gems for the guaranteed number,
+// make some anonymous (take their IDs away) so they appear again
+function ensureGuaranteedGems(
+  runGems: GemInfo[],
+  state: ReadonlyState,
+  params: UpgradablePermanentParameters,
+) {
+  const gemsCollected = runGems.filter((g) => g.id && state.collectedGemIds.includes(g.id));
+  const gemsAvailableInRun = runGems.length - gemsCollected.length;
+  if (params.gemsGuaranteedPerRun > gemsAvailableInRun) {
+    gemsCollected
+      .values()
+      .take(params.gemsGuaranteedPerRun - gemsAvailableInRun)
+      .forEach((g) => (g.id = undefined));
+  }
+}
+
+function gemsWithIds(n: number, idPrefix = ''): Iterable<GemInfo> {
+  return range(n).map((x) => ({
     type: 'gem',
-    id: i < nWithoutId ? undefined : `gem_${idPrefix}${x}`,
+    id: `gem_${idPrefix}${x}`,
   }));
 }
 
