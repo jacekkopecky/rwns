@@ -95,6 +95,8 @@ export function updateCardsScreen(
     const cardEl = makeCardEl(definition, cardData, highlightLevel, highlightProgress);
     el.theCards.append(cardEl);
 
+    cardEl.addEventListener('click', () => showCard(cardEl));
+
     if (highlightLevel || highlightProgress) {
       firstHighlightedCard ??= cardEl;
       addShowingCard(cardEl);
@@ -110,12 +112,21 @@ export function updateCardsScreen(
   }
 }
 
-function addShowingCard(cardEl: HTMLElement) {
+function addShowingCard(cardEl: HTMLElement, extraClass?: string) {
   const showCardEl = cardEl.cloneNode(true) as HTMLElement;
   showCardEl.classList.add('showingNewCard');
+  if (extraClass) showCardEl.classList.add(extraClass);
   el.cardsSection.append(showCardEl);
 
   showCardEl.addEventListener('click', () => removeShowingCard(showCardEl));
+}
+
+function showCard(cardEl: HTMLElement) {
+  if (el.cardsSection.querySelector('.showingNewCard:not(.hiding)')) {
+    removeAllShowingCards();
+  } else {
+    addShowingCard(cardEl, 'fromCard');
+  }
 }
 
 function removeShowingCard(cardEl: HTMLElement) {

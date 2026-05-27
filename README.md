@@ -18,9 +18,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] better cards UI
   - [ ] a card that needs to flip can be a card and a card back in a single 3d-rotated package
   - [ ] (Maya? ai?) add card pictures
-  - [x] add card descriptions (on buy/click, not under a question mark)
   - [ ] level/progress highlight could pulsate
-  - [x] animation when buying cards
 - [ ] tracks
   - using level (per type of run?)
   - waves? reset gates? multi-stage runs?
@@ -227,6 +225,9 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## done by 2026-05-27
 
+- [.] better cards UI
+  - [x] add card descriptions (on buy/click, not under a question mark)
+  - [x] animation when buying cards
 - [/] created players could be spread out evenly in stride stage, so two are 1/3 apart and no two go
   the same
   - given N players, we should use stride phases from 0 to almost half but alternate over which half

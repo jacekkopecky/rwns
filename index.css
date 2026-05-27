@@ -691,9 +691,21 @@ button {
         opacity: 0;
       }
 
+      &.fromCard {
+        transition-duration: 0.5s;
+        @starting-style {
+          transform: translate(-50%, -50%) scale(0.5);
+          opacity: 0;
+        }
+      }
+
       &.hiding {
-        transform: translate(0, 0) scale(0);
+        transform: translate(-50%, 0%) scale(0);
         opacity: 0;
+
+        &.fromCard {
+          transform: translate(-50%, -50%) scale(0.5);
+        }
       }
 
       z-index: 1;
