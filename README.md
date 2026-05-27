@@ -18,7 +18,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] better cards UI
   - [ ] a card that needs to flip can be a card and a card back in a single 3d-rotated package
   - [ ] (Maya? ai?) add card pictures
-  - [ ] add card descriptions under a question mark?
+  - [x] add card descriptions (on buy/click, not under a question mark)
   - [ ] level/progress highlight could pulsate
   - [x] animation when buying cards
 - [ ] tracks

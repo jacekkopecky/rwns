@@ -20,7 +20,7 @@ export type CardDefinition = Readonly<{
   minPlayerLevel: number;
   cardsToGive: number; // it can be Infinity
   typeLabel: TypeLabel;
-  // description: string; // something to show under a question mark icon?
+  description: string;
   // picture?: string; // url
   // this function will give the card's effect
   performUpgrade(level: number, params: UpgradablePermanentParameters): void;
@@ -36,6 +36,7 @@ export const cardDefinitions = {
     cardsToGive: 40, // level 12
     minPlayerLevel: Infinity, // make sure the card is never awarded
     name: 'testing card',
+    description: 'testing card',
     rarity: 'common', // doesn't matter
     typeLabel: 'fire rate', // doesn't matter
     performUpgrade() {
@@ -66,6 +67,7 @@ export const cardDefinitions = {
     cardsToGive: getCardsToLevel(6),
     rarity: 'epic',
     typeLabel: 'max dmg',
+    description: 'increase the maximum available damage upgrade',
     performUpgrade(level, params) {
       params.damageMaxUpgrade += level;
     },
@@ -79,6 +81,7 @@ export const cardDefinitions = {
     cardsToGive: getCardsToLevel(6),
     rarity: 'epic',
     typeLabel: 'max rate',
+    description: 'increase the maximum available fire-rate upgrade',
     performUpgrade(level, params) {
       params.rateMaxUpgrade += level;
     },

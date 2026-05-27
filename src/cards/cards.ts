@@ -150,6 +150,8 @@ function makeCardEl(
 
   makeEl(cardEl, 'div', 'label', definition.typeLabel);
 
+  makeEl(cardEl, 'div', 'description', definition.description);
+
   if (cardData.nextLevelCards > 0) {
     const nextEl = makeEl(cardEl, 'div', 'nextLevel');
     nextEl.classList.toggle('highlight', highlightProgress);
