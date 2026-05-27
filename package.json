@@ -8,7 +8,7 @@
   "main": "index.html",
   "scripts": {
     "start": "vite --host 0.0.0.0",
-    "build": "VITE_BUILD_VERSION=`git rev-parse --short HEAD` vite build",
+    "build": "VITE_BUILD_VERSION=`/bin/echo -n $(date '+%Y-%m-%d %H:%M') \"($(git rev-parse --short HEAD))\"` vite build",
     "build-and-commit": "test -z \"`git status --porcelain --untracked-files=no`\" && npm run build && git add docs && git commit -m ':rocket:' || echo 'FAILED: something not right'",
     "test": "npm run lint && npm run type-check && vitest run",
     "type-check": "tsc --noEmit",
