@@ -20,7 +20,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - [ ] (Maya? ai?) add card pictures
   - [ ] add card descriptions under a question mark?
   - [ ] level/progress highlight could pulsate
-  - [ ] animation when buying cards
+  - [x] animation when buying cards
 - [ ] tracks
   - using level (per type of run?)
   - waves? reset gates? multi-stage runs?
@@ -221,6 +221,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - with height 30, the explosions aren't showing right
 - [ ] remove circular dependencies
 - [ ] in wallets, count down when buying
+- [ ] add support for wider screens, landscape mode?
 
 ---
 

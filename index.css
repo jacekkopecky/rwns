@@ -466,18 +466,14 @@ button {
       gap: 6cqw;
       grid-auto-rows: 39cqw;
 
-      .bigCard {
-        width: 100%;
-        height: 100%;
-      }
-
       font-size: 1.2em;
     }
   }
 
   .bigCard {
-    height: 3em;
-    width: 2em;
+    /* width and height are expected to be 2x3 */
+    width: 100%;
+    height: 100%;
     border-radius: 0.3em;
     border: 0.1em solid #7d2ab7;
     position: relative;
@@ -659,6 +655,46 @@ button {
       border-radius: 100%;
       background: yellow;
       background: radial-gradient(circle closest-side, #ff0 0%, #ff0 30%, #ff00 100%);
+    }
+
+    &.showingNewCard {
+      position: absolute;
+      width: 66vw !important;
+      height: 99vw !important;
+      font-size: 8vmin;
+      top: 40%;
+      left: 50%;
+
+      transition:
+        transform 1s ease-out,
+        opacity 1s ease-in-out;
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+
+      @starting-style {
+        transform: translate(-50%, -150%) scale(0.1);
+        opacity: 0;
+      }
+
+      &.hiding {
+        transform: translate(0, 0) scale(0);
+        opacity: 0;
+      }
+
+      z-index: 1;
+      box-shadow: 0 0 20vmin 0 black;
+
+      .rarity,
+      .label,
+      .nextLevel {
+        font-size: 70%;
+      }
+      .level {
+        display: none !important;
+      }
+      .nextLevel {
+        visibility: hidden;
+      }
     }
   }
 }

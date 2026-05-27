@@ -16,6 +16,7 @@ import { cardDefinitions, CARDS, RARITIES, type CardDefinition } from './types';
 import { selectNextRandomCard } from './next-card';
 
 const el = {
+  cardsSection: getEl('#cards'),
   goToCardsSectionButton: getEl('#mainScreen .sectionButtons .cards'),
   closeCardsSectionButton: getEl('#cards button.close'),
   buyOne: getEl('#cards button.buyOne'),
@@ -31,7 +32,10 @@ const el = {
 
 export function init() {
   el.goToCardsSectionButton.addEventListener('click', () => showSection('cards'));
-  el.closeCardsSectionButton.addEventListener('click', () => showSection('mainScreen'));
+  el.closeCardsSectionButton.addEventListener('click', () => {
+    removeAllShowingCards();
+    showSection('mainScreen');
+  });
 
   el.buyOne.addEventListener('click', buyOne);
   el.buyBulk.addEventListener('click', buyBulk);
@@ -41,7 +45,12 @@ export function updateCardsVisibility(state: ReadonlyState) {
   toggleHidden(el.goToCardsSectionButton, !isFeatureAllowed('cards', state));
 }
 
-export function showCardsScreen(
+export function showCardsScreen() {
+  removeAllShowingCards(true);
+  updateCardsScreen();
+}
+
+export function updateCardsScreen(
   levelHighlights?: Set<CardType>,
   progressHighlights?: Set<CardType>,
 ) {
@@ -78,6 +87,7 @@ export function showCardsScreen(
 
   let firstHighlightedCard: Element | undefined;
 
+  removeAllShowingCards();
   for (const { cardType, definition, cardData } of cardsToRender) {
     const highlightLevel = Boolean(levelHighlights?.has(cardType));
     const highlightProgress = Boolean(progressHighlights?.has(cardType));
@@ -87,6 +97,7 @@ export function showCardsScreen(
 
     if (highlightLevel || highlightProgress) {
       firstHighlightedCard ??= cardEl;
+      addShowingCard(cardEl);
     }
   }
 
@@ -97,6 +108,26 @@ export function showCardsScreen(
       1,
     );
   }
+}
+
+function addShowingCard(cardEl: HTMLElement) {
+  const showCardEl = cardEl.cloneNode(true) as HTMLElement;
+  showCardEl.classList.add('showingNewCard');
+  el.cardsSection.append(showCardEl);
+
+  showCardEl.addEventListener('click', () => removeShowingCard(showCardEl));
+}
+
+function removeShowingCard(cardEl: HTMLElement) {
+  cardEl.classList.add('hiding');
+  cardEl.inert = true;
+  setTimeout(() => cardEl.remove(), 1000);
+}
+
+function removeAllShowingCards(immediate = false) {
+  el.cardsSection
+    .querySelectorAll<HTMLElement>('.showingNewCard:not(.hiding)')
+    .forEach((cardEl) => (immediate ? cardEl.remove() : removeShowingCard(cardEl)));
 }
 
 function makeCardEl(
@@ -202,7 +233,7 @@ function buyOne() {
   setToAdd.add(cardType);
 
   // update the screen and show cards, highlighting that which just got a new one
-  showCardsScreen(levelHighlights, nextProgressHighlights);
+  updateCardsScreen(levelHighlights, nextProgressHighlights);
 }
 
 function buyBulk() {
