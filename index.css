@@ -194,6 +194,17 @@ button {
 #playStats {
   line-height: 1.5em;
   padding: 0 1em 1em;
+
+  & > .energy {
+    display: flex;
+    align-items: center;
+    white-space: pre;
+
+    i.energy {
+      white-space: normal;
+      font-size: 2em;
+    }
+  }
 }
 
 .wallet {
