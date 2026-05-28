@@ -8,6 +8,11 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
+- [ ] resume on end screen doesn't work
+- [ ] If an end block has a gem, does it lose coins?
+- [ ] Every level could have a different colour of end gate
+- [ ] Crossing with matching colour Marvins could give extra coins or something (quests)
+- [ ] The highlight on cards should appear slowly with the appearing showing card
 - [ ] re-do run screen and maybe end-run screen as sections, then it won't be possible to tab to an
       invisible button from end screen OK
 - [ ] re-create sprite textures on return to fullscreen? (it seems they disappear)
@@ -222,6 +227,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] add support for wider screens, landscape mode?
 
 ---
+
+## done by 2026-05-28
+
+- [x] Replay button, and ok, could both be just play again
 
 ## done by 2026-05-27
 
