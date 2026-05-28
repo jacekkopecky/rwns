@@ -8,11 +8,9 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
-- [ ] Every level could have a different colour of end gate
-- [ ] Crossing with matching colour Marvins could give extra coins or something (quests)
-- [ ] The highlight on cards should appear slowly with the appearing showing card
-- [ ] re-do run screen and maybe end-run screen as sections, then it won't be possible to tab to an
-      invisible button from end screen OK
+- [ ] every level could have a different colour of end gate
+- [ ] refactor run screen and maybe end-run screen as sections, then it won't be possible to tab to
+      an invisible button from end screen OK
 - [ ] re-create sprite textures on return to fullscreen? (it seems they disappear)
 - [ ] more cards see in `src/cards/types.ts`
   - [x] card tweaks: revisit progression of incoming new cards: money cards earlier, space
@@ -22,6 +20,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - [ ] a card that needs to flip can be a card and a card back in a single 3d-rotated package
   - [ ] (Maya? ai?) add card pictures
   - [ ] level/progress highlight could pulsate
+  - [ ] the highlight on cards should appear slowly with the appearing showing card
 - [ ] tracks
   - using level (per type of run?)
   - waves? reset gates? multi-stage runs?
@@ -62,6 +61,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
             grassy, rocky, sandy) where the bricks smoothly change color probabilities so it starts
             one color set and ends another
           - enemies could be animals of some sort?
+      - finishing with matching colour Marvins could be a quest
     - some level types can restrict types of available upgrades, e.g. mine should not permit more
       players
   - gradation
@@ -124,6 +124,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - always start fire rate or damage on level 2, 3 etc.?
   - increase max level of cards? (the user would really only choose this when they have a lot of
     cards at top level)
+  - award for finishing a run with a marvin matching the color of the end gate
 - [ ] I can calculate how long it would take someone to reach high levels depending on supply of
       gems 
 - [ ] update README and index to say it's a game now? make it public?
