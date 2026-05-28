@@ -54,8 +54,7 @@ export function makeGem(hp: number, id?: string, withoutRotation = false) {
 
   oData.hitPoints = hp;
   oData.benign = true;
-  oData.award = { type: 'gem', amount: 1 };
-  oData.useForAward = true;
+  oData.awards = [{ type: 'gem', amount: 1, useForAward: true }];
   return obj;
 }
 
@@ -64,7 +63,7 @@ export function makeBag(amount: number) {
   const oData = getObjectData(obj);
 
   oData.collectible = true;
-  oData.award = { type: 'coin', amount };
+  oData.awards = [{ type: 'coin', amount }];
   // make the reach of coins bigger to be easier to collect
   scaleExtent(oData.extent2d, 3);
 
@@ -94,7 +93,7 @@ export function makeEndBlocks(
       oData.hitPoints = THREE.MathUtils.lerp(minHP, maxHP, i / (rows - 1));
 
       if (awards[i]) {
-        oData.award = { amount: awards[i]!, type: 'coin' };
+        oData.awards = [{ amount: awards[i]!, type: 'coin' }];
       }
 
       objects.push(block);

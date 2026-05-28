@@ -23,6 +23,11 @@ export interface BulletData extends AnyObjectData {
   hitPoints: number;
 }
 
+export interface Award extends Currency {
+  // whether to use this object (or a named subobject) for the award animation two awards shouldn't use the same object
+  useForAward?: boolean | string;
+}
+
 export interface ObjectData extends AnyObjectData {
   type: 'object';
   id?: string;
@@ -34,9 +39,7 @@ export interface ObjectData extends AnyObjectData {
   // benign objects just disappear when walking through with no harm to the player
   benign?: boolean;
   // awards can come when shot (non-collectible) or when walked over (collectible)
-  award?: Currency;
-  // whether this object (or a named subobject) should be used for the award animation
-  useForAward?: boolean | string;
+  awards?: Award[];
   // a function to call when a player hits the object
   onPlayerCollision?: (player?: THREE.Object3D) => void;
 }

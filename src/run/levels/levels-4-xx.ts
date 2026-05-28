@@ -178,8 +178,13 @@ function addGemToEndBlock(gemInfo: GemInfo, block: THREE.Object3D, state: Readon
     block.add(gem);
 
     const oData = getObjectData(block);
-    oData.award = { amount: 1, type: 'gem' };
-    oData.useForAward = gem.name;
+    oData.awards ??= [];
+    // the gem goes in as the first award so it flies out nicely
+    oData.awards.unshift({
+      amount: 1,
+      type: 'gem',
+      useForAward: gem.name,
+    });
 
     return true;
   } else {

@@ -9,7 +9,7 @@ import * as state from '../state';
 import { flyToTarget } from './three/animations';
 import { getScreenCoordinates } from './three/camera';
 import { createSpriteObject } from './three/resources';
-import { type ObjectData } from './types';
+import type { Award, ObjectData } from './types';
 import { AnimatedCount } from './utils/animated-count';
 
 const el = {
@@ -47,44 +47,44 @@ export function setupAwards() {
 }
 
 export async function giveAward(fromObj: THREE.Object3D, oData: ObjectData) {
-  if (!oData.award) return;
-
-  const { type, amount } = oData.award;
-
-  inRunWallet.add(type, amount);
-  state.addAward(oData.award);
-  // in case we're already in the end-run screen
-  updateEndRunScreen();
-
-  const targetCoords = getScreenCoordinates(
-    dim.cameraToTrackEndLength,
-    ...dim.runAwardsTargetCoordinates,
-  );
-
-  const [obj, position] = makeAwardObject(type, oData.useForAward, fromObj);
-
-  const subAwards = splitAward(amount);
   let first = true;
-  for (const subAmount of subAwards) {
-    if (!first) {
-      await new Promise((resolve) => setTimeout(resolve, 100));
+  for (const award of oData.awards ?? []) {
+    const { type, amount } = award;
+
+    inRunWallet.add(type, amount);
+    state.addAward(award);
+    // in case we're already in the end-run screen
+    updateEndRunScreen();
+
+    const targetCoords = getScreenCoordinates(
+      dim.cameraToTrackEndLength,
+      ...dim.runAwardsTargetCoordinates,
+    );
+
+    const [obj, position] = makeAwardObject(type, award.useForAward, fromObj);
+
+    const subAwards = splitAward(amount);
+    for (const subAmount of subAwards) {
+      if (!first) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+
+      const subObj = first ? obj : obj.clone();
+      if (!first) {
+        subObj.position.copy(position);
+        // use obj…extent2d because clone() doesn't keep the objects in userData
+        subObj.position.x += (random() - 0.5) * obj.userData.extent2d.max.x;
+      }
+
+      awardsGroup.attach(subObj);
+      flyToTarget(subObj, targetCoords, dim.runAwardsFlyDuration);
+
+      subObj.addEventListener('removed', () => {
+        addToShow(type, subAmount);
+      });
+
+      first = false;
     }
-
-    const subObj = first ? obj : obj.clone();
-    if (!first) {
-      subObj.position.copy(position);
-      // use obj…extent2d because clone() doesn't keep the objects in userData
-      subObj.position.x += (random() - 0.5) * obj.userData.extent2d.max.x;
-    }
-
-    awardsGroup.attach(subObj);
-    flyToTarget(subObj, targetCoords, dim.runAwardsFlyDuration);
-
-    subObj.addEventListener('removed', () => {
-      addToShow(type, subAmount);
-    });
-
-    first = false;
   }
 }
 
@@ -94,7 +94,7 @@ export async function giveAward(fromObj: THREE.Object3D, oData: ObjectData) {
  */
 function makeAwardObject(
   type: CurrencyType,
-  useForAward: ObjectData['useForAward'],
+  useForAward: Award['useForAward'],
   fromObj: THREE.Object3D,
 ): [obj: THREE.Object3D, position: THREE.Vector3] {
   const position = new THREE.Vector3();

@@ -41,10 +41,12 @@ export function killObject(obj: THREE.Object3D, givingAward = false) {
 
   // if we're using a subobject for award, also kill it (so e.g. gems are now collected)
   const oData = getObjectData(obj);
-  if (typeof oData.useForAward === 'string') {
-    const subObj = obj.getObjectByName(oData.useForAward);
-    if (subObj) {
-      killObject(subObj, givingAward);
+  for (const award of oData.awards ?? []) {
+    if (typeof award.useForAward === 'string') {
+      const subObj = obj.getObjectByName(award.useForAward);
+      if (subObj) {
+        killObject(subObj, givingAward);
+      }
     }
   }
 }
