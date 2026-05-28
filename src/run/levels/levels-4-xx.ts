@@ -74,7 +74,7 @@ export function level4Plus(
 
   const blocks = makeEndBlocks(
     blockStart,
-    8,
+    dim.normalLevelEndBlockRows,
     params.maxEndBlockHitPoints * hardness,
     currObjectHP / 2,
     params.endBlockCoinsPerLevel,

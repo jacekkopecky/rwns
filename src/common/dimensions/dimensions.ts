@@ -54,6 +54,7 @@ export const initialCoinsPerLevel = 20;
 export const initialEndBlockCoinsPerLevel = 0;
 export const initialGemsPerLevel = 4;
 export const initialGemsGuaranteeedPerRun = 1; // this only affects gems in run, not in end blocks, so there may be fewer
+export const maxCoinBagsPerRun = 10;
 
 // costs
 export const cardPriceGems = 5;
@@ -71,9 +72,9 @@ export const difficultyIncreasePerLevel = 1.04;
 export const cardDefaultMaxLevel = 20;
 export const coinCardMaxLevel = 10; // small so that we can have more cards and the progression is faster
 
-// a run takes 60-ish seconds
+// a run takes 60-ish seconds, plus end blocks
 export const runLength = 60 * playerSpeedPerSecond - startDistance;
-export const maxCoinBagsPerRun = 10;
+export const normalLevelEndBlockRows = 8;
 
 export const cameraPosition = new THREE.Vector3(0, 100, 100);
 export const cameraDirection = new THREE.Vector3(0, -100, -200);
