@@ -8,7 +8,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
-- [ ] resume on end screen doesn't work
 - [ ] Every level could have a different colour of end gate
 - [ ] Crossing with matching colour Marvins could give extra coins or something (quests)
 - [ ] The highlight on cards should appear slowly with the appearing showing card
@@ -229,6 +228,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## done by 2026-05-28
 
+- [x] resume on end screen doesn't work
 - [x] If an end block has a gem, it loses coins, but should it?
 - [x] Replay button, and ok, could both be just play again
 

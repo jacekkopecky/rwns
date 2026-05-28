@@ -54,8 +54,8 @@ export function init() {
   el.topButtons.addEventListener('touchdown', (e) => e.stopPropagation());
   el.upgradeButtons.addEventListener('touchdown', (e) => e.stopPropagation());
 
-  el.main.addEventListener('fullscreenchange', () => updateMainScreen());
-  document.addEventListener('visibilitychange', () => updateMainScreen());
+  el.main.addEventListener('fullscreenchange', updateMainScreenIfNotInRun);
+  document.addEventListener('visibilitychange', updateMainScreenIfNotInRun);
 }
 
 export function startPlaying() {
@@ -109,6 +109,10 @@ export function showMainScreen() {
       }
     }, 1000);
   }
+}
+
+function updateMainScreenIfNotInRun() {
+  if (!isInRun()) updateMainScreen();
 }
 
 export function updateMainScreen(state = readState(), params = getUpgradablePermanentParameters()) {
