@@ -227,6 +227,11 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ---
 
+## done by 2026-05-29
+
+- [x] make daily prizes more generous
+- [x] more cards
+
 ## done by 2026-05-28
 
 - [x] resume on end screen doesn't work
