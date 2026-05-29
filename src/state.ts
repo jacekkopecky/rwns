@@ -265,6 +265,6 @@ export function setDailyGiftGivenToday() {
   saveState();
 }
 
-function getToday(): string {
+export function getToday(): string {
   return new Date().toISOString().split('T')[0]!;
 }

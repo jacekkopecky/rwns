@@ -1,6 +1,14 @@
 import * as dim from '#dimensions';
 import { isCurrency, type CurrencyType } from '#types';
-import { formatNumber, getEl, makeEl, pickWeightedItem, spread } from '#utils';
+import {
+  createRandom,
+  formatNumber,
+  getEl,
+  makeEl,
+  pickWeightedItem,
+  randomIntInRange,
+  spread,
+} from '#utils';
 
 import {
   addAward,
@@ -8,6 +16,7 @@ import {
   canGiveDailyGift,
   getCountOfAllCards,
   getDailyGiftMaxCoinsPerCurrentRun,
+  getToday,
   isFeatureAllowed,
   readState,
   setDailyGiftGivenToday,
@@ -142,22 +151,23 @@ function get12AvailablePrizes() {
   const specials: Prize[] = [];
 
   specials.push({ award: 'spin-again', amount: null, factor: 5 });
+  const prng = createRandom(getToday());
 
   const maxCoins = getDailyGiftMaxCoinsPerCurrentRun();
-  normals.push({ award: 'coin', factor: 10, amount: maxCoins });
-  normals.push({ award: 'energy', factor: 5, amount: 2 });
-  normals.push({ award: 'coin', factor: 5, amount: 5 * maxCoins });
-  normals.push({ award: 'energy', factor: 10, amount: 1 });
   normals.push({ award: 'coin', factor: 10, amount: 2 * maxCoins });
-  normals.push({ award: 'energy', factor: 3, amount: 5 });
+  normals.push({ award: 'energy', factor: 10, amount: 3 });
+  normals.push({ award: 'coin', factor: 6, amount: 5 * maxCoins });
+  normals.push({ award: 'energy', factor: 10, amount: 2 });
+  normals.push({ award: 'coin', factor: 10, amount: 3 * maxCoins });
+  normals.push({ award: 'energy', factor: 6, amount: 5 });
 
   if (isFeatureAllowed('cards', state)) {
-    specials.push({ award: 'gem', factor: 10, amount: 2 });
-    specials.push({ award: 'card', factor: 10, amount: 1 });
     specials.push({ award: 'gem', factor: 10, amount: 4 });
+    specials.push({ award: 'card', factor: 10, amount: 1 });
+    specials.push({ award: 'gem', factor: 10, amount: 8 });
 
     if (getCountOfAllCards(state) > 20) {
-      specials.push({ award: 'card', factor: 3, amount: 3 });
+      specials.push({ award: 'card', factor: 6, amount: randomIntInRange(3, 5, prng) });
     }
   }
 

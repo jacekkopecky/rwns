@@ -34,6 +34,10 @@ export function randomItem<T>(arr: readonly T[], prng = random): T {
   return arr[Math.floor(prng() * arr.length)]!;
 }
 
+export function randomIntInRange(min: number, max: number, prng = random) {
+  return Math.floor(prng() * (max - min + 1)) + min;
+}
+
 export function removeRandomItem<T>(arr: T[], prng = random): T {
   if (arr.length === 0) {
     throw new Error('cannot remove a random item from an empty array');
