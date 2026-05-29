@@ -25,8 +25,20 @@ export function setupPlayers(state: ReadonlyState, params: UpgradablePermanentPa
     params.playerShotsPerSecond,
     state.runUpgradeLevels,
     'rate',
+    params,
   );
-  const players = applyRunUpgrade(params.startingPlayers, state.runUpgradeLevels, 'players');
+  const bulletHitPoints = applyRunUpgrade(
+    params.playerBulletHitPoints,
+    state.runUpgradeLevels,
+    'damage',
+    params,
+  );
+  const players = applyRunUpgrade(
+    params.startingPlayers,
+    state.runUpgradeLevels,
+    'players',
+    params,
+  );
 
   // mirror so we don't always start with the same orientation
   const mirror = random() < 0.5;
@@ -44,11 +56,7 @@ export function setupPlayers(state: ReadonlyState, params: UpgradablePermanentPa
     pData.remainingShotTime = (pData.shotTime / players) * i + pData.shotTime / 2;
 
     pData.range = params.playerBulletRange;
-    pData.bulletHitPoints = applyRunUpgrade(
-      params.playerBulletHitPoints,
-      state.runUpgradeLevels,
-      'damage',
-    );
+    pData.bulletHitPoints = bulletHitPoints;
 
     pData.hitPoints = params.playerHitPoints;
     playersGroup.add(player);

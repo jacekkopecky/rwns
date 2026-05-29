@@ -115,12 +115,20 @@ function doUpgrade(
   setRunUpgradeLevel(type, nextLevel);
 }
 
+function getCurrentLevel(
+  type: RunUpgradeType,
+  upgradeLevels: RunUpgradeLevels,
+  params: UpgradablePermanentParameters,
+) {
+  return upgradeLevels[type] ?? 0 + getValue(`${type}StartUpgrade`, params);
+}
+
 function getCurrentAndNextLevel(
   type: RunUpgradeType,
   state: ReadonlyState,
   params: UpgradablePermanentParameters,
 ) {
-  const currentLevel = state.runUpgradeLevels[type] ?? 0;
+  const currentLevel = getCurrentLevel(type, state.runUpgradeLevels, params);
 
   const maxLevel = getValue(`${type}MaxUpgrade`, params);
   if (currentLevel >= maxLevel) return { currentLevel };
@@ -137,8 +145,9 @@ export function applyRunUpgrade(
   value: number,
   runUpgradeLevels: RunUpgradeLevels,
   type: RunUpgradeType,
+  params: UpgradablePermanentParameters,
 ): number {
-  const level = runUpgradeLevels[type];
+  const level = getCurrentLevel(type, runUpgradeLevels, params);
   if (!level) return value;
 
   const valueFn = RUN_UPGRADE_FUNCTIONS[type].value;

@@ -592,6 +592,11 @@ button {
       .type-range & {
         background: #88ffff77;
       }
+      .type-troops & {
+        background: black;
+        color: #ffff00;
+        font-weight: bold;
+      }
     }
 
     .nextLevel {

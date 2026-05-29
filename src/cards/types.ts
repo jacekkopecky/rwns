@@ -1,8 +1,6 @@
 import type { UpgradablePermanentParameters } from '#types';
 import * as dim from '#dimensions';
 
-import * as state from '../state';
-
 import { getCardsToLevel } from './levels';
 import * as t from './templates';
 
@@ -12,7 +10,7 @@ export type Rarity = (typeof RARITIES)[number];
 // short label for card types
 type TypeLabel =
   // add new ones to the CSS as well
-  'damage' | 'fire rate' | 'range' | 'income' | 'energy' | 'max dmg' | 'max rate';
+  'damage' | 'fire rate' | 'range' | 'income' | 'energy' | 'max dmg' | 'max rate' | 'troops';
 
 export type CardDefinition = Readonly<{
   name: string; // funny name
@@ -28,7 +26,10 @@ export type CardDefinition = Readonly<{
   onLevelUp?(): void;
 }>;
 
-export type CardTemplate = Omit<CardDefinition, 'name' | 'minPlayerLevel' | 'cardsToGive'>;
+export type CardTemplate = Omit<
+  CardDefinition,
+  'name' | 'rarity' | 'minPlayerLevel' | 'cardsToGive'
+>;
 
 // prettier-ignore
 export const cardDefinitions = {
@@ -43,58 +44,39 @@ export const cardDefinitions = {
       console.error("this should never be called, it's a testing card");
     },
   }),
-  range1:    tCard( 25, 'Atlatl          ', t.range,                                  ),
-  range2:    tCard(100, 'Longbow         ', t.range,                                  ),
-  range3:    tCard(200, 'Sniper Rifle    ', t.range,                                  ),
-  rate1:     tCard( 25, 'Practice        ', t.rate,                                   ),
-  rate2:     tCard(100, 'Reload Bot      ', t.rate,                                   ),
-  rate3:     tCard(200, 'Gatling Gun     ', t.rate,                                   ),
-  damage1:   tCard( 50, 'Sharp Rock      ', t.damage,                                 ),
-  damage2:   tCard(100, 'Heavy Bullet    ', t.damage,                                 ),
-  damage3:   tCard(150, 'Grenade         ', t.damage,                                 ),
-  coins1:    tCard( 25, 'Gold Nugget     ', t.inRunCoins,    dim.coinCardMaxLevel     ),
-  coins2:    tCard( 60, 'Pay Raise       ', t.inRunCoins,    dim.coinCardMaxLevel     ),
-  coins3:    tCard(100, '1337 Loot       ', t.inRunCoins,    dim.coinCardMaxLevel     ),
-  coins4:    tCard(140, 'RwnsCoin        ', t.inRunCoins,    dim.coinCardMaxLevel     ),
-  coins5:    tCard(180, 'Inflation       ', t.inRunCoins,    dim.coinCardMaxLevel     ),
-  endCoins1: tCard( 25, 'Harvest         ', t.endBlockCoins, dim.coinCardMaxLevel     ),
-  endCoins2: tCard( 60, 'Treasure Chest  ', t.endBlockCoins, dim.coinCardMaxLevel     ),
-  endCoins3: tCard(100, 'Pot of Gold     ', t.endBlockCoins, dim.coinCardMaxLevel     ),
-  energy1:   tCard( 42, 'Electron Boost  ', t.energy,        24 - dim.initialEnergyMax),
-  maxDmg1: card({
-    minPlayerLevel: 42,
-    name: 'Steroids',
-    cardsToGive: getCardsToLevel(6),
-    rarity: 'epic',
-    typeLabel: 'max dmg',
-    description: 'increase the maximum available damage upgrade',
-    performUpgrade(level, params) {
-      params.damageMaxUpgrade += level;
-    },
-    onLevelUp() {
-      state.increaseRunUpgradeLevel('damage');
-    },
-  }),
-  maxRate1: card({
-    minPlayerLevel: 42,
-    name: 'Machine Oil',
-    cardsToGive: getCardsToLevel(6),
-    rarity: 'epic',
-    typeLabel: 'max rate',
-    description: 'increase the maximum available fire-rate upgrade',
-    performUpgrade(level, params) {
-      params.rateMaxUpgrade += level;
-    },
-    onLevelUp() {
-      state.increaseRunUpgradeLevel('rate');
-    },
-  }),
+  range1:    tCard( 25, 'Atlatl          ', t.range,                                    ),
+  range2:    tCard(100, 'Longbow         ', t.range,                                    ),
+  range3:    tCard(200, 'Sniper Rifle    ', t.range,                                    ),
+  rate1:     tCard( 25, 'Practice        ', t.rate,                                     ),
+  rate2:     tCard(100, 'Reload Bot      ', t.rate,                                     ),
+  rate3:     tCard(200, 'Gatling Gun     ', t.rate,                                     ),
+  damage1:   tCard( 50, 'Sharp Rock      ', t.damage,                                   ),
+  damage2:   tCard(100, 'Heavy Bullet    ', t.damage,                                   ),
+  damage3:   tCard(150, 'Grenade         ', t.damage,                                   ),
+  coins1:    tCard( 25, 'Gold Nugget     ', t.inRunCoins,    dim.coinCardMaxLevel       ),
+  coins2:    tCard( 60, 'Pay Raise       ', t.inRunCoins,    dim.coinCardMaxLevel       ),
+  coins3:    tCard(100, '1337 Loot       ', t.inRunCoins,    dim.coinCardMaxLevel       ),
+  coins4:    tCard(140, 'RwnsCoin        ', t.inRunCoins,    dim.coinCardMaxLevel       ),
+  coins5:    tCard(180, 'Inflation       ', t.inRunCoins,    dim.coinCardMaxLevel       ),
+  endCoins1: tCard( 25, 'Harvest         ', t.endBlockCoins, dim.coinCardMaxLevel       ),
+  endCoins2: tCard( 60, 'Treasure Chest  ', t.endBlockCoins, dim.coinCardMaxLevel       ),
+  endCoins3: tCard(100, 'Pot of Gold     ', t.endBlockCoins, dim.coinCardMaxLevel       ),
+
+  energy1:   tRare( 42, 'Electron Boost  ', t.energy,        24 - dim.initialEnergyMax  ),
+  startDmg:  tRare( 50, 'Porridge Brekkie', t.startDamage,   dim.initialDamageMaxUpgrade),
+  startRate: tRare( 50, 'Morning Coffee  ', t.startRate,     dim.initialRateMaxUpgrade  ),
+
+  maxDmg:    tEpic( 42, 'Steroids        ', t.maxDamage,     dim.upgradeMaxCardMaxLevel ),
+  maxRate:   tEpic( 42, 'Machine Oil     ', t.maxRate,       dim.upgradeMaxCardMaxLevel ),
+
+  troops1: tLegendary(50, 'Good Friends  ', t.startPlayers,  dim.upgradeMaxCardMaxLevel ),
+  troops2: tLegendary(99, 'Popularity    ', t.maxPlayers,    dim.upgradeMaxCardMaxLevel ),
 } as const;
 
-// interaction between levels and cards
+// interaction between levels and cards (back-of-the-envelope counting)
 // 25 - first batch of cards available
-// normal gem income is about 1 card per level, a 10-level card takes 30, a 20-level card takes 85
-// we give about 1-4 cards per level (more if the user takes more runs or gets cards in other ways)
+// normal gem income is about 1-2 cards per level, a 10-level card takes 30, a 20-level card takes 85
+// 24 energy, with maybe 1.5 gems per run, is about 6-7 cards a day
 // we'll have about 5 common coins available initially, so we need 5*(between 30 and 85)/(between 1 and 4) levels to max them out
 // about 100 levels to max out cards, so new cards should come around 100-level increments
 
@@ -103,8 +85,6 @@ export const cardDefinitions = {
 //     - number of colour gates in a run? (max level 3)
 //     - (?) decrease normal object (e.g. tree) HP (? or this might be a skill later)
 //     - (?) decrease end block HP (? or this might be a skill later)
-//     - starting damage upgrade?
-//     - starting fire rate upgrade?
 //     - increase gems per level by one, gems in end blocks plus one
 //       - Emerald, ruby, sapphire; diamond, smoky quartz, obsidian - add adjectives
 //   - epic:
@@ -112,9 +92,6 @@ export const cardDefinitions = {
 //     - decrease price of rate upgrade (by a fraction, at least 1, but min price 1?)
 //     - decrease price of player upgrade (by a fraction, at least 1, but min price 1?)
 //     - increase gems extra per run by one (or this could be a skill?)
-//   - legendary:
-//     - increase max player number
-//     - increase starting player number
 
 export const CARDS = Object.keys(cardDefinitions) as (keyof typeof cardDefinitions)[];
 
@@ -132,11 +109,25 @@ function tCard(
   name: string,
   template: CardTemplate,
   maxLevel = dim.cardDefaultMaxLevel,
+  rarity: Rarity = 'common',
 ): CardDefinition {
   return {
     ...template,
+    rarity,
     cardsToGive: getCardsToLevel(maxLevel),
     name: name.trim(),
     minPlayerLevel,
   };
+}
+
+function tRare(...[min, name, tmpl, max]: Parameters<typeof tCard>) {
+  return tCard(min, name, tmpl, max, 'rare');
+}
+
+function tEpic(...[min, name, tmpl, max]: Parameters<typeof tCard>) {
+  return tCard(min, name, tmpl, max, 'epic');
+}
+
+function tLegendary(...[min, name, tmpl, max]: Parameters<typeof tCard>) {
+  return tCard(min, name, tmpl, max, 'legendary');
 }
