@@ -50,17 +50,21 @@ export function level4Plus(
 
     let object = null;
 
-    if (item.type === 'gem') {
-      // create every gem so we use the same random() calls, but don't put in the ones already collected
-      const gem = makeGem(params.gemHitPoints * hardness, item.id);
-      if (!item.id || !state.collectedGemIds.includes(item.id)) {
-        object = gem;
-        actualGemCount += 1;
+    switch (item.type) {
+      case 'gem': {
+        // create every gem so we use the same random() calls, but don't put in the ones already collected
+        const gem = makeGem(params.gemHitPoints * hardness, item.id);
+        if (!item.id || !state.collectedGemIds.includes(item.id)) {
+          object = gem;
+          actualGemCount += 1;
+        }
+        break;
       }
-    } else if (item.type === 'bag') {
-      object = makeBag(item.amount);
-    } else {
-      throw new Error(`unhandled item ${JSON.stringify(item)}`);
+      case 'bag':
+        object = makeBag(item.amount);
+        break;
+      default:
+        throw new Error(`unhandled item ${JSON.stringify(item)}`);
     }
 
     if (object) {

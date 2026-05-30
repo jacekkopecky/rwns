@@ -42,10 +42,6 @@ export function init(main: HTMLElement) {
 }
 
 export function render(showStats?: boolean) {
-  if (!scene) {
-    console.warn('render called before setting the scene');
-    return;
-  }
   renderer.render(scene, camera);
   if (showStats) {
     console.log('triangles', renderer.info.render.triangles);

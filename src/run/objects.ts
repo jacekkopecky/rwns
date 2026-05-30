@@ -50,8 +50,8 @@ export function setupObjects(opts: {
   }
 
   return {
-    msg: customMessage ?? '',
-    gemCount: gemCount ?? 0,
+    msg: customMessage,
+    gemCount,
   };
 }
 

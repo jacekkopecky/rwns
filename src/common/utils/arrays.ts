@@ -14,7 +14,7 @@ export function getByName<T extends THREE.Object3D>(objects: T[], name: string) 
   return retval;
 }
 
-export function indexByName<T extends THREE.Object3D>(objects: T[], name: string) {
+export function indexByName(objects: THREE.Object3D[], name: string) {
   const retval = objects.findIndex((obj) => obj.name === name);
   if (retval < 0) {
     throw new Error(`cannot find object with name "${name}"`);

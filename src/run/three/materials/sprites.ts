@@ -4,7 +4,7 @@ import * as dim from '#dimensions';
 
 import { isSprite } from '../tools';
 
-const debugSpriteSize = false;
+const debugSpriteSize = false as boolean;
 
 export const sprites = {
   coin: emojiSpriteMaterial('🟡'),
@@ -42,7 +42,7 @@ function emojiSpriteMaterial(emojiCharacter: string): THREE.SpriteMaterial {
 export function getSpriteMaterial(type: keyof typeof sprites): THREE.SpriteMaterial;
 export function getSpriteMaterial(type: string, useDefault: true): THREE.SpriteMaterial;
 export function getSpriteMaterial(type: string, useDefault = false): THREE.SpriteMaterial {
-  const material = sprites[type as keyof typeof sprites];
+  const material = type in sprites && sprites[type as keyof typeof sprites];
   if (material) {
     return material;
   } else if (useDefault) {

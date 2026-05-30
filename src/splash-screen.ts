@@ -37,7 +37,7 @@ export function init() {
     updateIsOnSplashScreen(false);
   }
 
-  fillOrHide(el.version, (import.meta.env.VITE_BUILD_VERSION as string) ?? 'unknown');
+  fillOrHide(el.version, (import.meta.env.VITE_BUILD_VERSION ?? 'unknown') as string);
 
   // disable context menu
   document.addEventListener('contextmenu', (e) => e.preventDefault());

@@ -3,11 +3,11 @@ import * as THREE from 'three';
 import * as dim from '#dimensions';
 
 export function getObjectZ(obj: THREE.Object3D) {
-  return (obj.parent?.position?.z ?? 0) + obj.position.z;
+  return (obj.parent?.position.z ?? 0) + obj.position.z;
 }
 
 export function getObjectX(obj: THREE.Object3D) {
-  return (obj.parent?.position?.x ?? 0) + obj.position.x;
+  return (obj.parent?.position.x ?? 0) + obj.position.x;
 }
 
 export function isSprite(obj?: THREE.Object3D): obj is THREE.Sprite {

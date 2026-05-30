@@ -19,7 +19,7 @@ export const energyGainInterval = 60 * 60 * 1000; // get new energy every 60 min
 export const startDistance = 50;
 export const endDistance = 35;
 export const behindCamera = 100;
-export const shadowsEnabled = true;
+export const shadowsEnabled = true as boolean; // annotated so TS knows it need not be true
 
 export const objectDyingDuration = 0.3;
 export const treeDyingDuration = 0.5;

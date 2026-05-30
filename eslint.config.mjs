@@ -5,8 +5,7 @@ import tseslint from 'typescript-eslint';
 export default defineConfig(
   js.configs.recommended,
   tseslint.configs.strict,
-  tseslint.configs.recommendedTypeChecked,
-  // tseslint.configs.strictTypeChecked,
+  tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
   {
     languageOptions: {
@@ -34,6 +33,12 @@ export default defineConfig(
       '@typescript-eslint/no-misused-promises': [
         'error',
         { checksVoidReturn: { arguments: false } },
+      ],
+      '@typescript-eslint/no-confusing-void-expression': ['error', { ignoreArrowShorthand: true }],
+      '@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }],
+      '@typescript-eslint/no-unnecessary-condition': [
+        'error',
+        { allowConstantLoopConditions: 'only-allowed-literals' },
       ],
     },
   },
