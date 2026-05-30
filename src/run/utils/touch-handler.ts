@@ -12,7 +12,7 @@ export class TouchHandler {
       onMoveBy?(deltaX: number): void;
     },
   ) {
-    el.addEventListener('touchstart', this.handleStart, { passive: true });
+    el.addEventListener('touchstart', this.handleStart, { passive: false });
     el.addEventListener('touchend', this.handleEnd, { passive: true });
     el.addEventListener('touchmove', this.handleMove, { passive: true });
     el.addEventListener('mousedown', this.handleStart, { passive: true });
@@ -23,6 +23,7 @@ export class TouchHandler {
   }
 
   private handleStart = (e: TouchEvent | MouseEvent) => {
+    e.preventDefault();
     this.lastPosition = this.getPositionFraction(e);
     this.isActive = true;
   };
