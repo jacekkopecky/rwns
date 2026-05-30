@@ -69,8 +69,8 @@ export const cardDefinitions = {
   maxDmg:    tEpic( 42, 'Steroids        ', t.maxDamage,     dim.upgradeMaxCardMaxLevel ),
   maxRate:   tEpic( 42, 'Machine Oil     ', t.maxRate,       dim.upgradeMaxCardMaxLevel ),
 
-  troops1: tLegendary(50, 'Good Friends  ', t.startPlayers,  dim.upgradeMaxCardMaxLevel ),
-  troops2: tLegendary(99, 'Popularity    ', t.maxPlayers,    dim.upgradeMaxCardMaxLevel ),
+  troop1: tLegendary(50, 'Good Friends   ', t.startPlayers,  dim.upgradeMaxCardMaxLevel ),
+  troop2: tLegendary(99, 'Popularity Pill', t.maxPlayers,    dim.upgradeMaxCardMaxLevel ),
 } as const;
 
 // interaction between levels and cards (back-of-the-envelope counting)
