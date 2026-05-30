@@ -14,7 +14,7 @@ import {
   isFeatureAllowed,
   getUpgradablePermanentParameters,
   setRunUpgradeLevel,
-} from './state';
+} from '../state';
 
 const el = {
   upgrades: {

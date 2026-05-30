@@ -4,7 +4,7 @@ import * as dim from '#dimensions';
 import { random } from '#utils';
 import type { ReadonlyState, UpgradablePermanentParameters } from '#types';
 
-import { applyRunUpgrade } from '../main-screen-upgrades';
+import { applyRunUpgrade } from '../main-screen';
 
 import { createPlayerBullet } from './bullets';
 import { hitObject, objectsGroup } from './objects';

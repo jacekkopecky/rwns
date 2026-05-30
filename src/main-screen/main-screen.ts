@@ -1,11 +1,10 @@
 import type { UpgradablePermanentParameters } from '#types';
 import { fillOrHide, fillWalletEls, getEl, toggleHidden } from '#utils';
 
-import { updateCardsVisibility } from './cards';
-import { initUpgrades, updateUpgrades } from './main-screen-upgrades';
-import { init as initRunScreen, prepareRun, startRun } from './run';
-import { isSectionActive, showSection } from './sections';
-import { isOnSplashScreen } from './splash-screen';
+import { updateCardsVisibility } from '../cards';
+import { init as initRunScreen, prepareRun, startRun } from '../run';
+import { isSectionActive, showSection } from '../sections';
+import { isOnSplashScreen } from '../splash-screen';
 import {
   initState,
   readState,
@@ -16,7 +15,9 @@ import {
   isFeatureAllowed,
   canGiveDailyGift,
   increaseLevel,
-} from './state';
+} from '../state';
+
+import { initUpgrades, updateUpgrades } from './run-upgrades';
 
 const el = {
   main: getEl('main'),

@@ -13,7 +13,7 @@ import { CARDS, CURRENCIES, Wallet } from '#types';
 import { exposeGlobalWindowProp, parseNumber, parseString, parseStringArray } from '#utils';
 
 import { cardDefinitions, lookupLevelByNumberOfCards, minLevelForCards } from './cards';
-import { parseUpgrades } from './main-screen-upgrades';
+import { parseUpgrades } from './main-screen';
 
 const LOCAL_STORAGE_KEY = 'rwns-game-state';
 
