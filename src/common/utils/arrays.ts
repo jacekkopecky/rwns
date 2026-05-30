@@ -39,7 +39,7 @@ export function indexByName<T extends THREE.Object3D>(objects: T[], name: string
  * 10: 1234
  */
 export function assignEndBunchedRewards(amount: number, rows: number): number[] {
-  const retval = new Array(rows).fill(0);
+  const retval = new Array<number>(rows).fill(0);
 
   // the triangle will have this length: at most `rows`, otherwise solves the equation of the
   // sum of the triangle: (length+1)*length/2 = amount
@@ -56,12 +56,12 @@ export function assignEndBunchedRewards(amount: number, rows: number): number[] 
   if (assigned <= amount) {
     // amount is more than we can fit in the rows, simply give the rest to the last row
     // it's not expected that the awards will grow so much
-    retval[rows - 1] += amount - assigned;
+    retval[rows - 1]! += amount - assigned;
   } else {
     // amount is less than we have already assigned, remove a few
     console.assert(assigned - amount < length);
     for (let i = 0; i < assigned - amount; i += 1) {
-      retval[rows - 1 - i] -= 1;
+      retval[rows - 1 - i]! -= 1;
     }
   }
 

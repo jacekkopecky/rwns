@@ -11,7 +11,7 @@ export function createBullet(player: THREE.Object3D): THREE.Object3D {
   const bullet = createBulletModel();
   bullet.userData.extent2d = new Circle(undefined, dim.modelSizes.bullet[1] / 2);
   bullet.userData.type = 'bullet';
-  bullet.translateY(player.userData.gunHeight ?? dim.modelSizes.player[1] / 2);
+  bullet.translateY((player.userData.gunHeight as number) ?? dim.modelSizes.player[1] / 2);
 
   const action = rotateAlways(bullet, dim.bulletRotationsPerSecond, 'z');
   bullet.addEventListener('removed', () => action.stop());

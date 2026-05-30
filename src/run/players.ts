@@ -8,7 +8,7 @@ import { applyRunUpgrade } from '../main-screen';
 
 import { createPlayerBullet } from './bullets';
 import { hitObject, objectsGroup } from './objects';
-import { Circle, getObjectData, getPlayerData } from './types';
+import { Circle, getObjectData, getPlayerData, type PlayerData } from './types';
 
 import { updateCameraPosition } from './three/camera';
 import { getExtentTranslatedToPosition, intersects, isDying } from './three/resources';
@@ -17,6 +17,11 @@ import { getObjectZ, resetGroup } from './three/tools';
 import { generatePlayerPosition } from './player-positions';
 
 export const playersGroup = new THREE.Group();
+
+const pgData = playersGroup.userData as {
+  minX: number;
+  maxX: number;
+};
 
 export function setupPlayers(state: ReadonlyState, params: UpgradablePermanentParameters) {
   resetGroup(playersGroup);
@@ -64,7 +69,7 @@ export function setupPlayers(state: ReadonlyState, params: UpgradablePermanentPa
 
   // center the initial player group
   computePlayersGroupMinMax(playersGroup);
-  const offCenter = (playersGroup.userData.maxX + playersGroup.userData.minX) / 2;
+  const offCenter = (pgData.maxX + pgData.minX) / 2;
   if (offCenter !== 0) {
     for (const player of playersGroup.children) {
       player.translateX(-offCenter);
@@ -81,16 +86,16 @@ function computePlayersGroupMinMax(group: THREE.Group) {
 
   for (const player of group.children) {
     if (!isDying(player)) {
-      const pmin = player.userData.extent2d.min.x + player.position.x;
+      const pmin = (player.userData as PlayerData).extent2d.min.x + player.position.x;
       if (minX > pmin) minX = pmin;
-      const pmax = player.userData.extent2d.max.x + player.position.x;
+      const pmax = (player.userData as PlayerData).extent2d.max.x + player.position.x;
       if (maxX < pmax) maxX = pmax;
     }
   }
 
   if (minX < Infinity) {
-    playersGroup.userData.minX = minX;
-    playersGroup.userData.maxX = maxX;
+    pgData.minX = minX;
+    pgData.maxX = maxX;
   }
 }
 
@@ -108,13 +113,13 @@ function repositionPlayers() {
 }
 
 export function updatePlayerPosition(playerMoveFraction: number) {
-  const availableWidth = dim.trackWidth - playersGroup.userData.maxX + playersGroup.userData.minX;
+  const availableWidth = dim.trackWidth - pgData.maxX + pgData.minX;
   const delta = playerMoveFraction * availableWidth;
 
   const x = playersGroup.position.x + delta;
   const halfWidth = dim.trackWidth / 2;
-  const minX = -halfWidth - playersGroup.userData.minX;
-  const maxX = halfWidth - playersGroup.userData.maxX;
+  const minX = -halfWidth - pgData.minX;
+  const maxX = halfWidth - pgData.maxX;
 
   playersGroup.position.x = Math.max(minX, Math.min(maxX, x));
 

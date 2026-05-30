@@ -16,10 +16,7 @@ export function setupBullets() {
   resetGroup(bulletsGroup);
 }
 
-export function createPlayerBullet(
-  player: THREE.Object3D<THREE.Object3DEventMap>,
-  pData: PlayerData,
-) {
+export function createPlayerBullet(player: THREE.Object3D, pData: PlayerData) {
   const bullet = createBullet(player);
   const bData = getBulletData(bullet);
   bData.minZ = bulletsGroup.position.z - pData.range;

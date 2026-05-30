@@ -32,9 +32,9 @@ export function createGem(id?: string, withoutRotation = false) {
 }
 
 export function killGem(obj: THREE.Object3D, givingAward = false) {
-  if (givingAward && obj.userData.id) {
+  if (givingAward && 'id' in obj.userData) {
     // remember this gem has been collected
-    collectGem(obj.userData.id);
+    collectGem(obj.userData.id as string);
   }
 
   if (!givingAward) {

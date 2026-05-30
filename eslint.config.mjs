@@ -1,11 +1,11 @@
 import js from '@eslint/js';
-import { defineConfig, globalIgnores } from 'eslint/config';
+import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig(
   js.configs.recommended,
   tseslint.configs.strict,
-  // tseslint.configs.recommendedTypeChecked,
+  tseslint.configs.recommendedTypeChecked,
   // tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
   {
@@ -31,6 +31,10 @@ export default defineConfig(
     rules: {
       // often we know well enough that something is there
       '@typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/no-misused-promises': [
+        'error',
+        { checksVoidReturn: { arguments: false } },
+      ],
     },
   },
 );

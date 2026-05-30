@@ -40,7 +40,7 @@ export function createPlayer(): THREE.Object3D {
 }
 
 function getMarvin(player: THREE.Object3D): Marvin | undefined {
-  const marvin = player.userData.marvin;
+  const marvin = player.userData.marvin as unknown;
   return marvin instanceof Marvin ? marvin : undefined;
 }
 

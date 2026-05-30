@@ -37,7 +37,7 @@ export function init() {
     updateIsOnSplashScreen(false);
   }
 
-  fillOrHide(el.version, import.meta.env.VITE_BUILD_VERSION ?? 'unknown');
+  fillOrHide(el.version, (import.meta.env.VITE_BUILD_VERSION as string) ?? 'unknown');
 
   // disable context menu
   document.addEventListener('contextmenu', (e) => e.preventDefault());
@@ -51,12 +51,12 @@ async function goFullscreen() {
 }
 
 function exit() {
-  document.exitFullscreen();
+  void document.exitFullscreen();
 }
 
 function handleTopLevelSpaceKey(e: KeyboardEvent): void {
   if (e.key === ' ' && !document.fullscreenElement) {
-    goFullscreen();
+    void goFullscreen();
   }
 }
 

@@ -66,8 +66,8 @@ export function createTrackDecorations(group: THREE.Group): void {
 export function moveTrackDecorations(group: THREE.Group, delta: number) {
   group.position.z += delta * dim.playerSpeedPerSecond;
   const maxZ = dim.behindCamera - group.position.z;
-  const sideNextZ: number = group.userData.sideNextZ;
-  const trackNextZ: number = group.userData.trackNextZ;
+  const sideNextZ = group.userData.sideNextZ as number;
+  const trackNextZ = group.userData.trackNextZ as number;
   const maxTrackZ = maxZ + group.userData.trackDist / 2;
 
   let movedSide = false;

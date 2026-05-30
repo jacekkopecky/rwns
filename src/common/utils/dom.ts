@@ -77,7 +77,7 @@ export function exposeGlobalWindowProp(propName: string, value: unknown, overwri
   if (propName in window && !overwrite) {
     console.error(new Error('prop already exposed'));
   } else {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
     (window as any)[propName] = value;
   }
 }

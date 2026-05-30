@@ -126,10 +126,10 @@ function gemsWithIds(n: number, idPrefix = ''): Iterable<GemInfo> {
 
 function coinBagAmounts(bags: number, total: number): BagInfo[] {
   if (total <= bags) {
-    return Array(total).fill({ type: 'bag', amount: 1 });
+    return Array<BagInfo>(total).fill({ type: 'bag', amount: 1 });
   }
 
-  const amounts = Array(bags);
+  const amounts = new Array<number>(bags);
 
   // fill the array with average ints
   let remaining = total;
@@ -146,8 +146,8 @@ function coinBagAmounts(bags: number, total: number): BagInfo[] {
     const stepLength = bags / (spread + 0.5);
     for (let i = 0; i < bags - 1; i += 2) {
       const currSpread = spread - Math.floor((i + 1) / stepLength);
-      amounts[i] -= currSpread;
-      amounts[i + 1] += currSpread;
+      amounts[i]! -= currSpread;
+      amounts[i + 1]! += currSpread;
     }
   }
 

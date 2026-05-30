@@ -73,7 +73,7 @@ export async function giveAward(fromObj: THREE.Object3D, oData: ObjectData) {
       if (!first) {
         subObj.position.copy(position);
         // use obj…extent2d because clone() doesn't keep the objects in userData
-        subObj.position.x += (random() - 0.5) * obj.userData.extent2d.max.x;
+        subObj.position.x += (random() - 0.5) * (obj.userData as ObjectData).extent2d.max.x;
       }
 
       awardsGroup.attach(subObj);
@@ -133,7 +133,7 @@ function splitAward(n: number): number[] {
   if (n <= 3) return [n / 3, n / 3, n / 3];
 
   const len = Math.floor(Math.min(Math.log(n) + 3, 7));
-  const retval = new Array(len);
+  const retval = new Array<number>(len);
   let remaining = n;
   for (let i = 0; i < len; i += 1) {
     const thisStep = Math.round(remaining / (len - i));

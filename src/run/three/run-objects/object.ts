@@ -27,7 +27,7 @@ export function createObject<T extends keyof typeof typeFns>(
   retval.userData._createObject_type = type;
 
   if (retval.userData.height) {
-    retval.add(createHitBar().translateY(retval.userData.height));
+    retval.add(createHitBar().translateY(retval.userData.height as number));
   }
 
   return retval;

@@ -8,7 +8,6 @@ const debugSpriteSize = false;
 
 export const sprites = {
   coin: emojiSpriteMaterial('🟡'),
-  bulletDying: emojiSpriteMaterial('💥'),
   defaultMaterial: new THREE.SpriteMaterial({ color: 0x00dddd }),
 } as const;
 

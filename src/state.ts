@@ -97,7 +97,7 @@ function loadState() {
   const dataString = localStorage.getItem(LOCAL_STORAGE_KEY) ?? '{}';
 
   try {
-    const data = JSON.parse(dataString);
+    const data = JSON.parse(dataString) as Record<string, unknown>;
 
     state = {
       level: parseNumber(data.level, 1),

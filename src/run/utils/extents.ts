@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { Circle } from '../types';
+import { Circle, type ObjectData } from '../types';
 
 const extentMaterial = new THREE.MeshLambertMaterial({ color: 0x000000, wireframe: true });
 
@@ -9,8 +9,8 @@ export function showExtents(objects: THREE.Object3D[]) {
   }
 }
 
-export function showExtent(obj: THREE.Object3D<THREE.Object3DEventMap>) {
-  const extentView = createExtentWireframe(obj.userData.extent2d);
+export function showExtent(obj: THREE.Object3D) {
+  const extentView = createExtentWireframe((obj.userData as ObjectData).extent2d);
   extentView.rotateX(Math.PI / 2);
   extentView.position.y = -obj.position.y + 0.1;
   extentView.userData.isExtent = true;

@@ -12,8 +12,7 @@ export function createSpriteObject(
   opts: { dataType?: string; y?: number } = {},
 ): THREE.Object3D {
   const material = mat.getSpriteMaterial(type, true);
-  const size =
-    dim.spriteSizes[type as keyof typeof dim.spriteSizes] ?? dim.spriteSizes.defaultSize!;
+  const size = dim.spriteSizes[type as dim.SpriteType] ?? dim.spriteSizes.defaultSize;
 
   const { dataType = type, y = size[1] / 2 } = opts;
 
@@ -115,8 +114,13 @@ function translateBox2XZ(box: THREE.Box2, pos: THREE.Vector3) {
   box.max.y += pos.z;
 }
 
+interface DyingData {
+  dying: boolean;
+  dyingMaterial: keyof typeof mat.sprites;
+}
+
 export function isDying(obj: THREE.Object3D): boolean {
-  return obj.userData.dying;
+  return (obj.userData as DyingData).dying;
 }
 
 export function markAsDying(obj: THREE.Object3D) {
@@ -124,5 +128,5 @@ export function markAsDying(obj: THREE.Object3D) {
 }
 
 export function getDyingMaterial(obj: THREE.Object3D): keyof typeof mat.sprites | undefined {
-  return obj.userData.dyingMaterial;
+  return (obj.userData as DyingData).dyingMaterial;
 }

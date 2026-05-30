@@ -39,8 +39,9 @@ export function setupObjects(opts: {
   objects.sort(compareByMaxZ);
 
   const endGate = createObject('gate', 'end', opts.onFinish);
-  endGate.userData.maxZ = objects.at(-1)!.userData.maxZ - dim.endDistance;
-  endGate.translateZ(endGate.userData.maxZ);
+  const maxZ = objects.at(-1)!.userData.maxZ - dim.endDistance;
+  endGate.userData.maxZ = maxZ;
+  endGate.translateZ(maxZ);
   getObjectData(endGate).hitPoints = Infinity; // make the gate swallow bullets
   objects.push(endGate);
 
@@ -92,7 +93,7 @@ export function hitObject(obj: THREE.Object3D, hitPoints: number, playerHit = fa
     killObject(obj, givingAward);
 
     // give the award, but not from benign objects when we walk into them
-    if (givingAward) giveAward(obj, oData);
+    if (givingAward) void giveAward(obj, oData);
   }
 
   return true;

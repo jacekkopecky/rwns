@@ -1,9 +1,12 @@
 import * as dim from './dimensions';
 
-export const spriteSizes: Record<string, [number, number]> = {
+const _spriteSizes = {
   coin: [4, 4],
   defaultSize: [15, 25],
 } as const;
+export type SpriteType = keyof typeof _spriteSizes;
+export const spriteSizes: Record<SpriteType, readonly [number, number]> = _spriteSizes;
+
 export const spriteResolution = 64;
 
 export const bouldersPerEndRow = 4;
