@@ -68,7 +68,7 @@ export function getCardLevel(
     return {
       level: 0,
       nextLevelCards: 1,
-      nextLevelCardsHave: 1,
+      nextLevelCardsHave: 0,
     };
   }
 

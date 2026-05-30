@@ -73,16 +73,15 @@ export function updateCardsScreen(
 
   const cardsToRender = CARDS.map((cardType) => ({
     cardType,
-    cardsHave: state.cards.read(cardType),
     definition: cardDefinitions[cardType],
     cardData: getCardLevel(cardType, state.cards, cardDefinitions[cardType].cardsToGive),
   }))
-    .filter(({ cardsHave }) => cardsHave > 0)
+    .filter(({ cardData }) => cardData.level > 0)
     .sort((a, b) => {
-      // reverse order of rarity, then reverse order of how many cards we have
+      // reverse order of rarity, then reverse order of level, then order of CARDS
       const rarityDiff =
         RARITIES.indexOf(b.definition.rarity) - RARITIES.indexOf(a.definition.rarity);
-      return rarityDiff !== 0 ? rarityDiff : b.cardsHave - a.cardsHave;
+      return rarityDiff !== 0 ? rarityDiff : b.cardData.level - a.cardData.level;
     });
 
   let firstHighlightedCard: Element | undefined;
