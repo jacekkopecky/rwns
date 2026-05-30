@@ -39,7 +39,9 @@ export function fillOrHide(
   value: number | string,
   formatFn: (v: number) => string = formatNumber,
 ) {
-  el.querySelector('.value')!.textContent = typeof value === 'string' ? value : formatFn(value);
+  const text = typeof value === 'string' ? value : formatFn(value);
+  const valueEl = el.querySelector('.value')!;
+  if (valueEl.textContent !== text) valueEl.textContent = text;
   el.classList.toggle('hidden', !value);
 
   return Boolean(value);

@@ -1,4 +1,3 @@
-import type { UpgradablePermanentParameters } from '#types';
 import { fillOrHide, fillWalletEls, getEl, toggleHidden } from '#utils';
 
 import { updateCardsVisibility } from '../cards';
@@ -9,7 +8,6 @@ import {
   initState,
   readState,
   resetState,
-  getEnergy,
   subtractEnergy,
   getUpgradablePermanentParameters,
   isFeatureAllowed,
@@ -17,6 +15,7 @@ import {
   increaseLevel,
 } from '../state';
 
+import { hasEnergy, updateEnergyCount } from './energy';
 import { initUpgrades, updateUpgrades } from './run-upgrades';
 
 const el = {
@@ -36,7 +35,6 @@ const el = {
   playStats: {
     played: getEl('#playStats .played'),
     level: getEl('#playStats .level'),
-    energy: getEl('#playStats .energy'),
   },
   upgradeButtons: getEl('#mainScreen .upgradeButtons'),
 };
@@ -65,7 +63,7 @@ export function startPlaying() {
   const params = getUpgradablePermanentParameters();
   // this gets called on every touch of the screen, so ignore it if already in a game
   if (!isInRun()) {
-    if (el.main.classList.contains('no-energy')) {
+    if (!hasEnergy()) {
       updateEnergyCount(params);
       return;
     }
@@ -128,27 +126,6 @@ export function updateMainScreen(state = readState(), params = getUpgradablePerm
   updateEnergyCount(params);
   updateUpgrades(state, params);
   updateCardsVisibility(state);
-}
-
-function updateEnergyCount(params: UpgradablePermanentParameters) {
-  const { energy, nextEnergyMs } = getEnergy(params);
-  if (energy < Infinity) {
-    if (energy) {
-      fillOrHide(el.playStats.energy, energy);
-    } else {
-      const energyMin = Math.floor(nextEnergyMs / 60000);
-      // const energySec = Math.floor(nextEnergyMs / 1000 - energyMin * 60);
-      // const energyStr = energyMin
-      //   ? `${energyMin}:${String(energySec).padStart(2, '0')}`
-      //   : `${Math.ceil(nextEnergyMs / 1000)}s`;
-      const energyStr = energyMin ? `${energyMin}min` : `${Math.ceil(nextEnergyMs / 1000)}s`;
-      fillOrHide(el.playStats.energy, `0 (next in ${energyStr})`);
-    }
-  } else {
-    toggleHidden(el.playStats.energy, true);
-  }
-
-  el.main.classList.toggle('no-energy', !energy);
 }
 
 function showSettings() {
