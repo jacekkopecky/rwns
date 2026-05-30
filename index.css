@@ -551,6 +551,7 @@ button {
 
     .name {
       margin: auto;
+      padding: 0 1ch;
       text-align: center;
       text-wrap: balance;
     }

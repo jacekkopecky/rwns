@@ -227,6 +227,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ---
 
+## done by 2026-05-30
+
+- [x] card name needs a bit of padding
+
 ## done by 2026-05-29
 
 - [x] make daily prizes more generous
