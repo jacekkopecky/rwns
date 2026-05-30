@@ -49,7 +49,10 @@ function setupCounter(nextEnergyMs: number, energy: number) {
 }
 
 function clearCounter() {
-  if (counterInterval) clearInterval(counterInterval);
+  if (counterInterval) {
+    clearInterval(counterInterval);
+    counterInterval = null;
+  }
 }
 
 function updateEnergyInInterval() {
