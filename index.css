@@ -576,22 +576,18 @@ button {
         background: #ffff88aa;
       }
       .type-energy & {
-        background: #88aaff88;
+        background: #bbffff88;
       }
-      .type-damage & {
-        background: #ffaaaa88;
-      }
+      .type-damage &,
       .type-max-dmg & {
         background: #ffaaaa88;
       }
-      .type-fire-rate & {
-        background: #aaffaa88;
-      }
+      .type-fire-rate &,
       .type-max-rate & {
         background: #aaffaa88;
       }
       .type-range & {
-        background: #88ffff77;
+        background: #9999ffff;
       }
       .type-troops & {
         background: black;
