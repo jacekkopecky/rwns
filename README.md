@@ -9,9 +9,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 ## todo
 
 - [ ] every level could have a different colour of end gate
-- [ ] refactor run screen and maybe end-run screen as sections, then it won't be possible to tab to
-      an invisible button from end screen OK
-- [ ] re-create sprite textures on return to fullscreen? (it seems they disappear)
 - [ ] more cards see in `src/cards/types.ts`
   - [x] card tweaks: revisit progression of incoming new cards: money cards earlier, space
         range/rate/damage cards so new ones come on a similar staggered schedule?
@@ -78,7 +75,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - what do we get for quests?
     - points towards levels? different points per quest?
     - what do we get for levels? extra energy, gems, some other special currency…?
-  - what do we get in a mine?
+  - what do we get in a mine? some other special currency…?
     - in Timeline Up, it's coal and iron, for delayed general upgrades, could do something similar?
     - could be points for learning skills
   - some other special currency: buy robot upgrades, e.g. military ranks
@@ -89,6 +86,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
       can't buy the next officer rank
       - if you get an upgrade where you have a new robot, you'd then have to get all the lower ranks
         for that robot before you can upgrade the best officer
+  - some other special currency: skills that take time to train
 - [ ] achievements
   - gather 100 coins
   - clear out a level
@@ -97,7 +95,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - [ ] list of achievements, showing progress?
     - achievements should at some point be sorted by ETA, not by fraction of achievement, so that
       long-taking achievements that are 2/3 done aren't hogging top ranks
-- [ ] in-run upgrades? fire rate, damage, extra players?
+- [ ] in-run upgrades, e.g. gates? fire rate, damage, extra players?
   - as gates? (move gate creation and then killing to run/object/object.ts so run/objects.ts doesn't
     call createGate directly?)
   - when we hit a gate it can slide into the ground
@@ -162,11 +160,14 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - quest types:
     - break 20 end blocks
     - break 20 end blocks with red/green/blue robot
-- others?
+- technical ideas
   - [ ] use LoadManager from https://threejs.org/manual/#en/textures for progress bars?
   - [/] use SpriteMixer? https://github.com/felixmariotto/three-SpriteMixer/
     - probably can be done with AnimationMixer and discrete tracks?
-- [ ] error handling - unhandled exceptions and promises
+  - [ ] refactor run screen and maybe end-run screen as sections, then it won't be possible to tab
+        to an invisible button from end screen OK
+  - [ ] re-create sprite textures on return to fullscreen? (it seems they disappear)
+  - [ ] error handling - unhandled exceptions and promises
 - [ ] add slow-down areas so we can have big bosses
   - [ ] first add possibility of markings on the track?
   - when in a slow-down area, objects are updated by a different delta
@@ -178,6 +179,9 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] should some upgrades expire? should they be more/less expensive after expiry?
 - [ ] add specific bigger occasional awards like the key in ice? what did it actually do? I think
       hero upgrades
+  - it would randomly show up per run, it could be a skill or a card that increases the probability
+    of this happening
+  - the ice block could be clearly visible in the
 - [ ] let the world know about the game
   - reddit three.js? reddit games?
   - when all artwork is mine
