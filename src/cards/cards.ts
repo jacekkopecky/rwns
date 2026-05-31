@@ -78,10 +78,19 @@ export function updateCardsScreen(
   }))
     .filter(({ cardData }) => cardData.level > 0)
     .sort((a, b) => {
-      // reverse order of rarity, then reverse order of level, then order of CARDS
+      // reverse order of rarity
       const rarityDiff =
         RARITIES.indexOf(b.definition.rarity) - RARITIES.indexOf(a.definition.rarity);
-      return rarityDiff !== 0 ? rarityDiff : b.cardData.level - a.cardData.level;
+      if (rarityDiff) return rarityDiff;
+
+      // cards at their maximum should sort first
+      if (a.cardData.nextLevelCards === 0 || b.cardData.nextLevelCards === 0) {
+        const maxDiff = a.cardData.nextLevelCards - b.cardData.nextLevelCards;
+        if (maxDiff) return maxDiff;
+      }
+
+      // finally reverse order of level, then order of CARDS
+      return b.cardData.level - a.cardData.level;
     });
 
   let firstHighlightedCard: Element | undefined;
