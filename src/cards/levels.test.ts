@@ -26,6 +26,7 @@ describe('lookupLevelByNumberOfCards', () => {
 
     // test the insides
     expect(_test.levelToCardsRequired.slice(0, 24)).toEqual([
+      // 1  2  3  4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22   23
       0, 1, 3, 5, 8, 11, 14, 18, 22, 26, 30, 35, 40, 45, 50, 55, 61, 67, 73, 79, 85, 91, 98, 105,
     ]);
     expect(_test.cardsToLevel.slice(0, 27)).toEqual([

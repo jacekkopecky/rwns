@@ -161,6 +161,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
     - break 20 end blocks
     - break 20 end blocks with red/green/blue robot
 - technical ideas
+  - [ ] add automatic import ordering?
   - [ ] use LoadManager from https://threejs.org/manual/#en/textures for progress bars?
   - [/] use SpriteMixer? https://github.com/felixmariotto/three-SpriteMixer/
     - probably can be done with AnimationMixer and discrete tracks?
@@ -222,7 +223,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] Could a Marvin that took a hit flash a bit somehow?
 - [ ] could Marvins sit down when out of energy?
 - [ ] allow use of back button for navigation at least through sections, and from a run?
-- [ ] add stricter eslint rules, commented out in eslint.config.mjs
 - [ ] make final gate taller than the blocks, or the blocks shorter?
   - with height 30, the explosions aren't showing right
 - [ ] remove circular dependencies
@@ -233,6 +233,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## done by 2026-05-30
 
+- [x] add stricter eslint rules, commented out in eslint.config.mjs
 - [x] card name needs a bit of padding
 
 ## done by 2026-05-29
