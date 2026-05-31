@@ -71,6 +71,7 @@ export const difficultyIncreasePerLevel = 1.04;
 // card limits
 export const cardDefaultMaxLevel = 20;
 export const coinCardMaxLevel = 10; // small so that we can have more cards and the progression is faster
+export const gemCardMaxLevel = 5; // and we really only want one of these
 export const upgradeMaxCardMaxLevel = 6;
 
 // a run takes 60-ish seconds, plus end blocks

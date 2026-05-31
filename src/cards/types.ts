@@ -58,16 +58,21 @@ export const cardDefinitions = {
   coins3:    tCard(100, '1337 Loot       ', t.inRunCoins,    dim.coinCardMaxLevel       ),
   coins4:    tCard(140, 'RwnsCoin        ', t.inRunCoins,    dim.coinCardMaxLevel       ),
   coins5:    tCard(180, 'Inflation       ', t.inRunCoins,    dim.coinCardMaxLevel       ),
+  coins6:    tCard(220, 'Shiny Mine-y    ', t.inRunCoins,    dim.coinCardMaxLevel       ),
   endCoins1: tCard( 25, 'Harvest         ', t.endBlockCoins, dim.coinCardMaxLevel       ),
   endCoins2: tCard( 60, 'Treasure Chest  ', t.endBlockCoins, dim.coinCardMaxLevel       ),
   endCoins3: tCard(100, 'Pot of Gold     ', t.endBlockCoins, dim.coinCardMaxLevel       ),
+  endCoins4: tCard(140, 'Gold Vein       ', t.endBlockCoins, dim.coinCardMaxLevel       ),
+  endCoins5: tCard(180, 'Precious Granite', t.endBlockCoins, dim.coinCardMaxLevel       ),
 
   energy1:   tRare( 42, 'Electron Boost  ', t.energy,        24 - dim.initialEnergyMax  ),
   startDmg:  tRare( 50, 'Porridge Brekkie', t.startDamage,   dim.initialDamageMaxUpgrade),
   startRate: tRare( 50, 'Morning Coffee  ', t.startRate,     dim.initialRateMaxUpgrade  ),
+  gems1:     tRare( 60, 'Sapphire Rain   ', t.gemsPerLevel,  dim.gemCardMaxLevel        ),
 
   maxDmg:    tEpic( 42, 'Steroids        ', t.maxDamage,     dim.upgradeMaxCardMaxLevel ),
   maxRate:   tEpic( 42, 'Machine Oil     ', t.maxRate,       dim.upgradeMaxCardMaxLevel ),
+  gemsGrnt1: tEpic( 60, 'Shiny Mine-y    ', t.gemsGuaranteed,dim.cardPriceGems - 2      ),
 
   troop1: tLegendary(50, 'Good Friends   ', t.startPlayers,  dim.upgradeMaxCardMaxLevel ),
   troop2: tLegendary(99, 'Popularity Pill', t.maxPlayers,    dim.upgradeMaxCardMaxLevel ),
@@ -85,13 +90,10 @@ export const cardDefinitions = {
 //     - number of colour gates in a run? (max level 3)
 //     - (?) decrease normal object (e.g. tree) HP (? or this might be a skill later)
 //     - (?) decrease end block HP (? or this might be a skill later)
-//     - increase gems per level by one, gems in end blocks plus one
-//       - Emerald, ruby, sapphire; diamond, smoky quartz, obsidian - add adjectives
 //   - epic:
 //     - decrease price of damage upgrade (by a fraction, at least 1, but min price 1?)
 //     - decrease price of rate upgrade (by a fraction, at least 1, but min price 1?)
 //     - decrease price of player upgrade (by a fraction, at least 1, but min price 1?)
-//     - increase gems extra per run by one (or this could be a skill?)
 
 export const CARDS = Object.keys(cardDefinitions) as (keyof typeof cardDefinitions)[];
 

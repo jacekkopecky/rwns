@@ -33,6 +33,22 @@ export const inRunCoins: CardTemplate = {
   },
 };
 
+export const gemsPerLevel: CardTemplate = {
+  typeLabel: 'income',
+  description: 'add more gems to levels',
+  performUpgrade(level, params) {
+    params.gemsPerLevel += level;
+  },
+};
+
+export const gemsGuaranteed: CardTemplate = {
+  typeLabel: 'income',
+  description: 'make more gems always be there',
+  performUpgrade(level, params) {
+    params.gemsPerLevel += level;
+  },
+};
+
 export const damage: CardTemplate = {
   typeLabel: 'damage',
   description: 'make bullets stronger',
