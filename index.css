@@ -164,6 +164,8 @@ main {
   font-style: italic;
   text-align: center;
   text-wrap: balance;
+  white-space: pre-line;
+  animation: pulsateMessage 6s linear 1s infinite;
 }
 
 button {
@@ -733,4 +735,14 @@ button {
       }
     }
   }
+}
+
+/* prettier-ignore */
+@keyframes pulsateMessage {
+  from { transform: scale(1); }
+  2%   { transform: scale(1.04); }
+  4%   { transform: scale(1); }
+  6%   { transform: scale(1.04); }
+  8%   { transform: scale(1); }
+  to   { transform: scale(1); }
 }

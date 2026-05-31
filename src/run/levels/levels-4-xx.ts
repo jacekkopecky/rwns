@@ -10,9 +10,9 @@ import { getObjectData } from '../types';
 
 import type { LevelFunction } from './index';
 import { makeBag, makeEndBlocks, makeGem, makeTrees } from './tools';
+import { LEVEL_MESSAGES } from './level-messages';
 
-export const MIN = 4;
-export const MAX = Infinity;
+const MIN = 4;
 
 export function level4Plus(
   state: ReadonlyState,
@@ -22,7 +22,7 @@ export function level4Plus(
 
   const currObjectHP = params.objectHitPoints * hardness;
 
-  const customMessage = state.level === MIN ? 'from now on\nit gets harder' : '';
+  const customMessage = LEVEL_MESSAGES[state.level] ?? '';
 
   const objects = makeTrees(
     dim.runLength,
