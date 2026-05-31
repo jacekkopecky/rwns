@@ -676,6 +676,17 @@ button {
       background: radial-gradient(circle closest-side, #ff0 0%, #ff0 30%, #ff00 100%);
     }
 
+    .nextLevel.highlight .box::before,
+    .name.highlight .level::before {
+      /* make it appear late and then pulsate */
+      transition: transform 1s;
+      transform: translate(-50%, -50%) scale(1);
+      @starting-style {
+        transform: translate(-50%, -50%) scale(0);
+      }
+      animation: pulsateHighlightBlob 0.5s linear 1s alternate infinite;
+    }
+
     &.showingNewCard {
       position: absolute;
       width: 66vw !important;
@@ -745,4 +756,10 @@ button {
   6%   { transform: scale(1.04); }
   8%   { transform: scale(1); }
   to   { transform: scale(1); }
+}
+
+/* prettier-ignore */
+@keyframes pulsateHighlightBlob {
+  from { transform: translate(-50%,-50%) scale(1); }
+  to   { transform: translate(-50%,-50%) scale(0.8); }
 }
