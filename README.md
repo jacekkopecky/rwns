@@ -16,7 +16,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] better cards UI
   - [ ] a card that needs to flip can be a card and a card back in a single 3d-rotated package
   - [ ] (Maya? ai?) add card pictures
-  - [ ] level/progress highlight could pulsate
   - [ ] the highlight on cards should appear slowly with the appearing showing card
 - [ ] tracks
   - intermission levels? (like starting, just to take a breath, no cards, no gold, all end-blocks
@@ -233,6 +232,13 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] add support for wider screens, landscape mode?
 
 ---
+
+## done by 2026-05-31
+
+- more cards
+- new level messages, after feedback from M
+- various tweaks
+- [x] new card level/progress highlight could pulsate
 
 ## done by 2026-05-30
 
