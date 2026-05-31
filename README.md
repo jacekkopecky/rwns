@@ -19,6 +19,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - [ ] level/progress highlight could pulsate
   - [ ] the highlight on cards should appear slowly with the appearing showing card
 - [ ] tracks
+  - intermission levels? (like starting, just to take a breath, no cards, no gold, all end-blocks
+    and trees 1hp)
   - using level (per type of run?)
   - waves? reset gates? multi-stage runs?
   - ideas:
@@ -111,7 +113,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
     - then cheaper for 42 gems if one is for 5
     - then maybe cheaper still?
   - "finding treasure" - more gems per level?
-  - "always finding treasure" - guaranteed gems per run (which should then go to 0 initially)
+  - "always finding treasure" - guaranteed gems per run (which could then go to 0 initially)
+    - 'Sapphire Meteor'
   - extra damage against specific objects/opponents?
   - small chance of surviving hitting a tree
   - extra damage in certain special types of runs?

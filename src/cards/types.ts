@@ -56,9 +56,8 @@ export const cardDefinitions = {
   coins1:    tCard( 25, 'Gold Nugget     ', t.inRunCoins,    dim.coinCardMaxLevel       ),
   coins2:    tCard( 60, 'Pay Raisin      ', t.inRunCoins,    dim.coinCardMaxLevel       ),
   coins3:    tCard(100, '1337 Loot       ', t.inRunCoins,    dim.coinCardMaxLevel       ),
-  coins4:    tCard(140, 'RwnsCoin        ', t.inRunCoins,    dim.coinCardMaxLevel       ),
+  coins4:    tCard(140, '13th Month Pay  ', t.inRunCoins,    dim.coinCardMaxLevel       ),
   coins5:    tCard(180, 'Inflation       ', t.inRunCoins,    dim.coinCardMaxLevel       ),
-  coins6:    tCard(220, 'Shiny Mine-y    ', t.inRunCoins,    dim.coinCardMaxLevel       ),
   endCoins1: tCard( 25, 'Harvest         ', t.endBlockCoins, dim.coinCardMaxLevel       ),
   endCoins2: tCard( 60, 'Treasure Chest  ', t.endBlockCoins, dim.coinCardMaxLevel       ),
   endCoins3: tCard(100, 'Pot of Gold     ', t.endBlockCoins, dim.coinCardMaxLevel       ),
@@ -66,34 +65,32 @@ export const cardDefinitions = {
   endCoins5: tCard(180, 'Precious Granite', t.endBlockCoins, dim.coinCardMaxLevel       ),
 
   energy1:   tRare( 42, 'Electron Boost  ', t.energy,        24 - dim.initialEnergyMax  ),
-  startDmg:  tRare( 50, 'Porridge Brekkie', t.startDamage,   dim.initialDamageMaxUpgrade),
-  startRate: tRare( 50, 'Morning Coffee  ', t.startRate,     dim.initialRateMaxUpgrade  ),
-  gems1:     tRare( 60, 'Sapphire Rain   ', t.gemsPerLevel,  dim.gemCardMaxLevel        ),
+  maxDmg:    tRare( 42, 'Steroids        ', t.maxDamage,     dim.upgradeMaxCardMaxLevel ),
+  maxRate:   tRare( 42, 'Machine Oil     ', t.maxRate,       dim.upgradeMaxCardMaxLevel ),
+  coinsR1:   tRare( 60, 'RwnsCoin        ', t.inRunCoinsR,   dim.coinCardMaxLevel       ),
+  endCoinsR1:tRare( 60, 'Gold-vein Basalt', t.endBlockCoinsR,dim.coinCardMaxLevel       ),
 
-  maxDmg:    tEpic( 42, 'Steroids        ', t.maxDamage,     dim.upgradeMaxCardMaxLevel ),
-  maxRate:   tEpic( 42, 'Machine Oil     ', t.maxRate,       dim.upgradeMaxCardMaxLevel ),
-  gemsGrnt1: tEpic( 60, 'Shiny Mine-y    ', t.gemsGuaranteed,dim.cardPriceGems - 2      ),
+  startDmg:  tEpic( 50, 'Porridge Brekkie', t.startDamage,   dim.initialDamageMaxUpgrade),
+  startRate: tEpic( 50, 'Morning Coffee  ', t.startRate,     dim.initialRateMaxUpgrade  ),
+  gems1:     tEpic( 60, 'Shiny Mine-y    ', t.gemsPerLevel,  dim.gemCardMaxLevel        ), // might become a skill
 
   troop1: tLegendary(50, 'Good Friends   ', t.startPlayers,  dim.upgradeMaxCardMaxLevel ),
   troop2: tLegendary(99, 'Popularity Pill', t.maxPlayers,    dim.upgradeMaxCardMaxLevel ),
 } as const;
-
-// interaction between levels and cards (back-of-the-envelope counting)
-// 25 - first batch of cards available
-// normal gem income is about 1-2 cards per level, a 10-level card takes 30, a 20-level card takes 85
-// 24 energy, with maybe 1.5 gems per run, is about 6-7 cards a day
-// we'll have about 5 common coins available initially, so we need 5*(between 30 and 85)/(between 1 and 4) levels to max them out
-// about 100 levels to max out cards, so new cards should come around 100-level increments
 
 // todo cards
 //   - rare:
 //     - number of colour gates in a run? (max level 3)
 //     - (?) decrease normal object (e.g. tree) HP (? or this might be a skill later)
 //     - (?) decrease end block HP (? or this might be a skill later)
-//   - epic:
-//     - decrease price of damage upgrade (by a fraction, at least 1, but min price 1?)
-//     - decrease price of rate upgrade (by a fraction, at least 1, but min price 1?)
-//     - decrease price of player upgrade (by a fraction, at least 1, but min price 1?)
+//   - rare or epic, or a skill (negotiation)
+//     - decrease price of damage upgrade (by 1 or a fraction, at least 1, but min price 1?)
+//     - decrease price of rate upgrade (by 1 or a fraction, at least 1, but min price 1?)
+//   - epic
+//     - decrease price of player upgrade (by 2 or a fraction, at least 1, but min price 1?)
+//   - legendary
+//     - sapphire hail makes it possible to get a level where all trees become gems (every n-th level?)
+//       - on leveling, it makes your current level like that
 
 export const CARDS = Object.keys(cardDefinitions) as (keyof typeof cardDefinitions)[];
 

@@ -19,31 +19,39 @@ export const rate: CardTemplate = {
 
 export const endBlockCoins: CardTemplate = {
   typeLabel: 'income',
-  description: 'hide extra coins in final blocks',
+  description: 'hide coins in final blocks',
   performUpgrade(level, params) {
     params.endBlockCoinsPerLevel += level;
   },
 };
 
+export const endBlockCoinsR: CardTemplate = {
+  typeLabel: 'income',
+  description: 'hide even more coins in final blocks',
+  performUpgrade(level, params) {
+    params.endBlockCoinsPerLevel += 3 * level;
+  },
+};
+
 export const inRunCoins: CardTemplate = {
   typeLabel: 'income',
-  description: 'add more coins to money bags',
+  description: 'add coins to money bags',
   performUpgrade(level, params) {
     params.coinsPerLevel += level;
+  },
+};
+
+export const inRunCoinsR: CardTemplate = {
+  typeLabel: 'income',
+  description: 'add even more coins to money bags',
+  performUpgrade(level, params) {
+    params.coinsPerLevel += 3 * level;
   },
 };
 
 export const gemsPerLevel: CardTemplate = {
   typeLabel: 'income',
   description: 'add more gems to levels',
-  performUpgrade(level, params) {
-    params.gemsPerLevel += level;
-  },
-};
-
-export const gemsGuaranteed: CardTemplate = {
-  typeLabel: 'income',
-  description: 'make more gems always be there',
   performUpgrade(level, params) {
     params.gemsPerLevel += level;
   },
