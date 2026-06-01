@@ -8,6 +8,11 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
+- [ ] do different seasons (every 10 levels?)
+  - got summer
+  - autumn: colorful crowns on broadleafs, path with more black
+  - winter: dead broadleafs, white-green-ish conifers, path white and grey, occasional dark?
+  - spring: lighter-colored conifers, pink and cream broadleaves, normal path?
 - [ ] every level could have a different colour of end gate
 - [ ] more cards see in `src/cards/types.ts`
   - [x] card tweaks: revisit progression of incoming new cards: money cards earlier, space
