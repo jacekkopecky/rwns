@@ -156,6 +156,9 @@ function makeCardEl(
   highlightProgress: boolean,
 ) {
   const cardEl = makeEl(undefined, 'div', 'bigCard');
+  setTimeout(() => {
+    cardEl.classList.toggle('highlight', highlightLevel || highlightProgress);
+  }, 1);
 
   cardEl.classList.add(toCssClass('rarity', definition.rarity));
   cardEl.classList.add(toCssClass('type', definition.typeLabel));

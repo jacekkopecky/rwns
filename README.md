@@ -233,6 +233,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ---
 
+## done by 2026-06-01
+
+- [x] give highlighted card a light outline
+
 ## done by 2026-05-31
 
 - more cards
