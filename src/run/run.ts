@@ -6,6 +6,7 @@ import type { ReadonlyState, UpgradablePermanentParameters } from '#types';
 import { getEl, resetRandom } from '#utils';
 
 import * as stateModule from '../state';
+import { isOnSplashScreen } from '../splash-screen';
 
 import {
   awardsGroup,
@@ -27,13 +28,13 @@ import {
   updatePlayerPosition,
 } from './players';
 import { moveTrack, setupTrack } from './track';
+import { warmupModels } from './warmup';
 
 import { disposeAnimations, updateAnimations, timer } from './three/animations';
 import { moveCamera } from './three/camera';
 import { render, scene, init as initThree } from './three/main';
 import { TouchHandler } from './utils/touch-handler';
 import { showExtents } from './utils/extents';
-import { isOnSplashScreen } from '../splash-screen';
 
 let handler: TouchHandler;
 
@@ -52,6 +53,8 @@ const el = {
  */
 export function init() {
   initThree(el.main);
+  warmupModels();
+
   setupScene();
   animationFrame();
 
@@ -195,7 +198,16 @@ function isGameFinished() {
 // const fpsDivider = 10;
 // let fpsLimiter = fpsDivider - 1;
 
+// let lastTime = 0;
+
 function animationFrame(ms?: number) {
+  // if (ms) {
+  //   if (lastTime && ms - lastTime > 20) {
+  //     console.log('extra ms', ms - lastTime);
+  //   }
+  //   lastTime = ms;
+  // }
+
   requestAnimationFrame(animationFrame);
 
   // fpsLimiter = (fpsLimiter + 1) % fpsDivider;

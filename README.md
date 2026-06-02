@@ -22,7 +22,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] better cards UI
   - [ ] a card that needs to flip can be a card and a card back in a single 3d-rotated package
   - [ ] (Maya? ai?) add card pictures
-  - [ ] the highlight on cards should appear slowly with the appearing showing card
 - [ ] tracks
   - intermission levels? (like starting, just to take a breath, no cards, no gold, all end-blocks
     and trees 1hp)
@@ -241,6 +240,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## done by 2026-06-02
 
+- [x] on start let player die because that often causes lag
 - [x] make sure there's a bag of money among the first two or three trees?
   - actually, if the player has very little money (under 20), pick money in daily gift
 - [x] stop animation loop when not in fullscreen (or just not actually animate anything)
@@ -250,6 +250,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 ## done by 2026-06-01
 
 - [x] give highlighted card a light outline
+- [x] the highlight on cards should appear slowly with the appearing showing card
 
 ## done by 2026-05-31
 
