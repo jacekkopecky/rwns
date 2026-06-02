@@ -8,13 +8,12 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
-- [ ] make sure there's a bag of money among the first two or three trees?
-- [ ] try outlined text (light text, dark sharp shadow, maybe bold)
 - [ ] do different seasons (every 10 levels?)
   - got summer
   - autumn: colorful crowns on broadleafs, path with more black
   - winter: dead broadleafs, white-green-ish conifers, path white and grey, occasional dark?
   - spring: lighter-colored conifers, pink and cream broadleaves, normal path?
+  - there could be butterflies or birds flying around
 - [ ] every level could have a different colour of end gate
 - [ ] more cards see in `src/cards/types.ts`
   - [x] card tweaks: revisit progression of incoming new cards: money cards earlier, space
@@ -242,7 +241,11 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## done by 2026-06-02
 
+- [x] make sure there's a bag of money among the first two or three trees?
+  - actually, if the player has very little money (under 20), pick money in daily gift
 - [x] stop animation loop when not in fullscreen (or just not actually animate anything)
+- [/] try outlined text (light text, dark sharp shadow, maybe bold)
+  - not easy in CSS, would need an extra thick rounded font
 
 ## done by 2026-06-01
 

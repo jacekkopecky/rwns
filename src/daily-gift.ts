@@ -80,6 +80,8 @@ export function showDailyGiftScreen() {
 }
 
 function spin() {
+  const state = readState();
+
   if (el.spinner.classList.contains('spinning')) {
     if (spinTimeout) clearTimeout(spinTimeout);
     spinDone();
@@ -92,7 +94,16 @@ function spin() {
     return;
   }
 
-  const prizes = currentPrizes.slice(spinningAgain ? 1 : 0);
+  let prizes = currentPrizes;
+  // remove spin again from consideration if we are already spinning again
+  if (spinningAgain) {
+    prizes = prizes.slice(1);
+  }
+  // consider only coin prizes if the player has no funds
+  if (state.wallet.read('coin') < 20) {
+    prizes = prizes.filter((prize) => prize.award === 'coin');
+  }
+
   const picked = pickWeightedItem(
     prizes.map((p) => ({ value: p, weight: p.factor })),
     Math.random,
