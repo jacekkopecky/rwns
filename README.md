@@ -8,6 +8,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
+- [ ] next I probably want quests or some side-games
 - [ ] do different seasons (every 10 levels?)
   - got summer
   - autumn: colorful crowns on broadleafs, path with more black
