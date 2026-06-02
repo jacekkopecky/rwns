@@ -33,12 +33,12 @@ import { moveCamera } from './three/camera';
 import { render, scene, init as initThree } from './three/main';
 import { TouchHandler } from './utils/touch-handler';
 import { showExtents } from './utils/extents';
+import { isOnSplashScreen } from '../splash-screen';
 
 let handler: TouchHandler;
 
 let playing = false;
 let ending = false;
-let fullscreenPaused = false;
 
 const el = {
   main: getEl('main'),
@@ -61,10 +61,6 @@ export function init() {
   });
   updateTouchHandlerEnabled();
 
-  el.main.addEventListener('fullscreenchange', () => {
-    toggleFullscreenPause(document.fullscreenElement == null);
-  });
-
   el.exitBtn.addEventListener('click', (e) => {
     if (playing) {
       endRun(true);
@@ -77,7 +73,7 @@ export function init() {
 }
 
 function updateTouchHandlerEnabled() {
-  handler.toggle(playing && !ending && !fullscreenPaused);
+  handler.toggle(playing && !ending);
 }
 
 function setupScene() {
@@ -189,13 +185,6 @@ function endRun(immediate = false, win = false) {
   );
 }
 
-function toggleFullscreenPause(value: boolean) {
-  fullscreenPaused = value;
-  updateTouchHandlerEnabled();
-  // update timer so if we're restarting animation, only a bit of time will have passed
-  timer.update();
-}
-
 function isGameFinished() {
   const lose = playersGroup.children.length === 0;
   const win = !lose && objectsGroup.children.length === 0 && dyingGroup.children.length === 0;
@@ -213,7 +202,7 @@ function animationFrame(ms?: number) {
   // if (fpsLimiter > 0) return;
 
   timer.update(ms);
-  if (fullscreenPaused) return;
+  if (isOnSplashScreen()) return;
 
   if (ms != null) {
     const delta = timer.getDelta();

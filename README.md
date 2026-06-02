@@ -8,6 +8,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
+- [ ] make sure there's a bag of money among the first two or three trees?
+- [ ] try outlined text (light text, dark sharp shadow, maybe bold)
 - [ ] do different seasons (every 10 levels?)
   - got summer
   - autumn: colorful crowns on broadleafs, path with more black
@@ -237,6 +239,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] add support for wider screens, landscape mode?
 
 ---
+
+## done by 2026-06-02
+
+- [x] stop animation loop when not in fullscreen (or just not actually animate anything)
 
 ## done by 2026-06-01
 
