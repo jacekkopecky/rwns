@@ -15,7 +15,7 @@ export class TouchHandler {
     el.addEventListener('touchstart', this.handleStart, { passive: false });
     el.addEventListener('touchend', this.handleEnd, { passive: true });
     el.addEventListener('touchmove', this.handleMove, { passive: true });
-    el.addEventListener('mousedown', this.handleStart, { passive: true });
+    el.addEventListener('mousedown', this.handleStart, { passive: false });
     el.addEventListener('mouseup', this.handleEnd, { passive: true });
     el.addEventListener('mouseleave', this.handleEnd, { passive: true });
     el.addEventListener('mousemove', this.handleMove, { passive: true });
