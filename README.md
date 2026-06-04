@@ -239,6 +239,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ---
 
+## done by 2026-06-04
+
+- make marvins a bit closer still
+
 ## done by 2026-06-02
 
 - [x] on start let player die because that often causes lag

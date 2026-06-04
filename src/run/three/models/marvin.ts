@@ -355,8 +355,8 @@ function createArmGeometry(side: 'left' | 'right', size: Size) {
     [dir * r, 0, 0],
     [dir * r * 2, -r, 0],
     [dir * r * 2, -r * 2, 0],
-    [dir * r * 2, -r * 8, 0],
-    [dir * r * 2, -midY, 0],
+    [dir * r * 2, -r * 3, 0],
+    [dir * r * 1, -midY, 0],
     [-midX, -midY, 0],
   ];
   for (let i = 0; i < bezPoints.length - 3; i += 3) {
@@ -364,7 +364,7 @@ function createArmGeometry(side: 'left' | 'right', size: Size) {
   }
 
   // have one arm raised a bit higher with a spread angle
-  const armSpread = (Math.PI / 180) * (41 + dir * 10);
+  const armSpread = (Math.PI / 180) * (40 + dir * 10);
 
   return new THREE.TubeGeometry(path, size.armSegmentCount, r, 8).rotateX(armSpread);
 }

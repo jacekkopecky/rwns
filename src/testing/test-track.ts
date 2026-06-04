@@ -4,6 +4,7 @@ import { init as initRunScreen, prepareRun } from '../run';
 import * as state from '../state';
 import { camera } from '../run/three/camera';
 import { render, renderer } from '../run/three/main';
+import { playersGroup } from '../run/players';
 
 state.initState();
 initRunScreen();
@@ -19,7 +20,14 @@ controls.screenSpacePanning = true;
 controls.zoomToCursor = true;
 
 window.addEventListener('resize', onWindowResize);
+setup();
 animate();
+
+function setup() {
+  camera.position.set(2.3, 24, -17);
+  controls.target.set(0, 10, 0);
+  playersGroup.children.forEach((p) => p.userData.marvin.startWalking());
+}
 
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -40,9 +48,11 @@ document.body.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowRight') {
     state.setRunUpgradeLevel('players', ++players);
     prepareRun(state.readState(), state.getUpgradablePermanentParameters());
+    setup();
   } else if (e.key === 'ArrowLeft') {
     players = Math.max(--players, 0);
     state.setRunUpgradeLevel('players', players);
     prepareRun(state.readState(), state.getUpgradablePermanentParameters());
+    setup();
   }
 });
