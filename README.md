@@ -8,6 +8,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
+- [ ] when showing cards screen, space the cards horizontally so that if cards don't all fit, the
+      lower cards reach the bottom of the screen at between 20% and 80% of their height
+  - or show some kind of shadow on the scrolling side, like in
+    https://developer.chrome.com/blog/css-scroll-state-queries
 - [ ] next I probably want quests or some side-games
 - [ ] do different seasons (every 10 levels?)
   - got summer
@@ -65,6 +69,14 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
             grassy, rocky, sandy) where the bricks smoothly change color probabilities so it starts
             one color set and ends another
           - enemies could be animals of some sort?
+        - a run that starts at a level of difficulty exactly matching your strength except fire rate
+          - trees spaced by fire rate
+          - so at first you can kill every tree
+          - then it gets gradually more difficult, end objects 4 or 5 times harder?
+          - ends after two runs worth of distance?
+          - player group flipped back to front for fun?
+          - only reward at the end if any Marvin reaches the end gate
+          - randomized per how many of these we have run
       - finishing with matching colour Marvins could be a quest
     - some level types can restrict types of available upgrades, e.g. mine should not permit more
       players
