@@ -8,6 +8,40 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
+- [ ] alternative mine
+  - marvin starts in front of all blocks (smaller blocks, 5 or 6 per width)
+  - can move up, down, left, right, always by a whole space
+    - cannot move down from row 1
+    - indicate direction from gesture, allow user to cancel, move on release
+  - map moves when we are on row 4 and move up,
+    - blocks that were in row 1 shrink without giving awards
+    - or there's a gate behind use that goes with us and we can't cross it or shoot through it
+    - can Marvin speed up and slow down as the walking animation fades in or out?
+    - map may move linearly but marvin lags behind a bit when starting to walk
+  - has a number of shots, refreshed often
+  - marvin shoots when cannot move because of a block
+  - can find gems or coins for a start
+    - later one or two new gem types for skills
+  - can find bombs or drills to be used next
+    - bomb with normal radius
+    - drill does or 6 in front
+  - when out of shots, sit down?
+  - IMPLEMENTATION STEPS
+    - [ ] make a button on the right that takes us there
+    - [ ] fade everything out to black, rebuild scene, fade in with new UI
+      - is it a section or something like run?
+      - exit button takes us back
+      - run wallet ready for things to get
+    - [ ] position camera so we can see far ahead
+    - [ ] put in a grid of blocks, some of them with gems, some of them harder (two shots), some
+          empty spaces
+      - one empty space in row 1 where Marvin is
+    - [ ] first allow moving through blocks, do moving mechanics
+    - [ ] then replace moves with shots when cannot move into a block
+    - [ ] add bombs and drills - selector buttons on the side? after use, the buttons go back to
+          shots?
+    - [ ] make graphics for bomb (big explosion) and drill (multiple bullets?)
+    - [ ] only allow drills when going forward? or let the user waste them?
 - [ ] when showing cards screen, space the cards horizontally so that if cards don't all fit, the
       lower cards reach the bottom of the screen at between 20% and 80% of their height
   - or show some kind of shadow on the scrolling side, like in
