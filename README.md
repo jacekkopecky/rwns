@@ -251,6 +251,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ---
 
+## done by 2026-06-05
+
+- make player bullets better-spaced so they don't arrive at a wall together
+
 ## done by 2026-06-04
 
 - make marvins a bit closer still

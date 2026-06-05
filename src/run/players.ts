@@ -58,7 +58,10 @@ export function setupPlayers(state: ReadonlyState, params: UpgradablePermanentPa
     const pData = getPlayerData(player);
 
     pData.shotTime = 1 / shotsPerSecond;
-    pData.remainingShotTime = (pData.shotTime / players) * i + pData.shotTime / 2;
+    pData.remainingShotTime =
+      (pData.shotTime / players) * i +
+      pData.shotTime / 2 -
+      player.position.z / dim.playerBulletSpeed;
 
     pData.range = params.playerBulletRange;
     pData.bulletHitPoints = bulletHitPoints;
