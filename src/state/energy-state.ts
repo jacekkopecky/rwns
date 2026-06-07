@@ -16,10 +16,7 @@ export function getEnergy(params: UpgradablePermanentParameters): {
     const energySinceLast = Math.floor(msSinceLast / dim.energyGainInterval);
     if (energySinceLast > 0) {
       _state.energy = Math.min(params.energyMax, _state.energy + energySinceLast);
-      _state.lastEnergyGiven =
-        _state.energy === params.energyMax
-          ? now
-          : _state.lastEnergyGiven + energySinceLast * dim.energyGainInterval;
+      _state.lastEnergyGiven = _state.lastEnergyGiven + energySinceLast * dim.energyGainInterval;
       saveState();
     }
     return {
@@ -41,6 +38,9 @@ export function subtractEnergy(params: UpgradablePermanentParameters): boolean {
 
   getEnergy(params);
   if (_state.energy > 0) {
+    if (_state.energy >= params.energyMax) {
+      _state.lastEnergyGiven = Date.now();
+    }
     _state.energy -= 1;
     saveState();
     return true;
