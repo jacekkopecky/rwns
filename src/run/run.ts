@@ -33,6 +33,7 @@ import { warmupModels } from './warmup';
 import { disposeAnimations, updateAnimations, timer } from './three/animations';
 import { moveCamera } from './three/camera';
 import { render, scene, init as initThree } from './three/main';
+import { initSpriteMaterials } from './three/materials';
 import { TouchHandler } from './utils/touch-handler';
 import { showExtents } from './utils/extents';
 
@@ -53,9 +54,7 @@ const el = {
  */
 export function init() {
   initThree(el.main);
-  warmupModels();
-
-  setupScene();
+  warmup();
   animationFrame();
 
   handler = new TouchHandler(el.canvas, {
@@ -73,6 +72,12 @@ export function init() {
       el.exitBtn.disabled = true;
     }
   });
+}
+
+export function warmup() {
+  warmupModels();
+  initSpriteMaterials();
+  setupScene();
 }
 
 function updateTouchHandlerEnabled() {

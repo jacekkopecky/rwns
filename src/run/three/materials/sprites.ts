@@ -6,10 +6,22 @@ import { isSprite } from '../tools';
 
 const debugSpriteSize = false as boolean;
 
-export const sprites = {
-  coin: emojiSpriteMaterial('🟡'),
-  defaultMaterial: new THREE.SpriteMaterial({ color: 0x00dddd }),
-} as const;
+let spritesInitialized = false;
+export const sprites = initSpriteMaterials();
+spritesInitialized = true;
+
+export function initSpriteMaterials() {
+  if (spritesInitialized) {
+    for (const material of Object.values(sprites)) {
+      material.dispose();
+    }
+  }
+
+  return {
+    coin: emojiSpriteMaterial('🟡'),
+    defaultMaterial: new THREE.SpriteMaterial({ color: 0x00dddd }),
+  } as const;
+}
 
 function emojiSpriteMaterial(emojiCharacter: string): THREE.SpriteMaterial {
   const canvas = document.createElement('canvas');

@@ -53,7 +53,6 @@ export function init() {
   el.topButtons.addEventListener('touchdown', (e) => e.stopPropagation());
   el.upgradeButtons.addEventListener('touchdown', (e) => e.stopPropagation());
 
-  el.main.addEventListener('fullscreenchange', updateMainScreenIfNotInRun);
   document.addEventListener('visibilitychange', updateMainScreenIfNotInRun);
 }
 
