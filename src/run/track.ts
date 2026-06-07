@@ -5,6 +5,7 @@ import { createTrackDecorations, moveTrackDecorations } from './three/run-object
 const trackGroup = new THREE.Group();
 
 export function setupTrack() {
+  trackGroup.clear();
   createTrackDecorations(trackGroup);
 
   return trackGroup;

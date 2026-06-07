@@ -287,6 +287,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## done by 2026-06-07
 
+- [x] bug: warmup seems to cause scene not to be right anymore
 - [x] when taking energy from full, update last given energy so new comes is given in an hour
 - [x] redraw coin award material on start/resume
 - [x] make blocks closer together, and lower, bulged at bullet height
