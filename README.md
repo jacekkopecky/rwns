@@ -285,6 +285,13 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ---
 
+## done by 2026-06-07
+
+- [x] make blocks closer together, and lower, bulged at bullet height
+- [x] see if Marvins could be closer back to front
+  - they are already as closely packed as they can be - even without z-position jitter in the ranks,
+    there's a wee little of clipping of the right arm into marvin in front
+
 ## done by 2026-06-05
 
 - make player bullets better-spaced so they don't arrive at a wall together

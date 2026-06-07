@@ -19,7 +19,7 @@ export const modelSizes = {
   gem: [10, 10],
   bag: [6, 6],
   gatePost: [2, 20],
-  boulder: [dim.trackWidth / bouldersPerEndRow - 3, 25],
+  boulder: [dim.trackWidth / bouldersPerEndRow - 2, 20],
   hitBar: [10, 2],
 
   // bullets: it's tetrahedron-radius(ish) and extent radius
