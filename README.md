@@ -8,6 +8,17 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
+- [ ] put cards and other section buttons under upgrade buttons so it feels safer to swipe from the
+      bottom to get the home button when you don't want to buy an upgrade
+- [ ] I can make cards disappear in the needed direction, just put the right coordinates into CSS
+      variable in style attribute on the element when we click it - we can match the target card by
+      card type in a dataset prop
+- [ ] stop animations in hidden things like the daily gift and cards
+- [ ] change licence to GNU AGPL?
+- [ ] the threshold for money-only daily could be your maximum haul or your cheapest upgrade or your
+      robots upgrade as that's the most expensive
+- [ ] make sure the end blocks money distribution algorithm can handle more than 36 coins
+- [ ] after gems are available, always show gem count in main screen wallet
 - [ ] alternative mine
   - marvin starts in front of all blocks (smaller blocks, 5 or 6 per width)
   - can move up, down, left, right, always by a whole space
@@ -132,6 +143,11 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
     - in Timeline Up, it's coal and iron, for delayed general upgrades, could do something similar?
     - could be points for learning skills
   - some other special currency: buy robot upgrades, e.g. military ranks
+    - show epaulets on the marvins - one, two, three lines, one, two disks, a star; each in blue,
+      white, then gold?
+      - if the epaulets are angled on the shoulders, they could reflect light nicely as the robots
+        turn in stride
+      - star could rotate
     - these could be buyable as many times as I can add new robots, each gives me one upgraded robot
     - I could choose to buy the second sergeant sooner, or the only corporal for more money if I
       don't often upgrade to more robots
@@ -139,7 +155,11 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
       can't buy the next officer rank
       - if you get an upgrade where you have a new robot, you'd then have to get all the lower ranks
         for that robot before you can upgrade the best officer
+    - if your robot dies, you lose one of that rank and get a fresh new robot
   - some other special currency: skills that take time to train
+- [ ] use quotes from Marvin, or plays on his quotes like
+  - a card or a skill that "finally replaces all the diodes down his left side" that he asked for to
+    be replaced
 - [ ] achievements
   - gather 100 coins
   - clear out a level
@@ -166,6 +186,16 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - "finding treasure" - more gems per level?
   - "always finding treasure" - guaranteed gems per run (which could then go to 0 initially)
     - 'Sapphire Meteor'
+  - standing in a different formation - skills that you can switch between after a day's training
+    - current blob, front-loaded triangle, point-first triangle
+    - when you've tried all of them, you can get a switcher? or something more special? maybe the
+      below
+  - shooting patterns - like above, skills that you can switch between after a day's training
+    - current staggered
+    - shoot in exact waves
+    - shoot all at the same time (so waves based on Z position)
+    - when we've tried both, get "shoot to the same length of front row" as a special skill - makes
+      those in the back shoot farther
   - extra damage against specific objects/opponents?
   - small chance of surviving hitting a tree
   - extra damage in certain special types of runs?
@@ -177,6 +207,11 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - increase max level of cards? (the user would really only choose this when they have a lot of
     cards at top level)
   - award for finishing a run with a marvin matching the color of the end gate
+  - "write a self-improvement book" - increase card max level for common cards
+  - skills could get rusty over time, requiring retraining or you lose them
+    - if we have too much currency for training, we can allow paying overtime and training faster or
+      two at a time
+    - but skills learned in overtime are weaker, they get rusty quicker
 - [ ] I can calculate how long it would take someone to reach high levels depending on supply of
       gems 
 - [ ] update README and index to say it's a game now? make it public?
@@ -284,6 +319,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] add support for wider screens, landscape mode?
 
 ---
+
+## done by 2026-06-15
+
+- [x] increase tracking speed in touch handler
 
 ## done by 2026-06-07
 
