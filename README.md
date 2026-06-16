@@ -320,6 +320,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ---
 
+## done by 2026-06-16
+
+- [x] this doesn't reinitialise in the file-global object: initSpriteMaterials
+
 ## done by 2026-06-15
 
 - [x] increase tracking speed in touch handler

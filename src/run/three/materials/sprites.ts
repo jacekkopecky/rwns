@@ -11,16 +11,22 @@ export const sprites = initSpriteMaterials();
 spritesInitialized = true;
 
 export function initSpriteMaterials() {
-  if (spritesInitialized) {
-    for (const material of Object.values(sprites)) {
-      material.dispose();
-    }
-  }
-
-  return {
+  const newSprites = {
     coin: emojiSpriteMaterial('🟡'),
     defaultMaterial: new THREE.SpriteMaterial({ color: 0x00dddd }),
   } as const;
+
+  if (spritesInitialized) {
+    for (const [key, material] of Object.entries(sprites)) {
+      material.dispose();
+
+      // copy the new materials in the old object
+      (sprites as Record<typeof key, typeof material>)[key] =
+        newSprites[key as keyof typeof sprites];
+    }
+  }
+
+  return newSprites;
 }
 
 function emojiSpriteMaterial(emojiCharacter: string): THREE.SpriteMaterial {
