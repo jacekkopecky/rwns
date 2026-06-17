@@ -14,6 +14,7 @@ import { exposeGlobalWindowProp } from '#utils';
 import { cardDefinitions, lookupLevelByNumberOfCards } from '../cards';
 
 import { handleLevelChanges } from './features';
+import { getToday } from './daily-gift-state';
 import { loadState, saveState } from './storage';
 
 function createInitialState(): State {
@@ -26,6 +27,7 @@ function createInitialState(): State {
     lastEnergyGiven: Date.now(),
     runUpgradeLevels: {},
     collectedGemIds: [],
+    lastDailyGiftGiven: getToday(), // don't give the gift on the first day
   };
 }
 

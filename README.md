@@ -69,6 +69,9 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
   - [x] card tweaks: revisit progression of incoming new cards: money cards earlier, space
         range/rate/damage cards so new ones come on a similar staggered schedule?
   - [ ] any new improvable stuff from dim should go into initial state
+  - [ ] cards - we should have so many of each rarity level that on average you'll finish all at the
+        same time, 96 common per 1 legendary - check and handle any imbalances, probably mostly
+        ignore differing starting times? or make all rarities start at the same time?
 - [ ] better cards UI
   - [ ] a card that needs to flip can be a card and a card back in a single 3d-rotated package
   - [ ] (Maya? ai?) add card pictures
@@ -319,6 +322,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] add support for wider screens, landscape mode?
 
 ---
+
+## done by 2026-06-17
+
+- [x] check that I don't get a daily gift on the first day of playing
 
 ## done by 2026-06-16
 
