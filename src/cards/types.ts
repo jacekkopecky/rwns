@@ -61,14 +61,14 @@ export const cardDefinitions = {
   endCoins1: tCard( 25, 'Harvest         ', t.endBlockCoins, dim.coinCardMaxLevel       ),
   endCoins2: tCard( 60, 'Treasure Chest  ', t.endBlockCoins, dim.coinCardMaxLevel       ),
   endCoins3: tCard(100, 'Pot of Gold     ', t.endBlockCoins, dim.coinCardMaxLevel       ),
-  endCoins4: tCard(140, 'Gold Vein       ', t.endBlockCoins, dim.coinCardMaxLevel       ),
+  endCoins4: tCard(140, 'Gold Vain       ', t.endBlockCoins, dim.coinCardMaxLevel       ),
   endCoins5: tCard(180, 'Precious Granite', t.endBlockCoins, dim.coinCardMaxLevel       ),
 
   energy1:   tRare( 42, 'Electron Boost  ', t.energy,        24 - dim.initialEnergyMax  ),
   maxDmg:    tRare( 42, 'Steroids        ', t.maxDamage,     dim.upgradeMaxCardMaxLevel ),
   maxRate:   tRare( 42, 'Machine Oil     ', t.maxRate,       dim.upgradeMaxCardMaxLevel ),
   coinsR1:   tRare( 60, 'RwnsCoin        ', t.inRunCoinsR,   dim.coinCardMaxLevel       ),
-  endCoinsR1:tRare( 60, 'Gold-vein Basalt', t.endBlockCoinsR,dim.coinCardMaxLevel       ),
+  endCoinsR1:tRare( 60, 'Gold-rich Basalt', t.endBlockCoinsR,dim.coinCardMaxLevel       ),
 
   startDmg:  tEpic( 50, 'Porridge Brekkie', t.startDamage,   dim.initialDamageMaxUpgrade),
   startRate: tEpic( 50, 'Morning Coffee  ', t.startRate,     dim.initialRateMaxUpgrade  ),
