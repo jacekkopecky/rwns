@@ -8,6 +8,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
+- [ ] add in-run level indicator at the top
 - [ ] put cards and other section buttons under upgrade buttons so it feels safer to swipe from the
       bottom to get the home button when you don't want to buy an upgrade
 - [ ] I can make cards disappear in the needed direction, just put the right coordinates into CSS
@@ -17,7 +18,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] change licence to GNU AGPL?
 - [ ] the threshold for money-only daily could be your maximum haul or your cheapest upgrade or your
       robots upgrade as that's the most expensive
-- [ ] make sure the end blocks money distribution algorithm can handle more than 36 coins
 - [ ] after gems are available, always show gem count in main screen wallet
 - [ ] alternative mine
   - marvin starts in front of all blocks (smaller blocks, 5 or 6 per width)
@@ -322,6 +322,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] add support for wider screens, landscape mode?
 
 ---
+
+## done by 2026-06-18
+
+- [x] make sure the end blocks money distribution algorithm can handle more than 36 coins
 
 ## done by 2026-06-17
 

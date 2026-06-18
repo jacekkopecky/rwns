@@ -35,6 +35,10 @@ describe('arrays utility functions', () => {
       expect(assignEndBunchedRewards(8, 4)).toEqual([1, 2, 2, 3]);
       expect(assignEndBunchedRewards(9, 4)).toEqual([1, 2, 3, 3]);
       expect(assignEndBunchedRewards(10, 4)).toEqual([1, 2, 3, 4]);
+
+      expect(assignEndBunchedRewards(16, 4)).toEqual([1, 3, 5, 7]);
+      expect(assignEndBunchedRewards(20, 4)).toEqual([2, 4, 6, 8]);
+      expect(assignEndBunchedRewards(100, 4)).toEqual([10, 20, 30, 40]);
     });
 
     it('returns array with correct length', () => {
@@ -43,8 +47,8 @@ describe('arrays utility functions', () => {
     });
 
     it('sum of result equals amount', () => {
-      for (let amount = 0; amount <= 20; amount++) {
-        const result = assignEndBunchedRewards(amount, 4);
+      for (let amount = 0; amount <= 100; amount++) {
+        const result = assignEndBunchedRewards(amount, 5);
         expect(result.reduce((a, b) => a + b, 0)).toBe(amount);
       }
     });
@@ -57,6 +61,8 @@ describe('arrays utility functions', () => {
       const result = assignEndBunchedRewards(100, 4);
       expect(result.reduce((a, b) => a + b, 0)).toBe(100);
       expect(result).toHaveLength(4);
+
+      expect(result).toEqual([10, 20, 30, 40]);
     });
 
     it('never decreases', () => {

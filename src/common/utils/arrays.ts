@@ -27,50 +27,71 @@ export function indexByName(objects: THREE.Object3D[], name: string) {
  * Bunch awards in a triangle at the far end.
  *
  * The following are examples of amounts and assigments to 4 rows:
- * 1:  0001 (from the first row to the last)
- * 2:  0011
- * 3:  0012
- * 4:  0112
- * 5:  0122
- * 6:  0123
- * 7:  1123
- * 8:  1223
- * 9:  1233
- * 10: 1234
+ * 1:  0 0 0 1 (from the first row to the last)
+ * 2:  0 0 1 1
+ * 3:  0 0 1 2
+ * 4:  0 1 1 2
+ * 5:  0 1 2 2
+ * 6:  0 1 2 3
+ * 7:  1 1 2 3
+ * 8:  1 2 2 3
+ * 9:  1 2 3 3
+ * 10: 1 2 3 4
+ *
+ * 16: 1 3 5 7
+ * 20: 2 4 6 8
+ * 100: 10 20 30 40
  */
 export function assignEndBunchedRewards(amount: number, rows: number): number[] {
   const retval = new Array<number>(rows).fill(0);
 
-  // the triangle will have this length: at most `rows`, otherwise solves the equation of the
-  // sum of the triangle: (length+1)*length/2 = amount
-  const length = Math.min(rows, Math.ceil((Math.sqrt(1 + 8 * amount) - 1) / 2));
+  // initially, work towards a minimal triangle like 1+2+3+…+length
+  // amount in the triangle = (length+1)*length/2
+  const length = Math.ceil((Math.sqrt(1 + 8 * amount) - 1) / 2);
 
-  // first assign a full triangle of the computed length
-  const zeros = rows - length;
-  for (let i = 0; i < length; i += 1) {
-    retval[zeros + i] = i + 1;
-  }
+  if (length <= rows) {
+    const triangleAmount = ((length + 1) * length) / 2;
 
-  const assigned = ((length + 1) * length) / 2;
+    // first assign the full triangle of the computed length
+    const zeros = rows - length;
+    for (let i = 0; i < length; i += 1) {
+      retval[zeros + i] = i + 1;
+    }
 
-  if (assigned <= amount) {
-    // amount is more than we can fit in the rows, simply give the rest to the last row
-    // it's not expected that the awards will grow so much
-    retval[rows - 1]! += amount - assigned;
-  } else {
-    // amount is less than we have already assigned, remove a few
-    console.assert(assigned - amount < length);
-    for (let i = 0; i < assigned - amount; i += 1) {
+    // we made the triangle as small as it needs to be with the length computation
+    console.assert(triangleAmount - amount < length);
+
+    // but amount may be a bit less than we have already assigned, remove what we need
+    for (let i = 0; i < triangleAmount - amount; i += 1) {
       retval[rows - 1 - i]! -= 1;
     }
+  } else {
+    assignMoreThanTriangle(amount, retval);
   }
 
   return retval;
 }
 
-// for (let i = 1; i <= 40; i += 1) {
-//   console.log(i, assignEndBunchedRewards(i, 8).join(','));
-// }
+function assignMoreThanTriangle(amount: number, data: number[]) {
+  // assign to each row such that optimally row N has N times the amount of row 1
+  // solve a for   X = a + 2a + 3a + ... + La
+  // give the first one, then solve for   X = 2a + 3a + ... + La
+  // give 2a to the second one, and so on
+
+  const length = data.length;
+  let row = 0;
+  let remaining = amount;
+
+  while (row < length - 1) {
+    const a = ((row + 1) * 2 * remaining) / (length - row) / (length + 1 + row);
+    const given = Math.floor(a);
+    data[row] = given;
+    remaining -= given;
+    row += 1;
+  }
+
+  data[row] = remaining;
+}
 
 /**
  * Spread the `from` array into the `into` array,
