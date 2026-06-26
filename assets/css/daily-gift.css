@@ -8,8 +8,23 @@
   background: #0006;
 
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  h2 {
+    font-size: 12vw;
+    text-transform: uppercase;
+    display: flex;
+    gap: 0.1em;
+    margin-bottom: 1em;
+  }
+
+  .colorText > :nth-child(n) {
+    color: #fea;
+    color: hsl(calc((sibling-index() - 1) * 45deg) 100% 75%);
+    white-space: pre;
+  }
 
   .outer {
     width: 85vmin;
