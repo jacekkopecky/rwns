@@ -331,6 +331,7 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 - fix not giving daily gift on the first day
 - fix assertion logs coming up on no money in end blocks
+- redo button and wallet color scheme
 
 ## done by 2026-06-18
 

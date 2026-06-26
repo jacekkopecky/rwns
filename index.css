@@ -8,6 +8,7 @@
 }
 
 body {
+  background: #c0d0e0;
   height: 100svh;
   width: 100svw;
   display: flex;
@@ -91,9 +92,6 @@ main {
     padding: 0.5em;
 
     border-radius: 1rem 0 0 1rem;
-    background: #eeceb2;
-    border: solid #aa8a70;
-    color: #664422;
     border-width: thick 0 thick thick;
     text-align: right;
     pointer-events: none;
@@ -116,10 +114,10 @@ main {
 
     & > * {
       text-shadow:
-        0 0 0.3em var(--shadow-color),
-        0 0 0.3em var(--shadow-color),
-        0 0 0.3em var(--shadow-color),
-        0 0 0.3em var(--shadow-color);
+        0 0 0.4em var(--shadow-color),
+        0 0 0.4em var(--shadow-color),
+        0 0 0.4em var(--shadow-color),
+        0 0 0.4em var(--shadow-color);
     }
 
     :empty {
@@ -169,6 +167,10 @@ main {
 }
 
 button {
+  background: #eeceb2;
+  border: solid #aa8a70;
+  color: #664422;
+
   font-size: 1.5em;
 
   padding: 0.25em 0.5em;
@@ -180,7 +182,6 @@ button {
     background-color 0.3s,
     border-color 0.3s;
 
-  &:active,
   &:active:not(.disabled) {
     box-shadow: 0.1rem 0.1rem 0.5rem inset #0008;
   }
@@ -227,9 +228,12 @@ button {
     text-align: right;
     font-size: 1.2em;
   }
+}
 
-  background: #eeceb2;
-  border: solid medium #aa8a70;
+.wallet,
+#inRunWallet {
+  background: #e0e8f0;
+  border: solid medium #8090a0;
   color: #664422;
 }
 
@@ -285,9 +289,7 @@ button {
       min-width: 4em;
       &.progress {
         background-color: #a2ff44;
-      }
-      &.retry {
-        background-color: #ffc04a;
+        border-color: #60c000;
       }
     }
   }
@@ -316,9 +318,6 @@ button {
   max-width: 25%;
 
   button {
-    background: #eeceb2;
-    border: solid #aa8a70;
-
     border-left-width: 0;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
@@ -347,9 +346,6 @@ button {
     flex: 1 1 0%;
 
     border-radius: 1rem;
-    background: #eeceb2;
-    border: solid #aa8a70;
-    color: #664422;
     border-width: medium;
 
     padding: 0.2em 0.5em;
