@@ -45,6 +45,10 @@ export function indexByName(objects: THREE.Object3D[], name: string) {
 export function assignEndBunchedRewards(amount: number, rows: number): number[] {
   const retval = new Array<number>(rows).fill(0);
 
+  if (amount <= 0) {
+    return retval;
+  }
+
   // initially, work towards a minimal triangle like 1+2+3+…+length
   // amount in the triangle = (length+1)*length/2
   const length = Math.ceil((Math.sqrt(1 + 8 * amount) - 1) / 2);

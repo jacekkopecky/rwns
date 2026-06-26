@@ -3,7 +3,7 @@ import { parseNumber, parseString, parseStringArray } from '#utils';
 
 import { parseUpgrades } from '../main-screen';
 
-import { _state, resetState } from './state';
+import { _state } from './state';
 
 const LOCAL_STORAGE_KEY = 'rwns-game-state';
 
@@ -11,8 +11,12 @@ export function saveState() {
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(_state));
 }
 
-export function loadState(): State {
-  const dataString = localStorage.getItem(LOCAL_STORAGE_KEY) ?? '{}';
+export function loadState(): State | null {
+  const dataString = localStorage.getItem(LOCAL_STORAGE_KEY);
+
+  if (!dataString) {
+    return null;
+  }
 
   try {
     const data = JSON.parse(dataString) as Record<string, unknown>;
@@ -32,7 +36,6 @@ export function loadState(): State {
     const newKey = LOCAL_STORAGE_KEY + new Date().toISOString();
     localStorage.setItem(newKey, dataString);
     console.warn(`cannot read state, saving in "${newKey}"`, e);
-    resetState();
-    return _state;
+    return null;
   }
 }

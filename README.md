@@ -14,6 +14,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] I can make cards disappear in the needed direction, just put the right coordinates into CSS
       variable in style attribute on the element when we click it - we can match the target card by
       card type in a dataset prop
+  - [ ] a level-highlighted card should be highlighted in large as well (but not
+        progress-highlighted cards)
 - [ ] stop animations in hidden things like the daily gift and cards
 - [ ] change licence to GNU AGPL?
 - [ ] the threshold for money-only daily could be your maximum haul or your cheapest upgrade or your
@@ -126,6 +128,8 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
           - only reward at the end if any Marvin reaches the end gate
           - randomized per how many of these we have run
       - finishing with matching colour Marvins could be a quest
+      - finish N levels without a certain type of card - when you accept the quest, you lose those
+        cards until the quest is done or forfeited
     - some level types can restrict types of available upgrades, e.g. mine should not permit more
       players
   - gradation
@@ -322,6 +326,11 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] add support for wider screens, landscape mode?
 
 ---
+
+## done by 2026-06-26
+
+- fix not giving daily gift on the first day
+- fix assertion logs coming up on no money in end blocks
 
 ## done by 2026-06-18
 

@@ -17,7 +17,7 @@ import { handleLevelChanges } from './features';
 import { getToday } from './daily-gift-state';
 import { loadState, saveState } from './storage';
 
-function createInitialState(): State {
+export function createInitialState(): State {
   return {
     level: 1,
     wallet: new Wallet(CURRENCIES),
@@ -34,7 +34,7 @@ function createInitialState(): State {
 export let _state: State;
 
 export function initState() {
-  _state = loadState();
+  _state = loadState() ?? createInitialState();
   handleLevelChanges();
   exposeGlobalWindowProp('gameState', _state);
 }
