@@ -327,6 +327,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ---
 
+## done by 2026-06-27
+
+- show only 'spin' at first for daily gift, then change it to 'spin again' during the spin
+
 ## done by 2026-06-26
 
 - fix not giving daily gift on the first day

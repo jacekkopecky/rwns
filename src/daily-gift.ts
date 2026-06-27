@@ -50,7 +50,7 @@ export function showDailyGiftScreen() {
 
     switch (p.award) {
       case 'spin-again':
-        makeEl(prizeEl, 'span', 'text', 'spin again');
+        makeEl(prizeEl, 'span', 'text spinAgain', 'spin');
         break;
 
       case 'card':
@@ -136,6 +136,8 @@ function spin() {
 
   el.spinner.classList.add('spinning');
   spinTimeout = setTimeout(spinDone, dim.dailyRewardSpinSeconds * 1000);
+  setTimeout(spinDone, dim.dailyRewardSpinSeconds * 1000);
+  setTimeout(showSpinAgain, (dim.dailyRewardSpinSeconds / 2) * 1000);
 }
 
 function spinDone() {
@@ -146,6 +148,11 @@ function spinDone() {
     '--start-angle',
     el.spinner.style.getPropertyValue('--target-angle'),
   );
+  showSpinAgain();
+}
+
+function showSpinAgain() {
+  el.spinner.querySelector('.spinAgain')!.textContent = 'spin again';
 }
 
 interface Prize {
