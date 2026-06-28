@@ -97,6 +97,14 @@ main {
     pointer-events: none;
   }
 
+  #runInfo {
+    position: absolute;
+    top: 1em;
+    left: 0;
+    right: 0;
+    text-align: center;
+  }
+
   & #touchToStart {
     position: absolute;
     pointer-events: none;

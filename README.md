@@ -8,7 +8,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 ## todo
 
-- [ ] add in-run level indicator at the top
 - [ ] put cards and other section buttons under upgrade buttons so it feels safer to swipe from the
       bottom to get the home button when you don't want to buy an upgrade
 - [ ] I can make cards disappear in the needed direction, just put the right coordinates into CSS
@@ -326,6 +325,10 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] add support for wider screens, landscape mode?
 
 ---
+
+## done by 2026-06-28
+
+- [x] add in-run level and upgrade indicator at the top
 
 ## done by 2026-06-27
 

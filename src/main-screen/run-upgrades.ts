@@ -22,6 +22,7 @@ const el = {
     rate: getEl('#mainScreen .upgradeButtons > .rate'),
     damage: getEl('#mainScreen .upgradeButtons > .damage'),
   },
+  runInfo: getEl('#runInfo'),
 };
 
 export function initUpgrades() {
@@ -60,11 +61,16 @@ function updatePriceAndLevel(
   buttonEl.classList.toggle('unaffordable', !canAfford);
   buttonEl.classList.toggle('max', isMax);
 
-  const costEl = buttonEl.querySelector<HTMLElement>('.cost .value')!;
+  const costEl = buttonEl.querySelector('.cost .value')!;
   costEl.textContent = nextPrice ? formatNumber(nextPrice) : '—';
 
-  const levelEl = buttonEl.querySelector<HTMLElement>('.level .value')!;
+  const levelEl = buttonEl.querySelector('.level .value')!;
   levelEl.textContent = isMax ? 'MAX' : `Level ${currentLevel + 1}`; // humans start with 1
+
+  const runInfoEl = el.runInfo.querySelector('.' + type);
+  if (runInfoEl) {
+    runInfoEl.textContent = String(currentLevel + 1);
+  }
 }
 
 function upgradeHandler(type: RunUpgradeType): (e: PointerEvent) => void {

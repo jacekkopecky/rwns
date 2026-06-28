@@ -36,6 +36,9 @@ const el = {
     played: getEl('#playStats .played'),
     level: getEl('#playStats .level'),
   },
+  runInfo: {
+    level: getEl('#runInfo .level'),
+  },
   upgradeButtons: getEl('#mainScreen .upgradeButtons'),
 };
 
@@ -120,6 +123,7 @@ export function updateMainScreen(state = readState(), params = getUpgradablePerm
   toggleHidden(el.walletContainer, !isFeatureAllowed('coins', state));
 
   fillOrHide(el.playStats.level, state.level, String);
+  el.runInfo.level.textContent = String(state.level);
   fillOrHide(el.playStats.played, state.played, String);
 
   updateEnergyCount(params);
