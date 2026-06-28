@@ -27,7 +27,7 @@ export const gemRotationsPerSecond = 0.5;
 export const dailyRewardSpinSeconds = 5;
 
 export const runAwardsTargetCoordinates = [0.95, 0.95] as const;
-export const runAwardsFlyDuration = 0.8;
+export const runAwardsFlyDuration = 1.5;
 
 export const countupMaxTime = 0.6; // for counting up when awards fly to the wallet
 

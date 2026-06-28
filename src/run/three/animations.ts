@@ -98,7 +98,7 @@ export function flyToTarget(obj: THREE.Object3D, target: THREE.Vector3, duration
     ),
     new THREE.KeyframeTrack(
       '.position[z]',
-      durations(0, 0.2, 0.5, 1),
+      durations(0, 0.1, 0.5, 1),
       z(0, 0, 0.2, 1),
       THREE.InterpolateSmooth,
     ),
