@@ -38,18 +38,21 @@ describe('lookupLevelByNumberOfCards', () => {
 describe('getCardLevel', () => {
   it('should work', () => {
     expect(getCardLevel('_test', mockWallet(10), Infinity)).toEqual({
+      type: '_test',
       level: 4,
       nextLevelCards: 3,
       nextLevelCardsHave: 2,
     });
 
     expect(getCardLevel('_test', mockWallet(11), Infinity)).toEqual({
+      type: '_test',
       level: 5,
       nextLevelCards: 3,
       nextLevelCardsHave: 0,
     });
 
     expect(getCardLevel('_test', mockWallet(12), Infinity)).toEqual({
+      type: '_test',
       level: 5,
       nextLevelCards: 3,
       nextLevelCardsHave: 1,
@@ -58,30 +61,35 @@ describe('getCardLevel', () => {
 
   it("should clamp at _test card's limit of 40 cards (level 12)", () => {
     expect(getCardLevel('_test', mockWallet(39), 40)).toEqual({
+      type: '_test',
       level: 11,
       nextLevelCards: 5,
       nextLevelCardsHave: 4,
     });
 
     expect(getCardLevel('_test', mockWallet(40), 40)).toEqual({
+      type: '_test',
       level: 12,
       nextLevelCards: 0,
       nextLevelCardsHave: 0,
     });
 
     expect(getCardLevel('_test', mockWallet(41), 40)).toEqual({
+      type: '_test',
       level: 12,
       nextLevelCards: 0,
       nextLevelCardsHave: 0,
     });
 
     expect(getCardLevel('_test', mockWallet(100), 40)).toEqual({
+      type: '_test',
       level: 22,
       nextLevelCards: 0,
       nextLevelCardsHave: 0,
     });
 
     expect(getCardLevel('_test', mockWallet(101), 40)).toEqual({
+      type: '_test',
       level: 22,
       nextLevelCards: 0,
       nextLevelCardsHave: 0,
