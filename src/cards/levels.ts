@@ -53,6 +53,7 @@ export const _test = {
 };
 
 export interface CardLevelData {
+  type: string;
   level: number;
   nextLevelCards: number;
   nextLevelCardsHave: number;
@@ -66,6 +67,7 @@ export function getCardLevel(
   const amount = wallet.read(type);
   if (!amount) {
     return {
+      type,
       level: 0,
       nextLevelCards: 1,
       nextLevelCardsHave: 0,
@@ -76,6 +78,7 @@ export function getCardLevel(
 
   if (amount >= cardsToGive) {
     return {
+      type,
       level,
       nextLevelCards: 0,
       nextLevelCardsHave: 0,
@@ -85,6 +88,7 @@ export function getCardLevel(
   const [cardsToCurrentLevel, cardsToNextLevel] = getCardsToLevelAndNext(level);
 
   return {
+    type,
     level,
     nextLevelCards: cardsToNextLevel - cardsToCurrentLevel,
     nextLevelCardsHave: amount - cardsToCurrentLevel,

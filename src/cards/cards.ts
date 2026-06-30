@@ -120,10 +120,29 @@ export function updateCardsScreen(
   }
 }
 
-function addShowingCard(cardEl: HTMLElement, extraClass?: string) {
+function addShowingCard(cardEl: HTMLElement, fromCard = false) {
   const showCardEl = cardEl.cloneNode(true) as HTMLElement;
   showCardEl.classList.add('showingNewCard');
-  if (extraClass) showCardEl.classList.add(extraClass);
+
+  if (fromCard) {
+    showCardEl.classList.add('fromCard');
+
+    const sectionRect = el.cardsSection.getBoundingClientRect();
+    const sourceRect = cardEl.getBoundingClientRect();
+    const targetCenterX = sectionRect.left + sectionRect.width * 0.5;
+    const targetCenterY = sectionRect.top + sectionRect.height * 0.4;
+    const deltaX = sourceRect.left + sourceRect.width * 0.5 - targetCenterX;
+    const deltaY = sourceRect.top + sourceRect.height * 0.5 - targetCenterY;
+    showCardEl.style.transform = `translate(calc(-50% + ${deltaX}px), calc(-50% + ${deltaY}px)) scale(0.5)`;
+    showCardEl.style.opacity = '0';
+
+    // let the card animate
+    requestAnimationFrame(() => {
+      showCardEl.style.transform = '';
+      showCardEl.style.opacity = '';
+    });
+  }
+
   el.cardsSection.append(showCardEl);
 
   showCardEl.addEventListener('click', () => removeShowingCard(showCardEl));
@@ -133,14 +152,29 @@ function showCard(cardEl: HTMLElement) {
   if (el.cardsSection.querySelector('.showingNewCard:not(.hiding)')) {
     removeAllShowingCards();
   } else {
-    addShowingCard(cardEl, 'fromCard');
+    addShowingCard(cardEl, true);
   }
 }
 
 function removeShowingCard(cardEl: HTMLElement) {
+  const targetType = cardEl.dataset.cardType;
+  if (targetType) {
+    const target = el.theCards.querySelector<HTMLElement>(`[data-card-type="${targetType}"]`);
+    if (target) {
+      const sourceRect = cardEl.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      const deltaX =
+        targetRect.left + targetRect.width / 2 - (sourceRect.left + sourceRect.width / 2);
+      const deltaY =
+        targetRect.top + targetRect.height / 2 - (sourceRect.top + sourceRect.height / 2);
+      cardEl.style.setProperty('--hide-x', `${deltaX}px`);
+      cardEl.style.setProperty('--hide-y', `${deltaY}px`);
+    }
+  }
+
   cardEl.classList.add('hiding');
   cardEl.inert = true;
-  setTimeout(() => cardEl.remove(), 1000);
+  setTimeout(() => cardEl.remove(), 2000);
 }
 
 function removeAllShowingCards(immediate = false) {
@@ -160,6 +194,7 @@ function makeCardEl(
     cardEl.classList.toggle('highlight', highlightLevel || highlightProgress);
   }, 1);
 
+  cardEl.dataset.cardType = cardData.type;
   cardEl.classList.add(toCssClass('rarity', definition.rarity));
   cardEl.classList.add(toCssClass('type', definition.typeLabel));
 

@@ -694,7 +694,7 @@ button {
     }
 
     &.highlight:not(.showingNewCard) {
-      outline: solid thin yellow;
+      outline: solid medium yellow;
       transition: outline-color 1s;
     }
 
@@ -726,11 +726,13 @@ button {
       }
 
       &.hiding {
-        transform: translate(-50%, 0%) scale(0);
+        transform: translate(calc(-50% + var(--hide-x, 0px)), calc(-50% + var(--hide-y, 0px)))
+          scale(0);
         opacity: 0;
 
         &.fromCard {
-          transform: translate(-50%, -50%) scale(0.5);
+          transform: translate(calc(-50% + var(--hide-x, 0px)), calc(-50% + var(--hide-y, 0px)))
+            scale(0.5);
         }
       }
 
