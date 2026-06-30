@@ -10,11 +10,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 
 - [ ] put cards and other section buttons under upgrade buttons so it feels safer to swipe from the
       bottom to get the home button when you don't want to buy an upgrade
-- [ ] I can make cards disappear in the needed direction, just put the right coordinates into CSS
-      variable in style attribute on the element when we click it - we can match the target card by
-      card type in a dataset prop
-  - [ ] a level-highlighted card should be highlighted in large as well (but not
-        progress-highlighted cards)
 - [ ] stop animations in hidden things like the daily gift and cards
 - [ ] change licence to GNU AGPL?
 - [ ] the threshold for money-only daily could be your maximum haul or your cheapest upgrade or your
@@ -325,6 +320,14 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] add support for wider screens, landscape mode?
 
 ---
+
+## done by 2026-06-30
+
+- [x] I can make cards disappear in the needed direction, just put the right coordinates into CSS
+      variable in style attribute on the element when we click it - we can match the target card by
+      card type in a dataset prop
+  - [x] a level-highlighted card should be highlighted in large as well (but not
+        progress-highlighted cards)
 
 ## done by 2026-06-28
 

@@ -744,9 +744,11 @@ button {
       .nextLevel {
         font-size: 60%;
       }
-      .level,
       .nextLevel {
         display: none !important;
+      }
+      .level::before {
+        animation: none !important;
       }
 
       .description {
