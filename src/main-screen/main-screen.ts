@@ -120,6 +120,11 @@ export function updateMainScreen(state = readState(), params = getUpgradablePerm
   prepareRun(state, params);
 
   fillWalletEls(state.wallet, el.wallet);
+
+  const hasGems = state.wallet.read('gem') > 0;
+  const hasAnyCards = state.cards.entries().length > 0;
+  el.wallet.gem.classList.toggle('neverHidden', hasGems || hasAnyCards);
+
   toggleHidden(el.walletContainer, !isFeatureAllowed('coins', state));
 
   fillOrHide(el.playStats.level, state.level, String);

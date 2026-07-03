@@ -42,7 +42,11 @@ export function fillOrHide(
   const text = typeof value === 'string' ? value : formatFn(value);
   const valueEl = el.querySelector('.value')!;
   if (valueEl.textContent !== text) valueEl.textContent = text;
-  el.classList.toggle('hidden', !value);
+  if (!el.classList.contains('neverHidden')) {
+    el.classList.toggle('hidden', !value);
+  } else {
+    el.classList.remove('hidden');
+  }
 
   return Boolean(value);
 }
