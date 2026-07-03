@@ -2,15 +2,14 @@
 
 This is a game that was inspired by Timeline Up, which I played without spending any real money.
 
-It's nearly a game.
-
-Runs on [github pages](https://jacekkopecky.github.io/rwns).
+Runs on [github pages](https://jacekkopecky.github.io/rwns). Intended to run on a portrait-oriented
+mobile screen.
 
 ## todo
 
 - [ ] put cards and other section buttons under upgrade buttons so it feels safer to swipe from the
       bottom to get the home button when you don't want to buy an upgrade
-- [ ] stop animations in hidden things like the daily gift and cards
+- [.] (AI: Jules) stop animations in hidden things like the daily gift and cards
 - [ ] change licence to GNU AGPL?
 - [ ] the threshold for money-only daily could be your maximum haul or your cheapest upgrade or your
       robots upgrade as that's the most expensive
@@ -282,7 +281,6 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
       version (no longer updated) - important from v2
 - [ ] make it an installable app with icons etc.
   - https://vite-pwa-org.netlify.app/guide/pwa-minimal-requirements.html
-- [ ] center level and played on screen?
 - [ ] check if LatheGeometry makes two triangles even if the point is on the axis, fix it
 - [ ] add a settings screen
   - don't show settings in first level
@@ -313,19 +311,24 @@ Runs on [github pages](https://jacekkopecky.github.io/rwns).
 - [ ] Could a Marvin that took a hit flash a bit somehow?
 - [ ] could Marvins sit down when out of energy?
 - [ ] allow use of back button for navigation at least through sections, and from a run?
-- [ ] make final gate taller than the blocks, or the blocks shorter?
-  - with height 30, the explosions aren't showing right
 - [ ] remove circular dependencies
 - [ ] in wallets, count down when buying
 - [ ] add support for wider screens, landscape mode?
 
 ---
 
+## done by 2026-07-03
+
+- retiring notes already handled:
+- [/] center level and played on screen?
+- [/] make final gate taller than the blocks, or the blocks shorter?
+  - with height 30, the explosions aren't showing right
+
 ## done by 2026-06-30
 
-- [x] I can make cards disappear in the needed direction, just put the right coordinates into CSS
-      variable in style attribute on the element when we click it - we can match the target card by
-      card type in a dataset prop
+- [x] (with AI: Copilot) I can make cards disappear in the needed direction, just put the right
+      coordinates into CSS variable in style attribute on the element when we click it - we can
+      match the target card by card type in a dataset prop
   - [x] a level-highlighted card should be highlighted in large as well (but not
         progress-highlighted cards)
 

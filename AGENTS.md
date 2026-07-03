@@ -6,6 +6,7 @@
 - Do NOT add new dependencies unless specifically asked.
 - Do NOT change existing tests without asking.
 - Do NOT override linter rules.
+- Do NOT compliment the user on their suggestions.
 
 ## Testing instructions
 
@@ -18,4 +19,3 @@
 ## PR instructions
 
 - Always run `npm test` before committing.
-- When updating a PR branch, rebase it on top of main to make sure it merges cleanly.
