@@ -77,7 +77,6 @@ main {
         animation-play-state: paused !important;
       }
     }
-
   }
 
   &.run .partial-in-run > :not(.in-run):not(.only-in-run),
