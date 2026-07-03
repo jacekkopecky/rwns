@@ -18,3 +18,4 @@
 ## PR instructions
 
 - Always run `npm test` before committing.
+- When updating a PR branch, rebase it on top of main to make sure it merges cleanly.
