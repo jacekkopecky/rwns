@@ -71,7 +71,13 @@ main {
 
     &.inactive {
       pointer-events: none;
+
+      &,
+      & * {
+        animation-play-state: paused !important;
+      }
     }
+
   }
 
   &.run .partial-in-run > :not(.in-run):not(.only-in-run),
@@ -80,6 +86,11 @@ main {
   &:not(.run) > section > .only-in-run {
     opacity: 0;
     pointer-events: none;
+
+    &,
+    & * {
+      animation-play-state: paused !important;
+    }
   }
 
   #inRunWallet {
@@ -272,6 +283,12 @@ button {
   inset: 0;
   opacity: 0;
   pointer-events: none;
+
+  &,
+  & * {
+    animation-play-state: paused !important;
+  }
+
   color: white;
   display: flex;
   flex-direction: column;
@@ -386,6 +403,11 @@ button {
 
 .hidden:not(.neverHidden) {
   visibility: hidden;
+
+  &,
+  & * {
+    animation-play-state: paused !important;
+  }
 
   .hiddenGone &,
   &.hiddenGone {
