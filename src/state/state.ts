@@ -9,11 +9,10 @@ import type {
   UpgradablePermanentParameters,
 } from '#types';
 import { CARDS, CURRENCIES, Wallet } from '#types';
-import { exposeGlobalWindowProp } from '#utils';
+import { exposeGlobalWindowProp, getToday } from '#utils';
 
 import { cardDefinitions, lookupLevelByNumberOfCards } from '../cards';
 
-import { getToday } from './daily-gift-state';
 import { handleLevelChanges } from './features';
 import { loadState, saveState } from './storage';
 
@@ -28,6 +27,7 @@ export function createInitialState(): State {
     runUpgradeLevels: {},
     collectedGemIds: [],
     lastDailyGiftGiven: getToday(), // don't give the gift on the first day
+    startDate: getToday(),
   };
 }
 

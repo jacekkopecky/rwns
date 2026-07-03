@@ -1,4 +1,5 @@
 import type { ReadonlyState } from '#types';
+import { getToday } from '#utils';
 
 import { isFeatureAllowed } from './features';
 import { _state, getUpgradablePermanentParameters } from './state';
@@ -25,8 +26,4 @@ export function setDailyGiftGivenToday() {
   const today = getToday();
   _state.lastDailyGiftGiven = today;
   saveState();
-}
-
-export function getToday(): string {
-  return new Date().toISOString().split('T')[0]!;
 }

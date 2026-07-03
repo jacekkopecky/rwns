@@ -1,5 +1,5 @@
 import { CARDS, CURRENCIES, Wallet, type State } from '#types';
-import { parseNumber, parseString, parseStringArray } from '#utils';
+import { getToday, parseNumber, parseString, parseStringArray } from '#utils';
 
 import { parseUpgrades } from '../main-screen';
 
@@ -31,6 +31,7 @@ export function loadState(): State | null {
       played: parseNumber(data.played, 0),
       lastEnergyGiven: parseNumber(data.lastEnergyGiven, Date.now()),
       lastDailyGiftGiven: parseString(data.lastDailyGiftGiven, ''),
+      startDate: parseString(data.startDate, getToday()),
     } satisfies Required<State>;
   } catch (e) {
     const newKey = LOCAL_STORAGE_KEY + new Date().toISOString();

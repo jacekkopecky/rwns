@@ -14,6 +14,7 @@ export interface State {
   energy: number;
   lastEnergyGiven: number; // milliseconds since epoch
   lastDailyGiftGiven?: string; // iso8601 date yyyy-mm-dd
+  readonly startDate: string; // iso8601 date yyyy-mm-dd
 }
 
 export type ReadonlyState = Omit<DeepReadonly<State>, 'wallet' | 'cards'> & {
