@@ -277,12 +277,9 @@ button {
 }
 
 #endRunScreen {
-  background: black;
   position: absolute;
   inset: 0;
-  opacity: 0;
-  pointer-events: none;
-
+  background: black;
   color: white;
   display: flex;
   flex-direction: column;
@@ -313,12 +310,10 @@ button {
     }
   }
 
-  &.visible {
-    opacity: 1;
-    pointer-events: all;
-  }
-
   &:not(.visible) {
+    opacity: 0;
+    pointer-events: none;
+
     &,
     & * {
       animation-play-state: paused !important;
