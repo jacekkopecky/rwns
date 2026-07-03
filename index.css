@@ -284,13 +284,6 @@ button {
   opacity: 0;
   pointer-events: none;
 
-  &:not(.visible) {
-    &,
-    & * {
-      animation-play-state: paused !important;
-    }
-  }
-
   color: white;
   display: flex;
   flex-direction: column;
@@ -324,6 +317,13 @@ button {
   &.visible {
     opacity: 1;
     pointer-events: all;
+  }
+
+  &:not(.visible) {
+    &,
+    & * {
+      animation-play-state: paused !important;
+    }
   }
 
   &:not(.win) .if-win,
