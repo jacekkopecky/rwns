@@ -7,6 +7,8 @@
 - Do NOT change existing tests without asking.
 - Do NOT override linter rules.
 - Do NOT compliment the user on their suggestions.
+- Do NOT change files in `docs/` because they are built separately and manually, when a release is
+  ready.
 
 ## Testing instructions
 

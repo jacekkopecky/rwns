@@ -9,7 +9,6 @@ mobile screen.
 
 - [ ] put cards and other section buttons under upgrade buttons so it feels safer to swipe from the
       bottom to get the home button when you don't want to buy an upgrade
-- [.] (AI: Jules) stop animations in hidden things like the daily gift and cards
 - [ ] change licence to GNU AGPL?
 - [ ] the threshold for money-only daily could be your maximum haul or your cheapest upgrade or your
       robots upgrade as that's the most expensive
@@ -319,6 +318,7 @@ mobile screen.
 
 ## done by 2026-07-03
 
+- [x] (AI: Jules) stop animations in hidden things like the daily gift and cards
 - retiring notes already handled:
 - [/] center level and played on screen?
 - [/] make final gate taller than the blocks, or the blocks shorter?
