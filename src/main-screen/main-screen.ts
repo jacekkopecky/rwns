@@ -122,6 +122,10 @@ export function updateMainScreen(state = readState(), params = getUpgradablePerm
   fillWalletEls(state.wallet, el.wallet);
   toggleHidden(el.walletContainer, !isFeatureAllowed('coins', state));
 
+  // ensure that gems are always visible once we've spent any
+  const hasAnyCards = state.cards.entries().some(([, val]) => val > 0);
+  el.wallet.gem.classList.toggle('neverHidden', hasAnyCards);
+
   fillOrHide(el.playStats.level, state.level, String);
   el.runInfo.level.textContent = String(state.level);
   fillOrHide(el.playStats.played, state.played, String);

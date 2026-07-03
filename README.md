@@ -12,7 +12,6 @@ mobile screen.
 - [ ] change licence to GNU AGPL?
 - [ ] the threshold for money-only daily could be your maximum haul or your cheapest upgrade or your
       robots upgrade as that's the most expensive
-- [ ] after gems are available, always show gem count in main screen wallet
 - [ ] alternative mine
   - marvin starts in front of all blocks (smaller blocks, 5 or 6 per width)
   - can move up, down, left, right, always by a whole space
@@ -319,6 +318,8 @@ mobile screen.
 
 ## done by 2026-07-03
 
+- [x] (AI Jules helped find the place quickly) after gems are available, always show gem count in
+      main screen wallet
 - [x] (AI: Jules) stop animations in hidden things like the daily gift and cards
 - retiring notes already handled:
 - [/] center level and played on screen?
