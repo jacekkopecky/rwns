@@ -3,17 +3,20 @@ import { getEl } from '#utils';
 import { init as initCardsScreen, showCardsScreen } from './cards';
 import { init as initDailyGiftScreen, showDailyGiftScreen } from './daily-gift';
 import { init as initMainScreen, showMainScreen } from './main-screen';
+import { init as initSettingsScreen, showSettingsScreen } from './settings';
 
 export function init() {
   initMainScreen();
   initCardsScreen();
   initDailyGiftScreen();
+  initSettingsScreen();
 }
 
 const sections = {
   ...prepSection('mainScreen', showMainScreen),
   ...prepSection('cards', showCardsScreen),
   ...prepSection('dailyGift', showDailyGiftScreen),
+  ...prepSection('settings', showSettingsScreen),
 };
 
 type Section = keyof typeof sections;

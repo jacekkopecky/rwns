@@ -1,0 +1,54 @@
+/* Settings screen styles */
+#settings {
+  background-color: #2b2b2b;
+  color: white;
+  display: grid;
+  grid-template:
+    'top' auto
+    'content' 1fr
+    'bottom' auto
+    / 1fr;
+
+  &.inactive {
+    opacity: 0;
+  }
+}
+
+#settings h2 {
+  text-align: center;
+  margin: 1em 0;
+}
+
+#settings .settingsContent {
+  padding: 1.5em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  align-items: center;
+  justify-content: center;
+}
+
+#settings .startInfo {
+  font-size: 1.2em;
+  background: #fff2;
+  color: #000;
+  padding: 0.6em 1em;
+  border-radius: 0.6em;
+}
+
+#settings .buttons {
+  display: flex;
+  gap: 1em;
+}
+
+#resetProgressBtn {
+  background: #ff6666;
+  border-color: #aa4444;
+  color: white;
+}
+
+#settings .sectionButtons {
+  position: absolute;
+  top: 0.6em;
+  left: 0.6em;
+}

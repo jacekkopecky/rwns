@@ -132,8 +132,5 @@ export function updateMainScreen(state = readState(), params = getUpgradablePerm
 }
 
 function showSettings() {
-  if (window.confirm('reset all data?')) {
-    resetState();
-    showSection('mainScreen');
-  }
+  showSection('settings');
 }
