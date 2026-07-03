@@ -13,8 +13,8 @@ import { exposeGlobalWindowProp } from '#utils';
 
 import { cardDefinitions, lookupLevelByNumberOfCards } from '../cards';
 
-import { handleLevelChanges } from './features';
 import { getToday } from './daily-gift-state';
+import { handleLevelChanges } from './features';
 import { loadState, saveState } from './storage';
 
 export function createInitialState(): State {

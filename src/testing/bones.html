@@ -1,42 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  <title>Three.js Bones testing</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0
-    }
-
-    canvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
-    #fps {
-      font-size: 18px;
-      font-family: sans-serif;
-      position: fixed;
-      top: 0.5em;
-      left: 0.5em;
-      pointer-events: none;
-
-      &::after {
-        content: 'fps';
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <title>Three.js Bones testing</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
       }
-    }
-  </style>
-</head>
 
-<body>
-  <!-- this page was used to test the development of the marvin model -->
-  <script type="module" src="./bones.ts">
-  </script>
-  <div id="fps"></div>
-</body>
+      canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
 
+      #fps {
+        font-size: 18px;
+        font-family: sans-serif;
+        position: fixed;
+        top: 0.5em;
+        left: 0.5em;
+        pointer-events: none;
+
+        &::after {
+          content: 'fps';
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- this page was used to test the development of the marvin model -->
+    <script type="module" src="./bones.ts"></script>
+    <div id="fps"></div>
+  </body>
 </html>

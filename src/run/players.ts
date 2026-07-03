@@ -1,20 +1,19 @@
 import * as THREE from 'three';
 
 import * as dim from '#dimensions';
-import { random } from '#utils';
 import type { ReadonlyState, UpgradablePermanentParameters } from '#types';
+import { random } from '#utils';
 
 import { applyRunUpgrade } from '../main-screen';
 
 import { createPlayerBullet } from './bullets';
 import { hitObject, objectsGroup } from './objects';
-import { Circle, getObjectData, getPlayerData, type PlayerData } from './types';
-
+import { generatePlayerPosition } from './player-positions';
 import { updateCameraPosition } from './three/camera';
 import { getExtentTranslatedToPosition, intersects, isDying } from './three/resources';
 import { createPlayer, killPlayer, setPlayerWalking } from './three/run-objects';
 import { getObjectZ, resetGroup } from './three/tools';
-import { generatePlayerPosition } from './player-positions';
+import { Circle, getObjectData, getPlayerData, type PlayerData } from './types';
 
 export const playersGroup = new THREE.Group();
 

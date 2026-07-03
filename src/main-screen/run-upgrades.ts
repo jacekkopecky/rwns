@@ -1,20 +1,21 @@
 import type {
-  RunUpgradeLevels,
   ReadonlyState,
+  RunUpgradeLevels,
   RunUpgradeType,
   UpgradablePermanentParameters,
 } from '#types';
 import { RUN_UPGRADE_TYPES } from '#types';
-import { parseNumber, formatNumber, getEl } from '#utils';
+import { formatNumber, getEl, parseNumber } from '#utils';
 
-import { updateMainScreen } from './main-screen';
 import {
-  readState,
-  pay,
-  isFeatureAllowed,
   getUpgradablePermanentParameters,
+  isFeatureAllowed,
+  pay,
+  readState,
   setRunUpgradeLevel,
 } from '../state';
+
+import { updateMainScreen } from './main-screen';
 
 const el = {
   upgrades: {

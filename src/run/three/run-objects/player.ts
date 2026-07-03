@@ -5,8 +5,8 @@ import * as dim from '#dimensions';
 import { Circle } from '../../types';
 import { fallAndShrinkToGone } from '../animations';
 import * as mat from '../materials';
-import { markAsDying } from '../resources';
 import { Marvin } from '../models';
+import { markAsDying } from '../resources';
 
 const normalMaterial = mat.colorFlatMaterials.silver;
 const normalGunMaterial = mat.colorFlatMaterials.gunGrey;

@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
-import { range, assignEndBunchedRewards, spread } from './arrays';
+import { assignEndBunchedRewards, range, spread } from './arrays';
 
 describe('arrays utility functions', () => {
   describe('range', () => {

@@ -5,12 +5,11 @@ import type { ReadonlyState, UpgradablePermanentParameters } from '#types';
 
 import { giveAward } from './awards';
 import { createLevelObjects } from './levels';
-import { getObjectData } from './types';
-
 import { updateHitBar } from './three/models';
-import { createObject, killObject } from './three/run-objects';
 import { isDying } from './three/resources';
-import { resetGroup, removeGroupChildrenBehindCamera } from './three/tools';
+import { createObject, killObject } from './three/run-objects';
+import { removeGroupChildrenBehindCamera, resetGroup } from './three/tools';
+import { getObjectData } from './types';
 
 export const objectsGroup = new THREE.Group();
 

@@ -1,5 +1,6 @@
-import type { CardTemplate } from './types';
 import * as state from '../state';
+
+import type { CardTemplate } from './types';
 
 export const range: CardTemplate = {
   typeLabel: 'range',

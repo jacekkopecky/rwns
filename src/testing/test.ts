@@ -4,8 +4,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import * as dim from '#dimensions';
 import { exposeGlobalWindowProp } from '#utils';
 
-import { createGem } from '../run/three/run-objects/gems';
 import { createObject } from '../run/three/run-objects';
+import { createGem } from '../run/three/run-objects/gems';
 
 // const N = 1800;
 
@@ -148,7 +148,7 @@ export function makeHalfCubeGeometry(
       :  [ p[1],p[2],p[6], p[1],p[6],p[5] ]  // right
     ),
     p[0],p[1],p[5], p[0],p[5],p[4], // top
-  ]
+  ];
 
   geometry.setFromPoints(faces);
 

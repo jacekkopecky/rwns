@@ -1,5 +1,5 @@
-import * as THREE from 'three';
 import * as TWEEN from '@tweenjs/tween.js';
+import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 import { exposeGlobalWindowProp } from '#utils';

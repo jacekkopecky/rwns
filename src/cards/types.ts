@@ -1,5 +1,5 @@
-import type { UpgradablePermanentParameters } from '#types';
 import * as dim from '#dimensions';
+import type { UpgradablePermanentParameters } from '#types';
 
 import { getCardsToLevel } from './levels';
 import * as t from './templates';

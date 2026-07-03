@@ -46,7 +46,7 @@ const branchDefinitions : BranchInfo = [
   [ 0.7, fullHeight/4, trunkRadius/5, 0, 80, 15],
   [ 0.75, fullHeight/5, trunkRadius/5, 0, 80, -105],
   [ 0.60, fullHeight/4, trunkRadius/5, 0, 70, 135],
-]]
+]];
 
 const deadTree = makeBranch(...branchDefinitions, true);
 

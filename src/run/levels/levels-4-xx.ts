@@ -9,8 +9,8 @@ import { getHitBar } from '../three/models';
 import { getObjectData } from '../types';
 
 import type { LevelFunction } from './index';
-import { makeBag, makeEndBlocks, makeGem, makeTrees } from './tools';
 import { LEVEL_MESSAGES } from './level-messages';
+import { makeBag, makeEndBlocks, makeGem, makeTrees } from './tools';
 
 const MIN = 4;
 

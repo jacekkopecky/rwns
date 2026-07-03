@@ -49,7 +49,7 @@ function makeTetrahedron(r: number): THREE.BufferGeometry {
     p[0],p[1],p[3], // front
     p[1],p[2],p[3],
     p[2],p[0],p[3],
-  ]
+  ];
 
   geometry.setFromPoints(faces);
   geometry.computeVertexNormals();

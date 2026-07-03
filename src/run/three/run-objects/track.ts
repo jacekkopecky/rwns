@@ -124,7 +124,7 @@ function makeHalfCubeGeometry(hasLeftSide: boolean, w = 1, h = 1, d = 1): THREE.
       :  [ p[1],p[2],p[6], p[1],p[6],p[5] ]  // right
     ),
     p[0],p[1],p[5], p[0],p[5],p[4], // top
-  ]
+  ];
 
   geometry.setFromPoints(faces);
 

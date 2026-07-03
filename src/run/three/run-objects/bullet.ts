@@ -2,10 +2,10 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 
-import { getExtentFrontY, markAsDying } from '../resources';
-import { createBulletModel, explosionTemplate } from '../models';
 import { Circle } from '../../types';
 import { rotateAlways } from '../animations';
+import { createBulletModel, explosionTemplate } from '../models';
+import { getExtentFrontY, markAsDying } from '../resources';
 
 export function createBullet(player: THREE.Object3D): THREE.Object3D {
   const bullet = createBulletModel();

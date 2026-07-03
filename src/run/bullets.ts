@@ -3,11 +3,10 @@ import * as THREE from 'three';
 import * as dim from '#dimensions';
 
 import { hitObject, objectsGroup } from './objects';
-import { Circle, getBulletData, getObjectData, type PlayerData } from './types';
-
-import { createBullet, killBullet } from './three/run-objects';
 import { getExtentTranslatedToPosition, intersects, isDying } from './three/resources';
+import { createBullet, killBullet } from './three/run-objects';
 import { getObjectX, getObjectZ, resetGroup } from './three/tools';
+import { Circle, getBulletData, getObjectData, type PlayerData } from './types';
 import { showExtent } from './utils/extents';
 
 export const bulletsGroup = new THREE.Group();

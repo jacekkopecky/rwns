@@ -12,8 +12,8 @@ import {
 } from '../state';
 
 import { getCardLevel, type CardLevelData } from './levels';
-import { cardDefinitions, CARDS, RARITIES, type CardDefinition } from './types';
 import { selectNextRandomCard } from './next-card';
+import { cardDefinitions, CARDS, RARITIES, type CardDefinition } from './types';
 
 const el = {
   cardsSection: getEl('#cards'),

@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
-import type { Wallet, CardType } from '#types';
+import type { CardType, Wallet } from '#types';
 
 import { _test, getCardLevel, getCardsToLevel, lookupLevelByNumberOfCards } from './levels';
 

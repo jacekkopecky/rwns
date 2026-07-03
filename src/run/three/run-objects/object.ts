@@ -1,14 +1,14 @@
 import * as THREE from 'three';
 
+import { getObjectData } from '../../types';
+import { createHitBar } from '../models';
 import { markAsDying } from '../resources';
 
+import { createEndBlock, killEndBlock } from './end-blocks';
 import { createGate, killGate } from './gate';
 import { createGem, killGem } from './gems';
 import { createBag, killBag } from './money';
 import { createRandomTree, killTree } from './tree';
-import { createEndBlock, killEndBlock } from './end-blocks';
-import { createHitBar } from '../models';
-import { getObjectData } from '../../types';
 
 const typeFns = {
   tree: [createRandomTree, killTree],

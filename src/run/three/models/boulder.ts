@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
 
 import * as dim from '#dimensions';
+
 import * as mat from '../materials';
 
 const [w, h] = dim.modelSizes.boulder;

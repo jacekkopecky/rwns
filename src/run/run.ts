@@ -5,8 +5,8 @@ import { logFps } from '#log';
 import type { ReadonlyState, UpgradablePermanentParameters } from '#types';
 import { getEl, resetRandom } from '#utils';
 
-import * as stateModule from '../state';
 import { isOnSplashScreen } from '../splash-screen';
+import * as stateModule from '../state';
 
 import {
   awardsGroup,
@@ -27,15 +27,14 @@ import {
   setupPlayers,
   updatePlayerPosition,
 } from './players';
-import { moveTrack, setupTrack } from './track';
-import { warmupModels } from './warmup';
-
-import { disposeAnimations, updateAnimations, timer } from './three/animations';
+import { disposeAnimations, timer, updateAnimations } from './three/animations';
 import { moveCamera } from './three/camera';
-import { render, scene, init as initThree } from './three/main';
+import { init as initThree, render, scene } from './three/main';
 import { initSpriteMaterials } from './three/materials';
-import { TouchHandler } from './utils/touch-handler';
+import { moveTrack, setupTrack } from './track';
 import { showExtents } from './utils/extents';
+import { TouchHandler } from './utils/touch-handler';
+import { warmupModels } from './warmup';
 
 let handler: TouchHandler;
 

@@ -1,5 +1,7 @@
-import { createRandom, random, randomItem } from '#utils';
 import * as THREE from 'three';
+
+import { createRandom, random, randomItem } from '#utils';
+
 import { Circle } from './types';
 
 export function generatePlayerPosition(i: number, prng = random) {

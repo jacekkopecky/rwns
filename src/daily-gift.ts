@@ -10,6 +10,7 @@ import {
   spread,
 } from '#utils';
 
+import { showSection } from './sections';
 import {
   addAward,
   addEnergy,
@@ -21,7 +22,6 @@ import {
   readState,
   setDailyGiftGivenToday,
 } from './state';
-import { showSection } from './sections';
 
 const el = {
   section: getEl('#dailyGift'),

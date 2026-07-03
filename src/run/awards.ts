@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 import * as dim from '#dimensions';
-import { CURRENCIES, type CurrencyType, Wallet } from '#types';
+import { CURRENCIES, Wallet, type CurrencyType } from '#types';
 import { fillOrHide, fillWalletEls, getEl, random } from '#utils';
 
 import * as state from '../state';

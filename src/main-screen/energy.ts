@@ -2,6 +2,7 @@ import type { UpgradablePermanentParameters } from '#types';
 import { fillOrHide, getEl, toggleHidden } from '#utils';
 
 import { getEnergy, getUpgradablePermanentParameters } from '../state';
+
 import { isInRun } from './main-screen';
 
 const el = {

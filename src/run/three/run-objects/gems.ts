@@ -3,10 +3,10 @@ import * as THREE from 'three';
 import * as dim from '#dimensions';
 import { random } from '#utils';
 
-import { shrinkToGone, rotateAlways } from '../animations';
-import { createGemModel } from '../models';
-import { Circle } from '../../types';
 import { collectGem } from '../../../state';
+import { Circle } from '../../types';
+import { rotateAlways, shrinkToGone } from '../animations';
+import { createGemModel } from '../models';
 
 export function createGem(id?: string, withoutRotation = false) {
   const gem = createGemModel();

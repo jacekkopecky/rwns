@@ -3,9 +3,9 @@ import * as THREE from 'three';
 import * as dim from '#dimensions';
 import { random } from '#utils';
 
+import { Circle } from '../../types';
 import { shrinkToGone } from '../animations';
 import { createBagModel } from '../models';
-import { Circle } from '../../types';
 
 export function createBag() {
   const bag = createBagModel();

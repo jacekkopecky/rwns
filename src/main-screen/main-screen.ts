@@ -5,14 +5,14 @@ import { init as initRunScreen, prepareRun, startRun } from '../run';
 import { isSectionActive, showSection } from '../sections';
 import { isOnSplashScreen } from '../splash-screen';
 import {
+  canGiveDailyGift,
+  getUpgradablePermanentParameters,
+  increaseLevel,
   initState,
+  isFeatureAllowed,
   readState,
   resetState,
   subtractEnergy,
-  getUpgradablePermanentParameters,
-  isFeatureAllowed,
-  canGiveDailyGift,
-  increaseLevel,
 } from '../state';
 
 import { hasEnergy, updateEnergyCount } from './energy';

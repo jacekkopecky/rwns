@@ -1,7 +1,8 @@
 import * as THREE from 'three';
+
 import { getByName, indexByName } from '#utils';
 
-import { betweener, addMixer, rotateOccasionally } from '../animations';
+import { addMixer, betweener, rotateOccasionally } from '../animations';
 
 import { createBonyTubeGeometry } from './tools/bony-tube';
 

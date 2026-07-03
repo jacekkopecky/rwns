@@ -1,10 +1,10 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import { init as initRunScreen, prepareRun } from '../run';
-import * as state from '../state';
+import { playersGroup } from '../run/players';
 import { camera } from '../run/three/camera';
 import { render, renderer } from '../run/three/main';
-import { playersGroup } from '../run/players';
+import * as state from '../state';
 
 state.initState();
 initRunScreen();

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+
 import { Circle, type ObjectData } from '../types';
 
 const extentMaterial = new THREE.MeshLambertMaterial({ color: 0x000000, wireframe: true });

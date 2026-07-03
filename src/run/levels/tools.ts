@@ -3,9 +3,9 @@ import * as THREE from 'three';
 import * as dim from '#dimensions';
 import { assignEndBunchedRewards, random, randomXNotTooClose } from '#utils';
 
+import { scaleExtent } from '../three/resources';
 import { createObject } from '../three/run-objects';
 import { getObjectData } from '../types';
-import { scaleExtent } from '../three/resources';
 
 export function makeTrees(
   length: number,

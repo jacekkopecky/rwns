@@ -1,8 +1,8 @@
 import { getEl } from '#utils';
 
-import { init as initMainScreen, showMainScreen } from './main-screen';
 import { init as initCardsScreen, showCardsScreen } from './cards';
 import { init as initDailyGiftScreen, showDailyGiftScreen } from './daily-gift';
+import { init as initMainScreen, showMainScreen } from './main-screen';
 
 export function init() {
   initMainScreen();

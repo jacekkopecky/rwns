@@ -2,8 +2,8 @@ import * as THREE from 'three';
 
 import type { ReadonlyState, UpgradablePermanentParameters } from '#types';
 
-import { firstLevels } from './levels-123';
 import { level4Plus } from './levels-4-xx';
+import { firstLevels } from './levels-123';
 
 export type LevelFunction = (
   state: ReadonlyState,
