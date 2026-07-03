@@ -284,9 +284,11 @@ button {
   opacity: 0;
   pointer-events: none;
 
-  &,
-  & * {
-    animation-play-state: paused !important;
+  &:not(.visible) {
+    &,
+    & * {
+      animation-play-state: paused !important;
+    }
   }
 
   color: white;
