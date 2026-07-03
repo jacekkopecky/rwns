@@ -292,6 +292,7 @@ mobile screen.
   - after second level, show the new settings button to the user
   - in state, there could be a "tutorials seen" array, and an "enabled" function (instead of
     isUpgradeAllowed?)
+  - show state as JSON
 - [ ] seasons? winter, spring, summer, autumn
   - day and night?
     - with glowing things!!!
