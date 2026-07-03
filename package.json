@@ -12,7 +12,8 @@
     "build-and-commit": "npm test && test -z \"`git status --porcelain --untracked-files=no`\" && npm run build && git add docs && git commit -m ':rocket:' || echo 'FAILED: something not right'",
     "test": "npm run lint && npm run type-check && vitest run",
     "type-check": "tsc --noEmit",
-    "lint": "prettier -c . && eslint --ext .ts,.tsx src"
+    "lint": "prettier -c . && eslint --ext .ts,.tsx src",
+    "lint-fix": "eslint --ext .ts,.tsx src --fix"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

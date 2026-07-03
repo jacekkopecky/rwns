@@ -40,6 +40,7 @@ export default defineConfig(
         'error',
         { allowConstantLoopConditions: 'only-allowed-literals' },
       ],
+      '@typescript-eslint/consistent-type-imports': 'error',
     },
   },
 );

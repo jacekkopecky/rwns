@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import type * as THREE from 'three';
 
 import { getObjectData } from '../../types';
 import { createHitBar } from '../models';

@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import type * as THREE from 'three';
 
 import * as dim from '#dimensions';
 import type { ReadonlyState, UpgradablePermanentParameters } from '#types';

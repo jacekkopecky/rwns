@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import type * as THREE from 'three';
 
 export function* range(n: number) {
   for (let i = 0; i < n; i += 1) {

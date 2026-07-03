@@ -1,8 +1,8 @@
-import * as THREE from 'three';
+import type * as THREE from 'three';
 
 import type { Currency } from '#types';
 
-import { Circle } from './circle';
+import type { Circle } from './circle';
 
 interface AnyObjectData {
   extent2d: THREE.Box2 | Circle;

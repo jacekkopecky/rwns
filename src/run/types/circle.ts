@@ -1,4 +1,5 @@
-import { Box2, Vector2, Vector3 } from 'three';
+import type { Vector3 } from 'three';
+import { Box2, Vector2 } from 'three';
 
 // adapted from THREE.JS Box2.js
 
