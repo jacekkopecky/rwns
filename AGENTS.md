@@ -9,6 +9,7 @@
 - Do NOT compliment the user on their suggestions.
 - Do NOT change files in `docs/` because they are built separately and manually, when a release is
   ready.
+- Do NOT add comments that are clear from the context.
 
 ## Testing instructions
 

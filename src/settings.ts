@@ -1,37 +1,31 @@
 import { getEl } from '#utils';
+
+import { showSection } from './sections';
 import { readState, resetState } from './state';
 
-const els = {
+const el = {
+  settingsBtn: getEl('#settingsBtn', HTMLButtonElement),
   section: getEl('#settings'),
   startDate: getEl('#settings .startDate'),
-  resetBtn: getEl('#resetProgressBtn', HTMLButtonElement),
-  closeBtn: getEl('#settings .sectionButtons .close', HTMLButtonElement),
+  resetBtn: getEl('#settings #resetProgressBtn', HTMLButtonElement),
+  closeBtn: getEl('#settings .closeBtn', HTMLButtonElement),
 };
 
 export function init() {
-  els.resetBtn.addEventListener('click', onReset);
-  els.closeBtn.addEventListener('click', () => showMainScreenSection());
+  el.resetBtn.addEventListener('click', onReset);
+  el.closeBtn.addEventListener('click', () => showSection('mainScreen'));
+
+  el.settingsBtn.addEventListener('click', () => showSection('settings'));
 }
 
 export function showSettingsScreen() {
   const state = readState();
-  els.startDate.textContent = String(state.startDate ?? '-');
+  el.startDate.textContent = state.startDate;
 }
 
 function onReset() {
   if (window.confirm('Reset all progress?')) {
     resetState();
-    showMainScreenSection();
+    showSection('mainScreen');
   }
-}
-
-function showMainScreenSection() {
-  const sections = document.querySelectorAll('main > section');
-  sections.forEach((s) => {
-    (s as HTMLElement).classList.add('inactive');
-    (s as any).inert = true;
-  });
-  const main = document.querySelector('main > section#mainScreen') as HTMLElement;
-  main.classList.remove('inactive');
-  (main as any).inert = false;
 }
