@@ -9,6 +9,7 @@
 
 ## Testing instructions
 
+- To inspect it visually, use mobile emulation with portrait-mode screen.
 - To run all tests, run `npm test`
 - To focus on one test, add the Vitest pattern: `npx vitest run -t "<test name>"`.
 - Fix any test or type errors until the whole suite passes.
