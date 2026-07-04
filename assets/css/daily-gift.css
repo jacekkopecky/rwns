@@ -5,6 +5,8 @@
 
   position: absolute;
   inset: 0;
+  overflow: hidden;
+
   background: #0006;
 
   display: flex;
@@ -178,14 +180,14 @@
 
   /* prettier-ignore */
   .prize {
-    &:nth-child(2) { --rotation: rotate(30deg); }
-    &:nth-child(3) { --rotation: rotate(60deg); }
-    &:nth-child(4) { --rotation: rotate(90deg); }
-    &:nth-child(5) { --rotation: rotate(120deg); }
-    &:nth-child(6) { --rotation: rotate(150deg); }
-    &:nth-child(7) { --rotation: rotate(180deg); }
-    &:nth-child(8) { --rotation: rotate(210deg); }
-    &:nth-child(9) { --rotation: rotate(240deg); }
+    &:nth-child(2)  { --rotation: rotate(30deg); }
+    &:nth-child(3)  { --rotation: rotate(60deg); }
+    &:nth-child(4)  { --rotation: rotate(90deg); }
+    &:nth-child(5)  { --rotation: rotate(120deg); }
+    &:nth-child(6)  { --rotation: rotate(150deg); }
+    &:nth-child(7)  { --rotation: rotate(180deg); }
+    &:nth-child(8)  { --rotation: rotate(210deg); }
+    &:nth-child(9)  { --rotation: rotate(240deg); }
     &:nth-child(10) { --rotation: rotate(270deg); }
     &:nth-child(11) { --rotation: rotate(300deg); }
     &:nth-child(12) { --rotation: rotate(330deg); }
