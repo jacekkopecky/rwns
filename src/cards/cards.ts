@@ -1,6 +1,14 @@
 import * as dim from '#dimensions';
 import type { CardType, ReadonlyState } from '#types';
-import { fillWalletEls, formatNumber, getEl, makeEl, toggleHidden, toggleTwoClasses } from '#utils';
+import {
+  animateWalletValue,
+  fillWalletEls,
+  formatNumber,
+  getEl,
+  makeEl,
+  toggleHidden,
+  toggleTwoClasses,
+} from '#utils';
 
 import { showSection } from '../sections';
 import {
@@ -276,9 +284,13 @@ function buyOne() {
 
   // buy it
   if (canUseCardFromWallet) {
+    const startValue = state.wallet.read('card');
     pay('card', 1);
+    animateCardsWallet('card', startValue, startValue - 1);
   } else {
+    const startValue = state.wallet.read('gem');
     pay('gem', dim.cardPriceGems);
+    animateCardsWallet('gem', startValue, startValue - dim.cardPriceGems);
   }
   addCards([cardType]);
 
@@ -297,4 +309,9 @@ function buyOne() {
 
 function buyBulk() {
   console.warn('bulk buying not implemented yet');
+}
+
+export function animateCardsWallet(type: 'coin' | 'gem' | 'card', start: number, target: number) {
+  const walletEl = el.wallet[type];
+  animateWalletValue(walletEl, start, target);
 }

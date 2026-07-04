@@ -8,11 +8,11 @@
  */
 export class AnimatedCount {
   private remainingTime: number;
-  private showing = 0;
-  private target = 0;
   private wasMoving = false;
 
   constructor(
+    private showing: number,
+    private target: number,
     private countTime: number,
     public onFinish?: () => void,
   ) {
@@ -25,8 +25,15 @@ export class AnimatedCount {
     this.remainingTime = this.countTime;
   };
 
+  setTarget = (target: number) => {
+    this.target = target;
+    this.remainingTime = this.countTime;
+  };
+
+  getShowing = () => this.showing;
+
   updateShowing = (delta: number): number => {
-    if (this.showing == this.target || delta >= this.remainingTime) {
+    if (this.showing === this.target || delta >= this.remainingTime) {
       this.showing = this.target;
       this.remainingTime = 0;
       if (this.wasMoving) {

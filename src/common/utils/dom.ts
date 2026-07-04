@@ -1,5 +1,7 @@
 import type { ReadonlyWallet } from '#types';
 
+import { AnimatedCount } from './animated-count';
+
 /**
  * Format the number to use up to 4 characters and a decimal point but only with reasonable precision.
  */
@@ -47,12 +49,55 @@ export function fillOrHide(
   return Boolean(value);
 }
 
+const activeWalletAnimations = new Map<HTMLElement, AnimatedCount>();
+let animationLoopRunning = false;
+let lastTime = 0;
+
+function walletAnimationLoop(time: number) {
+  if (activeWalletAnimations.size === 0) {
+    animationLoopRunning = false;
+    lastTime = 0;
+    return;
+  }
+
+  const delta = lastTime ? (time - lastTime) / 1000 : 1 / 60;
+  lastTime = time;
+
+  for (const [el, count] of activeWalletAnimations.entries()) {
+    const showing = count.updateShowing(delta);
+    const valueEl = el.querySelector('.value')!;
+    const text = formatNumber(showing);
+    if (valueEl.textContent !== text) valueEl.textContent = text;
+  }
+
+  requestAnimationFrame(walletAnimationLoop);
+}
+
+export function animateWalletValue(el: HTMLElement, start: number, target: number) {
+  let count = activeWalletAnimations.get(el);
+  if (!count) {
+    count = new AnimatedCount(start, target, 0.5, () => {
+      activeWalletAnimations.delete(el);
+    });
+    activeWalletAnimations.set(el, count);
+  } else {
+    count.setTarget(target);
+  }
+
+  if (!animationLoopRunning) {
+    animationLoopRunning = true;
+    requestAnimationFrame(walletAnimationLoop);
+  }
+}
+
 export function fillWalletEls<T extends string>(
   wallet: ReadonlyWallet<T>,
   els: Record<T, HTMLElement>,
 ) {
   for (const type of wallet.currencies) {
-    fillOrHide(els[type], wallet.read(type));
+    const el = els[type];
+    if (activeWalletAnimations.has(el)) continue;
+    fillOrHide(el, wallet.read(type));
   }
 }
 

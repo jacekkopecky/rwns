@@ -1,4 +1,4 @@
-import { fillOrHide, fillWalletEls, getEl, toggleHidden } from '#utils';
+import { animateWalletValue, fillOrHide, fillWalletEls, getEl, toggleHidden } from '#utils';
 
 import { updateCardsVisibility } from '../cards';
 import { init as initRunScreen, prepareRun, startRun } from '../run';
@@ -128,4 +128,9 @@ export function updateMainScreen(state = readState(), params = getUpgradablePerm
   updateUpgrades(state, params);
   updateCardsVisibility(state);
   updateSettingsVisibility(state);
+}
+
+export function animateMainWallet(type: 'coin' | 'gem' | 'card', start: number, target: number) {
+  const walletEl = el.wallet[type];
+  animateWalletValue(walletEl, start, target);
 }
