@@ -4,8 +4,8 @@
   <meta charset="utf8" />
   <title>RWNS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  <script type="module" crossorigin src="/rwns/assets/index-B-Q362FP.js"></script>
-  <link rel="stylesheet" crossorigin href="/rwns/assets/index-BsDf8ftJ.css">
+  <script type="module" crossorigin src="/rwns/assets/index-CiaHVHeR.js"></script>
+  <link rel="stylesheet" crossorigin href="/rwns/assets/index-p1jny4-Y.css">
 <link rel="manifest" href="/rwns/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/rwns/registerSW.js"></script></head>
 
 <body class="using-fullscreen">
@@ -38,8 +38,9 @@
       </div>
 
       <div id="runInfo" class="only-in-run">
-        Lvl <span class="level"></span>, Rate <span class="rate"></span>, Dmg
-        <span class="damage"></span>
+        Lvl <span class="level"></span
+        ><span class="rate hiddenGone">, Rate <span class="value"></span></span
+        ><span class="damage hiddenGone">, Dmg <span class="value"></span></span>
       </div>
 
       <div id="playStats">
@@ -159,6 +160,22 @@
       <div class="outer">
         <div class="spinner"></div>
       </div>
+    </section>
+
+    <section id="settings" class="inactive">
+      <div class="topBar">
+        <!-- button repeated for symmetry -->
+        <button style="opacity: 0"><span>╳</span></button>
+        <h2>Settings</h2>
+        <button class="closeBtn"><span>╳</span></button>
+      </div>
+
+      <div class="startInfo">Started playing: <span class="startDate">-</span></div>
+      <details class="state">
+        <summary>State (for debugging)</summary>
+        <pre class="stateJson"></pre>
+      </details>
+      <button class="resetProgressBtn">Start from scratch</button>
     </section>
   </main>
 
