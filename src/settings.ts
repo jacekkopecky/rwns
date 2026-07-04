@@ -5,17 +5,16 @@ import { readState, resetState } from './state';
 
 const el = {
   settingsBtn: getEl('#settingsBtn', HTMLButtonElement),
-  section: getEl('#settings'),
   startDate: getEl('#settings .startDate'),
-  resetBtn: getEl('#settings #resetProgressBtn', HTMLButtonElement),
+  resetBtn: getEl('#settings .resetProgressBtn', HTMLButtonElement),
   closeBtn: getEl('#settings .closeBtn', HTMLButtonElement),
 };
 
 export function init() {
-  el.resetBtn.addEventListener('click', onReset);
-  el.closeBtn.addEventListener('click', () => showSection('mainScreen'));
-
   el.settingsBtn.addEventListener('click', () => showSection('settings'));
+
+  el.closeBtn.addEventListener('click', () => showSection('mainScreen'));
+  el.resetBtn.addEventListener('click', onReset);
 }
 
 export function showSettingsScreen() {
