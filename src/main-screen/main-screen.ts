@@ -11,7 +11,6 @@ import {
   initState,
   isFeatureAllowed,
   readState,
-  resetState,
   subtractEnergy,
 } from '../state';
 
@@ -23,7 +22,6 @@ const el = {
   canvas: getEl('#webglCanvas'),
   topButtons: getEl('#topBar'),
   exitBtn: getEl('#exitBtn', HTMLButtonElement),
-  settingsBtn: getEl('#settingsBtn', HTMLButtonElement),
   endRunScreenProgress: getEl('#endRunScreen button.progress', HTMLButtonElement),
   endRunScreenRetry: getEl('#endRunScreen button.retry'),
   walletContainer: getEl('#topBar .wallet'),
@@ -50,7 +48,6 @@ export function init() {
   el.canvas.addEventListener('mousedown', startPlaying);
   el.endRunScreenProgress.addEventListener('click', nextLevel);
   el.endRunScreenRetry.addEventListener('click', retry);
-  el.settingsBtn.addEventListener('click', showSettings);
 
   // touching near or between the buttons shouldn't start a run
   el.topButtons.addEventListener('touchdown', (e) => e.stopPropagation());
@@ -133,11 +130,4 @@ export function updateMainScreen(state = readState(), params = getUpgradablePerm
   updateEnergyCount(params);
   updateUpgrades(state, params);
   updateCardsVisibility(state);
-}
-
-function showSettings() {
-  if (window.confirm('reset all data?')) {
-    resetState();
-    showSection('mainScreen');
-  }
 }

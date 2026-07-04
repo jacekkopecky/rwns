@@ -1,0 +1,45 @@
+#settings {
+  position: absolute;
+  inset: 0;
+
+  --bg: #3e6545;
+  background-color: var(--bg);
+  color: white;
+
+  transition: transform 0.5s ease-in-out;
+  transform: translateY(0);
+
+  box-shadow: 0 0 20vh 20vh var(--bg);
+
+  &.inactive {
+    transform: translateY(-140%);
+  }
+
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  padding: 1em;
+
+  .topBar {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+  }
+
+  h2 {
+    flex: 1 1 0%;
+    text-align: center;
+  }
+
+  .visible {
+    transform: translateY(0);
+  }
+
+  .resetProgressBtn {
+    background: #ab0000;
+    border-color: #ff0000;
+    color: white;
+    margin-top: auto;
+  }
+}
