@@ -35,12 +35,6 @@ const el = {
     played: getEl('#playStats .played'),
     level: getEl('#playStats .level'),
   },
-  runInfo: {
-    all: getEl('#runInfo'),
-    level: getEl('#runInfo .level'),
-    damage: getEl('#runInfo .damage'),
-    rate: getEl('#runInfo .rate'),
-  },
   upgradeButtons: getEl('#mainScreen .upgradeButtons'),
 };
 
@@ -134,10 +128,4 @@ export function updateMainScreen(state = readState(), params = getUpgradablePerm
   updateUpgrades(state, params);
   updateCardsVisibility(state);
   updateSettingsVisibility(state);
-
-  // update run info visibility
-  el.runInfo.level.textContent = String(state.level);
-  el.runInfo.all.classList.toggle('hidden', state.level <= 1);
-  el.runInfo.rate.classList.toggle('hidden', !isFeatureAllowed('rateUpgrade', state));
-  el.runInfo.damage.classList.toggle('hidden', !isFeatureAllowed('damageUpgrade', state));
 }

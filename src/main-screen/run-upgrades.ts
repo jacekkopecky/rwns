@@ -23,7 +23,12 @@ const el = {
     rate: getEl('#mainScreen .upgradeButtons > .rate'),
     damage: getEl('#mainScreen .upgradeButtons > .damage'),
   },
-  runInfo: getEl('#runInfo'),
+  runInfo: {
+    all: getEl('#runInfo'),
+    level: getEl('#runInfo .level'),
+    damage: getEl('#runInfo .damage'),
+    rate: getEl('#runInfo .rate'),
+  },
 };
 
 export function initUpgrades() {
@@ -43,6 +48,16 @@ export function updateUpgrades(state: ReadonlyState, params: UpgradablePermanent
     );
     updatePriceAndLevel(upgradeType, state, params);
   }
+
+  updateRunInfo(state);
+}
+
+function updateRunInfo(state: ReadonlyState) {
+  // update run info visibility
+  el.runInfo.level.textContent = String(state.level);
+  el.runInfo.all.classList.toggle('hidden', state.level <= 1);
+  el.runInfo.rate.classList.toggle('hidden', !isFeatureAllowed('rateUpgrade', state));
+  el.runInfo.damage.classList.toggle('hidden', !isFeatureAllowed('damageUpgrade', state));
 }
 
 function updatePriceAndLevel(
@@ -68,7 +83,7 @@ function updatePriceAndLevel(
   const levelEl = buttonEl.querySelector('.level .value')!;
   levelEl.textContent = isMax ? 'MAX' : `Level ${currentLevel + 1}`; // humans start with 1
 
-  const runInfoEl = el.runInfo.querySelector(`.${type} .value`);
+  const runInfoEl = el.runInfo.all.querySelector(`.${type} .value`);
   if (runInfoEl) {
     runInfoEl.textContent = String(currentLevel + 1);
   }
