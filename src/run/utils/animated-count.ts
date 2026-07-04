@@ -10,8 +10,12 @@ export class AnimatedCount {
   private remainingTime: number;
   private showing = 0;
   private target = 0;
+  private wasMoving = false;
 
-  constructor(private countTime: number) {
+  constructor(
+    private countTime: number,
+    public onFinish?: () => void,
+  ) {
     this.remainingTime = countTime;
   }
 
@@ -22,11 +26,16 @@ export class AnimatedCount {
   };
 
   updateShowing = (delta: number): number => {
-    if (this.showing >= this.target || delta >= this.remainingTime) {
+    if (this.showing == this.target || delta >= this.remainingTime) {
       this.showing = this.target;
       this.remainingTime = 0;
+      if (this.wasMoving) {
+        this.onFinish?.();
+        this.wasMoving = false;
+      }
     } else {
-      const amount = this.target - this.showing;
+      const sign = Math.sign(this.target - this.showing);
+      const amount = Math.abs(this.target - this.showing);
       const deltaFraction = delta / this.remainingTime;
 
       // the following gives us linearly decreasing amounts to take
@@ -36,8 +45,9 @@ export class AnimatedCount {
       // clamp taking to at least one but at most the remaining amount
       const clamped = Math.min(Math.max(1, taking), amount);
 
-      this.showing += clamped;
+      this.showing += clamped * sign;
       this.remainingTime -= delta;
+      this.wasMoving = true;
     }
     return this.showing;
   };
