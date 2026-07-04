@@ -280,18 +280,6 @@ mobile screen.
 - [ ] make it an installable app with icons etc.
   - https://vite-pwa-org.netlify.app/guide/pwa-minimal-requirements.html
 - [ ] check if LatheGeometry makes two triangles even if the point is on the axis, fix it
-- [ ] add a settings screen
-  - don't show settings in first level
-  - "reset"
-  - ~~"go back to previous level"~~
-  - "reset back to a certain stage" that you've already achieved:
-    - after tutorials
-    - when you get gems?
-  - "show tutorials again"
-  - after second level, show the new settings button to the user
-  - in state, there could be a "tutorials seen" array, and an "enabled" function (instead of
-    isUpgradeAllowed?)
-  - show state as JSON
 - [ ] seasons? winter, spring, summer, autumn
   - day and night?
     - with glowing things!!!
@@ -315,6 +303,21 @@ mobile screen.
 - [ ] add support for wider screens, landscape mode?
 
 ---
+
+## done by 2026-07-04
+
+- [x] (with AI copilot) add a settings screen
+  - don't show settings in first level
+  - "reset"
+  - ~~"go back to previous level"~~
+  - "reset back to a certain stage" that you've already achieved:
+    - after tutorials
+    - when you get gems?
+  - "show tutorials again"
+  - after second level, show the new settings button to the user
+  - in state, there could be a "tutorials seen" array, and an "enabled" function (instead of
+    isUpgradeAllowed?)
+  - show state as JSON
 
 ## done by 2026-07-03
 

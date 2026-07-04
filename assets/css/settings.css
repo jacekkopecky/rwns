@@ -25,6 +25,7 @@
     display: flex;
     flex-direction: row;
     gap: 1em;
+    align-items: center;
   }
 
   h2 {
@@ -41,5 +42,18 @@
     border-color: #ff0000;
     color: white;
     margin-top: auto;
+  }
+
+  .stateJson {
+    padding: 0.5em;
+    border: solid thin black;
+    background: #0004;
+    margin-top: 0.5em;
+    font-size: small;
+  }
+
+  .state {
+    flex-shrink: 1;
+    overflow: auto;
   }
 }

@@ -7,6 +7,7 @@ import { readState, resetState } from './state';
 const el = {
   settingsBtn: getEl('#settingsBtn', HTMLButtonElement),
   startDate: getEl('#settings .startDate'),
+  stateJson: getEl('#settings .stateJson'),
   resetBtn: getEl('#settings .resetProgressBtn', HTMLButtonElement),
   closeBtn: getEl('#settings .closeBtn', HTMLButtonElement),
 };
@@ -21,6 +22,7 @@ export function init() {
 export function showSettingsScreen() {
   const state = readState();
   el.startDate.textContent = state.startDate;
+  el.stateJson.textContent = JSON.stringify(state, null, 2);
 }
 
 function onReset() {
