@@ -7,6 +7,7 @@ mobile screen.
 
 ## todo
 
+- [ ] in wallets, count down when buying
 - [ ] put cards and other section buttons under upgrade buttons so it feels safer to swipe from the
       bottom to get the home button when you don't want to buy an upgrade
 - [ ] change licence to GNU AGPL?
@@ -57,6 +58,12 @@ mobile screen.
   - winter: dead broadleafs, white-green-ish conifers, path white and grey, occasional dark?
   - spring: lighter-colored conifers, pink and cream broadleaves, normal path?
   - there could be butterflies or birds flying around
+  - day and night?
+    - with glowing things!!!
+    - with street lamps!!!
+      - but it might be expensive FPS-wise, with shadows; maybe it could work with short lamp
+        fall-off
+  - inside a tunnel?
 - [ ] every level could have a different colour of end gate
 - [ ] more cards see in `src/cards/types.ts`
   - [x] card tweaks: revisit progression of incoming new cards: money cards earlier, space
@@ -156,8 +163,9 @@ mobile screen.
     - if your robot dies, you lose one of that rank and get a fresh new robot
   - some other special currency: skills that take time to train
 - [ ] use quotes from Marvin, or plays on his quotes like
-  - a card or a skill that "finally replaces all the diodes down his left side" that he asked for to
-    be replaced
+  - a card or a skill that "finally replaces all the aching diodes down his left side" that he asked
+    for to be replaced
+    - …and the new ones feel itchy instead
 - [ ] achievements
   - gather 100 coins
   - clear out a level
@@ -194,6 +202,7 @@ mobile screen.
     - shoot all at the same time (so waves based on Z position)
     - when we've tried both, get "shoot to the same length of front row" as a special skill - makes
       those in the back shoot farther
+    - then focus shooting - all bullets converge at the limit
   - extra damage against specific objects/opponents?
   - small chance of surviving hitting a tree
   - extra damage in certain special types of runs?
@@ -248,13 +257,9 @@ mobile screen.
     - break 20 end blocks
     - break 20 end blocks with red/green/blue robot
 - technical ideas
-  - [ ] add automatic import ordering?
   - [ ] use LoadManager from https://threejs.org/manual/#en/textures for progress bars?
-  - [/] use SpriteMixer? https://github.com/felixmariotto/three-SpriteMixer/
-    - probably can be done with AnimationMixer and discrete tracks?
   - [ ] refactor run screen and maybe end-run screen as sections, then it won't be possible to tab
         to an invisible button from end screen OK
-  - [ ] re-create sprite textures on return to fullscreen? (it seems they disappear)
   - [ ] error handling - unhandled exceptions and promises
 - [ ] add slow-down areas so we can have big bosses
   - [ ] first add possibility of markings on the track?
@@ -269,7 +274,8 @@ mobile screen.
       hero upgrades
   - it would randomly show up per run, it could be a skill or a card that increases the probability
     of this happening
-  - the ice block could be clearly visible in the
+  - the ice block could be clearly visible in the distance
+  - it could be a card in the ice block
 - [ ] let the world know about the game
   - reddit three.js? reddit games?
   - when all artwork is mine
@@ -280,13 +286,6 @@ mobile screen.
 - [ ] make it an installable app with icons etc.
   - https://vite-pwa-org.netlify.app/guide/pwa-minimal-requirements.html
 - [ ] check if LatheGeometry makes two triangles even if the point is on the axis, fix it
-- [ ] seasons? winter, spring, summer, autumn
-  - day and night?
-    - with glowing things!!!
-    - with street lamps!!!
-      - but it might be expensive FPS-wise, with shadows; maybe it could work with short lamp
-        fall-off
-  - inside a tunnel?
 - [ ] add objects beside the road in the fog?
 - [ ] can we add some kind rolling landscape on the sides of the road? With lambert shading,
       low-poly random waves could work; tiles would need to share vertex coordinates and normals
@@ -294,18 +293,20 @@ mobile screen.
   - normals straight up by the road; towards or away from the road on the sides, but also
     forwards/backwards as if the tile was a valley or a hill
     - maybe the surface could actually be flat?
-- [ ] add energy countdown and automatic refresh, maybe as part of "touch to start"
 - [ ] Could a Marvin that took a hit flash a bit somehow?
 - [ ] could Marvins sit down when out of energy?
 - [ ] allow use of back button for navigation at least through sections, and from a run?
 - [ ] remove circular dependencies
-- [ ] in wallets, count down when buying
 - [ ] add support for wider screens, landscape mode?
 
 ---
 
 ## done by 2026-07-04
 
+- [x] re-create sprite textures on return to fullscreen? (it seems they disappear)
+- [x] add automatic import ordering?
+- [/] use SpriteMixer? https://github.com/felixmariotto/three-SpriteMixer/
+  - probably can be done with AnimationMixer and discrete tracks?
 - [x] (with AI copilot) add a settings screen
   - don't show settings in first level
   - "reset"
@@ -411,6 +412,7 @@ mobile screen.
 
 - [x] add stricter eslint rules, commented out in eslint.config.mjs
 - [x] card name needs a bit of padding
+- [x] add energy countdown and automatic refresh, maybe as part of "touch to start"
 
 ## done by 2026-05-29
 
