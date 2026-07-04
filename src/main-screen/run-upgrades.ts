@@ -68,7 +68,7 @@ function updatePriceAndLevel(
   const levelEl = buttonEl.querySelector('.level .value')!;
   levelEl.textContent = isMax ? 'MAX' : `Level ${currentLevel + 1}`; // humans start with 1
 
-  const runInfoEl = el.runInfo.querySelector('.' + type);
+  const runInfoEl = el.runInfo.querySelector(`.${type} .value`);
   if (runInfoEl) {
     runInfoEl.textContent = String(currentLevel + 1);
   }

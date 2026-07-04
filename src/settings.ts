@@ -1,3 +1,4 @@
+import type { ReadonlyState } from '#types';
 import { getEl } from '#utils';
 
 import { showSection } from './sections';
@@ -27,4 +28,8 @@ function onReset() {
     resetState();
     showSection('mainScreen');
   }
+}
+
+export function updateSettingsVisibility(state: ReadonlyState) {
+  el.settingsBtn.classList.toggle('hidden', state.level <= 1);
 }

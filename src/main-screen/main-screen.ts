@@ -3,6 +3,7 @@ import { fillOrHide, fillWalletEls, getEl, toggleHidden } from '#utils';
 import { updateCardsVisibility } from '../cards';
 import { init as initRunScreen, prepareRun, startRun } from '../run';
 import { isSectionActive, showSection } from '../sections';
+import { updateSettingsVisibility } from '../settings';
 import { isOnSplashScreen } from '../splash-screen';
 import {
   canGiveDailyGift,
@@ -35,7 +36,10 @@ const el = {
     level: getEl('#playStats .level'),
   },
   runInfo: {
+    all: getEl('#runInfo'),
     level: getEl('#runInfo .level'),
+    damage: getEl('#runInfo .damage'),
+    rate: getEl('#runInfo .rate'),
   },
   upgradeButtons: getEl('#mainScreen .upgradeButtons'),
 };
@@ -124,10 +128,16 @@ export function updateMainScreen(state = readState(), params = getUpgradablePerm
   el.wallet.gem.classList.toggle('neverHidden', hasAnyCards);
 
   fillOrHide(el.playStats.level, state.level, String);
-  el.runInfo.level.textContent = String(state.level);
   fillOrHide(el.playStats.played, state.played, String);
 
   updateEnergyCount(params);
   updateUpgrades(state, params);
   updateCardsVisibility(state);
+  updateSettingsVisibility(state);
+
+  // update run info visibility
+  el.runInfo.level.textContent = String(state.level);
+  el.runInfo.all.classList.toggle('hidden', state.level <= 1);
+  el.runInfo.rate.classList.toggle('hidden', !isFeatureAllowed('rateUpgrade', state));
+  el.runInfo.damage.classList.toggle('hidden', !isFeatureAllowed('damageUpgrade', state));
 }
