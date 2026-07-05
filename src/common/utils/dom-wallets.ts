@@ -15,17 +15,19 @@ export function fillWalletEls<T extends string>(
   }
 }
 
+const animationRateMs = 50;
 const animations = new Map<HTMLElement, AnimatedCount>();
 let animationLoopRunning = false;
 let lastAnimationTime = 0;
 
-function walletAnimationLoop(time: number) {
+function walletAnimationLoop() {
   if (animations.size === 0) {
     animationLoopRunning = false;
     lastAnimationTime = 0;
     return;
   }
 
+  const time = Date.now();
   const delta = lastAnimationTime ? (time - lastAnimationTime) / 1000 : 0;
   lastAnimationTime = time;
 
@@ -34,7 +36,7 @@ function walletAnimationLoop(time: number) {
     fillOrHide(el, showing);
   }
 
-  requestAnimationFrame(walletAnimationLoop);
+  setTimeout(walletAnimationLoop, animationRateMs);
 }
 
 export function animateValue(el: HTMLElement, start: number, target: number) {
@@ -50,6 +52,6 @@ export function animateValue(el: HTMLElement, start: number, target: number) {
 
   if (!animationLoopRunning) {
     animationLoopRunning = true;
-    requestAnimationFrame(walletAnimationLoop);
+    walletAnimationLoop();
   }
 }
