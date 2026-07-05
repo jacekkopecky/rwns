@@ -1,7 +1,7 @@
 import { animateValue, fillOrHide, fillWalletEls, getEl, toggleHidden } from '#utils';
 
 import { updateCardsVisibility } from '../cards';
-import { init as initRunScreen, prepareRun, startRun } from '../run';
+import { prepareRun, startRun } from '../run';
 import { isSectionActive, showSection } from '../sections';
 import { updateSettingsVisibility } from '../settings';
 import { isOnSplashScreen } from '../splash-screen';
@@ -20,13 +20,13 @@ import { initUpgrades, updateUpgrades } from './run-upgrades';
 
 const el = {
   main: getEl('main'),
-  canvas: getEl('#run #webglCanvas'),
-  touchToStart: getEl('#mainScreen #touchToStart'),
-  topButtons: getEl('#mainScreen #topBar'),
+  canvas: getEl('#webglCanvas'),
+  touchToStart: getEl('#touchToStart'),
+  topButtons: getEl('#topBar'),
   exitBtn: getEl('#exitBtn', HTMLButtonElement),
-  endRunScreenProgress: getEl('#run #endRunScreen button.progress', HTMLButtonElement),
-  endRunScreenRetry: getEl('#run #endRunScreen button.retry'),
-  walletContainer: getEl('#mainScreen #topBar .wallet'),
+  endRunScreenProgress: getEl('#endRunScreen button.progress', HTMLButtonElement),
+  endRunScreenRetry: getEl('#endRunScreen button.retry'),
+  walletContainer: getEl('#topBar .wallet'),
   wallet: {
     gem: getEl('#topBar .wallet .gem'),
     coin: getEl('#topBar .wallet .coin'),
@@ -41,7 +41,6 @@ const el = {
 
 export function init() {
   initState();
-  initRunScreen();
   initUpgrades();
   el.canvas.addEventListener('touchstart', startPlaying);
   el.canvas.addEventListener('mousedown', startPlaying);

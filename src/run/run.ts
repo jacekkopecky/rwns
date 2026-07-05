@@ -43,7 +43,7 @@ let ending = false;
 
 const el = {
   main: getEl('main'),
-  canvas: getEl('#run #webglCanvas'),
+  canvas: getEl('#webglCanvas'),
   quitBtn: getEl('#quitBtn', HTMLButtonElement),
   shortMessage: getEl('#shortMessage'),
 };

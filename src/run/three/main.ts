@@ -9,7 +9,7 @@ export let renderer: THREE.WebGLRenderer;
 export const scene = new THREE.Scene();
 
 export function init(main: HTMLElement) {
-  const canvas = main.querySelector('#run canvas') as HTMLCanvasElement;
+  const canvas = main.querySelector('canvas');
   if (!canvas) {
     throw new Error('cannot work without a canvas');
   }

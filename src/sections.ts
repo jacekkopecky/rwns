@@ -4,10 +4,11 @@ import { init as initCardsScreen, showCardsScreen } from './cards';
 import { init as initDailyGiftScreen, showDailyGiftScreen } from './daily-gift';
 import { init as initMainScreen, showMainScreen } from './main-screen';
 import { init as initSettingsScreen, showSettingsScreen } from './settings';
-import { showRunSection } from './run';
+import { init as initRun, showRunSection } from './run';
 
 export function init() {
   initMainScreen();
+  initRun();
   initCardsScreen();
   initDailyGiftScreen();
   initSettingsScreen();
