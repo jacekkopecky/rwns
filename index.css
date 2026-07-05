@@ -220,11 +220,15 @@ button {
   & > .energy {
     display: flex;
     align-items: center;
-    white-space: pre;
+    white-space: nowrap;
 
     i.energy {
       white-space: normal;
       font-size: 2em;
+    }
+
+    .nextTime:not(:empty)::before {
+      content: '\A0';
     }
   }
 }
