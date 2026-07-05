@@ -20,8 +20,61 @@
   </header>
 
   <main>
+    <section id="run" class="inactive no-inert">
+      <canvas id="webglCanvas"></canvas>
+
+      <div id="log"></div>
+
+      <div class="topBar">
+        <button id="quitBtn">Quit</button>
+        <div id="runInfo">
+          Lvl <span class="level"></span
+          ><span class="rate hiddenGone">, Rate <span class="value"></span></span
+          ><span class="damage hiddenGone">, Dmg <span class="value"></span></span>
+        </div>
+        <!-- button repeated for symmetry -->
+        <button style="visibility: hidden">Quit</button>
+      </div>
+
+      <div id="inRunWallet">
+        <div class="coin hiddenGone"><span class="value"></span> <i class="i coins"></i></div>
+        <div class="gem hiddenGone"><span class="value"></span> <i class="i gem"></i></div>
+        <div class="card hiddenGone"><span class="value">0</span> <i class="i cards-icon"></i></div>
+      </div>
+
+      <div id="endRunScreen">
+        <div class="wallet">
+          <div class="coin neverHidden"><span class="value">0</span> <i class="i coins"></i></div>
+          <div class="gem hiddenGone"><span class="value">0</span> <i class="i gem"></i></div>
+          <div class="card hiddenGone">
+            <span class="value">0</span> <i class="i cards-icon"></i>
+          </div>
+        </div>
+        <h2 class="if-win">Well done!</h2>
+        <h2 class="if-not-win">Better luck next time!</h2>
+        <div class="collected">
+          <div>Collected</div>
+          <div class="coin hiddenGone"><span class="value"></span> <i class="i coins"></i></div>
+          <div class="if-got-gems">
+            <span class="gem neverHidden"><span class="value"></span></span>
+            out of
+            <span class="gemCount hiddenGone">
+              <span class="value"></span> <i class="i gem"></i>
+            </span>
+          </div>
+        </div>
+        <div class="buttons">
+          <button class="retry">
+            <span class="if-win">Play again</span>
+            <span class="if-not-win">Play again</span>
+          </button>
+          <button class="progress if-win">Next level</button>
+        </div>
+      </div>
+    </section>
+
     <section id="mainScreen">
-      <div id="topBar">
+      <div class="topBar">
         <button id="exitBtn">Exit</button>
         <div class="wallet">
           <div class="coin neverHidden"><span class="value">0</span> <i class="i coins"></i></div>
@@ -73,57 +126,6 @@
       </div>
     </section>
 
-    <section id="run" class="inactive">
-      <canvas id="webglCanvas"></canvas>
-
-      <div id="log"></div>
-
-      <div id="runTopBar">
-        <button id="quitBtn">Quit</button>
-        <div id="runInfo">
-          Lvl <span class="level"></span
-          ><span class="rate hiddenGone">, Rate <span class="value"></span></span
-          ><span class="damage hiddenGone">, Dmg <span class="value"></span></span>
-        </div>
-      </div>
-
-      <div id="inRunWallet">
-        <div class="coin hiddenGone"><span class="value"></span> <i class="i coins"></i></div>
-        <div class="gem hiddenGone"><span class="value"></span> <i class="i gem"></i></div>
-        <div class="card hiddenGone"><span class="value">0</span> <i class="i cards-icon"></i></div>
-      </div>
-
-      <div id="endRunScreen">
-        <div class="wallet">
-          <div class="coin neverHidden"><span class="value">0</span> <i class="i coins"></i></div>
-          <div class="gem hiddenGone"><span class="value">0</span> <i class="i gem"></i></div>
-          <div class="card hiddenGone">
-            <span class="value">0</span> <i class="i cards-icon"></i>
-          </div>
-        </div>
-        <h2 class="if-win">Well done!</h2>
-        <h2 class="if-not-win">Better luck next time!</h2>
-        <div class="collected">
-          <div>Collected</div>
-          <div class="coin hiddenGone"><span class="value"></span> <i class="i coins"></i></div>
-          <div class="if-got-gems">
-            <span class="gem neverHidden"><span class="value"></span></span>
-            out of
-            <span class="gemCount hiddenGone">
-              <span class="value"></span> <i class="i gem"></i>
-            </span>
-          </div>
-        </div>
-        <div class="buttons">
-          <button class="retry">
-            <span class="if-win">Play again</span>
-            <span class="if-not-win">Play again</span>
-          </button>
-          <button class="progress if-win">Next level</button>
-        </div>
-      </div>
-    </section>
-
     <section id="cards" class="inactive">
       <div class="wallet">
         <div class="coin hiddenGone"><span class="value">0</span> <i class="i coins"></i></div>
@@ -171,9 +173,9 @@
     </section>
 
     <section id="settings" class="inactive">
-      <div id="settingsTopBar">
+      <div class="topBar">
         <!-- button repeated for symmetry -->
-        <button style="opacity: 0"><span>╳</span></button>
+        <button style="visibility: hidden"><span>╳</span></button>
         <h2>Settings</h2>
         <button class="closeBtn"><span>╳</span></button>
       </div>

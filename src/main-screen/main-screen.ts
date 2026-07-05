@@ -20,16 +20,17 @@ import { initUpgrades, updateUpgrades } from './run-upgrades';
 
 const el = {
   main: getEl('main'),
+  section: getEl('#mainScreen'),
   canvas: getEl('#webglCanvas'),
-  topButtons: getEl('#topBar'),
+  topButtons: getEl('#mainScreen .topBar'),
   exitBtn: getEl('#exitBtn', HTMLButtonElement),
   endRunScreenProgress: getEl('#endRunScreen button.progress', HTMLButtonElement),
   endRunScreenRetry: getEl('#endRunScreen button.retry'),
-  walletContainer: getEl('#topBar .wallet'),
+  walletContainer: getEl('#mainScreen .topBar .wallet'),
   wallet: {
-    gem: getEl('#topBar .wallet .gem'),
-    coin: getEl('#topBar .wallet .coin'),
-    card: getEl('#topBar .wallet .card'),
+    gem: getEl('#mainScreen .topBar .wallet .gem'),
+    coin: getEl('#mainScreen .topBar .wallet .coin'),
+    card: getEl('#mainScreen .topBar .wallet .card'),
   },
   playStats: {
     played: getEl('#playStats .played'),
@@ -56,9 +57,9 @@ export function init() {
 export function startPlaying() {
   el.endRunScreenProgress.disabled = false;
 
-  const params = getUpgradablePermanentParameters();
   // this gets called on every touch of the screen, so ignore it if already in a game
   if (!isInRun()) {
+    const params = getUpgradablePermanentParameters();
     if (!hasEnergy()) {
       updateEnergyCount(params);
       return;

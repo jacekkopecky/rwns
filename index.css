@@ -67,9 +67,6 @@ main {
   }
 
   & > section {
-    background: black;
-    color: white;
-
     &.inactive {
       pointer-events: none;
 
@@ -78,29 +75,6 @@ main {
         animation-play-state: paused !important;
       }
     }
-  }
-
-  #inRunWallet {
-    position: absolute;
-    top: 1em;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-    padding: 0.5em;
-
-    border-radius: 1rem 0 0 1rem;
-    border-width: thick 0 thick thick;
-    text-align: right;
-    pointer-events: none;
-  }
-
-  #runInfo {
-    position: absolute;
-    top: 1em;
-    left: 0;
-    right: 0;
-    text-align: center;
   }
 
   & #touchToStart {
@@ -142,11 +116,16 @@ main {
   inset: 0;
   transition: opacity 1s ease-in-out;
 
+  /* don't let the section swallow clicks intended for the run canvas */
+  visibility: hidden;
+  & > * {
+    visibility: visible;
+  }
+
   &.inactive {
     opacity: 0;
   }
 
-  background: white;
   color: black;
 
   display: grid;
@@ -164,7 +143,7 @@ main {
 /* prettier-ignore */
 #mainScreen {
   #log            { grid-area: l2; }
-  #topBar         { grid-area: top; }
+  .topBar         { grid-area: top; }
   .upgradeButtons { grid-area: bottom; }
   .sectionButtons { grid-area: l5; }
 }
@@ -198,7 +177,7 @@ button {
   }
 }
 
-#topBar {
+.topBar {
   padding: 1em;
   display: flex;
   flex-direction: row;
@@ -278,7 +257,7 @@ button {
   inset: 0;
   transition: none !important;
 
-  #runTopBar {
+  .topBar {
     position: absolute;
     top: 0;
     left: 0;
@@ -289,9 +268,34 @@ button {
     & > * {
       pointer-events: auto;
     }
+  }
 
-    #runInfo {
-      position: static;
+  #inRunWallet {
+    position: absolute;
+    top: 1em;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    padding: 0.5em;
+
+    border-radius: 1rem 0 0 1rem;
+    border-width: thick 0 thick thick;
+    text-align: right;
+    pointer-events: none;
+  }
+
+  #runInfo {
+    text-align: center;
+    align-self: center;
+  }
+
+  &.inactive {
+    /* we need to be able to click on the canvas */
+    pointer-events: auto;
+
+    .topBar {
+      opacity: 0;
     }
   }
 }
