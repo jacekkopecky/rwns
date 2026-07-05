@@ -62,8 +62,9 @@ export function addCards(types: CardType[]) {
 }
 
 export function pay(type: CurrencyType, amount: number) {
-  _state.wallet.add(type, -amount);
+  const remainingAmount = _state.wallet.add(type, -amount);
   saveState();
+  return remainingAmount;
 }
 
 export function increaseLevel() {

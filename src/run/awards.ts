@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 import { CURRENCIES, Wallet, type CurrencyType } from '#types';
-import { fillOrHide, fillWalletEls, getEl, random } from '#utils';
+import { AnimatedCount, fillOrHide, fillWalletEls, getEl, random } from '#utils';
 
 import * as state from '../state';
 
@@ -10,7 +10,6 @@ import { flyToTarget } from './three/animations';
 import { getScreenCoordinates } from './three/camera';
 import { createSpriteObject } from './three/resources';
 import type { Award, ObjectData } from './types';
-import { AnimatedCount } from './utils/animated-count';
 
 const el = {
   endRunScreen: getEl('#endRunScreen'),
@@ -119,7 +118,7 @@ function makeAwardObject(
 function addToShow(type: CurrencyType, amount: number) {
   const countup = awardsShowing.getOrInsertComputed(
     type,
-    () => new AnimatedCount(dim.countupMaxTime),
+    () => new AnimatedCount(0, dim.countAnimationTime),
   );
   countup.add(amount);
 }

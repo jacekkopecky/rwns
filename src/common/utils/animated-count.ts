@@ -8,15 +8,18 @@
  */
 export class AnimatedCount {
   private remainingTime: number;
+  private showing: number;
+  private target: number;
   private wasMoving = false;
 
   constructor(
-    private showing: number,
-    private target: number,
+    startingValue: number,
     private countTime: number,
     public onFinish?: () => void,
   ) {
     this.remainingTime = countTime;
+    this.showing = startingValue;
+    this.target = startingValue;
   }
 
   add = (amount: number) => {

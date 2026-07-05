@@ -7,7 +7,9 @@ mobile screen.
 
 ## todo
 
-- [ ] in wallets, count down when buying
+- [x] in wallets, count down when buying
+  - [ ] change from animation frames to 100ms timer for smaller fps
+  - [ ] then on daily award, count up on dismiss
 - [ ] put cards and other section buttons under upgrade buttons so it feels safer to swipe from the
       bottom to get the home button when you don't want to buy an upgrade
 - [ ] change licence to GNU AGPL?

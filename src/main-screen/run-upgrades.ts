@@ -15,7 +15,7 @@ import {
   setRunUpgradeLevel,
 } from '../state';
 
-import { updateMainScreen } from './main-screen';
+import { animateMainWallet, updateMainScreen } from './main-screen';
 
 const el = {
   upgrades: {
@@ -131,8 +131,11 @@ function doUpgrade(
 
   if (!nextLevel) return; // we're at max
 
-  if (state.wallet.read('coin') < nextPrice) return; // cannot afford
-  pay('coin', nextPrice);
+  const startValue = state.wallet.read('coin');
+  if (startValue < nextPrice) return; // cannot afford
+
+  const targetValue = pay('coin', nextPrice);
+  animateMainWallet('coin', startValue, targetValue);
 
   setRunUpgradeLevel(type, nextLevel);
 }
