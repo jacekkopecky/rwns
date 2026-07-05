@@ -34,7 +34,9 @@ export class Wallet<T extends string = string> {
   }
 
   add = (type: T, amount: number) => {
-    this.wallet[type] = (this.wallet[type] ?? 0) + amount;
+    const newValue = (this.wallet[type] ?? 0) + amount;
+    this.wallet[type] = newValue;
+    return newValue;
   };
 
   read = (type: T): number => {

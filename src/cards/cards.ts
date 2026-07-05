@@ -1,6 +1,14 @@
 import * as dim from '#dimensions';
 import type { CardType, ReadonlyState } from '#types';
-import { fillWalletEls, formatNumber, getEl, makeEl, toggleHidden, toggleTwoClasses } from '#utils';
+import {
+  animateValue,
+  fillWalletEls,
+  formatNumber,
+  getEl,
+  makeEl,
+  toggleHidden,
+  toggleTwoClasses,
+} from '#utils';
 
 import { showSection } from '../sections';
 import {
@@ -278,7 +286,9 @@ function buyOne() {
   if (canUseCardFromWallet) {
     pay('card', 1);
   } else {
-    pay('gem', dim.cardPriceGems);
+    const startValue = state.wallet.read('gem');
+    const targetValue = pay('gem', dim.cardPriceGems);
+    animateValue(el.wallet.gem, startValue, targetValue);
   }
   addCards([cardType]);
 

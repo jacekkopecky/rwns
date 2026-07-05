@@ -41,6 +41,7 @@ export default defineConfig(
         { allowConstantLoopConditions: 'only-allowed-literals' },
       ],
       '@typescript-eslint/consistent-type-imports': 'error',
+      eqeqeq: ['error', 'always', { null: 'never' }],
     },
   },
 );

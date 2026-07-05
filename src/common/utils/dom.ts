@@ -1,5 +1,7 @@
 import type { ReadonlyWallet } from '#types';
 
+import { isValueAnimating } from './animated-count';
+
 /**
  * Format the number to use up to 4 characters and a decimal point but only with reasonable precision.
  */
@@ -52,7 +54,10 @@ export function fillWalletEls<T extends string>(
   els: Record<T, HTMLElement>,
 ) {
   for (const type of wallet.currencies) {
-    fillOrHide(els[type], wallet.read(type));
+    const el = els[type];
+    if (!isValueAnimating(el)) {
+      fillOrHide(el, wallet.read(type));
+    }
   }
 }
 

@@ -11,6 +11,7 @@ import {
   spread,
 } from '#utils';
 
+import { animateAddedEnergy, animateMainWallet } from './main-screen';
 import { showSection } from './sections';
 import {
   addAward,
@@ -34,11 +35,13 @@ export function init() {
 }
 
 let currentPrizes: Prize[] = [];
+let currentPrize: Prize | undefined;
 let spinningAgain = false;
 let spinTimeout: number | null = null;
 
 export function showDailyGiftScreen() {
   currentPrizes = get12AvailablePrizes();
+  currentPrize = undefined;
   spinningAgain = false;
 
   el.spinner.style.setProperty('--start-angle', '0deg');
@@ -89,6 +92,20 @@ function spin() {
   }
 
   if (!canGiveDailyGift(readState())) {
+    if (currentPrize && currentPrize.award !== 'spin-again') {
+      if (isCurrency(currentPrize.award) && currentPrize.amount) {
+        // by the time we're here, the wallet already has the prize added
+        const walletAmountAfterGiven = state.wallet.read(currentPrize.award);
+        animateMainWallet(
+          currentPrize.award,
+          walletAmountAfterGiven - currentPrize.amount,
+          walletAmountAfterGiven,
+        );
+      } else if (currentPrize.award === 'energy' && currentPrize.amount) {
+        animateAddedEnergy(state.energy - currentPrize.amount, state.energy);
+      }
+    }
+
     // we've given the award now
     showSection('mainScreen');
     return;
@@ -97,7 +114,7 @@ function spin() {
   let prizes = currentPrizes;
   // remove spin again from consideration if we are already spinning again
   if (spinningAgain) {
-    prizes = prizes.slice(1);
+    prizes = prizes.filter((p) => p.award !== 'spin-again');
   }
   // consider only coin prizes if the player has no funds
   if (state.wallet.read('coin') < 20) {
@@ -114,6 +131,7 @@ function spin() {
   // so the user cannot just wait for the spin to almost end and in case they don't like it, quickly reload
   if (picked.award !== 'spin-again') {
     setDailyGiftGivenToday();
+    currentPrize = picked;
     if (isCurrency(picked.award) && picked.amount) {
       addAward({ type: picked.award, amount: picked.amount });
     } else if (picked.award === 'energy' && picked.amount) {

@@ -1,5 +1,5 @@
 import type { UpgradablePermanentParameters } from '#types';
-import { fillOrHide, getEl, toggleHidden } from '#utils';
+import { animateValue, fillOrHide, getEl, isValueAnimating, toggleHidden } from '#utils';
 
 import { getEnergy, getUpgradablePermanentParameters } from '../state';
 
@@ -8,14 +8,15 @@ import { isInRun } from './main-screen';
 const el = {
   main: getEl('main'),
   energy: getEl('#playStats .energy'),
+  energyNext: getEl('#playStats .energy .nextTime'),
 };
 
 export function updateEnergyCount(params: UpgradablePermanentParameters) {
   const { energy, nextEnergyMs } = getEnergy(params);
   if (energy < Infinity) {
     if (energy >= params.energyMax) {
-      fillOrHide(el.energy, energy);
       clearCounter();
+      showEnergy(null, energy);
     } else {
       setupCounter(nextEnergyMs, energy);
       showEnergy(nextEnergyMs, energy);
@@ -31,10 +32,18 @@ export function hasEnergy() {
   return !el.main.classList.contains('no-energy');
 }
 
-function showEnergy(nextEnergyMs: number, energy: number) {
-  const energyMin = Math.floor(nextEnergyMs / 60000);
-  const energyStr = energyMin ? `${energyMin}min` : `${Math.ceil(nextEnergyMs / 1000)}s`;
-  fillOrHide(el.energy, `${energy} (+1 in ${energyStr})`);
+function showEnergy(nextEnergyMs: number | null, energy: number) {
+  if (!isValueAnimating(el.energy)) {
+    fillOrHide(el.energy, String(energy));
+  }
+
+  if (nextEnergyMs) {
+    const energyMin = Math.floor(nextEnergyMs / 60000);
+    const energyStr = energyMin ? `${energyMin}min` : `${Math.ceil(nextEnergyMs / 1000)}s`;
+    el.energyNext.textContent = `(+1 in ${energyStr})`;
+  } else {
+    el.energyNext.textContent = '';
+  }
 }
 
 let counterInterval: number | null = null;
@@ -79,4 +88,8 @@ function updateEnergyInInterval() {
       counterNextCheck = now + (nextEnergyMs % 60000);
     }
   }
+}
+
+export function animateAddedEnergy(start: number, target: number) {
+  animateValue(el.energy, start, target);
 }
