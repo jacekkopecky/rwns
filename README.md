@@ -7,6 +7,13 @@ mobile screen.
 
 ## todo
 
+- [ ] side game: "Chase": a big diamond or something that flies away from us on a path through the
+      run (clear of trees) and we're chasing and shooting and getting diamonds, up to a limit; every
+      diamond received makes it a bit harder; every diamond not received makes it a bit less easier
+  - skills can make you better at it; or separate cards? 
+  - the big thing starts at bullet distance but only slowly accelerates to our speed so at full
+    speed it's not too far from us
+  - section transition blanks canvas, prepares the special run, unblanks"
 - [ ] put cards and other section buttons under upgrade buttons so it feels safer to swipe from the
       bottom to get the home button when you don't want to buy an upgrade
 - [ ] change licence to GNU AGPL?
@@ -255,6 +262,9 @@ mobile screen.
   - quest types:
     - break 20 end blocks
     - break 20 end blocks with red/green/blue robot
+  - finish with exactly 1 red robot 3 times (needs colour gates) 
+  - finish with exactly 1 red and 1 blue robot
+  - best your income record of N - with reward scaled to how much bested 
 - technical ideas
   - [ ] use LoadManager from https://threejs.org/manual/#en/textures for progress bars?
   - [ ] refactor run screen and maybe end-run screen as sections, then it won't be possible to tab
