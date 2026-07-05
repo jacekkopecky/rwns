@@ -21,7 +21,6 @@ import { initUpgrades, updateUpgrades } from './run-upgrades';
 const el = {
   main: getEl('main'),
   canvas: getEl('#webglCanvas'),
-  touchToStart: getEl('#touchToStart'),
   topButtons: getEl('#topBar'),
   exitBtn: getEl('#exitBtn', HTMLButtonElement),
   endRunScreenProgress: getEl('#endRunScreen button.progress', HTMLButtonElement),
@@ -44,8 +43,6 @@ export function init() {
   initUpgrades();
   el.canvas.addEventListener('touchstart', startPlaying);
   el.canvas.addEventListener('mousedown', startPlaying);
-  el.touchToStart.addEventListener('touchstart', startPlaying);
-  el.touchToStart.addEventListener('mousedown', startPlaying);
   el.endRunScreenProgress.addEventListener('click', nextLevel);
   el.endRunScreenRetry.addEventListener('click', retry);
 
