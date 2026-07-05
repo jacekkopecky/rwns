@@ -4,8 +4,8 @@
   <meta charset="utf8" />
   <title>RWNS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  <script type="module" crossorigin src="/rwns/assets/index-B75vwIam.js"></script>
-  <link rel="stylesheet" crossorigin href="/rwns/assets/index-Cl7XC0k5.css">
+  <script type="module" crossorigin src="/rwns/assets/index-C0J4RTZj.js"></script>
+  <link rel="stylesheet" crossorigin href="/rwns/assets/index-BCNT8v8R.css">
 <link rel="manifest" href="/rwns/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/rwns/registerSW.js"></script></head>
 
 <body class="using-fullscreen">
@@ -21,8 +21,12 @@
 
   <main>
     <section id="mainScreen">
-      <div id="topBar">
-        <button id="exitBtn">Exit</button>
+      <canvas id="webglCanvas" class="in-run"></canvas>
+
+      <div id="log" class="in-run"></div>
+
+      <div id="topBar" class="partial-in-run">
+        <button id="exitBtn" class="in-run">Exit</button>
         <div class="wallet">
           <div class="coin neverHidden"><span class="value">0</span> <i class="i coins"></i></div>
           <div class="gem hiddenGone"><span class="value">0</span> <i class="i gem"></i></div>
@@ -31,6 +35,12 @@
           </div>
         </div>
         <button id="settingsBtn">⚙️</button>
+      </div>
+
+      <div id="runInfo" class="only-in-run">
+        Lvl <span class="level"></span
+        ><span class="rate hiddenGone">, Rate <span class="value"></span></span
+        ><span class="damage hiddenGone">, Dmg <span class="value"></span></span>
       </div>
 
       <div id="playStats">
@@ -48,46 +58,7 @@
         <span class="if-no-energy">out of energy</span>
       </div>
 
-      <div class="sectionButtons">
-        <button class="cards">
-          <i class="i cards-icon"></i>
-        </button>
-      </div>
-
-      <div class="upgradeButtons">
-        <button class="players">
-          <span>Add player</span>
-          <div class="level"><span class="value">0</span></div>
-          <div class="cost"><span class="value">0</span> <i class="i coins"></i></div>
-        </button>
-        <button class="rate">
-          <span>Fire rate</span>
-          <div class="level"><span class="value">0</span></div>
-          <div class="cost"><span class="value">0</span> <i class="i coins"></i></div>
-        </button>
-        <button class="damage">
-          <span>Damage</span>
-          <div class="level"><span class="value">0</span></div>
-          <div class="cost"><span class="value">0</span> <i class="i coins"></i></div>
-        </button>
-      </div>
-    </section>
-
-    <section id="run" class="inactive">
-      <canvas id="webglCanvas"></canvas>
-
-      <div id="log"></div>
-
-      <div id="topBar">
-        <button id="quitBtn">Quit</button>
-        <div id="runInfo">
-          Lvl <span class="level"></span
-          ><span class="rate hiddenGone">, Rate <span class="value"></span></span
-          ><span class="damage hiddenGone">, Dmg <span class="value"></span></span>
-        </div>
-      </div>
-
-      <div id="inRunWallet">
+      <div id="inRunWallet" class="only-in-run">
         <div class="coin hiddenGone"><span class="value"></span> <i class="i coins"></i></div>
         <div class="gem hiddenGone"><span class="value"></span> <i class="i gem"></i></div>
         <div class="card hiddenGone"><span class="value">0</span> <i class="i cards-icon"></i></div>
@@ -121,6 +92,30 @@
           </button>
           <button class="progress if-win">Next level</button>
         </div>
+      </div>
+
+      <div class="sectionButtons">
+        <button class="cards">
+          <i class="i cards-icon"></i>
+        </button>
+      </div>
+
+      <div class="upgradeButtons">
+        <button class="players">
+          <span>Add player</span>
+          <div class="level"><span class="value">0</span></div>
+          <div class="cost"><span class="value">0</span> <i class="i coins"></i></div>
+        </button>
+        <button class="rate">
+          <span>Fire rate</span>
+          <div class="level"><span class="value">0</span></div>
+          <div class="cost"><span class="value">0</span> <i class="i coins"></i></div>
+        </button>
+        <button class="damage">
+          <span>Damage</span>
+          <div class="level"><span class="value">0</span></div>
+          <div class="cost"><span class="value">0</span> <i class="i coins"></i></div>
+        </button>
       </div>
     </section>
 
