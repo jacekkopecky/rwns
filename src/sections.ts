@@ -4,6 +4,7 @@ import { init as initCardsScreen, showCardsScreen } from './cards';
 import { init as initDailyGiftScreen, showDailyGiftScreen } from './daily-gift';
 import { init as initMainScreen, showMainScreen } from './main-screen';
 import { init as initSettingsScreen, showSettingsScreen } from './settings';
+import { showRunSection } from './run';
 
 export function init() {
   initMainScreen();
@@ -14,6 +15,7 @@ export function init() {
 
 const sections = {
   ...prepSection('mainScreen', showMainScreen),
+  ...prepSection('run', showRunSection),
   ...prepSection('cards', showCardsScreen),
   ...prepSection('dailyGift', showDailyGiftScreen),
   ...prepSection('settings', showSettingsScreen),

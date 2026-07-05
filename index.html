@@ -21,12 +21,8 @@
 
   <main>
     <section id="mainScreen">
-      <canvas id="webglCanvas" class="in-run"></canvas>
-
-      <div id="log" class="in-run"></div>
-
-      <div id="topBar" class="partial-in-run">
-        <button id="exitBtn" class="in-run">Exit</button>
+      <div id="topBar">
+        <button id="exitBtn">Exit</button>
         <div class="wallet">
           <div class="coin neverHidden"><span class="value">0</span> <i class="i coins"></i></div>
           <div class="gem hiddenGone"><span class="value">0</span> <i class="i gem"></i></div>
@@ -35,12 +31,6 @@
           </div>
         </div>
         <button id="settingsBtn">⚙️</button>
-      </div>
-
-      <div id="runInfo" class="only-in-run">
-        Lvl <span class="level"></span
-        ><span class="rate hiddenGone">, Rate <span class="value"></span></span
-        ><span class="damage hiddenGone">, Dmg <span class="value"></span></span>
       </div>
 
       <div id="playStats">
@@ -58,7 +48,46 @@
         <span class="if-no-energy">out of energy</span>
       </div>
 
-      <div id="inRunWallet" class="only-in-run">
+      <div class="sectionButtons">
+        <button class="cards">
+          <i class="i cards-icon"></i>
+        </button>
+      </div>
+
+      <div class="upgradeButtons">
+        <button class="players">
+          <span>Add player</span>
+          <div class="level"><span class="value">0</span></div>
+          <div class="cost"><span class="value">0</span> <i class="i coins"></i></div>
+        </button>
+        <button class="rate">
+          <span>Fire rate</span>
+          <div class="level"><span class="value">0</span></div>
+          <div class="cost"><span class="value">0</span> <i class="i coins"></i></div>
+        </button>
+        <button class="damage">
+          <span>Damage</span>
+          <div class="level"><span class="value">0</span></div>
+          <div class="cost"><span class="value">0</span> <i class="i coins"></i></div>
+        </button>
+      </div>
+    </section>
+
+    <section id="run" class="inactive">
+      <canvas id="webglCanvas"></canvas>
+
+      <div id="log"></div>
+
+      <div id="runTopBar">
+        <button id="quitBtn">Quit</button>
+        <div id="runInfo">
+          Lvl <span class="level"></span
+          ><span class="rate hiddenGone">, Rate <span class="value"></span></span
+          ><span class="damage hiddenGone">, Dmg <span class="value"></span></span>
+        </div>
+      </div>
+
+      <div id="inRunWallet">
         <div class="coin hiddenGone"><span class="value"></span> <i class="i coins"></i></div>
         <div class="gem hiddenGone"><span class="value"></span> <i class="i gem"></i></div>
         <div class="card hiddenGone"><span class="value">0</span> <i class="i cards-icon"></i></div>
@@ -92,30 +121,6 @@
           </button>
           <button class="progress if-win">Next level</button>
         </div>
-      </div>
-
-      <div class="sectionButtons">
-        <button class="cards">
-          <i class="i cards-icon"></i>
-        </button>
-      </div>
-
-      <div class="upgradeButtons">
-        <button class="players">
-          <span>Add player</span>
-          <div class="level"><span class="value">0</span></div>
-          <div class="cost"><span class="value">0</span> <i class="i coins"></i></div>
-        </button>
-        <button class="rate">
-          <span>Fire rate</span>
-          <div class="level"><span class="value">0</span></div>
-          <div class="cost"><span class="value">0</span> <i class="i coins"></i></div>
-        </button>
-        <button class="damage">
-          <span>Damage</span>
-          <div class="level"><span class="value">0</span></div>
-          <div class="cost"><span class="value">0</span> <i class="i coins"></i></div>
-        </button>
       </div>
     </section>
 
@@ -166,7 +171,7 @@
     </section>
 
     <section id="settings" class="inactive">
-      <div class="topBar">
+      <div id="settingsTopBar">
         <!-- button repeated for symmetry -->
         <button style="opacity: 0"><span>╳</span></button>
         <h2>Settings</h2>

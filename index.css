@@ -72,24 +72,12 @@ main {
 
     &.inactive {
       pointer-events: none;
+      opacity: 0;
 
       &,
       & * {
         animation-play-state: paused !important;
       }
-    }
-  }
-
-  &.run .partial-in-run > :not(.in-run):not(.only-in-run),
-  &:not(.run) .partial-in-run > .only-in-run,
-  &.run > #mainScreen > :not(.in-run):not(.only-in-run):not(.partial-in-run):not(#endRunScreen),
-  &:not(.run) > section > .only-in-run {
-    opacity: 0;
-    pointer-events: none;
-
-    &,
-    & * {
-      animation-play-state: paused !important;
     }
   }
 
@@ -153,6 +141,7 @@ main {
 #mainScreen {
   position: absolute;
   inset: 0;
+  transition: opacity 1s ease-in-out;
 
   background: white;
   color: black;
@@ -279,6 +268,29 @@ button {
 #webglCanvas {
   position: absolute;
   inset: 0;
+}
+
+#run {
+  position: absolute;
+  inset: 0;
+  transition: none !important;
+
+  #runTopBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    justify-content: space-between;
+    pointer-events: none;
+
+    & > * {
+      pointer-events: auto;
+    }
+
+    #runInfo {
+      position: static;
+    }
+  }
 }
 
 #endRunScreen {

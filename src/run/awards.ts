@@ -12,20 +12,20 @@ import { createSpriteObject } from './three/resources';
 import type { Award, ObjectData } from './types';
 
 const el = {
-  endRunScreen: getEl('#endRunScreen'),
-  endRunScreenCoins: getEl('#endRunScreen .collected .coin'),
-  endRunScreenGems: getEl('#endRunScreen .collected .gem'),
-  endRunScreenGemCount: getEl('#endRunScreen .gemCount'),
+  endRunScreen: getEl('#run #endRunScreen'),
+  endRunScreenCoins: getEl('#run #endRunScreen .collected .coin'),
+  endRunScreenGems: getEl('#run #endRunScreen .collected .gem'),
+  endRunScreenGemCount: getEl('#run #endRunScreen .gemCount'),
   endRunWallet: {
-    gem: getEl('#endRunScreen .wallet .gem'),
-    coin: getEl('#endRunScreen .wallet .coin'),
-    card: getEl('#endRunScreen .wallet .card'),
+    gem: getEl('#run #endRunScreen .wallet .gem'),
+    coin: getEl('#run #endRunScreen .wallet .coin'),
+    card: getEl('#run #endRunScreen .wallet .card'),
   },
-  inRunWalletContainer: getEl('#inRunWallet'),
+  inRunWalletContainer: getEl('#run #inRunWallet'),
   inRun: {
-    gem: getEl('#inRunWallet .gem'),
-    coin: getEl('#inRunWallet .coin'),
-    card: getEl('#inRunWallet .card'),
+    gem: getEl('#run #inRunWallet .gem'),
+    coin: getEl('#run #inRunWallet .coin'),
+    card: getEl('#run #inRunWallet .card'),
   },
 };
 

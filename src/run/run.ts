@@ -43,8 +43,8 @@ let ending = false;
 
 const el = {
   main: getEl('main'),
-  canvas: getEl('#webglCanvas'),
-  exitBtn: getEl('#exitBtn', HTMLButtonElement),
+  canvas: getEl('#run #webglCanvas'),
+  quitBtn: getEl('#quitBtn', HTMLButtonElement),
   shortMessage: getEl('#shortMessage'),
 };
 
@@ -62,13 +62,13 @@ export function init() {
   });
   updateTouchHandlerEnabled();
 
-  el.exitBtn.addEventListener('click', (e) => {
+  el.quitBtn.addEventListener('click', (e) => {
     if (playing) {
       endRun(true);
       e.stopImmediatePropagation();
       e.stopPropagation();
       e.preventDefault();
-      el.exitBtn.disabled = true;
+      el.quitBtn.disabled = true;
     }
   });
 }
@@ -159,6 +159,10 @@ export function prepareRun(state: ReadonlyState, params: UpgradablePermanentPara
   render(true);
 }
 
+export function showRunSection() {
+  // nothing to do here yet
+}
+
 export function startRun() {
   if (!playing) {
     stateModule.increasePlayed();
@@ -166,6 +170,7 @@ export function startRun() {
 
   playing = true;
   ending = false;
+  el.quitBtn.disabled = false;
   updateTouchHandlerEnabled();
   setPlayersWalking(true);
 }
@@ -174,7 +179,7 @@ function endRun(immediate = false, win = false) {
   if (!playing || ending) return;
 
   ending = true;
-  el.exitBtn.disabled = true;
+  el.quitBtn.disabled = true;
 
   updateTouchHandlerEnabled();
   updateEndRunScreen();

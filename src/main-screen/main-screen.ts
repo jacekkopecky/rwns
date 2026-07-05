@@ -20,12 +20,13 @@ import { initUpgrades, updateUpgrades } from './run-upgrades';
 
 const el = {
   main: getEl('main'),
-  canvas: getEl('#webglCanvas'),
-  topButtons: getEl('#topBar'),
+  canvas: getEl('#run #webglCanvas'),
+  touchToStart: getEl('#mainScreen #touchToStart'),
+  topButtons: getEl('#mainScreen #topBar'),
   exitBtn: getEl('#exitBtn', HTMLButtonElement),
-  endRunScreenProgress: getEl('#endRunScreen button.progress', HTMLButtonElement),
-  endRunScreenRetry: getEl('#endRunScreen button.retry'),
-  walletContainer: getEl('#topBar .wallet'),
+  endRunScreenProgress: getEl('#run #endRunScreen button.progress', HTMLButtonElement),
+  endRunScreenRetry: getEl('#run #endRunScreen button.retry'),
+  walletContainer: getEl('#mainScreen #topBar .wallet'),
   wallet: {
     gem: getEl('#topBar .wallet .gem'),
     coin: getEl('#topBar .wallet .coin'),
@@ -44,6 +45,8 @@ export function init() {
   initUpgrades();
   el.canvas.addEventListener('touchstart', startPlaying);
   el.canvas.addEventListener('mousedown', startPlaying);
+  el.touchToStart.addEventListener('touchstart', startPlaying);
+  el.touchToStart.addEventListener('mousedown', startPlaying);
   el.endRunScreenProgress.addEventListener('click', nextLevel);
   el.endRunScreenRetry.addEventListener('click', retry);
 
@@ -67,13 +70,13 @@ export function startPlaying() {
 
     if (!subtractEnergy(params)) return; // wait until next energy
 
-    el.main.classList.add('run');
+    showSection('run');
     startRun();
   }
 }
 
 export function isInRun() {
-  return el.main.classList.contains('run');
+  return isSectionActive('run');
 }
 
 function retry() {
@@ -90,7 +93,6 @@ let dailyGiftTimeout: number | null = null;
 
 export function showMainScreen() {
   if (dailyGiftTimeout) clearTimeout(dailyGiftTimeout);
-  el.main.classList.remove('run');
   el.exitBtn.disabled = false;
 
   const state = readState();
