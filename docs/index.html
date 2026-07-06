@@ -4,8 +4,8 @@
   <meta charset="utf8" />
   <title>RWNS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  <script type="module" crossorigin src="/rwns/assets/index-C0J4RTZj.js"></script>
-  <link rel="stylesheet" crossorigin href="/rwns/assets/index-BCNT8v8R.css">
+  <script type="module" crossorigin src="/rwns/assets/index-BrSCOgwq.js"></script>
+  <link rel="stylesheet" crossorigin href="/rwns/assets/index-dq9NEB0z.css">
 <link rel="manifest" href="/rwns/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/rwns/registerSW.js"></script></head>
 
 <body class="using-fullscreen">
@@ -20,45 +20,23 @@
   </header>
 
   <main>
-    <section id="mainScreen">
-      <canvas id="webglCanvas" class="in-run"></canvas>
+    <section id="run" class="inactive no-inert">
+      <canvas id="webglCanvas"></canvas>
 
-      <div id="log" class="in-run"></div>
+      <div id="log"></div>
 
-      <div id="topBar" class="partial-in-run">
-        <button id="exitBtn" class="in-run">Exit</button>
-        <div class="wallet">
-          <div class="coin neverHidden"><span class="value">0</span> <i class="i coins"></i></div>
-          <div class="gem hiddenGone"><span class="value">0</span> <i class="i gem"></i></div>
-          <div class="card hiddenGone">
-            <span class="value">0</span> <i class="i cards-icon"></i>
-          </div>
+      <div class="topBar">
+        <button id="quitBtn">Quit</button>
+        <div id="runInfo">
+          Lvl <span class="level"></span
+          ><span class="rate hiddenGone">, Rate <span class="value"></span></span
+          ><span class="damage hiddenGone">, Dmg <span class="value"></span></span>
         </div>
-        <button id="settingsBtn">⚙️</button>
+        <!-- button repeated for symmetry -->
+        <button style="visibility: hidden">Quit</button>
       </div>
 
-      <div id="runInfo" class="only-in-run">
-        Lvl <span class="level"></span
-        ><span class="rate hiddenGone">, Rate <span class="value"></span></span
-        ><span class="damage hiddenGone">, Dmg <span class="value"></span></span>
-      </div>
-
-      <div id="playStats">
-        <div class="level">Level <span class="value"></span></div>
-        <div class="played">Played <span class="value"></span></div>
-        <div class="energy hidden">
-          Energy&nbsp;<span class="value"></span><span class="nextTime"></span
-          ><i class="i energy"></i>
-        </div>
-      </div>
-
-      <div id="touchToStart">
-        <span id="shortMessage" class="hiddenGone"></span>
-        <span class="if-energy">touch to start</span>
-        <span class="if-no-energy">out of energy</span>
-      </div>
-
-      <div id="inRunWallet" class="only-in-run">
+      <div id="inRunWallet">
         <div class="coin hiddenGone"><span class="value"></span> <i class="i coins"></i></div>
         <div class="gem hiddenGone"><span class="value"></span> <i class="i gem"></i></div>
         <div class="card hiddenGone"><span class="value">0</span> <i class="i cards-icon"></i></div>
@@ -92,6 +70,35 @@
           </button>
           <button class="progress if-win">Next level</button>
         </div>
+      </div>
+    </section>
+
+    <section id="mainScreen">
+      <div class="topBar">
+        <button id="exitBtn">Exit</button>
+        <div class="wallet">
+          <div class="coin neverHidden"><span class="value">0</span> <i class="i coins"></i></div>
+          <div class="gem hiddenGone"><span class="value">0</span> <i class="i gem"></i></div>
+          <div class="card hiddenGone">
+            <span class="value">0</span> <i class="i cards-icon"></i>
+          </div>
+        </div>
+        <button id="settingsBtn">⚙️</button>
+      </div>
+
+      <div id="playStats">
+        <div class="level">Level <span class="value"></span></div>
+        <div class="played">Played <span class="value"></span></div>
+        <div class="energy hidden">
+          Energy&nbsp;<span class="value"></span><span class="nextTime"></span
+          ><i class="i energy"></i>
+        </div>
+      </div>
+
+      <div id="touchToStart">
+        <span id="shortMessage" class="hiddenGone"></span>
+        <span class="if-energy">touch to start</span>
+        <span class="if-no-energy">out of energy</span>
       </div>
 
       <div class="sectionButtons">
@@ -168,7 +175,7 @@
     <section id="settings" class="inactive">
       <div class="topBar">
         <!-- button repeated for symmetry -->
-        <button style="opacity: 0"><span>╳</span></button>
+        <button style="visibility: hidden"><span>╳</span></button>
         <h2>Settings</h2>
         <button class="closeBtn"><span>╳</span></button>
       </div>
