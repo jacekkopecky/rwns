@@ -17,9 +17,9 @@ export function init() {
 const sections = {
   ...prepSection('mainScreen', showMainScreen),
   ...prepSection('run', showRunSection),
-  ...prepSection('cards', showCardsScreen),
+  ...prepSection('cards', showCardsScreen, 'mainScreen'),
   ...prepSection('dailyGift', showDailyGiftScreen, 'mainScreen'),
-  ...prepSection('settings', showSettingsScreen),
+  ...prepSection('settings', showSettingsScreen, 'mainScreen'),
 };
 
 type Section = keyof typeof sections;
