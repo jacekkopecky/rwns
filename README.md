@@ -293,8 +293,6 @@ mobile screen.
   - best your income record of N - with reward scaled to how much bested 
 - technical ideas
   - [ ] use LoadManager from https://threejs.org/manual/#en/textures for progress bars?
-  - [ ] refactor run screen and maybe end-run screen as sections, then it won't be possible to tab
-        to an invisible button from end screen OK
   - [ ] error handling - unhandled exceptions and promises
 - [ ] add slow-down areas so we can have big bosses
   - [ ] first add possibility of markings on the track?
@@ -335,6 +333,11 @@ mobile screen.
 - [ ] add support for wider screens, landscape mode?
 
 ---
+
+## done by 2026-07-06
+
+- [x] (with Jules AI) refactor run screen and maybe end-run screen as sections, then it won't be
+      possible to tab to an invisible button from end screen OK
 
 ## done by 2026-07-05
 
