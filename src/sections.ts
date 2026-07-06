@@ -27,9 +27,11 @@ type Section = keyof typeof sections;
 export function showSection(name: Section) {
   const selectedSection = sections[name];
   for (const section of Object.values(sections)) {
+    section.el.classList.remove('_active');
     section.el.classList.add('inactive');
     section.el.inert = !section.el.classList.contains('no-inert');
   }
+  selectedSection.el.classList.add('_active');
   selectedSection.el.classList.remove('inactive');
   selectedSection.el.inert = false;
   selectedSection.cb?.();
@@ -56,5 +58,5 @@ function prepSection<T extends string>(
 }
 
 export function isSectionActive(sec: Section): boolean {
-  return !sections[sec].el.classList.contains('inactive');
+  return sections[sec].el.classList.contains('_active');
 }

@@ -1,14 +1,13 @@
 import { animateValue, fillOrHide, fillWalletEls, getEl, toggleHidden } from '#utils';
 
 import { updateCardsVisibility } from '../cards';
-import { prepareRun, startRun } from '../run';
+import { prepareRun } from '../run';
 import { isSectionActive, showSection } from '../sections';
 import { updateSettingsVisibility } from '../settings';
 import { isOnSplashScreen } from '../splash-screen';
 import {
   canGiveDailyGift,
   getUpgradablePermanentParameters,
-  increaseLevel,
   initState,
   isFeatureAllowed,
   readState,
@@ -24,8 +23,6 @@ const el = {
   canvas: getEl('#webglCanvas'),
   topButtons: getEl('#mainScreen .topBar'),
   exitBtn: getEl('#exitBtn', HTMLButtonElement),
-  endRunScreenProgress: getEl('#endRunScreen button.progress', HTMLButtonElement),
-  endRunScreenRetry: getEl('#endRunScreen button.retry'),
   walletContainer: getEl('#mainScreen .topBar .wallet'),
   wallet: {
     gem: getEl('#mainScreen .topBar .wallet .gem'),
@@ -44,8 +41,6 @@ export function init() {
   initUpgrades();
   el.canvas.addEventListener('touchstart', startPlaying);
   el.canvas.addEventListener('mousedown', startPlaying);
-  el.endRunScreenProgress.addEventListener('click', nextLevel);
-  el.endRunScreenRetry.addEventListener('click', retry);
 
   // touching near or between the buttons shouldn't start a run
   el.topButtons.addEventListener('touchdown', (e) => e.stopPropagation());
@@ -55,10 +50,8 @@ export function init() {
 }
 
 export function startPlaying() {
-  el.endRunScreenProgress.disabled = false;
-
   // this gets called on every touch of the screen, so ignore it if already in a game
-  if (!isInRun()) {
+  if (isSectionActive('mainScreen')) {
     const params = getUpgradablePermanentParameters();
     if (!hasEnergy()) {
       updateEnergyCount(params);
@@ -68,22 +61,7 @@ export function startPlaying() {
     if (!subtractEnergy(params)) return; // wait until next energy
 
     showSection('run');
-    startRun();
   }
-}
-
-export function isInRun() {
-  return isSectionActive('run');
-}
-
-function retry() {
-  showSection('mainScreen');
-}
-
-function nextLevel() {
-  el.endRunScreenProgress.disabled = true;
-  increaseLevel();
-  showSection('mainScreen');
 }
 
 let dailyGiftTimeout: number | null = null;
@@ -99,7 +77,7 @@ export function showMainScreen() {
 
   if (canGiveDailyGift(state)) {
     dailyGiftTimeout = setTimeout(() => {
-      if (isSectionActive('mainScreen') && !isInRun() && !isOnSplashScreen()) {
+      if (isSectionActive('mainScreen') && !isOnSplashScreen()) {
         showSection('dailyGift');
       }
     }, 1000);
@@ -107,7 +85,7 @@ export function showMainScreen() {
 }
 
 function updateMainScreenIfNotInRun() {
-  if (!isInRun()) updateMainScreen();
+  if (!isSectionActive('run')) updateMainScreen();
 }
 
 export function updateMainScreen(state = readState(), params = getUpgradablePermanentParameters()) {

@@ -4,7 +4,6 @@
 
 import { fillOrHide, getEl } from '#utils';
 
-import { isInRun } from './main-screen';
 import { warmup } from './run';
 import { init as initSections, isSectionActive, showSection } from './sections';
 
@@ -47,7 +46,7 @@ export function init() {
 async function goFullscreen() {
   warmup();
   await el.main.requestFullscreen();
-  if (!isInRun()) {
+  if (!isSectionActive('run')) {
     showSection('mainScreen');
   }
 }
@@ -63,7 +62,7 @@ function handleTopLevelSpaceKey(e: KeyboardEvent): void {
 }
 
 function updateSplashScreen() {
-  el.startBtn.textContent = isInRun() ? 'Resume' : 'Start';
+  el.startBtn.textContent = isSectionActive('run') ? 'Resume' : 'Start';
 
   updateIsOnSplashScreen(useFullscreen && el.main !== document.fullscreenElement);
   if (isOnSplashScreen() && isSectionActive('dailyGift')) {

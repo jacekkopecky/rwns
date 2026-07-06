@@ -5,6 +5,7 @@ import { logFps } from '#log';
 import type { ReadonlyState, UpgradablePermanentParameters } from '#types';
 import { getEl, resetRandom } from '#utils';
 
+import { showSection } from '../sections';
 import { isOnSplashScreen } from '../splash-screen';
 import * as stateModule from '../state';
 
@@ -46,6 +47,8 @@ const el = {
   canvas: getEl('#webglCanvas'),
   quitBtn: getEl('#quitBtn', HTMLButtonElement),
   shortMessage: getEl('#shortMessage'),
+  endRunScreenProgress: getEl('#endRunScreen button.progress', HTMLButtonElement),
+  endRunScreenRetry: getEl('#endRunScreen button.retry'),
 };
 
 /**
@@ -71,6 +74,8 @@ export function init() {
       el.quitBtn.disabled = true;
     }
   });
+  el.endRunScreenProgress.addEventListener('click', nextLevel);
+  el.endRunScreenRetry.addEventListener('click', retry);
 }
 
 export function warmup() {
@@ -160,10 +165,11 @@ export function prepareRun(state: ReadonlyState, params: UpgradablePermanentPara
 }
 
 export function showRunSection() {
-  // nothing to do here yet
+  el.endRunScreenProgress.disabled = false;
+  startRun();
 }
 
-export function startRun() {
+function startRun() {
   if (!playing) {
     stateModule.increasePlayed();
   }
@@ -195,6 +201,16 @@ function endRun(immediate = false, win = false) {
     },
     immediate ? 0 : 1000,
   );
+}
+
+function nextLevel() {
+  el.endRunScreenProgress.disabled = true;
+  stateModule.increaseLevel();
+  showSection('mainScreen');
+}
+
+function retry() {
+  showSection('mainScreen');
 }
 
 function isGameFinished() {
