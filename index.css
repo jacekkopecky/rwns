@@ -343,6 +343,12 @@ button {
     opacity: 0;
     pointer-events: none;
 
+    /* disable the buttons from tab order on main screen */
+    .buttons {
+      visibility: hidden;
+      transition: visibility 1s 1s;
+    }
+
     &,
     & * {
       animation-play-state: paused !important;
