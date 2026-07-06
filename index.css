@@ -299,6 +299,12 @@ button {
     /* we need to be able to click on the canvas */
     pointer-events: auto;
 
+    /* disable the buttons from tab order on main screen */
+    button {
+      visibility: hidden;
+      transition: visibility 1s 1s;
+    }
+
     .topBar {
       opacity: 0;
     }
