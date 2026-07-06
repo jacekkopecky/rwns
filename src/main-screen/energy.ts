@@ -1,9 +1,8 @@
 import type { UpgradablePermanentParameters } from '#types';
 import { animateValue, fillOrHide, getEl, isValueAnimating, toggleHidden } from '#utils';
 
+import { isSectionActive } from '../sections';
 import { getEnergy, getUpgradablePermanentParameters } from '../state';
-
-import { isInRun } from './main-screen';
 
 const el = {
   main: getEl('main'),
@@ -66,7 +65,7 @@ function clearCounter() {
 }
 
 function updateEnergyInInterval() {
-  if (isInRun()) {
+  if (isSectionActive('run')) {
     // we're not updating the value while in run
     // we will start the counter, if needed, when the run finishes
     clearCounter();

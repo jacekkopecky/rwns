@@ -1,14 +1,13 @@
 import { animateValue, fillOrHide, fillWalletEls, getEl, toggleHidden } from '#utils';
 
 import { updateCardsVisibility } from '../cards';
-import { init as initRunScreen, prepareRun, startRun } from '../run';
+import { prepareRun } from '../run';
 import { isSectionActive, showSection } from '../sections';
 import { updateSettingsVisibility } from '../settings';
 import { isOnSplashScreen } from '../splash-screen';
 import {
   canGiveDailyGift,
   getUpgradablePermanentParameters,
-  increaseLevel,
   initState,
   isFeatureAllowed,
   readState,
@@ -20,16 +19,15 @@ import { initUpgrades, updateUpgrades } from './run-upgrades';
 
 const el = {
   main: getEl('main'),
+  section: getEl('#mainScreen'),
   canvas: getEl('#webglCanvas'),
-  topButtons: getEl('#topBar'),
+  topButtons: getEl('#mainScreen .topBar'),
   exitBtn: getEl('#exitBtn', HTMLButtonElement),
-  endRunScreenProgress: getEl('#endRunScreen button.progress', HTMLButtonElement),
-  endRunScreenRetry: getEl('#endRunScreen button.retry'),
-  walletContainer: getEl('#topBar .wallet'),
+  walletContainer: getEl('#mainScreen .topBar .wallet'),
   wallet: {
-    gem: getEl('#topBar .wallet .gem'),
-    coin: getEl('#topBar .wallet .coin'),
-    card: getEl('#topBar .wallet .card'),
+    gem: getEl('#mainScreen .topBar .wallet .gem'),
+    coin: getEl('#mainScreen .topBar .wallet .coin'),
+    card: getEl('#mainScreen .topBar .wallet .card'),
   },
   playStats: {
     played: getEl('#playStats .played'),
@@ -40,12 +38,9 @@ const el = {
 
 export function init() {
   initState();
-  initRunScreen();
   initUpgrades();
   el.canvas.addEventListener('touchstart', startPlaying);
   el.canvas.addEventListener('mousedown', startPlaying);
-  el.endRunScreenProgress.addEventListener('click', nextLevel);
-  el.endRunScreenRetry.addEventListener('click', retry);
 
   // touching near or between the buttons shouldn't start a run
   el.topButtons.addEventListener('touchdown', (e) => e.stopPropagation());
@@ -55,11 +50,9 @@ export function init() {
 }
 
 export function startPlaying() {
-  el.endRunScreenProgress.disabled = false;
-
-  const params = getUpgradablePermanentParameters();
   // this gets called on every touch of the screen, so ignore it if already in a game
-  if (!isInRun()) {
+  if (isSectionActive('mainScreen')) {
+    const params = getUpgradablePermanentParameters();
     if (!hasEnergy()) {
       updateEnergyCount(params);
       return;
@@ -67,30 +60,14 @@ export function startPlaying() {
 
     if (!subtractEnergy(params)) return; // wait until next energy
 
-    el.main.classList.add('run');
-    startRun();
+    showSection('run');
   }
-}
-
-export function isInRun() {
-  return el.main.classList.contains('run');
-}
-
-function retry() {
-  showSection('mainScreen');
-}
-
-function nextLevel() {
-  el.endRunScreenProgress.disabled = true;
-  increaseLevel();
-  showSection('mainScreen');
 }
 
 let dailyGiftTimeout: number | null = null;
 
 export function showMainScreen() {
   if (dailyGiftTimeout) clearTimeout(dailyGiftTimeout);
-  el.main.classList.remove('run');
   el.exitBtn.disabled = false;
 
   const state = readState();
@@ -100,7 +77,7 @@ export function showMainScreen() {
 
   if (canGiveDailyGift(state)) {
     dailyGiftTimeout = setTimeout(() => {
-      if (isSectionActive('mainScreen') && !isInRun() && !isOnSplashScreen()) {
+      if (isSectionActive('mainScreen') && !isOnSplashScreen()) {
         showSection('dailyGift');
       }
     }, 1000);
@@ -108,7 +85,7 @@ export function showMainScreen() {
 }
 
 function updateMainScreenIfNotInRun() {
-  if (!isInRun()) updateMainScreen();
+  if (!isSectionActive('run')) updateMainScreen();
 }
 
 export function updateMainScreen(state = readState(), params = getUpgradablePermanentParameters()) {

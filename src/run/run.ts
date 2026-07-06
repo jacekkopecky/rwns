@@ -5,6 +5,7 @@ import { logFps } from '#log';
 import type { ReadonlyState, UpgradablePermanentParameters } from '#types';
 import { getEl, resetRandom } from '#utils';
 
+import { showSection } from '../sections';
 import { isOnSplashScreen } from '../splash-screen';
 import * as stateModule from '../state';
 
@@ -44,8 +45,10 @@ let ending = false;
 const el = {
   main: getEl('main'),
   canvas: getEl('#webglCanvas'),
-  exitBtn: getEl('#exitBtn', HTMLButtonElement),
+  quitBtn: getEl('#quitBtn', HTMLButtonElement),
   shortMessage: getEl('#shortMessage'),
+  endRunScreenProgress: getEl('#endRunScreen button.progress', HTMLButtonElement),
+  endRunScreenRetry: getEl('#endRunScreen button.retry'),
 };
 
 /**
@@ -62,15 +65,17 @@ export function init() {
   });
   updateTouchHandlerEnabled();
 
-  el.exitBtn.addEventListener('click', (e) => {
+  el.quitBtn.addEventListener('click', (e) => {
     if (playing) {
       endRun(true);
       e.stopImmediatePropagation();
       e.stopPropagation();
       e.preventDefault();
-      el.exitBtn.disabled = true;
+      el.quitBtn.disabled = true;
     }
   });
+  el.endRunScreenProgress.addEventListener('click', nextLevel);
+  el.endRunScreenRetry.addEventListener('click', retry);
 }
 
 export function warmup() {
@@ -159,13 +164,19 @@ export function prepareRun(state: ReadonlyState, params: UpgradablePermanentPara
   render(true);
 }
 
-export function startRun() {
+export function showRunSection() {
+  el.endRunScreenProgress.disabled = false;
+  startRun();
+}
+
+function startRun() {
   if (!playing) {
     stateModule.increasePlayed();
   }
 
   playing = true;
   ending = false;
+  el.quitBtn.disabled = false;
   updateTouchHandlerEnabled();
   setPlayersWalking(true);
 }
@@ -174,7 +185,7 @@ function endRun(immediate = false, win = false) {
   if (!playing || ending) return;
 
   ending = true;
-  el.exitBtn.disabled = true;
+  el.quitBtn.disabled = true;
 
   updateTouchHandlerEnabled();
   updateEndRunScreen();
@@ -190,6 +201,16 @@ function endRun(immediate = false, win = false) {
     },
     immediate ? 0 : 1000,
   );
+}
+
+function nextLevel() {
+  el.endRunScreenProgress.disabled = true;
+  stateModule.increaseLevel();
+  showSection('mainScreen');
+}
+
+function retry() {
+  showSection('mainScreen');
 }
 
 function isGameFinished() {

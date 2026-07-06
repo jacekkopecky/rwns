@@ -1,4 +1,4 @@
-import { minLevelForCards } from '../../cards';
+import { minLevelForCards } from '../../cards/constants';
 
 export const LEVEL_MESSAGES = Array<string>();
 

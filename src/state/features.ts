@@ -1,6 +1,6 @@
 import type { Feature, ReadonlyState } from '#types';
 
-import { minLevelForCards } from '../cards';
+import { minLevelForCards } from '../cards/constants';
 
 import { _state, getUpgradablePermanentParameters } from './state';
 

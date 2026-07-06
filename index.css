@@ -19,8 +19,13 @@ body {
 }
 
 header {
-  margin: auto;
+  z-index: 1;
+  background: #f3e9b9;
+  position: absolute;
+  inset: 0;
+
   display: flex;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
   font-size: 2em;
@@ -67,9 +72,6 @@ main {
   }
 
   & > section {
-    background: black;
-    color: white;
-
     &.inactive {
       pointer-events: none;
 
@@ -78,42 +80,6 @@ main {
         animation-play-state: paused !important;
       }
     }
-  }
-
-  &.run .partial-in-run > :not(.in-run):not(.only-in-run),
-  &:not(.run) .partial-in-run > .only-in-run,
-  &.run > #mainScreen > :not(.in-run):not(.only-in-run):not(.partial-in-run):not(#endRunScreen),
-  &:not(.run) > section > .only-in-run {
-    opacity: 0;
-    pointer-events: none;
-
-    &,
-    & * {
-      animation-play-state: paused !important;
-    }
-  }
-
-  #inRunWallet {
-    position: absolute;
-    top: 1em;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-    padding: 0.5em;
-
-    border-radius: 1rem 0 0 1rem;
-    border-width: thick 0 thick thick;
-    text-align: right;
-    pointer-events: none;
-  }
-
-  #runInfo {
-    position: absolute;
-    top: 1em;
-    left: 0;
-    right: 0;
-    text-align: center;
   }
 
   & #touchToStart {
@@ -153,8 +119,18 @@ main {
 #mainScreen {
   position: absolute;
   inset: 0;
+  transition: opacity 1s ease-in-out;
 
-  background: white;
+  /* don't let the section swallow clicks intended for the run canvas */
+  visibility: hidden;
+  & > * {
+    visibility: visible;
+  }
+
+  &.inactive {
+    opacity: 0;
+  }
+
   color: black;
 
   display: grid;
@@ -172,7 +148,7 @@ main {
 /* prettier-ignore */
 #mainScreen {
   #log            { grid-area: l2; }
-  #topBar         { grid-area: top; }
+  .topBar         { grid-area: top; }
   .upgradeButtons { grid-area: bottom; }
   .sectionButtons { grid-area: l5; }
 }
@@ -206,7 +182,7 @@ button {
   }
 }
 
-#topBar {
+.topBar {
   padding: 1em;
   display: flex;
   flex-direction: row;
@@ -281,6 +257,54 @@ button {
   inset: 0;
 }
 
+#run {
+  position: absolute;
+  inset: 0;
+  transition: none !important;
+
+  .topBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    justify-content: space-between;
+    pointer-events: none;
+
+    & > * {
+      pointer-events: auto;
+    }
+  }
+
+  #inRunWallet {
+    position: absolute;
+    top: 1em;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    padding: 0.5em;
+
+    border-radius: 1rem 0 0 1rem;
+    border-width: thick 0 thick thick;
+    text-align: right;
+    pointer-events: none;
+  }
+
+  #runInfo {
+    text-align: center;
+    align-self: center;
+  }
+
+  &.inactive {
+    /* we need to be able to click on the canvas */
+    pointer-events: auto;
+
+    .topBar {
+      opacity: 0;
+    }
+  }
+}
+
 #endRunScreen {
   position: absolute;
   inset: 0;
@@ -318,6 +342,12 @@ button {
   &:not(.visible) {
     opacity: 0;
     pointer-events: none;
+
+    /* disable the buttons from tab order on main screen */
+    .buttons {
+      visibility: hidden;
+      transition: visibility 1s 1s;
+    }
 
     &,
     & * {

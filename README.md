@@ -7,13 +7,39 @@ mobile screen.
 
 ## todo
 
+- [ ] settings exit button should be where the normal exit button is
+  - [ ] on cards, the exit button should also be there
+  - [ ] all exit buttons should be `X` ?
+- [ ] the sectionButtons container should be renamed to 'leftSectionButtons', and then please add a
+      'rightSectionButtons' container that will mirror the positioning of the other one; for now
+      just put a dummy button there with the letter B as its content
+- [ ] first side game: back to basics
+  - phase 1:
+    - add a new button on the right-hand side on main screen, for now just with the letter B in it
+    - add a new "section" wired into sections.ts for this side-game
+    - when active, main section is hidden
+    - the new section has a "back to main screen" button that's in the same place as the normal exit
+      button
+    - in this side game, the run is simply level 1
+    - the new section code replicates main screen functionality for setting up and starting a run,
+      and it reuses the prepareRun() function but adds a runType parameter defaulted to 'normal'
+      which is the existing behaviour, and 'backToBasics' which is the new side-game type
+  - phase 2:
+    - polish the transition to this section: blank the whole screen, prepare the special run,
+      unblank so it looks like we're switching to a completely new screen
+    - also think of a better symbol for the button than B
+      - B2B?
+      - gate with gem above it?
+  - phase 3: add a gem award where the gem is part of the final gate (floating above it)
+  - phase 4: make this available every now and then, playable once
+    - state.sideGames.backToBasics.lastPlayed?
+    - feature allowed from level 50?
 - [ ] side game: "Chase": a big diamond or something that flies away from us on a path through the
       run (clear of trees) and we're chasing and shooting and getting diamonds, up to a limit; every
       diamond received makes it a bit harder; every diamond not received makes it a bit less easier
   - skills can make you better at it; or separate cards? 
   - the big thing starts at bullet distance but only slowly accelerates to our speed so at full
     speed it's not too far from us
-  - section transition blanks canvas, prepares the special run, unblanks"
 - [ ] put cards and other section buttons under upgrade buttons so it feels safer to swipe from the
       bottom to get the home button when you don't want to buy an upgrade
 - [ ] change licence to GNU AGPL?
@@ -267,8 +293,6 @@ mobile screen.
   - best your income record of N - with reward scaled to how much bested 
 - technical ideas
   - [ ] use LoadManager from https://threejs.org/manual/#en/textures for progress bars?
-  - [ ] refactor run screen and maybe end-run screen as sections, then it won't be possible to tab
-        to an invisible button from end screen OK
   - [ ] error handling - unhandled exceptions and promises
 - [ ] add slow-down areas so we can have big bosses
   - [ ] first add possibility of markings on the track?
@@ -309,6 +333,11 @@ mobile screen.
 - [ ] add support for wider screens, landscape mode?
 
 ---
+
+## done by 2026-07-06
+
+- [x] (with Jules AI) refactor run screen and maybe end-run screen as sections, then it won't be
+      possible to tab to an invisible button from end screen OK
 
 ## done by 2026-07-05
 

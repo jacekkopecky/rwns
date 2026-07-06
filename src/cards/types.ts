@@ -94,10 +94,6 @@ export const cardDefinitions = {
 
 export const CARDS = Object.keys(cardDefinitions) as (keyof typeof cardDefinitions)[];
 
-export const minLevelForCards = Math.min(
-  ...Object.values(cardDefinitions).map((card) => card.minPlayerLevel),
-);
-
 // makes it simpler to type-check the creation of cardDefinitions
 function card(defn: CardDefinition): CardDefinition {
   return defn;
