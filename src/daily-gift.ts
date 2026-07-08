@@ -154,7 +154,6 @@ function spin() {
 
   el.spinner.classList.add('spinning');
   spinTimeout = setTimeout(spinDone, dim.dailyRewardSpinSeconds * 1000);
-  setTimeout(spinDone, dim.dailyRewardSpinSeconds * 1000);
   setTimeout(showSpinAgain, (dim.dailyRewardSpinSeconds / 2) * 1000);
 }
 
