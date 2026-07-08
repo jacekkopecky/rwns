@@ -235,6 +235,8 @@ mobile screen.
     - when we've tried both, get "shoot to the same length of front row" as a special skill - makes
       those in the back shoot farther
     - then focus shooting - all bullets converge at the limit
+  - miniaturization - smaller marvins (packed closer together), cheaper, more available, and only a
+    bit weaker so it's a net positive
   - extra damage against specific objects/opponents?
   - small chance of surviving hitting a tree
   - extra damage in certain special types of runs?
