@@ -167,6 +167,7 @@ button {
   color: #664422;
 
   font-size: 1.5em;
+  line-height: 1em;
 
   padding: 0.25em 0.5em;
   border-radius: 1rem;
@@ -179,6 +180,11 @@ button {
 
   &:active:not(.disabled) {
     box-shadow: 0.1rem 0.1rem 0.5rem inset #0008;
+  }
+
+  /* otherwise icons in buttons aren't aligned right */
+  & > i.i {
+    display: block;
   }
 }
 
@@ -278,14 +284,14 @@ button {
   #inRunWallet {
     position: absolute;
     top: 1em;
-    right: 0;
+    right: 1em;
     display: flex;
     flex-direction: column;
     gap: 0.5em;
     padding: 0.5em;
 
-    border-radius: 1rem 0 0 1rem;
-    border-width: thick 0 thick thick;
+    border-radius: 1rem;
+    border-width: medium;
     text-align: right;
     pointer-events: none;
   }
@@ -293,6 +299,13 @@ button {
   #runInfo {
     text-align: center;
     align-self: center;
+    min-height: 3em;
+
+    /* hide so it doesn't show a bit on transition from end run screen to main screen */
+    .inactive &,
+    .endRun & {
+      opacity: 0;
+    }
   }
 
   &.inactive {
@@ -322,12 +335,8 @@ button {
   align-items: center;
   gap: 1.5em;
 
-  font-size: 1.5em;
-
-  .wallet {
-    position: absolute;
-    top: 1em;
-    font-size: 0.66666em; /* reverse the font-size above */
+  & > *:not(.topBar) {
+    font-size: 1.5em;
   }
 
   .buttons {
@@ -470,24 +479,16 @@ button {
   grid-template:
     'top top' auto
     'middle middle' 1fr
-    'l5  r5' auto
     'bottom bottom' 9em
     / auto 1fr;
 
-  .wallet {
+  .topBar {
     grid-area: top;
-    justify-self: center;
-    margin: 0.7em;
   }
 
-  .sectionButtons {
-    grid-area: l5;
-
-    button {
-      span {
-        font-size: 2.4em;
-      }
-    }
+  .wallet {
+    justify-self: center;
+    min-height: 3em;
   }
 
   .upgradeButtons {
@@ -502,7 +503,6 @@ button {
   .cardsContainer {
     position: relative;
     grid-area: middle;
-    margin: 0 0 1em;
     border: solid thick #fff4;
     border-radius: 2em;
 

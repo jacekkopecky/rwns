@@ -12,6 +12,7 @@ import { createSpriteObject } from './three/resources';
 import type { Award, ObjectData } from './types';
 
 const el = {
+  runScreen: getEl('#run'),
   endRunScreen: getEl('#endRunScreen'),
   endRunScreenCoins: getEl('#endRunScreen .collected .coin'),
   endRunScreenGems: getEl('#endRunScreen .collected .gem'),
@@ -155,6 +156,7 @@ export function updateAwardsView(delta: number) {
 
 export function toggleEndRunScreen(visible?: boolean, win?: boolean) {
   el.endRunScreen.classList.toggle('visible', visible);
+  el.runScreen.classList.toggle('endRun', visible);
   if (visible) {
     el.endRunScreen.classList.toggle('win', win);
   }

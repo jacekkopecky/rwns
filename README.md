@@ -7,9 +7,6 @@ mobile screen.
 
 ## todo
 
-- [ ] settings exit button should be where the normal exit button is
-  - [ ] on cards, the exit button should also be there
-  - [ ] all exit buttons should be `X` ?
 - [ ] the sectionButtons container should be renamed to 'leftSectionButtons', and then please add a
       'rightSectionButtons' container that will mirror the positioning of the other one; for now
       just put a dummy button there with the letter B as its content
@@ -335,6 +332,12 @@ mobile screen.
 - [ ] add support for wider screens, landscape mode?
 
 ---
+
+## done by 2026-07-09
+
+- [x] settings exit button should be where the normal exit button is
+  - [x] on cards, the exit button should also be there
+  - [x] all exit buttons should be `X` ?
 
 ## done by 2026-07-06
 

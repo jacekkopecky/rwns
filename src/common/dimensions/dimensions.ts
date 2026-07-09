@@ -26,7 +26,7 @@ export const treeDyingDuration = 0.5;
 export const gemRotationsPerSecond = 0.5;
 export const dailyRewardSpinSeconds = 5;
 
-export const runAwardsTargetCoordinates = [0.95, 0.95] as const;
+export const runAwardsTargetCoordinates = [0.9, 0.95] as const;
 export const runAwardsFlyDuration = 1.5;
 
 export const countAnimationTime = 0.6; // for counting up when awards fly to the wallet, and down when paying

@@ -28,4 +28,9 @@ i.i {
     background-image: url('assets/energy.svg');
     background-color: unset;
   }
+
+  &.cross {
+    background-image: url('assets/cross.svg');
+    background-color: unset;
+  }
 }
