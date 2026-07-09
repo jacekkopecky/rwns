@@ -339,6 +339,10 @@ button {
     font-size: 1.5em;
   }
 
+  h2 {
+    font-size: 2.25em !important;
+  }
+
   .buttons {
     margin-top: 30%;
     padding: 0 1em;
