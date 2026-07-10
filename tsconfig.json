@@ -30,5 +30,5 @@
     "skipLibCheck": true,
     "paths": { "#*": ["./src/common/*"] }
   },
-  "exclude": ["tmp-three"]
+  "exclude": ["tmp-three", "tests", "playwright.config.ts"]
 }
