@@ -4,8 +4,7 @@ import type {
   RunUpgradeType,
   UpgradablePermanentParameters,
 } from '#types';
-import { RUN_UPGRADE_TYPES } from '#types';
-import { formatNumber, getEl, parseNumber } from '#utils';
+import { formatNumber, getEl } from '#utils';
 
 import {
   getUpgradablePermanentParameters,
@@ -177,22 +176,6 @@ export function applyRunUpgrade(
 
   const valueFn = RUN_UPGRADE_FUNCTIONS[type].value;
   return valueFn(value, level);
-}
-
-export function parseUpgrades(data: unknown): RunUpgradeLevels {
-  if (data == null) return {};
-  if (typeof data !== 'object') {
-    throw new TypeError('malformed run upgrade levels data');
-  }
-
-  const retval: RunUpgradeLevels = {};
-  for (const [key, value] of Object.entries(data)) {
-    if (!RUN_UPGRADE_TYPES.includes(key as RunUpgradeType)) {
-      throw new TypeError(`unknown upgrade type ${key}`);
-    }
-    retval[key as RunUpgradeType] = parseNumber(value);
-  }
-  return retval;
 }
 
 function pricePrecision(base: number, n: number) {

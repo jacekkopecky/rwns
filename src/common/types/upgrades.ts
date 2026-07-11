@@ -1,3 +1,5 @@
+import { parseNumber } from '#utils';
+
 export const RUN_UPGRADE_TYPES = ['players', 'damage', 'rate'] as const;
 export type RunUpgradeType = (typeof RUN_UPGRADE_TYPES)[number];
 
@@ -40,4 +42,20 @@ export interface UpgradablePermanentParameters {
   playerHitPoints: number;
   playerShotsPerSecond: number;
   startingPlayers: number;
+}
+
+export function parseUpgrades(data: unknown): RunUpgradeLevels {
+  if (data == null) return {};
+  if (typeof data !== 'object') {
+    throw new TypeError('malformed run upgrade levels data');
+  }
+
+  const retval: RunUpgradeLevels = {};
+  for (const [key, value] of Object.entries(data)) {
+    if (!RUN_UPGRADE_TYPES.includes(key as RunUpgradeType)) {
+      throw new TypeError(`unknown upgrade type ${key}`);
+    }
+    retval[key as RunUpgradeType] = parseNumber(value);
+  }
+  return retval;
 }
