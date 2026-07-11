@@ -1,13 +1,14 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const isCI = Boolean(process.env.CI);
+
 export default defineConfig({
   testDir: './tests',
   testMatch: /.*\.spec\.ts/,
   fullyParallel: true,
-  forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
-  reporter: 'html',
+  forbidOnly: isCI,
+  retries: isCI ? 2 : 0,
+  reporter: 'list',
   timeout: 60000,
   expect: {
     timeout: 10000,
@@ -18,9 +19,10 @@ export default defineConfig({
   },
   projects: [
     {
-      name: 'chromium',
+      name: 'Desktop Chrome',
       use: {
         ...devices['Desktop Chrome'],
+        channel: isCI ? undefined : 'chrome',
         viewport: { width: 432, height: 960 },
         deviceScaleFactor: 2.5,
         isMobile: true,

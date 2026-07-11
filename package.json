@@ -9,10 +9,11 @@
   "scripts": {
     "start": "vite --host 0.0.0.0",
     "build": "VITE_BUILD_VERSION=`/bin/echo -n $(date '+%Y-%m-%d %H:%M') \"($(git rev-parse --short HEAD))\"` vite build",
-    "build-and-commit": "npm test && test -z \"`git status --porcelain --untracked-files=no`\" && npm run build && git add docs && git commit -m ':rocket:' || echo 'FAILED: something not right'",
-    "test": "npm run lint && npm run type-check && vitest run",
+    "build-and-commit": "npm run test-all && test -z \"`git status --porcelain --untracked-files=no`\" && npm run build && git add docs && git commit -m ':rocket:' || echo 'FAILED: something not right'",
+    "test-all": "npm run test && npm run test:e2e",
+    "test": "npm run lint && npm run type-check && vitest run src/",
     "test:e2e": "playwright test",
-    "type-check": "tsc --noEmit -p tsconfig.src.json -p tsconfig.tests.json",
+    "type-check": "tsc --noEmit -p tsconfig.src.json && tsc --noEmit -p tsconfig.tests.json",
     "lint": "prettier -c . && eslint --ext .ts,.tsx src",
     "lint-fix": "eslint --ext .ts,.tsx src --fix"
   },
