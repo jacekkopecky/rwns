@@ -24,7 +24,7 @@ body {
   width: 100svw;
   display: flex;
   flex-direction: column;
-  font-family: sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 3.5vmin;
 }
 
