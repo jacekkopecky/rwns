@@ -2,14 +2,14 @@
  * This is the code that controls fullscreen behaviour and the splash screen.
  */
 
-import { fillOrHide, getEl } from '#utils';
+import { fillOrHide, getEl, isDev } from '#utils';
 
 import { warmup } from './run';
 import { init as initSections, isSectionActive, showSection } from './sections';
 
 let useFullscreen = true;
 
-if (import.meta.env.DEV) {
+if (isDev()) {
   if (window.location.host.includes('localhost')) useFullscreen = false;
 }
 
