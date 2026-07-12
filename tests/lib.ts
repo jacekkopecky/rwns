@@ -2,13 +2,18 @@ import { expect, type Page } from '@playwright/test';
 
 import type { SerializedState } from '#types/state';
 
-import { LOCAL_STORAGE_KEY } from '../src/state/constants';
+interface InitOptions {
+  state?: Partial<SerializedState>;
+  time?: string;
+}
 
 /**
  * Instrument the game with custom state (if given), console message forwarder,
  * and disabling all CSS transitions and animations.
  */
-export async function initializePage(page: Page, state: Partial<SerializedState> = {}) {
+export async function initializePage(page: Page, options: InitOptions = {}) {
+  const { state = {}, time } = options;
+
   // pipe console messages
   page.on('console', (msg) => {
     const type = msg.type();
@@ -19,20 +24,28 @@ export async function initializePage(page: Page, state: Partial<SerializedState>
   });
 
   // initialize state localStorage
-  await page.addInitScript(
-    ([key, state]) => {
-      // set local state
-      localStorage.setItem(key, JSON.stringify(state));
+  await page.addInitScript((state) => {
+    const key =
+      'test_run_' +
+      new Date().toISOString() +
+      (Math.random() * 1000000).toFixed(0).padStart(6, '0');
 
-      // tell the page to use splash screen
-      window.RWNS_TESTS = true;
+    // set local state
+    window.RWNS_LOCAL_STORAGE_KEY = key;
+    localStorage.setItem(key, JSON.stringify(state));
 
-      // forcefully disable animations
-      // it doesn't seem to trigger without the delay
-      setTimeout(() => document.body.classList.add('TESTING'), 100);
-    },
-    [LOCAL_STORAGE_KEY, state] as const,
-  );
+    // tell the page to use splash screen
+    window.RWNS_TESTS = true;
+
+    // forcefully disable animations
+    // it doesn't seem to trigger without the delay
+    setTimeout(() => document.body.classList.add('TESTING'), 100);
+  }, state);
+
+  if (time) {
+    // install fake clock to a fixed date
+    await page.clock.install({ time });
+  }
 }
 
 export async function waitForVersion(page: Page) {

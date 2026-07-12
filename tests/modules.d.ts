@@ -6,5 +6,6 @@ declare global {
   interface Window {
     gameState: ReadonlyState;
     RWNS_TESTS?: boolean;
+    RWNS_LOCAL_STORAGE_KEY?: string;
   }
 }
