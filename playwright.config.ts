@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const isCI = Boolean(process.env.CI);
+const isMultiCPU = Boolean(process.env.TEST_WITH_MULTIPLE_WORKERS);
 
 export default defineConfig({
   testDir: './tests',
@@ -8,6 +9,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: isCI,
   retries: isCI ? 2 : 0,
+  workers: isMultiCPU ? undefined! : 1,
   reporter: 'list',
   timeout: 60000,
   expect: {

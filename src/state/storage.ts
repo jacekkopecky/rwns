@@ -1,15 +1,19 @@
 import { CARDS, CURRENCIES, parseUpgrades, Wallet, type State } from '#types';
 import { getToday, parseNumber, parseString, parseStringArray } from '#utils';
 
-import { LOCAL_STORAGE_KEY } from './constants';
 import { _state } from './state';
 
+// we have to get it on every use so that tests can give us a different one
+function getLocalStorageKey() {
+  return window.RWNS_LOCAL_STORAGE_KEY || 'rwns-game-state';
+}
+
 export function saveState() {
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(_state));
+  localStorage.setItem(getLocalStorageKey(), JSON.stringify(_state));
 }
 
 export function loadState(): State | null {
-  const dataString = localStorage.getItem(LOCAL_STORAGE_KEY);
+  const dataString = localStorage.getItem(getLocalStorageKey());
 
   if (!dataString) {
     return null;
@@ -31,7 +35,7 @@ export function loadState(): State | null {
       startDate: parseString(data.startDate, getToday()),
     } satisfies Required<State>;
   } catch (e) {
-    const newKey = LOCAL_STORAGE_KEY + new Date().toISOString();
+    const newKey = getLocalStorageKey() + new Date().toISOString();
     localStorage.setItem(newKey, dataString);
     console.warn(`cannot read state, saving in "${newKey}"`, e);
     return null;

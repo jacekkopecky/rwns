@@ -5,9 +5,11 @@ import { initializePage, startGame } from './lib';
 test.describe('Main Screen Upgrades', () => {
   test('should allow player, rate and damage upgrades at level 30', async ({ page }) => {
     await initializePage(page, {
-      level: 30,
-      energy: 100,
-      wallet: { wallet: { coin: 1000 } },
+      state: {
+        level: 30,
+        energy: 100,
+        wallet: { wallet: { coin: 1000 } },
+      },
     });
 
     await page.goto('./');
