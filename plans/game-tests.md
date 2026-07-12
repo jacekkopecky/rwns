@@ -1,0 +1,160 @@
+# High-Level Proposal: Game Functionality & Integration Tests for RWNS
+
+This document outlines a comprehensive proposal for functional, integration, and unit tests for the
+RWNS game codebase.
+
+In alignment with the testing philosophy in `TESTING.md`:
+
+- **Functional & Integration Tests** will run via Playwright in the `tests/` directory to verify
+  core game logic, screen transitions, and state changes via the user interface.
+- **Smaller Functionality & Unit Tests** will run via Vitest in the `src/` directory to test
+  mathematical calculations, state updates, and Three.js internal behaviors.
+- Visual regression and performance tests are excluded from this proposal.
+
+---
+
+## 1. Daily Gift Screen & Spinner Flow
+
+### User-Facing GUI Integration Tests (Playwright)
+
+- **Daily Gift Popup Trigger & Suppression:**
+  - _Test Scenario:_ When the page is loaded and a game starts, if `lastDailyGiftGiven` in the state
+    is older than today, the Daily Gift popup (`#dailyGift`) must automatically be displayed after a
+    1-second delay upon entering the main screen.
+  - _Test Scenario:_ If `lastDailyGiftGiven` is set to today's date, the Daily Gift popup must _not_
+    appear.
+- **Spinner Spinning & Award Resolution:**
+  - _Test Scenario:_ On the Daily Gift screen, clicking anywhere on the screen starts the spin. The
+    spinner adds the `.spinning` CSS class and disables further clicks from starting another spin.
+  - _Test Scenario:_ Once the spin is finished, the award (coins, gems, energy, or cards) is
+    granted, and the top-bar wallet updates.
+  - _Test Scenario:_ A subsequent click on the screen while the spinner is idle/finished closes the
+    popup and navigates back to the Main Screen.
+- **Spin-Again Interaction:**
+  - _Test Scenario:_ If the spinner lands on the "spin again" prize, the user is permitted to spin
+    one more time. The state `lastDailyGiftGiven` must _not_ be updated yet until a permanent prize
+    is won.
+
+### Internal Functionality & Unit Tests (Vitest / Internal State)
+
+- **Probability Weighting and Prize Selection:**
+  - _Test Scenario:_ Test `get12AvailablePrizes()` and `pickWeightedItem()` to ensure distribution
+    matches expected mathematical weights under multiple simulated outcomes.
+  - _Test Scenario:_ Ensure that if player has < 20 coins, only coin prizes are selectable
+    (anti-softlock logic).
+- **State Updates:**
+  - _Test Scenario:_ Verify calling `setDailyGiftGivenToday()` correctly updates the state's
+    `lastDailyGiftGiven` string to the current date in YYYY-MM-DD format.
+
+---
+
+## 2. Main Screen & Upgrades
+
+### User-Facing GUI Integration Tests (Playwright)
+
+- **Upgrade Button Cost & Level Display:**
+  - _Test Scenario:_ Verify that upgrade buttons (rate, damage, players) initially show "Level 1"
+    (internal level 0 + 1) and correctly display their respective purchase costs in coins.
+  - _Test Scenario:_ If the player's wallet balance is lower than an upgrade's cost, the upgrade
+    button must have the `.disabled` class applied and be unclickable.
+- **Successful Upgrade Purchase Flow:**
+  - _Test Scenario:_ Click an active upgrade button (e.g., "rate"). Verify that:
+    1. Coins are deducted from the top-bar wallet (with animation).
+    2. The displayed level increases to "Level 2".
+    3. The button updates its next level cost.
+    4. Internal state `runUpgradeLevels` is correctly set.
+- **Maximum Level Cap Handling:**
+  - _Test Scenario:_ When an upgrade level reaches its max allowed level (calculated from active
+    cards/parameters), the button becomes permanently disabled and shows a "MAX" label instead of a
+    coin cost.
+
+### Internal Functionality & Unit Tests (Vitest)
+
+- **State Persistence:**
+  - _Test Scenario:_ Verify `increaseRunUpgradeLevel()` and `setRunUpgradeLevel()` correctly modify
+    the active state and save changes to `localStorage` under the `rwns-game-state` key.
+- **Cost Calculations:**
+  - _Test Scenario:_ Unit test for price multiplier calculations to ensure cost scaling functions as
+    expected based on current card benefits and permanent parameter upgrades.
+
+---
+
+## 3. Core Run Mechanics (Game Session)
+
+### User-Facing GUI Integration Tests (Playwright)
+
+- **Run Initiation & Energy Consumption:**
+  - _Test Scenario:_ Clicking on the WebGL canvas when the main screen is active starts a run,
+    transitioning the visible section to `#run` (removing the `inactive` class).
+  - _Test Scenario:_ Verify starting a run deducts exactly 1 energy point from the energy bar. If
+    energy is 0, clicking the canvas does _not_ start a run.
+- **Run Screen Termination (Win / Loss UI Screens):**
+  - _Test Scenario:_ When a run ends in a loss (all players dead), the Retry popup screen must be
+    displayed. Clicking "Retry" must transition the player back to the Main Screen.
+  - _Test Scenario:_ When a run ends in a win (all obstacles destroyed), the Next Level popup must
+    be displayed. Clicking "Next Level" must increment the player's level, reset temporary run
+    upgrades, and transition back to the Main Screen.
+- **In-Run Quit Flow:**
+  - _Test Scenario:_ Clicking the "Quit" button (`#quitBtn`) during an active run aborts the run,
+    registers a play count increase (`played` counter incremented), and safely transitions back to
+    the Main Screen.
+
+### Internal Functionality & Unit Tests (Vitest / Internals)
+
+- **Player Position Movement:**
+  - _Test Scenario:_ Simulate TouchHandler `onMoveBy` events and verify `updatePlayerPosition()`
+    correctly constraints player coordinates within track bounds (using `dim.trackWidth`).
+- **Collision Detection and Damage Engine:**
+  - _Test Scenario:_ Inject mock obstacles and bullet objects into the Three.js scene and verify
+    `checkPlayersHit()` and `movePlayerBullets()` apply correct hit points and remove dead entities.
+- **Gem and Score Collection:**
+  - _Test Scenario:_ Verifying that colliding with a Gem object increments `collectedGemIds` in the
+    run state, and that upon winning/finishing, those gems are officially added to the persistent
+    wallet.
+
+---
+
+## 4. Settings & Section Navigation
+
+### User-Facing GUI Integration Tests (Playwright)
+
+- **Section Transition Isolation (Inertness & Inactive class):**
+  - _Test Scenario:_ Verify that only the active section is responsive. All other sections must have
+    the `inactive` class applied and their `inert` HTML attribute set to `true`.
+- **Reset State Functionality:**
+  - _Test Scenario:_ Open the Settings screen, click the "Reset Game" button. Verify that:
+    1. Local state is reset to default values.
+    2. `localStorage` is cleared of old state data.
+    3. Wallet, levels, and cards displays on the Main Screen return to their default starting
+       states.
+
+### Internal Functionality & Unit Tests (Vitest)
+
+- **Volume Settings State Mapping:**
+  - _Test Scenario:_ Modifying volume slider settings in the GUI updates the corresponding state
+    parameters and scales audio output volume proportionally.
+
+---
+
+## 5. Card & Deck System
+
+### User-Facing GUI Integration Tests (Playwright)
+
+- **Cards Section Loading:**
+  - _Test Scenario:_ Clicking on the cards shortcut from the Main Screen transitions the view to the
+    `#cards` section, displaying a list of all available card types.
+- **Card Upgrading / Purchase Action:**
+  - _Test Scenario:_ If player has sufficient gems, clicking on a card pack or card upgrade button
+    deducts the gem cost from the wallet and increases the card count/level.
+  - _Test Scenario:_ If gems are insufficient, the purchase/upgrade buttons must be rendered
+    disabled.
+
+### Internal Functionality & Unit Tests (Vitest)
+
+- **Permanent Parameter Calculations:**
+  - _Test Scenario:_ Test `getUpgradablePermanentParameters()` outputs correct values across various
+    level permutations of card owned configurations (e.g., damage upgrades, initial health, start
+    players, bulk buying rates).
+- **Level Mapping:**
+  - _Test Scenario:_ Verify `lookupLevelByNumberOfCards()` returns correct levels based on the
+    cumulative owned cards of any type.
