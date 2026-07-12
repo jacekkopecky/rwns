@@ -10,27 +10,27 @@ i.i {
   background-color: purple;
 
   &.gem {
-    background-image: url('assets/gem.svg');
+    background-image: url('../gem.svg');
     background-color: unset;
   }
 
   &.coins {
-    background-image: url('assets/coins.svg');
+    background-image: url('../coins.svg');
     background-color: unset;
   }
 
   &.cards-icon {
-    background-image: url('assets/cards.svg');
+    background-image: url('../cards.svg');
     background-color: unset;
   }
 
   &.energy {
-    background-image: url('assets/energy.svg');
+    background-image: url('../energy.svg');
     background-color: unset;
   }
 
   &.cross {
-    background-image: url('assets/cross.svg');
+    background-image: url('../cross.svg');
     background-color: unset;
   }
 }
