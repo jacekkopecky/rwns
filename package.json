@@ -12,7 +12,9 @@
     "build-and-commit": "npm run test-all && test -z \"`git status --porcelain --untracked-files=no`\" && npm run build && git add docs && git commit -m ':rocket:' || echo 'FAILED: something not right'",
     "test-all": "npm run test && npm run test:e2e",
     "test": "npm run lint && npm run type-check && vitest run src/",
+    "test-watch": "vitest src/",
     "test:e2e": "playwright test",
+    "test:e2e-watch": "node --watch --watch-path=index.html --watch-path=assets --watch-path=src --watch-path=tests ./node_modules/.bin/playwright test",
     "type-check": "tsc --noEmit -p tsconfig.src.json && tsc --noEmit -p tsconfig.tests.json",
     "lint": "prettier -c . && eslint --ext .ts,.tsx src",
     "lint-fix": "eslint --ext .ts,.tsx src --fix"

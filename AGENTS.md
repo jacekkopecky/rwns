@@ -10,6 +10,7 @@
 - Do NOT commit any changes in `docs/` because those files are built separately and manually, when a
   release is ready.
 - Do NOT add comments that are clear from the context.
+- Use lowercase starting letter in single-sentence comments, and no ending period.
 
 ## Testing instructions
 
