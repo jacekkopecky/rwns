@@ -22,6 +22,8 @@
 - Fix any test or type errors until the whole suite passes.
 - Add tests for new code, even if nobody asked.
 
+See the file `./TESTING.md` for information about the approach to testing here.
+
 ## PR instructions
 
 - Always run `npm run test-all` before committing.

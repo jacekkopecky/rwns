@@ -5,6 +5,8 @@ This is a game that was inspired by Timeline Up, which I played without spending
 Runs on [github pages](https://jacekkopecky.github.io/rwns). Intended to run on a portrait-oriented
 mobile screen.
 
+See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
+
 ## todo
 
 - [ ] the sectionButtons container should be renamed to 'leftSectionButtons', and then please add a
@@ -28,6 +30,7 @@ mobile screen.
       - B2B?
       - gate with gem above it?
   - phase 3: add a gem award where the gem is part of the final gate (floating above it)
+    - also use a different prng seed every time you succeed
   - phase 4: make this available every now and then, playable once
     - state.sideGames.backToBasics.lastPlayed?
     - feature allowed from level 50?
@@ -332,6 +335,12 @@ mobile screen.
 - [ ] add support for wider screens, landscape mode?
 
 ---
+
+## done by 2026-07-12
+
+- [x] let AI suggest a playwright test for main screen and another for a run
+  - Jules is on it
+  - cleaned up afterwards, works nicely
 
 ## done by 2026-07-09
 
