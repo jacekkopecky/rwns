@@ -37,7 +37,7 @@ export function init() {
 let currentPrizes: Prize[] = [];
 let currentPrize: Prize | undefined;
 let spinningAgain = false;
-let spinTimeout: number | null = null;
+let spinTimeout: ReturnType<typeof setTimeout> | null = null;
 
 export function showDailyGiftScreen() {
   currentPrizes = get12AvailablePrizes();

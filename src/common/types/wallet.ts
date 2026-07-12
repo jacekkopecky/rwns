@@ -3,8 +3,14 @@ export type ReadonlyWallet<T extends string> = Pick<
   'read' | 'readAll' | 'entries' | 'currencies'
 >;
 
+type InternalWalletType<T extends string> = Partial<Record<T, number>>;
+
+export interface SerializedWallet<T extends string> {
+  wallet: InternalWalletType<T>;
+}
+
 export class Wallet<T extends string = string> {
-  private wallet: Partial<Record<T, number>> = {};
+  private wallet: InternalWalletType<T> = {};
 
   constructor(
     public readonly currencies: readonly T[],

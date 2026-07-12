@@ -1,5 +1,5 @@
 import * as dim from '#dimensions';
-import type { CardType, ReadonlyState } from '#types';
+import { CARDS, type CardType, type ReadonlyState } from '#types';
 import {
   animateValue,
   fillWalletEls,
@@ -21,7 +21,7 @@ import {
 
 import { getCardLevel, type CardLevelData } from './levels';
 import { selectNextRandomCard } from './next-card';
-import { cardDefinitions, CARDS, RARITIES, type CardDefinition } from './types';
+import { cardDefinitions, RARITIES, type CardDefinition } from './types';
 
 const el = {
   cardsSection: getEl('#cards'),

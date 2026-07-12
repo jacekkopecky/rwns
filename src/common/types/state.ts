@@ -2,7 +2,7 @@ import type { CardType } from './cards';
 import type { CurrencyType } from './currencies';
 import type { RunUpgradeLevels, RunUpgradeType } from './upgrades';
 import type { DeepReadonly } from './utils';
-import type { ReadonlyWallet, Wallet } from './wallet';
+import type { ReadonlyWallet, SerializedWallet, Wallet } from './wallet';
 
 export interface State {
   level: number;
@@ -20,6 +20,11 @@ export interface State {
 export type ReadonlyState = Omit<DeepReadonly<State>, 'wallet' | 'cards'> & {
   wallet: ReadonlyWallet<CurrencyType>;
   cards: ReadonlyWallet<CardType>;
+};
+
+export type SerializedState = Omit<DeepReadonly<State>, 'wallet' | 'cards'> & {
+  wallet: SerializedWallet<CurrencyType>;
+  cards: SerializedWallet<CardType>;
 };
 
 export type Feature =

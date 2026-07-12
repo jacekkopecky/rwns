@@ -45,7 +45,7 @@ function showEnergy(nextEnergyMs: number | null, energy: number) {
   }
 }
 
-let counterInterval: number | null = null;
+let counterInterval: ReturnType<typeof setTimeout> | null = null;
 let counterNextCheck = 0;
 let counterNextEnergyTime = -1;
 let counterEnergyValue = -1;

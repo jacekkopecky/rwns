@@ -1,5 +1,6 @@
 import * as dim from '#dimensions';
 import type { UpgradablePermanentParameters } from '#types';
+import { isDev } from '#utils';
 
 import { _state } from './state';
 import { saveState } from './storage';
@@ -32,7 +33,7 @@ export function addEnergy(n = 1) {
 }
 
 export function subtractEnergy(params: UpgradablePermanentParameters): boolean {
-  if (_state.energy === Infinity || import.meta.env.DEV) {
+  if (_state.energy === Infinity || isDev()) {
     return true;
   }
 

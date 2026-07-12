@@ -1,11 +1,21 @@
-@import '/assets/css/daily-gift.css';
-@import '/assets/css/settings.css';
+@import './daily-gift.css';
+@import './images.css';
+@import './settings.css';
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   user-select: none;
+}
+
+body.TESTING {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
 }
 
 body {
@@ -47,6 +57,10 @@ header {
   #version {
     position: absolute;
     bottom: 0;
+  }
+
+  body:not(.showingSplashScreen) & {
+    visibility: hidden;
   }
 }
 
@@ -129,6 +143,10 @@ main {
 
   &.inactive {
     opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 1s ease-in-out,
+      visibility 1s 1s;
   }
 
   color: black;
@@ -305,6 +323,10 @@ button {
     .inactive &,
     .endRun & {
       opacity: 0;
+      visibility: hidden;
+      transition:
+        opacity 1s ease-in-out,
+        visibility 1s 1s;
     }
   }
 
@@ -320,6 +342,10 @@ button {
 
     .topBar {
       opacity: 0;
+      visibility: hidden;
+      transition:
+        opacity 1s ease-in-out,
+        visibility 1s 1s;
     }
   }
 }
@@ -361,12 +387,10 @@ button {
   &:not(.visible) {
     opacity: 0;
     pointer-events: none;
-
-    /* disable the buttons from tab order on main screen */
-    .buttons {
-      visibility: hidden;
-      transition: visibility 1s 1s;
-    }
+    visibility: hidden;
+    transition:
+      opacity 1s ease-in-out,
+      visibility 1s 1s;
 
     &,
     & * {

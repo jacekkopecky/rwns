@@ -64,7 +64,7 @@ export function startPlaying() {
   }
 }
 
-let dailyGiftTimeout: number | null = null;
+let dailyGiftTimeout: ReturnType<typeof setTimeout> | null = null;
 
 export function showMainScreen() {
   if (dailyGiftTimeout) clearTimeout(dailyGiftTimeout);

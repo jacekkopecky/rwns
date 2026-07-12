@@ -10,15 +10,18 @@
 - Do NOT commit any changes in `docs/` because those files are built separately and manually, when a
   release is ready.
 - Do NOT add comments that are clear from the context.
+- Use lowercase starting letter in single-sentence comments, and no ending period.
 
 ## Testing instructions
 
 - To inspect it visually, use mobile emulation with portrait-mode screen.
-- To run all tests, run `npm test`
-- To focus on one test, add the Vitest pattern: `npx vitest run -t "<test name>"`.
+- To run all tests, run `npm run test-all`
+- To focus on one unit test, add the Vitest pattern: `npx vitest run -t "<test name>"`.
+- To focus on one playwright test file, add the playwright pattern:
+  `npx playwright test "tests/<file-name>"`.
 - Fix any test or type errors until the whole suite passes.
 - Add tests for new code, even if nobody asked.
 
 ## PR instructions
 
-- Always run `npm test` before committing.
+- Always run `npm run test-all` before committing.

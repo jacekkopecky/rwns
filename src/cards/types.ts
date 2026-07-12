@@ -1,5 +1,5 @@
 import * as dim from '#dimensions';
-import type { UpgradablePermanentParameters } from '#types';
+import type { CardType, UpgradablePermanentParameters } from '#types';
 
 import { getCardsToLevel } from './levels';
 import * as t from './templates';
@@ -32,7 +32,7 @@ export type CardTemplate = Omit<
 >;
 
 // prettier-ignore
-export const cardDefinitions = {
+export const cardDefinitions: Record<CardType, CardDefinition> = {
   _test: card({
     cardsToGive: 40, // level 12
     minPlayerLevel: Infinity, // make sure the card is never awarded
@@ -76,7 +76,7 @@ export const cardDefinitions = {
 
   troop1: tLegendary(50, 'Good Friends   ', t.startPlayers,  dim.upgradeMaxCardMaxLevel ),
   troop2: tLegendary(99, 'Popularity Pill', t.maxPlayers,    dim.upgradeMaxCardMaxLevel ),
-} as const;
+};
 
 // todo cards
 //   - rare:
@@ -91,8 +91,6 @@ export const cardDefinitions = {
 //   - legendary
 //     - sapphire hail makes it possible to get a level where all trees become gems (every n-th level?)
 //       - on leveling, it makes your current level like that
-
-export const CARDS = Object.keys(cardDefinitions) as (keyof typeof cardDefinitions)[];
 
 // makes it simpler to type-check the creation of cardDefinitions
 function card(defn: CardDefinition): CardDefinition {

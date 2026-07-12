@@ -1,11 +1,8 @@
-import { CARDS, CURRENCIES, Wallet, type State } from '#types';
+import { CARDS, CURRENCIES, parseUpgrades, Wallet, type State } from '#types';
 import { getToday, parseNumber, parseString, parseStringArray } from '#utils';
 
-import { parseUpgrades } from '../main-screen';
-
+import { LOCAL_STORAGE_KEY } from './constants';
 import { _state } from './state';
-
-const LOCAL_STORAGE_KEY = 'rwns-game-state';
 
 export function saveState() {
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(_state));
@@ -30,7 +27,7 @@ export function loadState(): State | null {
       collectedGemIds: parseStringArray(data.collectedGemIds),
       played: parseNumber(data.played, 0),
       lastEnergyGiven: parseNumber(data.lastEnergyGiven, Date.now()),
-      lastDailyGiftGiven: parseString(data.lastDailyGiftGiven, ''),
+      lastDailyGiftGiven: parseString(data.lastDailyGiftGiven, getToday()),
       startDate: parseString(data.startDate, getToday()),
     } satisfies Required<State>;
   } catch (e) {

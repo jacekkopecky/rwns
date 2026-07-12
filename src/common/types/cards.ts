@@ -1,4 +1,34 @@
-import { CARDS } from '../../cards';
+export const CARDS = [
+  '_test',
+  'range1',
+  'range2',
+  'range3',
+  'rate1',
+  'rate2',
+  'rate3',
+  'damage1',
+  'damage2',
+  'damage3',
+  'coins1',
+  'coins2',
+  'coins3',
+  'coins4',
+  'coins5',
+  'endCoins1',
+  'endCoins2',
+  'endCoins3',
+  'endCoins4',
+  'endCoins5',
+  'energy1',
+  'maxDmg',
+  'maxRate',
+  'coinsR1',
+  'endCoinsR1',
+  'startDmg',
+  'startRate',
+  'gems1',
+  'troop1',
+  'troop2',
+] as const;
 
-export { CARDS };
 export type CardType = (typeof CARDS)[number];

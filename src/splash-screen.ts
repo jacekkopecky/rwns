@@ -2,21 +2,22 @@
  * This is the code that controls fullscreen behaviour and the splash screen.
  */
 
-import { fillOrHide, getEl } from '#utils';
+import { fillOrHide, getEl, isDev } from '#utils';
 
 import { warmup } from './run';
 import { init as initSections, isSectionActive, showSection } from './sections';
 
 let useFullscreen = true;
 
-if (import.meta.env.DEV) {
+if (isDev()) {
   if (window.location.host.includes('localhost')) useFullscreen = false;
 }
 
 const el = {
-  startBtn: getEl('#startBtn'),
+  startBtn: getEl('#startBtn', HTMLButtonElement),
   exitBtn: getEl('#exitBtn'),
   main: getEl('main'),
+  body: getEl('body'),
   version: getEl('#version'),
 };
 
@@ -38,6 +39,7 @@ export function init() {
   }
 
   fillOrHide(el.version, (import.meta.env.VITE_BUILD_VERSION ?? 'unknown') as string);
+  el.startBtn.disabled = false;
 
   // disable context menu
   document.addEventListener('contextmenu', (e) => e.preventDefault());
@@ -71,9 +73,9 @@ function updateSplashScreen() {
 }
 
 export function isOnSplashScreen() {
-  return useFullscreen && el.main.classList.contains('showingSplashScreen');
+  return useFullscreen && el.body.classList.contains('showingSplashScreen');
 }
 
 function updateIsOnSplashScreen(value: boolean) {
-  el.main.classList.toggle('showingSplashScreen', value);
+  el.body.classList.toggle('showingSplashScreen', value);
 }
