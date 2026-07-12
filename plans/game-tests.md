@@ -1,14 +1,12 @@
 # High-Level Proposal: Game Functionality & Integration Tests for RWNS
 
-This document outlines a comprehensive proposal for functional, integration, and unit tests for the
-RWNS game codebase.
+This document outlines a comprehensive proposal for functional and integration tests for the RWNS
+game codebase.
 
 In alignment with the testing philosophy in `TESTING.md`:
 
 - **Functional & Integration Tests** will run via Playwright in the `tests/` directory to verify
   core game logic, screen transitions, and state changes via the user interface.
-- **Smaller Functionality & Unit Tests** will run via Vitest in the `src/` directory to test
-  mathematical calculations, state updates, and Three.js internal behaviors.
 - Visual regression and performance tests are excluded from this proposal.
 
 ---
@@ -17,40 +15,49 @@ In alignment with the testing philosophy in `TESTING.md`:
 
 ### User-Facing GUI Integration Tests (Playwright)
 
-- **Daily Gift Popup Trigger & Suppression:**
-  - _Test Scenario:_ When the page is loaded and a game starts, if `lastDailyGiftGiven` in the state
-    is older than today, the Daily Gift popup (`#dailyGift`) must automatically be displayed after a
-    1-second delay upon entering the main screen.
+- [x] **Daily Gift Popup Trigger & Suppression:**
+  - File name: `tests/daily-gift.spec.ts`
+  - _Test Scenario:_ When the page is loaded and a game starts in level 10, if `lastDailyGiftGiven`
+    in the state is doesn't match today, the Daily Gift popup (`#dailyGift`) must automatically be
+    displayed after a short delay upon entering the main screen.
   - _Test Scenario:_ If `lastDailyGiftGiven` is set to today's date, the Daily Gift popup must _not_
     appear.
-- **Spinner Spinning & Award Resolution:**
-  - _Test Scenario:_ On the Daily Gift screen, clicking anywhere on the screen starts the spin. The
-    spinner adds the `.spinning` CSS class and disables further clicks from starting another spin.
-  - _Test Scenario:_ Once the spin is finished, the award (coins, gems, energy, or cards) is
-    granted, and the top-bar wallet updates.
-  - _Test Scenario:_ A subsequent click on the screen while the spinner is idle/finished closes the
-    popup and navigates back to the Main Screen.
-- **Spin-Again Interaction:**
+  - _Test Scenario:_ When the page is loaded and a game starts in level 4, if `lastDailyGiftGiven`
+    in the state is doesn't match today, the Daily Gift popup (`#dailyGift`) must _not_
+    automatically appear.
+- [ ] **Spinner Spinning & Award Resolution:**
+  - File name: `tests/daily-gift.spec.ts`
+  - _Test Scenario:_ On the Daily Gift screen in level 10, clicking anywhere on the screen starts
+    the spin. The spinner adds the `.spinning` CSS class. When the spin finishes (the `.spinning`
+    class is removed), a further click anywhere takes the user to main screen with an updated state.
+    Once on the main screen, the award (coins, gems, energy, or cards) is granted, and the top-bar
+    wallet updates.
+    - sub-scenarios: the test should check that money (gift 1, starting from 0), energy (gift 2),
+      and gem (gift 3) is correctly added.
+    - mocks: mock the function `pickWeightedItem()` to select the correct gift. Also mock timers so
+      as not to have to wait for the spinning to finish. Also mock `animateValue()` to do nothing so
+      that the wallet is updated immediately and the test doesn't have to wait for the animation to
+      finish.
+  - _Test Scenario:_ On the Daily Gift screen in level 10, clicking anywhere on the screen starts
+    the spin. The spinner adds the `.spinning` CSS class. The second click within the spinning time
+    limit stops the spinning but still shows the spinner; the third click then takes the user back
+    to the main screen.
+    - mocks: mock `pickWeightedItem()` to pick gift 1 for this test.
+- [ ] **Spin-Again Interaction:**
+  - File name: `tests/daily-gift.spec.ts`
   - _Test Scenario:_ If the spinner lands on the "spin again" prize, the user is permitted to spin
-    one more time. The state `lastDailyGiftGiven` must _not_ be updated yet until a permanent prize
-    is won.
-
-### Internal Functionality & Unit Tests (Vitest / Internal State)
-
-- **Probability Weighting and Prize Selection:**
-  - _Test Scenario:_ Test `get12AvailablePrizes()` and `pickWeightedItem()` to ensure distribution
-    matches expected mathematical weights under multiple simulated outcomes.
-  - _Test Scenario:_ Ensure that if player has < 20 coins, only coin prizes are selectable
-    (anti-softlock logic).
-- **State Updates:**
-  - _Test Scenario:_ Verify calling `setDailyGiftGivenToday()` correctly updates the state's
-    `lastDailyGiftGiven` string to the current date in YYYY-MM-DD format.
+    one more time. Use the second click to quickly stop the spinning, check that the whole state
+    hasn't changed from how it was before the spin. Check that the subsequent spin causes the state
+    to have a different `lastDailyGiftGiven` and a different content of wallet or energy.
+    - mocks: mock the function `pickWeightedItem()` to select (gift 0).
 
 ---
 
 ## 2. Main Screen & Upgrades
 
 ### User-Facing GUI Integration Tests (Playwright)
+
+todo check first few upgrade level prizes
 
 - **Upgrade Button Cost & Level Display:**
   - _Test Scenario:_ Verify that upgrade buttons (rate, damage, players) initially show "Level 1"
@@ -68,20 +75,14 @@ In alignment with the testing philosophy in `TESTING.md`:
     cards/parameters), the button becomes permanently disabled and shows a "MAX" label instead of a
     coin cost.
 
-### Internal Functionality & Unit Tests (Vitest)
-
-- **State Persistence:**
-  - _Test Scenario:_ Verify `increaseRunUpgradeLevel()` and `setRunUpgradeLevel()` correctly modify
-    the active state and save changes to `localStorage` under the `rwns-game-state` key.
-- **Cost Calculations:**
-  - _Test Scenario:_ Unit test for price multiplier calculations to ensure cost scaling functions as
-    expected based on current card benefits and permanent parameter upgrades.
-
 ---
 
 ## 3. Core Run Mechanics (Game Session)
 
 ### User-Facing GUI Integration Tests (Playwright)
+
+todo add a run recorder and then make a test that takes a recorded run and replays it, expecting a
+similar outcome.
 
 - **Run Initiation & Energy Consumption:**
   - _Test Scenario:_ Clicking on the WebGL canvas when the main screen is active starts a run,

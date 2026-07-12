@@ -134,6 +134,17 @@ _File to test:_ `src/state/daily-gift-state.ts` _Proposed Test File:_
   - Update `_state.lastDailyGiftGiven` to today's date string, call `saveState`, and ensure
     persistence.
 
+todo merge this into above
+
+- **Probability Weighting and Prize Selection:**
+  - _Test Scenario:_ Test `get12AvailablePrizes()` and `pickWeightedItem()` to ensure distribution
+    matches expected mathematical weights under multiple simulated outcomes.
+  - _Test Scenario:_ Ensure that if player has < 20 coins, only coin prizes are selectable
+    (anti-softlock logic).
+- **State Updates:**
+  - _Test Scenario:_ Verify calling `setDailyGiftGivenToday()` correctly updates the state's
+    `lastDailyGiftGiven` string to the current date in YYYY-MM-DD format.
+
 ### C. Feature Unlocks (`features.ts`)
 
 _File to test:_ `src/state/features.ts` _Proposed Test File:_ `src/state/features.test.ts`
