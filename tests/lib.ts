@@ -45,6 +45,7 @@ export async function initializePage(page: Page, options: InitOptions = {}) {
   if (time) {
     // install fake clock to a fixed date
     await page.clock.install({ time });
+    await page.clock.pauseAt(new Date(time));
   }
 }
 

@@ -87,7 +87,18 @@ function countAnimationLoop() {
   setTimeout(countAnimationLoop, animationRateMs);
 }
 
+interface TestingWindow {
+  mockAnimateValue?: (el: HTMLElement, start: number, target: number) => void;
+}
+
 export function animateValue(el: HTMLElement, start: number, target: number) {
+  // support testing mock overrides
+  const testWindow = window as unknown as TestingWindow;
+  if (typeof window !== 'undefined' && testWindow.mockAnimateValue) {
+    testWindow.mockAnimateValue(el, start, target);
+    return;
+  }
+
   const count = animations.getOrInsertComputed(
     el,
     () =>

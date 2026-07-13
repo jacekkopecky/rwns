@@ -147,10 +147,20 @@ export function pickMapWeightedItem<T extends string>(
   return items.at(-1)!;
 }
 
+interface TestingWindow {
+  mockPickWeightedItem?: (items: readonly { value: unknown; weight: number }[]) => unknown;
+}
+
 export function pickWeightedItem<T>(
   items: readonly { value: T; weight: number }[],
   prng = random,
 ): T {
+  // support testing mock overrides
+  const testWindow = window as unknown as TestingWindow;
+  if (typeof window !== 'undefined' && testWindow.mockPickWeightedItem) {
+    return testWindow.mockPickWeightedItem(items) as T;
+  }
+
   if (items.length < 1) {
     throw new Error('cannot pick an item from an empty array');
   }
