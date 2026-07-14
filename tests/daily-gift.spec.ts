@@ -19,17 +19,16 @@ test.describe('Daily Gift Popup Trigger & Suppression', () => {
     await startGame(page);
 
     const mainScreen = page.locator('#mainScreen');
-    await expect(mainScreen).not.toHaveClass('inactive');
+    await expect(mainScreen).not.toContainClass('inactive');
 
     // verify daily gift popup is not active initially (since 1000ms has not passed on the paused clock)
     const dailyGift = page.locator('#dailyGift');
-    await expect(dailyGift).toHaveClass('inactive');
+    await expect(dailyGift).toContainClass('inactive');
 
-    // fast forward clock by 2000ms
-    await page.clock.runFor(2000);
+    await page.clock.fastForward(2000);
 
     // verify daily gift popup is displayed
-    await expect(dailyGift).not.toHaveClass('inactive');
+    await expect(dailyGift).not.toContainClass('inactive');
     // mainScreen doesn't have the inactive class because it's visible under the daily gift
   });
 
@@ -49,18 +48,17 @@ test.describe('Daily Gift Popup Trigger & Suppression', () => {
     await startGame(page);
 
     const mainScreen = page.locator('#mainScreen');
-    await expect(mainScreen).not.toHaveClass('inactive');
+    await expect(mainScreen).not.toContainClass('inactive');
 
     // verify daily gift popup is not active initially
     const dailyGift = page.locator('#dailyGift');
-    await expect(dailyGift).toHaveClass('inactive');
+    await expect(dailyGift).toContainClass('inactive');
 
-    // fast forward clock by 2000ms
-    await page.clock.runFor(2000);
+    await page.clock.fastForward(2000);
 
     // verify daily gift popup is still inactive
-    await expect(dailyGift).toHaveClass('inactive');
-    await expect(mainScreen).not.toHaveClass('inactive');
+    await expect(dailyGift).toContainClass('inactive');
+    await expect(mainScreen).not.toContainClass('inactive');
   });
 
   test("should not display Daily Gift popup at level 4 even if lastDailyGiftGiven doesn't match today", async ({
@@ -79,17 +77,131 @@ test.describe('Daily Gift Popup Trigger & Suppression', () => {
     await startGame(page);
 
     const mainScreen = page.locator('#mainScreen');
-    await expect(mainScreen).not.toHaveClass('inactive');
+    await expect(mainScreen).not.toContainClass('inactive');
 
     // verify daily gift popup is not active initially
     const dailyGift = page.locator('#dailyGift');
-    await expect(dailyGift).toHaveClass('inactive');
+    await expect(dailyGift).toContainClass('inactive');
 
-    // fast forward clock by 2000ms
-    await page.clock.runFor(2000);
+    await page.clock.fastForward(2000);
 
     // verify daily gift popup is still inactive
-    await expect(dailyGift).toHaveClass('inactive');
-    await expect(mainScreen).not.toHaveClass('inactive');
+    await expect(dailyGift).toContainClass('inactive');
+    await expect(mainScreen).not.toContainClass('inactive');
+  });
+});
+
+test.describe('Daily Gift Spinner Spinning & Award Resolution', () => {
+  const subScenarios = [
+    { type: 'coin', pickRandom: 0.1 },
+    { type: 'energy', pickRandom: 0.2 },
+    { type: 'gem', pickRandom: 0.3 },
+  ];
+
+  for (const scenario of subScenarios) {
+    test(`should correctly grant and display ${scenario.type} award`, async ({ page }) => {
+      await initializePage(page, {
+        state: {
+          level: 25, // need level 25 to get gems
+          lastDailyGiftGiven: '2026-01-28',
+          energy: 5,
+          wallet: { wallet: { coin: 100, gem: 3 } },
+        },
+        time: '2026-01-01T12:00:00Z',
+      });
+
+      await page.addInitScript((r) => {
+        Math.random = () => r;
+      }, scenario.pickRandom);
+
+      await page.goto('./');
+      await startGame(page);
+
+      const dailyGift = page.locator('#dailyGift');
+      await page.clock.fastForward(2000);
+      await expect(dailyGift).not.toContainClass('inactive');
+
+      const spinner = dailyGift.locator('.spinner');
+      await expect(spinner).not.toContainClass('spinning');
+
+      // first click starts the spin
+      await dailyGift.click();
+      await expect(spinner).toContainClass('spinning');
+
+      // fast forward 10s to complete spin
+      await page.clock.fastForward(10000);
+      await expect(spinner).not.toContainClass('spinning');
+
+      // click again to close the daily gift screen
+      await dailyGift.click();
+      await expect(dailyGift).toContainClass('inactive');
+
+      const mainScreen = page.locator('#mainScreen');
+      await expect(mainScreen).not.toContainClass('inactive');
+
+      await page.clock.fastForward(1000);
+
+      // verify wallet/top-bar updates correctly
+      if (scenario.type === 'coin') {
+        const coinValueEl = page.locator('#mainWallet .wallet .coin .value');
+        const stateCoin = await page.evaluate(() => window.gameState.wallet.read('coin'));
+        expect(stateCoin).toBeGreaterThan(0);
+        await expect(coinValueEl).toHaveText(String(stateCoin));
+      } else if (scenario.type === 'energy') {
+        const energyValueEl = page.locator('#playStats .energy .value');
+        const stateEnergy = await page.evaluate(() => window.gameState.energy);
+        expect(stateEnergy).toBeGreaterThan(5);
+        await expect(energyValueEl).toHaveText(String(stateEnergy));
+      } else if (scenario.type === 'gem') {
+        const gemValueEl = page.locator('#mainWallet .wallet .gem .value');
+        const stateGem = await page.evaluate(() => window.gameState.wallet.read('gem'));
+        expect(stateGem).toBeGreaterThan(3);
+        await expect(gemValueEl).toHaveText(String(stateGem));
+      }
+    });
+  }
+
+  test('should stop spinning on second click and exit on third click', async ({ page }) => {
+    // initialize page with level 10 and mismatched date
+    await initializePage(page, {
+      state: {
+        level: 10,
+        wallet: { wallet: { coin: 100 } },
+        lastDailyGiftGiven: '2026-01-28',
+      },
+      time: '2026-01-01T12:00:00Z',
+    });
+
+    // pick the last award, definitely not spin-again
+    await page.addInitScript(() => {
+      Math.random = () => 1;
+    });
+
+    await page.goto('./');
+    await startGame(page);
+
+    const dailyGift = page.locator('#dailyGift');
+    await page.clock.fastForward(2000);
+    await expect(dailyGift).not.toContainClass('inactive');
+
+    const spinner = dailyGift.locator('.spinner');
+    await expect(spinner).not.toContainClass('spinning');
+
+    // first click starts the spin
+    await dailyGift.click();
+    await expect(spinner).toContainClass('spinning');
+    await expect(dailyGift).not.toContainClass('inactive');
+
+    // second click immediately stops the spinning but still shows the spinner
+    await dailyGift.click();
+    await expect(spinner).not.toContainClass('spinning');
+    await expect(dailyGift).not.toContainClass('inactive');
+
+    // third click takes the user back to the main screen
+    await dailyGift.click();
+    await expect(dailyGift).toContainClass('inactive');
+
+    const mainScreen = page.locator('#mainScreen');
+    await expect(mainScreen).toContainClass('_active');
   });
 });

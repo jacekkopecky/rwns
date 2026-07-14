@@ -18,6 +18,9 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:5173/rwns/',
     trace: 'on-first-retry',
+    screenshot: {
+      mode: 'only-on-failure',
+    },
   },
   projects: [
     {

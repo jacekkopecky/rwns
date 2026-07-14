@@ -17,7 +17,7 @@ test.describe('Main Screen Upgrades', () => {
 
     // verify we are on main screen
     const mainScreen = page.locator('#mainScreen');
-    await expect(mainScreen).not.toHaveClass(/inactive/);
+    await expect(mainScreen).not.toContainClass('inactive');
 
     // verify level is 30 in UI
     await expect(page.locator('#playStats .level .value')).toHaveText('30');
@@ -32,9 +32,9 @@ test.describe('Main Screen Upgrades', () => {
     const playersBtn = page.locator('#mainScreen .upgradeButtons .players');
 
     // verify buttons are NOT disabled
-    await expect(rateBtn).not.toHaveClass(/disabled/);
-    await expect(damageBtn).not.toHaveClass(/disabled/);
-    await expect(playersBtn).not.toHaveClass(/disabled/);
+    await expect(rateBtn).not.toContainClass('disabled');
+    await expect(damageBtn).not.toContainClass('disabled');
+    await expect(playersBtn).not.toContainClass('disabled');
 
     // initial levels should be "Level 1"
     await expect(rateBtn.locator('.level .value')).toHaveText('Level 1');
@@ -44,7 +44,6 @@ test.describe('Main Screen Upgrades', () => {
     // take initial snapshot of the upgrade buttons section
     await expect(page.locator('#mainScreen .upgradeButtons')).toHaveScreenshot(
       'upgrade-buttons-1.png',
-      { stylePath: './assets/testing/hide-canvas.css' },
     );
 
     let upgradeLevels = await page.evaluate(() => window.gameState.runUpgradeLevels);
@@ -82,7 +81,6 @@ test.describe('Main Screen Upgrades', () => {
     // take final snapshot
     await expect(page.locator('#mainScreen .upgradeButtons')).toHaveScreenshot(
       'upgrade-buttons-2.png',
-      { stylePath: './assets/testing/hide-canvas.css' },
     );
   });
 });

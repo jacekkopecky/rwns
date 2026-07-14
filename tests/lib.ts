@@ -18,7 +18,7 @@ export async function initializePage(page: Page, options: InitOptions = {}) {
   page.on('console', (msg) => {
     const type = msg.type();
     const text = msg.text();
-    if (type === 'error' || type === 'warning' || type === 'info') {
+    if (type !== 'debug') {
       console.log(`BROWSER ${type.toUpperCase()}`, text);
     }
   });

@@ -58,7 +58,6 @@ export function randomItemInRange<T>(
   if (arr.length < max || max < min || min < 0) {
     throw new Error(`bad parameters: min ${min}, max ${max}, length ${arr.length}`);
   }
-  console.log(`parameters: min ${min}, max ${max}, length ${arr.length}`);
 
   return arr[Math.floor(prng() * (max - min + 1)) + min]!;
 }
