@@ -18,8 +18,8 @@ export async function initializePage(page: Page, options: InitOptions = {}) {
   page.on('console', (msg) => {
     const type = msg.type();
     const text = msg.text();
-    if (type !== 'debug') {
-      console.log(`BROWSER ${type.toUpperCase()}`, text);
+    if (type !== 'debug' && !text.includes('GPU stall')) {
+      console.log(type.toUpperCase(), text);
     }
   });
 

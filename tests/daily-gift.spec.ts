@@ -25,6 +25,7 @@ test.describe('Daily Gift Popup Trigger & Suppression', () => {
     const dailyGift = page.locator('#dailyGift');
     await expect(dailyGift).toContainClass('inactive');
 
+    // fast forward trigger the daily gift popup
     await page.clock.fastForward(2000);
 
     // verify daily gift popup is displayed
@@ -54,6 +55,7 @@ test.describe('Daily Gift Popup Trigger & Suppression', () => {
     const dailyGift = page.locator('#dailyGift');
     await expect(dailyGift).toContainClass('inactive');
 
+    // fast forward trigger the daily gift popup
     await page.clock.fastForward(2000);
 
     // verify daily gift popup is still inactive
@@ -83,6 +85,7 @@ test.describe('Daily Gift Popup Trigger & Suppression', () => {
     const dailyGift = page.locator('#dailyGift');
     await expect(dailyGift).toContainClass('inactive');
 
+    // fast forward trigger the daily gift popup
     await page.clock.fastForward(2000);
 
     // verify daily gift popup is still inactive
@@ -94,8 +97,8 @@ test.describe('Daily Gift Popup Trigger & Suppression', () => {
 test.describe('Daily Gift Spinner Spinning & Award Resolution', () => {
   const subScenarios = [
     { type: 'coin', pickRandom: 0.1 },
-    { type: 'energy', pickRandom: 0.2 },
     { type: 'gem', pickRandom: 0.3 },
+    { type: 'energy', pickRandom: 0.2 },
   ];
 
   for (const scenario of subScenarios) {
@@ -118,6 +121,7 @@ test.describe('Daily Gift Spinner Spinning & Award Resolution', () => {
       await startGame(page);
 
       const dailyGift = page.locator('#dailyGift');
+      // fast forward trigger the daily gift popup
       await page.clock.fastForward(2000);
       await expect(dailyGift).not.toContainClass('inactive');
 
@@ -139,24 +143,22 @@ test.describe('Daily Gift Spinner Spinning & Award Resolution', () => {
       const mainScreen = page.locator('#mainScreen');
       await expect(mainScreen).not.toContainClass('inactive');
 
-      await page.clock.fastForward(1000);
-
-      // verify wallet/top-bar updates correctly
+      // verify the value updates correctly
       if (scenario.type === 'coin') {
         const coinValueEl = page.locator('#mainWallet .wallet .coin .value');
         const stateCoin = await page.evaluate(() => window.gameState.wallet.read('coin'));
-        expect(stateCoin).toBeGreaterThan(0);
+        expect(stateCoin).toBe(140);
         await expect(coinValueEl).toHaveText(String(stateCoin));
-      } else if (scenario.type === 'energy') {
-        const energyValueEl = page.locator('#playStats .energy .value');
-        const stateEnergy = await page.evaluate(() => window.gameState.energy);
-        expect(stateEnergy).toBeGreaterThan(5);
-        await expect(energyValueEl).toHaveText(String(stateEnergy));
       } else if (scenario.type === 'gem') {
         const gemValueEl = page.locator('#mainWallet .wallet .gem .value');
         const stateGem = await page.evaluate(() => window.gameState.wallet.read('gem'));
-        expect(stateGem).toBeGreaterThan(3);
+        expect(stateGem).toBe(7);
         await expect(gemValueEl).toHaveText(String(stateGem));
+      } else if (scenario.type === 'energy') {
+        const energyValueEl = page.locator('#playStats .energy .value');
+        const stateEnergy = await page.evaluate(() => window.gameState.energy);
+        expect(stateEnergy).toBe(8);
+        await expect(energyValueEl).toHaveText(String(stateEnergy));
       }
     });
   }
@@ -181,6 +183,7 @@ test.describe('Daily Gift Spinner Spinning & Award Resolution', () => {
     await startGame(page);
 
     const dailyGift = page.locator('#dailyGift');
+    // fast forward trigger the daily gift popup
     await page.clock.fastForward(2000);
     await expect(dailyGift).not.toContainClass('inactive');
 
@@ -203,5 +206,56 @@ test.describe('Daily Gift Spinner Spinning & Award Resolution', () => {
 
     const mainScreen = page.locator('#mainScreen');
     await expect(mainScreen).toContainClass('_active');
+  });
+
+  test('should allow user to spin again if landing on spin-again prize', async ({ page }) => {
+    await initializePage(page, {
+      state: {
+        level: 10,
+        lastDailyGiftGiven: '2026-01-28',
+        wallet: { wallet: { coin: 100 } },
+      },
+      time: '2026-01-01T12:00:00Z',
+    });
+
+    await page.goto('./');
+    await startGame(page);
+
+    const initialState = await page.evaluate(() => window.gameState);
+
+    // fast forward trigger the daily gift popup
+    await page.clock.fastForward(2000);
+
+    const dailyGift = page.locator('#dailyGift');
+    await expect(dailyGift).not.toHaveClass('inactive');
+
+    // mock random to select the first item (gift 0), which is 'spin-again' at first, then coins
+    await page.evaluate(() => {
+      Math.random = () => 0;
+    });
+
+    // click the daily gift section to start spinning
+    await dailyGift.click();
+
+    // fast forward 10s to complete spin
+    await page.clock.fastForward(10000);
+
+    // verify the state hasn't changed from how it was before the spin
+    const state = await page.evaluate(() => window.gameState);
+    expect(state).toEqual(initialState);
+    expect(state).not.toBe(initialState);
+    expect(state.lastDailyGiftGiven).toBe('2026-01-28');
+
+    // click to start spinning again, then fwd to end of spinning
+    await dailyGift.click();
+    await page.clock.fastForward(10000);
+
+    const endState = await page.evaluate(() => window.gameState);
+    expect(endState).not.toEqual(initialState);
+    expect(endState.lastDailyGiftGiven).toBe('2026-01-01');
+
+    const coin = await page.evaluate(() => window.gameState.wallet.read('coin'));
+    // we picked coins so we should have it
+    expect(coin).not.toBe(100);
   });
 });

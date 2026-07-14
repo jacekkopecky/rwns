@@ -27,7 +27,8 @@ export default defineConfig({
       name: 'Desktop Chrome',
       use: {
         ...devices['Desktop Chrome'],
-        channel: isCI ? undefined : 'chrome',
+        // channel: isCI ? undefined : 'chrome',
+        channel: undefined,
         viewport: { width: 432, height: 960 },
         deviceScaleFactor: 2.5,
         isMobile: true,
