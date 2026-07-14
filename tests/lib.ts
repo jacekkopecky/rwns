@@ -34,12 +34,8 @@ export async function initializePage(page: Page, options: InitOptions = {}) {
     window.RWNS_LOCAL_STORAGE_KEY = key;
     localStorage.setItem(key, JSON.stringify(state));
 
-    // tell the page to use splash screen
+    // tell the page to use splash screen and disable animations
     window.RWNS_TESTS = true;
-
-    // forcefully disable animations
-    // it doesn't seem to trigger without the delay
-    setTimeout(() => document.body.classList.add('TESTING'), 100);
   }, state);
 
   if (time) {

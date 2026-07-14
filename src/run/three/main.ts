@@ -41,9 +41,14 @@ export function init(main: HTMLElement) {
   };
 }
 
-export function render(showStats?: boolean) {
+function doRender(showStats?: boolean) {
   renderer.render(scene, camera);
   if (showStats) {
     console.log('triangles', renderer.info.render.triangles);
   }
 }
+
+// by default do not render when running tests
+export const render = window.RWNS_TESTS ? () => undefined : doRender;
+
+exposeGlobalWindowProp('gameDoRender', doRender);
