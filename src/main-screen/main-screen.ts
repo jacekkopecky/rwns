@@ -1,3 +1,4 @@
+import type { ReadonlyState } from '#types';
 import { animateValue, fillOrHide, fillWalletEls, getEl, toggleHidden } from '#utils';
 
 import { updateCardsVisibility } from '../cards';
@@ -23,11 +24,11 @@ const el = {
   canvas: getEl('#webglCanvas'),
   topButtons: getEl('#mainScreen .topBar'),
   exitBtn: getEl('#exitBtn', HTMLButtonElement),
-  walletContainer: getEl('#mainScreen .topBar .wallet'),
+  walletContainer: getEl('#mainWallet .wallet'),
   wallet: {
-    gem: getEl('#mainScreen .topBar .wallet .gem'),
-    coin: getEl('#mainScreen .topBar .wallet .coin'),
-    card: getEl('#mainScreen .topBar .wallet .card'),
+    gem: getEl('#mainWallet .wallet .gem'),
+    coin: getEl('#mainWallet .wallet .coin'),
+    card: getEl('#mainWallet .wallet .card'),
   },
   playStats: {
     played: getEl('#playStats .played'),
@@ -91,7 +92,7 @@ function updateMainScreenIfNotInRun() {
 export function updateMainScreen(state = readState(), params = getUpgradablePermanentParameters()) {
   prepareRun(state, params);
 
-  fillWalletEls(state.wallet, el.wallet);
+  updateMainWallet(state);
   toggleHidden(el.walletContainer, !isFeatureAllowed('coins', state));
 
   // ensure that gems are always visible once we've spent any
@@ -105,6 +106,10 @@ export function updateMainScreen(state = readState(), params = getUpgradablePerm
   updateUpgrades(state, params);
   updateCardsVisibility(state);
   updateSettingsVisibility(state);
+}
+
+export function updateMainWallet(state: ReadonlyState) {
+  fillWalletEls(state.wallet, el.wallet);
 }
 
 export function animateMainWallet(type: keyof typeof el.wallet, start: number, target: number) {

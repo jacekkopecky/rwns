@@ -2,8 +2,9 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 import { CURRENCIES, Wallet, type CurrencyType } from '#types';
-import { AnimatedCount, fillOrHide, fillWalletEls, getEl, random } from '#utils';
+import { AnimatedCount, fillOrHide, getEl, random } from '#utils';
 
+import { updateMainWallet } from '../main-screen';
 import * as state from '../state';
 
 import { flyToTarget } from './three/animations';
@@ -17,11 +18,6 @@ const el = {
   endRunScreenCoins: getEl('#endRunScreen .collected .coin'),
   endRunScreenGems: getEl('#endRunScreen .collected .gem'),
   endRunScreenGemCount: getEl('#endRunScreen .gemCount'),
-  endRunWallet: {
-    gem: getEl('#endRunScreen .wallet .gem'),
-    coin: getEl('#endRunScreen .wallet .coin'),
-    card: getEl('#endRunScreen .wallet .card'),
-  },
   inRunWalletContainer: getEl('#inRunWallet'),
   inRun: {
     gem: getEl('#inRunWallet .gem'),
@@ -167,7 +163,7 @@ export function updateEndRunScreen() {
   showingAny = fillOrHide(el.endRunScreenCoins, inRunWallet.read('coin')) || showingAny;
   showingAny = fillOrHide(el.endRunScreenGems, inRunWallet.read('gem')) || showingAny;
 
-  fillWalletEls(state.readState().wallet, el.endRunWallet);
+  updateMainWallet(state.readState());
 
   // update gemCount here from what's stored in the dataset
   const gemCount = el.endRunScreenGemCount.dataset.gemCount ?? '';

@@ -23,7 +23,7 @@ test.describe('Main Screen Upgrades', () => {
     await expect(page.locator('#playStats .level .value')).toHaveText('30');
 
     // verify wallet has 1000 coins in UI
-    const walletValueEl = page.locator('#mainScreen .topBar .wallet .coin .value');
+    const walletValueEl = page.locator('#mainWallet .wallet .coin .value');
     await expect(walletValueEl).toHaveText('1000');
 
     // get locators for upgrade buttons

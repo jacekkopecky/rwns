@@ -8,7 +8,7 @@
   <link rel="icon" href="./assets/explosion.svg" />
 </head>
 
-<body class="using-fullscreen">
+<body class="using-fullscreen showingSplashScreen">
   <header>
     <!-- splash screen -->
     <h1>RWNS <img src="./assets/explosion.svg" /></h1>
@@ -46,15 +46,6 @@
         <div class="topBar">
           <!-- button repeated for consistency -->
           <button style="visibility: hidden"><i class="i cross"></i></button>
-          <div class="wallet">
-            <div class="coin neverHidden"><span class="value">0</span> <i class="i coins"></i></div>
-            <div class="gem hiddenGone"><span class="value">0</span> <i class="i gem"></i></div>
-            <div class="card hiddenGone">
-              <span class="value">0</span> <i class="i cards-icon"></i>
-            </div>
-          </div>
-          <!-- button repeated for symmetry -->
-          <button style="visibility: hidden"><i class="i cross"></i></button>
         </div>
         <h2 class="if-win">Well done!</h2>
         <h2 class="if-not-win">Better luck next time!</h2>
@@ -82,13 +73,6 @@
     <section id="mainScreen">
       <div class="topBar">
         <button id="exitBtn"><i class="i cross"></i></button>
-        <div class="wallet">
-          <div class="coin neverHidden"><span class="value">0</span> <i class="i coins"></i></div>
-          <div class="gem hiddenGone"><span class="value">0</span> <i class="i gem"></i></div>
-          <div class="card hiddenGone">
-            <span class="value">0</span> <i class="i cards-icon"></i>
-          </div>
-        </div>
         <button id="settingsBtn">⚙️</button>
       </div>
 
@@ -131,6 +115,14 @@
         </button>
       </div>
     </section>
+
+    <aside id="mainWallet">
+      <div class="wallet">
+        <div class="coin neverHidden"><span class="value">0</span> <i class="i coins"></i></div>
+        <div class="gem hiddenGone"><span class="value">0</span> <i class="i gem"></i></div>
+        <div class="card hiddenGone"><span class="value">0</span> <i class="i cards-icon"></i></div>
+      </div>
+    </aside>
 
     <section id="cards" class="inactive">
       <div class="topBar">

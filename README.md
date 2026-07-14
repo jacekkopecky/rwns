@@ -217,6 +217,7 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
   - [ ] gates that only change Marvin's colour, quests like break 20 end blocks with red robot
     - the gates could be random per play because they have little effect on the level outcome
 - [ ] skills (it should take time to "learn" skills? should need a special currency? from quests?)
+  - make starting end blocks easier
   - buying in bulk
     - 9 cards at once (not implemneted)
     - then cheaper for 42 gems if one is for 5
@@ -333,8 +334,19 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 - [ ] allow use of back button for navigation at least through sections, and from a run?
 - [ ] remove circular dependencies
 - [ ] add support for wider screens, landscape mode?
+- [ ] make it work in Safari?
 
 ---
+
+## done by 2026-07-14
+
+- [x] when coming back to the game on the phone, it shows the main screen but without the canvas, it
+      should show the splash screen instead
+- [x] consolidate main screen wallet and end run wallet, make main screen wallet do both roles so it
+      doesn't dim a bit after end run screen
+  - we had these inconsistencies:
+  - end screen wallet not hidden when we aren't getting coins yet
+  - not showing 0 gems in end screen wallet when they are shown in main screen wallet
 
 ## done by 2026-07-12
 
