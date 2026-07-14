@@ -39,8 +39,9 @@ export async function initializePage(page: Page, options: InitOptions = {}) {
   }, state);
 
   if (time) {
-    // install fake clock to a fixed date
+    // install fake clock to a fixed date and pause it
     await page.clock.install({ time });
+    await page.clock.pauseAt(new Date(time));
   }
 }
 
@@ -62,4 +63,17 @@ export async function startGame(page: Page) {
   const startBtn = page.locator('#startBtn');
   await startBtn.click();
   await expect(startBtn).not.toBeVisible();
+}
+
+/**
+ * Click at specific coordinates as a fraction of the screen width and height
+ */
+export async function clickScreen(page: Page, x: number, y: number) {
+  const viewport = page.viewportSize();
+  if (!viewport) {
+    throw new Error('Viewport size is not available');
+  }
+  const clickX = viewport.width * x;
+  const clickY = viewport.height * y;
+  await page.mouse.click(clickX, clickY, { button: 'left' });
 }
