@@ -25,7 +25,7 @@ import { cardDefinitions, RARITIES, type CardDefinition } from './types';
 
 const el = {
   cardsSection: getEl('#cards'),
-  goToCardsSectionButton: getEl('#mainScreen .sectionButtons .cards'),
+  goToCardsSectionButton: getEl('#mainScreen .leftSectionButtons .cards'),
   closeCardsSectionButton: getEl('#cards button.close'),
   buyOne: getEl('#cards button.buyOne'),
   buyBulk: getEl('#cards button.buyBulk'),
