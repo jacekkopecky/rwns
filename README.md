@@ -9,9 +9,8 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 
 ## todo
 
-- [ ] the sectionButtons container should be renamed to 'leftSectionButtons', and then please add a
-      'rightSectionButtons' container that will mirror the positioning of the other one; for now
-      just put a dummy button there with the letter B as its content
+- [ ] sections that slide out to the sides should have a delayed display:none style so it's just not
+      there most of the time
 - [ ] first side game: back to basics
   - phase 1:
     - add a new button on the right-hand side on main screen, for now just with the letter B in it
@@ -104,9 +103,7 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
   - [ ] cards - we should have so many of each rarity level that on average you'll finish all at the
         same time, 96 common per 1 legendary - check and handle any imbalances, probably mostly
         ignore differing starting times? or make all rarities start at the same time?
-- [ ] better cards UI
-  - [ ] a card that needs to flip can be a card and a card back in a single 3d-rotated package
-  - [ ] (Maya? ai?) add card pictures
+- [ ] (Maya? ai?) add card pictures
 - [ ] tracks
   - intermission levels? (like starting, just to take a breath, no cards, no gold, all end-blocks
     and trees 1hp)
@@ -200,6 +197,9 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
     - …and the new ones feel itchy instead
 - [ ] achievements
   - gather 100 coins
+  - get max on an upgrade
+  - get max on all upgrades
+  - get max on a card
   - clear out a level
   - finish tutorial levels (3) (unlocks first upgrade - fire rate?, and unlocks achievements
     showing)
@@ -335,11 +335,18 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 - [ ] remove circular dependencies
 - [ ] add support for wider screens, landscape mode?
 - [ ] make it work in Safari?
+- `~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+- ideas for later
+  - [ ] in cards screen, the incoming card could flip in 3d as it comes in
+    - it can be a card and a card back in a single 3d-rotated package
 
 ---
 
 ## done by 2026-07-15
 
+- [x] (with Jules) the sectionButtons container should be renamed to 'leftSectionButtons', and then
+      please add a 'rightSectionButtons' container that will mirror the positioning of the other
+      one; for now just put a dummy button there with the letter B as its content
 - [x] (with Jules) in the daily gift tests, click mouse in the middle of the screen, don't just
       click the right element
 
