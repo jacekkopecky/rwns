@@ -211,3 +211,18 @@ _Files to test:_ `src/run/levels/tools.ts`, `src/run/levels/index.ts` _Proposed 
 - **Fallback Behavior:**
   - Mock an exception in a level generator and verify `createLevelObjects` catches it gracefully,
     logs the error, and falls back to generating the first level.
+
+## Core Run Mechanics (Game Session)
+
+### Internal Functionality & Unit Tests (Vitest / Internals)
+
+- **Player Position Movement:**
+  - _Test Scenario:_ Simulate TouchHandler `onMoveBy` events and verify `updatePlayerPosition()`
+    correctly constraints player coordinates within track bounds (using `dim.trackWidth`).
+- **Collision Detection and Damage Engine:**
+  - _Test Scenario:_ Inject mock obstacles and bullet objects into the Three.js scene and verify
+    `checkPlayersHit()` and `movePlayerBullets()` apply correct hit points and remove dead entities.
+- **Gem and Score Collection:**
+  - _Test Scenario:_ Verifying that colliding with a Gem object increments `collectedGemIds` in the
+    run state, and that upon winning/finishing, those gems are officially added to the persistent
+    wallet.

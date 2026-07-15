@@ -100,19 +100,6 @@ similar outcome.
     registers a play count increase (`played` counter incremented), and safely transitions back to
     the Main Screen.
 
-### Internal Functionality & Unit Tests (Vitest / Internals)
-
-- **Player Position Movement:**
-  - _Test Scenario:_ Simulate TouchHandler `onMoveBy` events and verify `updatePlayerPosition()`
-    correctly constraints player coordinates within track bounds (using `dim.trackWidth`).
-- **Collision Detection and Damage Engine:**
-  - _Test Scenario:_ Inject mock obstacles and bullet objects into the Three.js scene and verify
-    `checkPlayersHit()` and `movePlayerBullets()` apply correct hit points and remove dead entities.
-- **Gem and Score Collection:**
-  - _Test Scenario:_ Verifying that colliding with a Gem object increments `collectedGemIds` in the
-    run state, and that upon winning/finishing, those gems are officially added to the persistent
-    wallet.
-
 ---
 
 ## 4. Settings & Section Navigation
@@ -129,12 +116,6 @@ similar outcome.
     3. Wallet, levels, and cards displays on the Main Screen return to their default starting
        states.
 
-### Internal Functionality & Unit Tests (Vitest)
-
-- **Volume Settings State Mapping:**
-  - _Test Scenario:_ Modifying volume slider settings in the GUI updates the corresponding state
-    parameters and scales audio output volume proportionally.
-
 ---
 
 ## 5. Card & Deck System
@@ -149,13 +130,3 @@ similar outcome.
     deducts the gem cost from the wallet and increases the card count/level.
   - _Test Scenario:_ If gems are insufficient, the purchase/upgrade buttons must be rendered
     disabled.
-
-### Internal Functionality & Unit Tests (Vitest)
-
-- **Permanent Parameter Calculations:**
-  - _Test Scenario:_ Test `getUpgradablePermanentParameters()` outputs correct values across various
-    level permutations of card owned configurations (e.g., damage upgrades, initial health, start
-    players, bulk buying rates).
-- **Level Mapping:**
-  - _Test Scenario:_ Verify `lookupLevelByNumberOfCards()` returns correct levels based on the
-    cumulative owned cards of any type.
