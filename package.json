@@ -15,6 +15,7 @@
     "test-watch": "vitest src/",
     "test:e2e": "playwright test",
     "test:e2e-watch": "node --watch --watch-path=index.html --watch-path=assets --watch-path=src --watch-path=tests ./node_modules/.bin/playwright test",
+    "test:e2e-update-snapshots": "playwright test --update-snapshots",
     "type-check": "tsc --noEmit -p tsconfig.src.json && tsc --noEmit -p tsconfig.tests.json",
     "lint": "prettier -c . && eslint --ext .ts,.tsx src",
     "lint-fix": "eslint --ext .ts,.tsx src --fix"

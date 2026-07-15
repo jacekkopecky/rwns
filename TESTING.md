@@ -12,7 +12,8 @@ Functional testing: verifying that game logic works (e.g., "when I click this bu
 updates correctly").
 
 Visual regression testing: ensuring that the UI and the 3D scene looks exactly as expected and
-doesn't change unexpectedly between builds.
+doesn't change unexpectedly between builds. To update playwright snapshots (visual regression
+testing screenshots), use `npm run test:e2e-update-snapshots`
 
 Integration testing: checking that the various features interact with each other as expected.
 
