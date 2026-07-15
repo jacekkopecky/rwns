@@ -12,7 +12,7 @@ interface InitOptions {
  * and disabling all CSS transitions and animations.
  */
 export async function initializePage(page: Page, options: InitOptions = {}) {
-  const { state = {}, time } = options;
+  const { state = {}, time = '2026-07-15T12:00:00Z' } = options;
 
   // pipe console messages
   page.on('console', (msg) => {
@@ -38,11 +38,9 @@ export async function initializePage(page: Page, options: InitOptions = {}) {
     window.RWNS_TESTS = true;
   }, state);
 
-  if (time) {
-    // install fake clock to a fixed date and pause it
-    await page.clock.install({ time });
-    await page.clock.pauseAt(new Date(time));
-  }
+  // install fake clock to a fixed date and pause it
+  await page.clock.install({ time });
+  await page.clock.pauseAt(time);
 }
 
 export async function waitForVersion(page: Page) {
