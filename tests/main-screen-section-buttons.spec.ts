@@ -19,8 +19,8 @@ test.describe('Main Screen Section Buttons', () => {
     await expect(mainScreen).not.toContainClass('inactive');
 
     // verify left and right section buttons are there
-    const leftSectionButtons = page.locator('#mainScreen .leftSectionButtons');
-    const rightSectionButtons = page.locator('#mainScreen .rightSectionButtons');
+    const leftSectionButtons = page.locator('#mainScreen .left.sectionButtons');
+    const rightSectionButtons = page.locator('#mainScreen .right.sectionButtons');
 
     await expect(leftSectionButtons).toBeVisible();
     await expect(rightSectionButtons).toBeVisible();

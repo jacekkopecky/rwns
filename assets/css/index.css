@@ -165,11 +165,11 @@ main {
 
 /* prettier-ignore */
 #mainScreen {
-  #log               { grid-area: l2; }
-  .topBar            { grid-area: top; }
-  .upgradeButtons    { grid-area: bottom; }
-  .leftSectionButtons  { grid-area: l5; }
-  .rightSectionButtons { grid-area: r5; }
+  #log                  { grid-area: l2; }
+  .topBar               { grid-area: top; }
+  .upgradeButtons       { grid-area: bottom; }
+  .sectionButtons.left  { grid-area: l5; }
+  .sectionButtons.right { grid-area: r5; }
 }
 
 #shortMessage {
@@ -438,33 +438,44 @@ button {
   }
 }
 
-.leftSectionButtons {
-  max-width: 25%;
+.sectionButtons.left {
+  justify-self: start;
 
   button {
     border-left-width: 0;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
-
-  .cards {
-    padding: 0.5em 0.3em;
-    i {
-      font-size: 3.5em;
-    }
-  }
 }
 
-.rightSectionButtons {
-  max-width: 25%;
+.sectionButtons.right {
   justify-self: end;
 
   button {
     border-right-width: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    padding: 0.5em 0.8em;
-    font-size: 2.2em;
+  }
+}
+
+.sectionButtons {
+  .cards {
+    padding: 0.5em 0.3em;
+    i {
+      font-size: 3.5em;
+    }
+  }
+
+  .backToBasics {
+    padding: 0.5em 0.3em;
+    span {
+      display: block;
+      width: 1em;
+      height: 1em;
+      line-height: 1em;
+      font-size: 3.5em;
+      text-align: center;
+    }
   }
 }
 
