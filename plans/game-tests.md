@@ -25,7 +25,7 @@ In alignment with the testing philosophy in `TESTING.md`:
   - _Test Scenario:_ When the page is loaded and a game starts in level 4, if `lastDailyGiftGiven`
     in the state is doesn't match today, the Daily Gift popup (`#dailyGift`) must _not_
     automatically appear.
-- [.] **Spinner Spinning & Award Resolution:**
+- [x] **Spinner Spinning & Award Resolution:**
   - File name: `tests/daily-gift.spec.ts`
   - _Test Scenario:_ On the Daily Gift screen in level 10, clicking anywhere on the screen starts
     the spin. The spinner adds the `.spinning` CSS class. When the spin finishes (the `.spinning`
@@ -43,7 +43,7 @@ In alignment with the testing philosophy in `TESTING.md`:
     limit stops the spinning but still shows the spinner; the third click then takes the user back
     to the main screen.
     - mocks: mock `pickWeightedItem()` to pick gift 1 for this test.
-- [.] **Spin-Again Interaction:**
+- [x] **Spin-Again Interaction:**
   - File name: `tests/daily-gift.spec.ts`
   - _Test Scenario:_ If the spinner lands on the "spin again" prize, the user is permitted to spin
     one more time. Use the second click to quickly stop the spinning, check that the whole state

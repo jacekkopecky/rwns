@@ -338,6 +338,11 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 
 ---
 
+## done by 2026-07-15
+
+- [x] (with Jules) in the daily gift tests, click mouse in the middle of the screen, don't just
+      click the right element
+
 ## done by 2026-07-14
 
 - [x] when coming back to the game on the phone, it shows the main screen but without the canvas, it

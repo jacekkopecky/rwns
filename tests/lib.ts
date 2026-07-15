@@ -12,7 +12,7 @@ interface InitOptions {
  * and disabling all CSS transitions and animations.
  */
 export async function initializePage(page: Page, options: InitOptions = {}) {
-  const { state = {}, time } = options;
+  const { state = {}, time = '2026-07-15T12:00:00Z' } = options;
 
   // pipe console messages
   page.on('console', (msg) => {
@@ -38,10 +38,9 @@ export async function initializePage(page: Page, options: InitOptions = {}) {
     window.RWNS_TESTS = true;
   }, state);
 
-  if (time) {
-    // install fake clock to a fixed date
-    await page.clock.install({ time });
-  }
+  // install fake clock to a fixed date and pause it
+  await page.clock.install({ time });
+  await page.clock.pauseAt(time);
 }
 
 export async function waitForVersion(page: Page) {
@@ -62,4 +61,17 @@ export async function startGame(page: Page) {
   const startBtn = page.locator('#startBtn');
   await startBtn.click();
   await expect(startBtn).not.toBeVisible();
+}
+
+/**
+ * Click at specific coordinates as a fraction of the screen width and height
+ */
+export async function clickScreen(page: Page, x: number, y: number) {
+  const viewport = page.viewportSize();
+  if (!viewport) {
+    throw new Error('Viewport size is not available');
+  }
+  const clickX = viewport.width * x;
+  const clickY = viewport.height * y;
+  await page.mouse.click(clickX, clickY, { button: 'left' });
 }

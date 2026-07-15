@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { initializePage, startGame } from './lib';
+import { clickScreen, initializePage, startGame } from './lib';
 
 test.describe('Daily Gift Popup Trigger & Suppression', () => {
   test("should automatically display Daily Gift if lastDailyGiftGiven doesn't match today", async ({
@@ -129,7 +129,7 @@ test.describe('Daily Gift Spinner Spinning & Award Resolution', () => {
       await expect(spinner).not.toContainClass('spinning');
 
       // first click starts the spin
-      await dailyGift.click();
+      await clickScreen(page, 0.5, 0.5);
       await expect(spinner).toContainClass('spinning');
 
       // fast forward 10s to complete spin
@@ -137,8 +137,11 @@ test.describe('Daily Gift Spinner Spinning & Award Resolution', () => {
       await expect(spinner).not.toContainClass('spinning');
 
       // click again to close the daily gift screen
-      await dailyGift.click();
+      await clickScreen(page, 0.5, 0.5);
       await expect(dailyGift).toContainClass('inactive');
+
+      // fast forward to let the wallet animation complete
+      await page.clock.fastForward(2000);
 
       const mainScreen = page.locator('#mainScreen');
       await expect(mainScreen).not.toContainClass('inactive');
@@ -191,17 +194,17 @@ test.describe('Daily Gift Spinner Spinning & Award Resolution', () => {
     await expect(spinner).not.toContainClass('spinning');
 
     // first click starts the spin
-    await dailyGift.click();
+    await clickScreen(page, 0.5, 0.5);
     await expect(spinner).toContainClass('spinning');
     await expect(dailyGift).not.toContainClass('inactive');
 
     // second click immediately stops the spinning but still shows the spinner
-    await dailyGift.click();
+    await clickScreen(page, 0.5, 0.5);
     await expect(spinner).not.toContainClass('spinning');
     await expect(dailyGift).not.toContainClass('inactive');
 
     // third click takes the user back to the main screen
-    await dailyGift.click();
+    await clickScreen(page, 0.5, 0.5);
     await expect(dailyGift).toContainClass('inactive');
 
     const mainScreen = page.locator('#mainScreen');
@@ -235,7 +238,7 @@ test.describe('Daily Gift Spinner Spinning & Award Resolution', () => {
     });
 
     // click the daily gift section to start spinning
-    await dailyGift.click();
+    await clickScreen(page, 0.5, 0.5);
 
     // fast forward 10s to complete spin
     await page.clock.fastForward(10000);
@@ -247,7 +250,7 @@ test.describe('Daily Gift Spinner Spinning & Award Resolution', () => {
     expect(state.lastDailyGiftGiven).toBe('2026-01-28');
 
     // click to start spinning again, then fwd to end of spinning
-    await dailyGift.click();
+    await clickScreen(page, 0.5, 0.5);
     await page.clock.fastForward(10000);
 
     const endState = await page.evaluate(() => window.gameState);
