@@ -96,7 +96,9 @@ export function collectGem(id: string) {
   saveState();
 }
 
-export function getUpgradablePermanentParameters(): UpgradablePermanentParameters {
+export function getUpgradablePermanentParameters(
+  runType?: 'normal' | 'backToBasics',
+): UpgradablePermanentParameters {
   const params: UpgradablePermanentParameters = {
     energyMax: dim.initialEnergyMax,
     coinsPerLevel: dim.initialCoinsPerLevel,
@@ -123,9 +125,11 @@ export function getUpgradablePermanentParameters(): UpgradablePermanentParameter
     cardsBulkBuyingRate: 1,
   };
 
-  for (const [cardType, cardNumber] of _state.cards.entries()) {
-    const level = lookupLevelByNumberOfCards(cardNumber);
-    cardDefinitions[cardType].performUpgrade(level, params);
+  if (runType !== 'backToBasics') {
+    for (const [cardType, cardNumber] of _state.cards.entries()) {
+      const level = lookupLevelByNumberOfCards(cardNumber);
+      cardDefinitions[cardType].performUpgrade(level, params);
+    }
   }
 
   return params;

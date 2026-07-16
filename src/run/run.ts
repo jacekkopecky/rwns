@@ -41,6 +41,7 @@ let handler: TouchHandler;
 
 let playing = false;
 let ending = false;
+let currentRunType: 'normal' | 'backToBasics' = 'normal';
 
 const el = {
   main: getEl('main'),
@@ -134,22 +135,41 @@ function setupScene() {
 /**
  * make objects, reset in-run scores, show
  */
-export function prepareRun(state: ReadonlyState, params: UpgradablePermanentParameters) {
-  resetRandom(String(state.level));
+export function prepareRun(
+  state: ReadonlyState,
+  params: UpgradablePermanentParameters,
+  runType: 'normal' | 'backToBasics' = 'normal',
+) {
+  currentRunType = runType;
+
+  let effectiveState = state;
+  let effectiveParams = params;
+
+  if (runType === 'backToBasics') {
+    // create a temporary state for level 1
+    effectiveState = {
+      ...state,
+      level: 1,
+      runUpgradeLevels: {},
+    };
+    effectiveParams = stateModule.getUpgradablePermanentParameters('backToBasics');
+  }
+
+  resetRandom(String(effectiveState.level));
 
   disposeAnimations();
 
   setupAwards();
   const levelInfo = setupObjects({
-    state,
-    params,
+    state: effectiveState,
+    params: effectiveParams,
     onFinish: () => endRun(true, true),
   });
   el.shortMessage.textContent = levelInfo.msg;
   updateEndRunScreenGemCount(levelInfo.gemCount);
 
   // set up players after objects so player upgrades and positioning, which may use randomness, don't affect object randomness
-  setupPlayers(state, params);
+  setupPlayers(effectiveState, effectiveParams);
   setupBullets();
   setupDyingGroup();
 
@@ -171,7 +191,9 @@ export function showRunSection() {
 
 function startRun() {
   if (!playing) {
-    stateModule.increasePlayed();
+    if (currentRunType === 'normal') {
+      stateModule.increasePlayed();
+    }
   }
 
   playing = true;

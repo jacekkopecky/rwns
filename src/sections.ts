@@ -5,6 +5,10 @@ import { init as initDailyGiftScreen, showDailyGiftScreen } from './daily-gift';
 import { init as initMainScreen, showMainScreen } from './main-screen';
 import { init as initRunScreen, showRunSection } from './run';
 import { init as initSettingsScreen, showSettingsScreen } from './settings';
+import {
+  init as initBackToBasics,
+  showBackToBasicsScreen,
+} from './side-games/back-to-basics/back-to-basics';
 
 export function init() {
   initMainScreen();
@@ -12,6 +16,7 @@ export function init() {
   initCardsScreen();
   initDailyGiftScreen();
   initSettingsScreen();
+  initBackToBasics();
 }
 
 const sections = {
@@ -20,6 +25,7 @@ const sections = {
   ...prepSection('cards', showCardsScreen, 'mainScreen'),
   ...prepSection('dailyGift', showDailyGiftScreen, 'mainScreen'),
   ...prepSection('settings', showSettingsScreen, 'mainScreen'),
+  ...prepSection('backToBasics', showBackToBasicsScreen),
 };
 
 type Section = keyof typeof sections;
