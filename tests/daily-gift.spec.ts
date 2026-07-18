@@ -31,6 +31,8 @@ test.describe('Daily Gift Popup Trigger & Suppression', () => {
     // verify daily gift popup is displayed
     await expect(dailyGift).not.toContainClass('inactive');
     // mainScreen doesn't have the inactive class because it's visible under the daily gift
+
+    await expect(page).toHaveScreenshot('gift-page.png');
   });
 
   test('should not display Daily Gift popup if lastDailyGiftGiven matches today at level 10', async ({
