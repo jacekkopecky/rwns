@@ -12,7 +12,7 @@ initRunScreen();
 let players = 0;
 state.setRunUpgradeLevel('players', players);
 
-prepareRun(state.readState(), state.getUpgradablePermanentParameters());
+prepareRun(state.readState(), state.getUpgradablePermanentParameters(), 'normal');
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.addEventListener('change', () => render());
@@ -47,12 +47,12 @@ function animate() {
 document.body.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowRight') {
     state.setRunUpgradeLevel('players', ++players);
-    prepareRun(state.readState(), state.getUpgradablePermanentParameters());
+    prepareRun(state.readState(), state.getUpgradablePermanentParameters(), 'normal');
     setup();
   } else if (e.key === 'ArrowLeft') {
     players = Math.max(--players, 0);
     state.setRunUpgradeLevel('players', players);
-    prepareRun(state.readState(), state.getUpgradablePermanentParameters());
+    prepareRun(state.readState(), state.getUpgradablePermanentParameters(), 'normal');
     setup();
   }
 });

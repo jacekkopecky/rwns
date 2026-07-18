@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 import { logFps } from '#log';
-import type { ReadonlyState, UpgradablePermanentParameters } from '#types';
+import type { ReadonlyState, RunType, UpgradablePermanentParameters } from '#types';
 import { getEl, resetRandom } from '#utils';
 
 import { showSection, startPlaying } from '../sections';
@@ -41,7 +41,7 @@ let handler: TouchHandler;
 
 let playing = false;
 let ending = false;
-let currentRunType: 'normal' | 'backToBasics' = 'normal';
+let currentRunType: RunType = 'normal';
 
 const el = {
   main: getEl('main'),
@@ -141,7 +141,7 @@ function setupScene() {
 export function prepareRun(
   state: ReadonlyState,
   params: UpgradablePermanentParameters,
-  runType: 'normal' | 'backToBasics' = 'normal',
+  runType: RunType,
 ) {
   currentRunType = runType;
 
@@ -155,7 +155,7 @@ export function prepareRun(
       level: 1,
       runUpgradeLevels: {},
     };
-    effectiveParams = stateModule.getUpgradablePermanentParameters('backToBasics');
+    effectiveParams = stateModule.getUpgradablePermanentParameters(runType);
   }
 
   resetRandom(String(effectiveState.level));
@@ -196,14 +196,12 @@ function handleStartTouch() {
 
 export function showRunSection() {
   el.endRunScreenProgress.disabled = false;
-  startRun();
+  doStartRun();
 }
 
-function startRun() {
+function doStartRun() {
   if (!playing) {
-    if (currentRunType === 'normal') {
-      stateModule.increasePlayed();
-    }
+    stateModule.increasePlayed(currentRunType);
   }
 
   playing = true;

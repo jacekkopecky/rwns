@@ -25,16 +25,16 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
     - add playwright tests for the transitions, custom message; render and do a full screenshot
   - cleanups after AI's phase 1
     - [x] extract touch to start etc into aside
-    - [ ] extract startPlaying touchstart/mousedown handler into run so it can easier be ignored
+    - [x] extract startPlaying touchstart/mousedown handler into run so it can easier be ignored
           when already playing; if not playing, ask sections to run the current section's
           startPlaying and if it returns true, actually start playing
       - main screen's startPlaying will just do energy stuff
       - b2b startPlaying will just return true (access to b2b runs will be controlled by
         availability of the B button)
       - run startPlaying will tell state to increase the played counter for the current state type
+    - [x] extract run type type from prepareRun
     - [ ] move away from using IDs for playstats, use a class and nesting inside its section by ID
     - [ ] in sections.init(), set one as active, so we can drop all the "inactive" from html
-    - [ ] extract run type type from prepareRun
     - [ ] check why setupObjects needs effectiveState; should it (also) need run type? or maybe
           effectiveState is good, but it should be only a subset that affects runs (then we can save
           minigame states too)

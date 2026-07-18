@@ -83,7 +83,7 @@ function updateMainScreenIfNotInRun() {
 }
 
 export function updateMainScreen(state = readState(), params = getUpgradablePermanentParameters()) {
-  prepareRun(state, params);
+  prepareRun(state, params, 'normal');
 
   updateMainWallet(state);
   toggleHidden(el.walletContainer, !isFeatureAllowed('coins', state));

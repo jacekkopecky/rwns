@@ -4,6 +4,7 @@ import type {
   Currency,
   CurrencyType,
   ReadonlyState,
+  RunType,
   RunUpgradeType,
   State,
   UpgradablePermanentParameters,
@@ -76,9 +77,11 @@ export function increaseLevel() {
   saveState();
 }
 
-export function increasePlayed() {
-  _state.played += 1;
-  saveState();
+export function increasePlayed(runType: RunType) {
+  if (runType === 'normal') {
+    _state.played += 1;
+    saveState();
+  }
 }
 
 export function setRunUpgradeLevel(type: RunUpgradeType, level: number) {
@@ -96,9 +99,7 @@ export function collectGem(id: string) {
   saveState();
 }
 
-export function getUpgradablePermanentParameters(
-  runType?: 'normal' | 'backToBasics',
-): UpgradablePermanentParameters {
+export function getUpgradablePermanentParameters(runType?: RunType): UpgradablePermanentParameters {
   const params: UpgradablePermanentParameters = {
     energyMax: dim.initialEnergyMax,
     coinsPerLevel: dim.initialCoinsPerLevel,
@@ -125,7 +126,7 @@ export function getUpgradablePermanentParameters(
     cardsBulkBuyingRate: 1,
   };
 
-  if (runType !== 'backToBasics') {
+  if (runType === 'normal') {
     for (const [cardType, cardNumber] of _state.cards.entries()) {
       const level = lookupLevelByNumberOfCards(cardNumber);
       cardDefinitions[cardType].performUpgrade(level, params);
