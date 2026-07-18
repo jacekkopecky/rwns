@@ -14,6 +14,8 @@ export function init() {
   dailyGiftScreen.init();
   settingsScreen.init();
   backToBasicsScreen.init();
+
+  showSection('mainScreen');
 }
 
 const sections = {
