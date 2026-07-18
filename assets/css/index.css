@@ -123,6 +123,19 @@ main {
     :empty {
       display: none;
     }
+
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 1s,
+      visibility 1s 1s;
+
+    #backToBasics:not(.inactive) ~ &,
+    #mainScreen:not(.inactive) ~ & {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 1s 0.5s;
+    }
   }
 
   &.no-energy .if-energy,

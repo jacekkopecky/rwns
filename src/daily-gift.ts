@@ -125,7 +125,6 @@ function spin() {
     prizes.map((p) => ({ value: p, weight: p.factor })),
     Math.random,
   );
-  console.log('picked', picked.award, picked.amount ?? '');
 
   // give prize immediately so if the user is interrupted, they already have it
   // so the user cannot just wait for the spin to almost end and in case they don't like it, quickly reload

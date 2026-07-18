@@ -13,8 +13,8 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
       there most of the time
 - [ ] first side game: back to basics
   - phase 1:
-    - add a new button on the right-hand side on main screen, for now just with the letter B in it
     - add a new "section" wired into sections.ts for this side-game
+    - the section is opened with the backToBasics button in sectionButtons
     - when active, main section is hidden
     - the new section has a "back to main screen" button that's in the same place as the normal exit
       button
@@ -22,9 +22,29 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
     - the new section code replicates main screen functionality for setting up and starting a run,
       and it reuses the prepareRun() function but adds a runType parameter defaulted to 'normal'
       which is the existing behaviour, and 'backToBasics' which is the new side-game type
+    - add playwright tests for the transitions, custom message; render and do a full screenshot
+  - cleanups after AI's phase 1
+    - [x] extract touch to start etc into aside
+    - [ ] extract startPlaying touchstart/mousedown handler into run so it can easier be ignored
+          when already playing; if not playing, ask sections to run the current section's
+          startPlaying and if it returns true, actually start playing
+      - main screen's startPlaying will just do energy stuff
+      - b2b startPlaying will just return true (access to b2b runs will be controlled by
+        availability of the B button)
+      - run startPlaying will tell state to increase the played counter for the current state type
+    - [ ] move away from using IDs for playstats, use a class and nesting inside its section by ID
+    - [ ] in sections.init(), set one as active, so we can drop all the "inactive" from html
+    - [ ] extract run type type from prepareRun
+    - [ ] check why setupObjects needs effectiveState; should it (also) need run type? or maybe
+          effectiveState is good, but it should be only a subset that affects runs (then we can save
+          minigame states too)
+    - [ ] add a screenshot for the very first start, with a forced render, to be compared with
+          back-to-basics
   - phase 2:
-    - polish the transition to this section: blank the whole screen, prepare the special run,
-      unblank so it looks like we're switching to a completely new screen
+    - polish the transition to this section: blank the whole screen (to black? to what color?),
+      prepare the special run, unblank so it looks like we're switching to a completely new screen
+    - hide main wallet gradually, not abruptly
+    - add a custom message instead of the default level 1 message
     - also think of a better symbol for the button than B
       - B2B?
       - gate with gem above it?
@@ -218,6 +238,8 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
     - the gates could be random per play because they have little effect on the level outcome
 - [ ] skills (it should take time to "learn" skills? should need a special currency? from quests?)
   - make starting end blocks easier
+  - double shot chance, triple shot chance, critical shot chance (using Math.random during the run)
+    - this could be only for the battle against the boss, for example
   - buying in bulk
     - 9 cards at once (not implemneted)
     - then cheaper for 42 gems if one is for 5

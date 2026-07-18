@@ -33,8 +33,9 @@ test.describe('Back To Basics Side Game', () => {
     await expect(stats).toContainText('Played 0');
     await expect(stats).not.toContainText('Level');
 
-    const touchToStart = page.locator('#backToBasicsTouchToStart');
+    const touchToStart = page.locator('#touchToStart');
     await expect(touchToStart).toContainText('touch to start');
+    await expect(touchToStart).toBeVisible();
 
     // force a Three.js render
     await page.evaluate(() => {
