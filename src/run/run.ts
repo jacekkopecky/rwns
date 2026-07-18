@@ -144,35 +144,18 @@ export function prepareRun(
   runType: RunType,
 ) {
   currentRunType = runType;
-
-  let effectiveState = state;
-  let effectiveParams = params;
-
-  if (runType === 'backToBasics') {
-    // create a temporary state for level 1
-    effectiveState = {
-      ...state,
-      level: 1,
-      runUpgradeLevels: {},
-    };
-    effectiveParams = stateModule.getUpgradablePermanentParameters(runType);
-  }
-
-  resetRandom(String(effectiveState.level));
+  resetRandom(String(state.level));
 
   disposeAnimations();
-
   setupAwards();
-  const levelInfo = setupObjects({
-    state: effectiveState,
-    params: effectiveParams,
-    onFinish: () => endRun(true, true),
-  });
+
+  const levelInfo = setupObjects({ state, params, onFinish: () => endRun(true, true) });
   el.shortMessage.textContent = levelInfo.msg;
+
   updateEndRunScreenGemCount(levelInfo.gemCount);
 
   // set up players after objects so player upgrades and positioning, which may use randomness, don't affect object randomness
-  setupPlayers(effectiveState, effectiveParams);
+  setupPlayers(state, params);
   setupBullets();
   setupDyingGroup();
 

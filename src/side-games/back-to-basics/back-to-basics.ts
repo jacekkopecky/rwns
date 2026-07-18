@@ -15,8 +15,15 @@ export function init() {
 }
 
 export function showBackToBasicsScreen() {
-  const state = readState();
+  // pretend we're in level 1, and reset run upgrades
+  const state = {
+    ...readState(),
+    level: 1,
+    runUpgradeLevels: {},
+  };
+
   const params = getUpgradablePermanentParameters('backToBasics');
+
   prepareRun(state, params, 'backToBasics');
 }
 
