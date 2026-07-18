@@ -20,7 +20,7 @@ test.describe('Main Screen Upgrades', () => {
     await expect(mainScreen).not.toContainClass('inactive');
 
     // verify level is 30 in UI
-    await expect(page.locator('#playStats .level .value')).toHaveText('30');
+    await expect(page.locator('#mainScreen .playStats .level .value')).toHaveText('30');
 
     // verify wallet has 1000 coins in UI
     const walletValueEl = page.locator('#mainWallet .wallet .coin .value');

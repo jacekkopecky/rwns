@@ -29,7 +29,7 @@ test.describe('Back To Basics Side Game', () => {
     await expect(mainScreen).toContainClass('inactive');
 
     // check that play stats and touch to start message are correct
-    const stats = page.locator('#backToBasicsPlayStats');
+    const stats = page.locator('#backToBasics .playStats');
     await expect(stats).toContainText('Played 0');
     await expect(stats).not.toContainText('Level');
 

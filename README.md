@@ -33,11 +33,8 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
         availability of the B button)
       - run startPlaying will tell state to increase the played counter for the current state type
     - [x] extract run type type from prepareRun
-    - [ ] move away from using IDs for playstats, use a class and nesting inside its section by ID
+    - [x] move away from using IDs for playstats, use a class and nesting inside its section by ID
     - [ ] in sections.init(), set one as active, so we can drop all the "inactive" from html
-    - [ ] check why setupObjects needs effectiveState; should it (also) need run type? or maybe
-          effectiveState is good, but it should be only a subset that affects runs (then we can save
-          minigame states too)
     - [ ] add a screenshot for the very first start, with a forced render, to be compared with
           back-to-basics
   - phase 2:
@@ -48,8 +45,12 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
     - also think of a better symbol for the button than B
       - B2B?
       - gate with gem above it?
-  - phase 3: add a gem award where the gem is part of the final gate (floating above it)
-    - also use a different prng seed every time you succeed
+  - phase 3:
+    - add a gem award where the gem is part of the final gate (floating above it)
+    - keep track of how many times we've played this, and how many times we've finished
+      (state.increasePlayed() and something)
+    - also use a different prng seed every time you succeed, but 1 should be the same as normal 1
+    - make sure end-of-run screen can only take us back to main, not next level
   - phase 4: make this available every now and then, playable once
     - state.sideGames.backToBasics.lastPlayed?
     - feature allowed from level 50?

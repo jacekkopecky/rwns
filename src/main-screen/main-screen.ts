@@ -30,8 +30,8 @@ const el = {
     card: getEl('#mainWallet .wallet .card'),
   },
   playStats: {
-    played: getEl('#playStats .played'),
-    level: getEl('#playStats .level'),
+    played: getEl('#mainScreen .playStats .played'),
+    level: getEl('#mainScreen .playStats .level'),
   },
   upgradeButtons: getEl('#mainScreen .upgradeButtons'),
 };

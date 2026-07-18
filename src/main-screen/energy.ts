@@ -6,8 +6,8 @@ import { getEnergy, getUpgradablePermanentParameters } from '../state';
 
 const el = {
   main: getEl('main'),
-  energy: getEl('#playStats .energy'),
-  energyNext: getEl('#playStats .energy .nextTime'),
+  energy: getEl('#mainScreen .playStats .energy'),
+  energyNext: getEl('#mainScreen .playStats .energy .nextTime'),
 };
 
 export function updateEnergyCount(params: UpgradablePermanentParameters) {

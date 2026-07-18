@@ -160,7 +160,7 @@ test.describe('Daily Gift Spinner Spinning & Award Resolution', () => {
         expect(stateGem).toBe(7);
         await expect(gemValueEl).toHaveText(String(stateGem));
       } else if (scenario.type === 'energy') {
-        const energyValueEl = page.locator('#playStats .energy .value');
+        const energyValueEl = page.locator('#mainScreen .playStats .energy .value');
         const stateEnergy = await page.evaluate(() => window.gameState.energy);
         expect(stateEnergy).toBe(8);
         await expect(energyValueEl).toHaveText(String(stateEnergy));
