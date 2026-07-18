@@ -39,7 +39,7 @@ test.describe('Back To Basics Side Game', () => {
 
     // force a Three.js render
     await page.evaluate(() => {
-      (window as unknown as { gameDoRender: () => void }).gameDoRender();
+      window.gameDoRender();
     });
 
     // take a screenshot of the whole page

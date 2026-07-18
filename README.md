@@ -35,7 +35,7 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
     - [x] extract run type type from prepareRun
     - [x] move away from using IDs for playstats, use a class and nesting inside its section by ID
     - [x] in sections.init(), set one as active, so we can drop all the "inactive" from html
-    - [ ] add a screenshot for the very first start, with a forced render, to be compared with
+    - [x] add a screenshot for the very first start, with a forced render, to be compared with
           back-to-basics
   - phase 2:
     - polish the transition to this section: blank the whole screen (to black? to what color?),
