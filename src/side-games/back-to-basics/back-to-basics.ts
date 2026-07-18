@@ -1,11 +1,10 @@
 import { getEl } from '#utils';
 
 import { prepareRun } from '../../run';
-import { isSectionActive, showSection } from '../../sections';
+import { showSection } from '../../sections';
 import { getUpgradablePermanentParameters, readState } from '../../state';
 
 const el = {
-  canvas: getEl('#webglCanvas'),
   backToBasicsBtn: getEl('#mainScreen .sectionButtons .backToBasics'),
   closeBtn: getEl('#backToBasics button.close'),
 };
@@ -13,9 +12,6 @@ const el = {
 export function init() {
   el.backToBasicsBtn.addEventListener('click', () => showSection('backToBasics'));
   el.closeBtn.addEventListener('click', () => showSection('mainScreen'));
-
-  el.canvas.addEventListener('touchstart', startPlaying);
-  el.canvas.addEventListener('mousedown', startPlaying);
 }
 
 export function showBackToBasicsScreen() {
@@ -24,8 +20,7 @@ export function showBackToBasicsScreen() {
   prepareRun(state, params, 'backToBasics');
 }
 
-export function startPlaying() {
-  if (isSectionActive('backToBasics')) {
-    showSection('run');
-  }
+export function startPlaying(): boolean {
+  // we can always start this mini-game, if the user got the button to get them to this point
+  return true;
 }

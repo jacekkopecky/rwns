@@ -5,7 +5,7 @@ import { logFps } from '#log';
 import type { ReadonlyState, UpgradablePermanentParameters } from '#types';
 import { getEl, resetRandom } from '#utils';
 
-import { showSection } from '../sections';
+import { showSection, startPlaying } from '../sections';
 import { isOnSplashScreen } from '../splash-screen';
 import * as stateModule from '../state';
 
@@ -77,6 +77,9 @@ export function init() {
   });
   el.endRunScreenProgress.addEventListener('click', nextLevel);
   el.endRunScreenRetry.addEventListener('click', retry);
+
+  el.canvas.addEventListener('touchstart', handleStartTouch);
+  el.canvas.addEventListener('mousedown', handleStartTouch);
 }
 
 export function warmup() {
@@ -182,6 +185,13 @@ export function prepareRun(
   }
 
   render(true);
+}
+
+function handleStartTouch() {
+  // this is called on every mousedown/touchstart on the canvas, so return fast
+  if (playing) return;
+
+  if (startPlaying()) showSection('run');
 }
 
 export function showRunSection() {
