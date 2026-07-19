@@ -99,7 +99,9 @@ export function collectGem(id: string) {
   saveState();
 }
 
-export function getUpgradablePermanentParameters(runType?: RunType): UpgradablePermanentParameters {
+export function getUpgradablePermanentParameters(
+  runType: RunType = 'normal',
+): UpgradablePermanentParameters {
   const params: UpgradablePermanentParameters = {
     energyMax: dim.initialEnergyMax,
     coinsPerLevel: dim.initialCoinsPerLevel,
