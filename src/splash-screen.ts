@@ -26,16 +26,19 @@ export function init() {
 
   initSections();
 
+  updateIsOnSplashScreen(true);
+
   if (useFullscreen) {
     document.body.addEventListener('keyup', handleTopLevelSpaceKey);
     el.startBtn.addEventListener('click', goFullscreen);
     el.exitBtn.addEventListener('click', exit);
     el.main.addEventListener('fullscreenchange', updateSplashScreen);
-    updateIsOnSplashScreen(true);
   } else {
     // make sure the main screen is up to date
-    showSection('mainScreen');
-    updateIsOnSplashScreen(false);
+    setTimeout(() => {
+      showSection('mainScreen');
+      updateIsOnSplashScreen(false);
+    }, 1000);
   }
 
   fillOrHide(el.version, (import.meta.env.VITE_BUILD_VERSION ?? 'unknown') as string);

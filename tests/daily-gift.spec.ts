@@ -31,6 +31,8 @@ test.describe('Daily Gift Popup Trigger & Suppression', () => {
     // verify daily gift popup is displayed
     await expect(dailyGift).not.toContainClass('inactive');
     // mainScreen doesn't have the inactive class because it's visible under the daily gift
+
+    await expect(page).toHaveScreenshot('gift-page.png');
   });
 
   test('should not display Daily Gift popup if lastDailyGiftGiven matches today at level 10', async ({
@@ -158,7 +160,7 @@ test.describe('Daily Gift Spinner Spinning & Award Resolution', () => {
         expect(stateGem).toBe(7);
         await expect(gemValueEl).toHaveText(String(stateGem));
       } else if (scenario.type === 'energy') {
-        const energyValueEl = page.locator('#playStats .energy .value');
+        const energyValueEl = page.locator('#mainScreen .playStats .energy .value');
         const stateEnergy = await page.evaluate(() => window.gameState.energy);
         expect(stateEnergy).toBe(8);
         await expect(energyValueEl).toHaveText(String(stateEnergy));

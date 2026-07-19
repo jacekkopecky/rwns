@@ -1,25 +1,45 @@
 import { getEl } from '#utils';
 
-import { init as initCardsScreen, showCardsScreen } from './cards';
-import { init as initDailyGiftScreen, showDailyGiftScreen } from './daily-gift';
-import { init as initMainScreen, showMainScreen } from './main-screen';
-import { init as initRunScreen, showRunSection } from './run';
-import { init as initSettingsScreen, showSettingsScreen } from './settings';
+import * as cardsScreen from './cards';
+import * as dailyGiftScreen from './daily-gift';
+import * as mainScreen from './main-screen';
+import * as runScreen from './run';
+import * as settingsScreen from './settings';
+import * as backToBasicsScreen from './side-games/back-to-basics';
 
 export function init() {
-  initMainScreen();
-  initRunScreen();
-  initCardsScreen();
-  initDailyGiftScreen();
-  initSettingsScreen();
+  mainScreen.init();
+  runScreen.init();
+  cardsScreen.init();
+  dailyGiftScreen.init();
+  settingsScreen.init();
+  backToBasicsScreen.init();
+
+  showSection('mainScreen');
 }
 
 const sections = {
-  ...prepSection('mainScreen', showMainScreen),
-  ...prepSection('run', showRunSection),
-  ...prepSection('cards', showCardsScreen, 'mainScreen'),
-  ...prepSection('dailyGift', showDailyGiftScreen, 'mainScreen'),
-  ...prepSection('settings', showSettingsScreen, 'mainScreen'),
+  ...prepSection('mainScreen', mainScreen.showMainScreen, {
+    tryStartPlaying: mainScreen.startPlaying,
+  }),
+
+  ...prepSection('run', runScreen.showRunSection),
+
+  ...prepSection('cards', cardsScreen.showCardsScreen, {
+    alsoKeepVisible: 'mainScreen',
+  }),
+
+  ...prepSection('dailyGift', dailyGiftScreen.showDailyGiftScreen, {
+    alsoKeepVisible: 'mainScreen',
+  }),
+
+  ...prepSection('settings', settingsScreen.showSettingsScreen, {
+    alsoKeepVisible: 'mainScreen',
+  }),
+
+  ...prepSection('backToBasics', backToBasicsScreen.showBackToBasicsScreen, {
+    tryStartPlaying: backToBasicsScreen.startPlaying,
+  }),
 };
 
 type Section = keyof typeof sections;
@@ -36,8 +56,8 @@ export function showSection(name: Section) {
   selectedSection.el.inert = false;
   selectedSection.cb?.();
 
-  if (selectedSection.keepVisible && selectedSection.keepVisible in sections) {
-    const extraSection = sections[selectedSection.keepVisible as keyof typeof sections];
+  if (selectedSection.alsoKeepVisible && selectedSection.alsoKeepVisible in sections) {
+    const extraSection = sections[selectedSection.alsoKeepVisible as keyof typeof sections];
     extraSection.el.classList.remove('inactive');
   }
 }
@@ -49,14 +69,24 @@ function getSectionEl(name: string) {
 function prepSection<T extends string>(
   name: T,
   cb?: () => void,
-  keepVisible?: string,
-): Record<T, { el: HTMLElement; cb?: () => void; keepVisible?: string }> {
-  return { [name]: { el: getSectionEl(name), cb, keepVisible } } as Record<
-    T,
-    { el: HTMLElement; cb?: () => void; keepVisible?: string }
-  >;
+  opts?: {
+    alsoKeepVisible?: string;
+    tryStartPlaying?: () => boolean;
+  },
+): Record<T, { el: HTMLElement; cb?: () => void } & typeof opts> {
+  return {
+    [name]: { el: getSectionEl(name), cb, ...opts },
+  } as Record<T, { el: HTMLElement; cb?: () => void } & Required<typeof opts>>;
 }
 
 export function isSectionActive(sec: Section): boolean {
   return sections[sec].el.classList.contains('_active');
+}
+
+function getActiveSection(): (typeof sections)[Section] | undefined {
+  return Object.values(sections).find((s) => s.el.classList.contains('_active'));
+}
+
+export function startPlaying(): boolean {
+  return getActiveSection()?.tryStartPlaying?.() ?? false;
 }

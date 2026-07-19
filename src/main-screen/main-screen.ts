@@ -21,7 +21,6 @@ import { initUpgrades, updateUpgrades } from './run-upgrades';
 const el = {
   main: getEl('main'),
   section: getEl('#mainScreen'),
-  canvas: getEl('#webglCanvas'),
   topButtons: getEl('#mainScreen .topBar'),
   exitBtn: getEl('#exitBtn', HTMLButtonElement),
   walletContainer: getEl('#mainWallet .wallet'),
@@ -31,8 +30,8 @@ const el = {
     card: getEl('#mainWallet .wallet .card'),
   },
   playStats: {
-    played: getEl('#playStats .played'),
-    level: getEl('#playStats .level'),
+    played: getEl('#mainScreen .playStats .played'),
+    level: getEl('#mainScreen .playStats .level'),
   },
   upgradeButtons: getEl('#mainScreen .upgradeButtons'),
 };
@@ -40,8 +39,6 @@ const el = {
 export function init() {
   initState();
   initUpgrades();
-  el.canvas.addEventListener('touchstart', startPlaying);
-  el.canvas.addEventListener('mousedown', startPlaying);
 
   // touching near or between the buttons shouldn't start a run
   el.topButtons.addEventListener('touchdown', (e) => e.stopPropagation());
@@ -50,18 +47,19 @@ export function init() {
   document.addEventListener('visibilitychange', updateMainScreenIfNotInRun);
 }
 
-export function startPlaying() {
-  // this gets called on every touch of the screen, so ignore it if already in a game
-  if (isSectionActive('mainScreen')) {
-    const params = getUpgradablePermanentParameters();
-    if (!hasEnergy()) {
-      updateEnergyCount(params);
-      return;
-    }
+export function startPlaying(): boolean {
+  const params = getUpgradablePermanentParameters();
+  if (!hasEnergy()) {
+    updateEnergyCount(params);
+    return false;
+  }
 
-    if (!subtractEnergy(params)) return; // wait until next energy
-
-    showSection('run');
+  // only start playing if we do have enough energy
+  if (subtractEnergy(params)) {
+    updateEnergyCount(params, false);
+    return true;
+  } else {
+    return false;
   }
 }
 
@@ -90,7 +88,7 @@ function updateMainScreenIfNotInRun() {
 }
 
 export function updateMainScreen(state = readState(), params = getUpgradablePermanentParameters()) {
-  prepareRun(state, params);
+  prepareRun(state, params, 'normal');
 
   updateMainWallet(state);
   toggleHidden(el.walletContainer, !isFeatureAllowed('coins', state));

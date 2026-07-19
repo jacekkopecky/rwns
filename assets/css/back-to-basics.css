@@ -1,0 +1,24 @@
+#backToBasics {
+  position: absolute;
+  inset: 0;
+  transition: opacity 1s ease-in-out;
+
+  /* don't let the section swallow clicks intended for the run canvas */
+  visibility: hidden;
+  & > * {
+    visibility: visible;
+  }
+
+  &.inactive {
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 1s ease-in-out,
+      visibility 1s 1s;
+  }
+
+  color: black;
+
+  display: flex;
+  flex-direction: column;
+}

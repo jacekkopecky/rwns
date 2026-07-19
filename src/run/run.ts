@@ -2,10 +2,10 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 import { logFps } from '#log';
-import type { ReadonlyState, UpgradablePermanentParameters } from '#types';
+import type { ReadonlyState, RunType, UpgradablePermanentParameters } from '#types';
 import { getEl, resetRandom } from '#utils';
 
-import { showSection } from '../sections';
+import { showSection, startPlaying } from '../sections';
 import { isOnSplashScreen } from '../splash-screen';
 import * as stateModule from '../state';
 
@@ -41,6 +41,7 @@ let handler: TouchHandler;
 
 let playing = false;
 let ending = false;
+let currentRunType: RunType = 'normal';
 
 const el = {
   main: getEl('main'),
@@ -76,6 +77,9 @@ export function init() {
   });
   el.endRunScreenProgress.addEventListener('click', nextLevel);
   el.endRunScreenRetry.addEventListener('click', retry);
+
+  el.canvas.addEventListener('touchstart', handleStartTouch);
+  el.canvas.addEventListener('mousedown', handleStartTouch);
 }
 
 export function warmup() {
@@ -134,7 +138,11 @@ function setupScene() {
 /**
  * make objects, reset in-run scores, show
  */
-export function prepareRun(state: ReadonlyState, params: UpgradablePermanentParameters) {
+export function prepareRun(
+  state: ReadonlyState,
+  params: UpgradablePermanentParameters,
+  runType: RunType,
+) {
   resetRandom(String(state.level));
 
   disposeAnimations();
@@ -153,6 +161,7 @@ export function prepareRun(state: ReadonlyState, params: UpgradablePermanentPara
   setupBullets();
   setupDyingGroup();
 
+  currentRunType = runType;
   playing = false;
   updateTouchHandlerEnabled();
 
@@ -164,14 +173,21 @@ export function prepareRun(state: ReadonlyState, params: UpgradablePermanentPara
   render(true);
 }
 
-export function showRunSection() {
-  el.endRunScreenProgress.disabled = false;
-  startRun();
+function handleStartTouch() {
+  // this is called on every mousedown/touchstart on the canvas, so return fast
+  if (playing) return;
+
+  if (startPlaying()) showSection('run');
 }
 
-function startRun() {
+export function showRunSection() {
+  el.endRunScreenProgress.disabled = false;
+  doStartRun();
+}
+
+function doStartRun() {
   if (!playing) {
-    stateModule.increasePlayed();
+    stateModule.increasePlayed(currentRunType);
   }
 
   playing = true;

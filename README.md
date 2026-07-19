@@ -13,8 +13,8 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
       there most of the time
 - [ ] first side game: back to basics
   - phase 1:
-    - add a new button on the right-hand side on main screen, for now just with the letter B in it
     - add a new "section" wired into sections.ts for this side-game
+    - the section is opened with the backToBasics button in sectionButtons
     - when active, main section is hidden
     - the new section has a "back to main screen" button that's in the same place as the normal exit
       button
@@ -22,14 +22,35 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
     - the new section code replicates main screen functionality for setting up and starting a run,
       and it reuses the prepareRun() function but adds a runType parameter defaulted to 'normal'
       which is the existing behaviour, and 'backToBasics' which is the new side-game type
+    - add playwright tests for the transitions, custom message; render and do a full screenshot
+  - cleanups after AI's phase 1
+    - [x] extract touch to start etc into aside
+    - [x] extract startPlaying touchstart/mousedown handler into run so it can easier be ignored
+          when already playing; if not playing, ask sections to run the current section's
+          startPlaying and if it returns true, actually start playing
+      - main screen's startPlaying will just do energy stuff
+      - b2b startPlaying will just return true (access to b2b runs will be controlled by
+        availability of the B button)
+      - run startPlaying will tell state to increase the played counter for the current state type
+    - [x] extract run type type from prepareRun
+    - [x] move away from using IDs for playstats, use a class and nesting inside its section by ID
+    - [x] in sections.init(), set one as active, so we can drop all the "inactive" from html
+    - [x] add a screenshot for the very first start, with a forced render, to be compared with
+          back-to-basics
   - phase 2:
-    - polish the transition to this section: blank the whole screen, prepare the special run,
-      unblank so it looks like we're switching to a completely new screen
+    - polish the transition to this section: blank the whole screen (to black? to what color?),
+      prepare the special run, unblank so it looks like we're switching to a completely new screen
+    - hide main wallet gradually, not abruptly
+    - add a custom message instead of the default level 1 message
     - also think of a better symbol for the button than B
       - B2B?
       - gate with gem above it?
-  - phase 3: add a gem award where the gem is part of the final gate (floating above it)
-    - also use a different prng seed every time you succeed
+  - phase 3:
+    - add a gem award where the gem is part of the final gate (floating above it)
+    - keep track of how many times we've played this, and how many times we've finished
+      (state.increasePlayed() and something)
+    - also use a different prng seed every time you succeed, but 1 should be the same as normal 1
+    - make sure end-of-run screen can only take us back to main, not next level
   - phase 4: make this available every now and then, playable once
     - state.sideGames.backToBasics.lastPlayed?
     - feature allowed from level 50?
@@ -218,6 +239,8 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
     - the gates could be random per play because they have little effect on the level outcome
 - [ ] skills (it should take time to "learn" skills? should need a special currency? from quests?)
   - make starting end blocks easier
+  - double shot chance, triple shot chance, critical shot chance (using Math.random during the run)
+    - this could be only for the battle against the boss, for example
   - buying in bulk
     - 9 cards at once (not implemneted)
     - then cheaper for 42 gems if one is for 5
@@ -334,6 +357,7 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 - [ ] allow use of back button for navigation at least through sections, and from a run?
 - [ ] remove circular dependencies
 - [ ] add support for wider screens, landscape mode?
+  - [ ] Use vmin instead of vh?
 - [ ] make it work in Safari?
 - `~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
 - ideas for later
@@ -341,6 +365,12 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
     - it can be a card and a card back in a single 3d-rotated package
 
 ---
+
+## done by 2026-07-19
+
+- [x] Update energy view after taking one point
+- [x] Remove min width on run wallet
+- [x] card highlight on progress could flash the green part, not a yellow dot
 
 ## done by 2026-07-15
 

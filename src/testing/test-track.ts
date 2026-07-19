@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import { init as initRunScreen, prepareRun } from '../run';
@@ -12,20 +13,23 @@ initRunScreen();
 let players = 0;
 state.setRunUpgradeLevel('players', players);
 
-prepareRun(state.readState(), state.getUpgradablePermanentParameters());
+prepareRun(state.readState(), state.getUpgradablePermanentParameters(), 'normal');
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.addEventListener('change', () => render());
 controls.screenSpacePanning = true;
 controls.zoomToCursor = true;
 
+const cameraPos = new THREE.Vector3(2.3, 24, -17);
+
+controls.target.set(0, 10, 0);
+
 window.addEventListener('resize', onWindowResize);
 setup();
 animate();
 
 function setup() {
-  camera.position.set(2.3, 24, -17);
-  controls.target.set(0, 10, 0);
+  camera.position.copy(cameraPos);
   playersGroup.children.forEach((p) => p.userData.marvin.startWalking());
 }
 
@@ -45,14 +49,15 @@ function animate() {
 }
 
 document.body.addEventListener('keydown', (e) => {
+  cameraPos.copy(camera.position);
   if (e.key === 'ArrowRight') {
     state.setRunUpgradeLevel('players', ++players);
-    prepareRun(state.readState(), state.getUpgradablePermanentParameters());
+    prepareRun(state.readState(), state.getUpgradablePermanentParameters(), 'normal');
     setup();
   } else if (e.key === 'ArrowLeft') {
     players = Math.max(--players, 0);
     state.setRunUpgradeLevel('players', players);
-    prepareRun(state.readState(), state.getUpgradablePermanentParameters());
+    prepareRun(state.readState(), state.getUpgradablePermanentParameters(), 'normal');
     setup();
   }
 });
