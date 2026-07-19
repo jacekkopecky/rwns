@@ -11,10 +11,11 @@ import * as stateModule from '../state';
 
 import {
   awardsGroup,
+  isWin,
   setupAwards,
   toggleEndRunScreen,
   updateAwardsView,
-  updateEndRunScreen,
+  updateEndRunScreenAwards,
   updateEndRunScreenGemCount,
 } from './awards';
 import { bulletsGroup, movePlayerBullets, setupBullets } from './bullets';
@@ -41,7 +42,7 @@ let handler: TouchHandler;
 
 let playing = false;
 let ending = false;
-let currentRunType: RunType = 'normal';
+let currentRun: RunOptions;
 
 const el = {
   main: getEl('main'),
@@ -49,7 +50,7 @@ const el = {
   quitBtn: getEl('#quitBtn', HTMLButtonElement),
   shortMessage: getEl('#shortMessage'),
   endRunScreenProgress: getEl('#endRunScreen button.progress', HTMLButtonElement),
-  endRunScreenRetry: getEl('#endRunScreen button.retry'),
+  endRunScreenRetry: getEl('#endRunScreen button.retry', HTMLButtonElement),
 };
 
 /**
@@ -136,18 +137,26 @@ function setupScene() {
 }
 
 interface RunOptions {
+  state: ReadonlyState;
+  params: UpgradablePermanentParameters;
   objects?: Pick<Parameters<typeof setupObjects>[0], 'customMessage'>;
+  endButtons?: {
+    // "" hides and disables the button
+    retry: string;
+    hideRetryOnWin?: boolean;
+    progress: string;
+  };
+  type: RunType;
+  onRetry: (win: boolean) => void;
+  onProgress: () => void;
 }
 
 /**
  * make objects, reset in-run scores, show
  */
-export function prepareRun(
-  state: ReadonlyState,
-  params: UpgradablePermanentParameters,
-  runType: RunType,
-  opts?: RunOptions,
-) {
+export function prepareRun(opts: RunOptions) {
+  const { state, params } = opts;
+
   resetRandom(String(state.level));
 
   disposeAnimations();
@@ -157,7 +166,7 @@ export function prepareRun(
     state,
     params,
     onFinish: () => endRun(true, true),
-    ...opts?.objects,
+    ...opts.objects,
   });
   el.shortMessage.textContent = levelInfo.msg;
   updateEndRunScreenGemCount(levelInfo.gemCount);
@@ -167,7 +176,7 @@ export function prepareRun(
   setupBullets();
   setupDyingGroup();
 
-  currentRunType = runType;
+  currentRun = opts;
   playing = false;
   updateTouchHandlerEnabled();
 
@@ -188,12 +197,13 @@ function handleStartTouch() {
 
 export function showRunSection() {
   el.endRunScreenProgress.disabled = false;
+  el.endRunScreenRetry.disabled = false;
   doStartRun();
 }
 
 function doStartRun() {
   if (!playing) {
-    stateModule.increasePlayed(currentRunType);
+    stateModule.increasePlayed(currentRun.type);
   }
 
   playing = true;
@@ -210,7 +220,16 @@ function endRun(immediate = false, win = false) {
   el.quitBtn.disabled = true;
 
   updateTouchHandlerEnabled();
-  updateEndRunScreen();
+  updateEndRunScreenAwards();
+
+  el.endRunScreenProgress.textContent = currentRun.endButtons?.progress ?? 'Next level';
+  el.endRunScreenRetry.textContent = currentRun.endButtons?.retry ?? 'Play again';
+
+  el.endRunScreenProgress.classList.toggle('hidden', currentRun.endButtons?.progress === '');
+  el.endRunScreenRetry.classList.toggle(
+    'hidden',
+    currentRun.endButtons?.retry === '' || (win && Boolean(currentRun.endButtons?.hideRetryOnWin)),
+  );
 
   setTimeout(
     () => {
@@ -227,12 +246,14 @@ function endRun(immediate = false, win = false) {
 
 function nextLevel() {
   el.endRunScreenProgress.disabled = true;
-  stateModule.increaseLevel();
-  showSection('mainScreen');
+  el.endRunScreenRetry.disabled = true;
+  currentRun.onProgress();
 }
 
 function retry() {
-  showSection('mainScreen');
+  el.endRunScreenProgress.disabled = true;
+  el.endRunScreenRetry.disabled = true;
+  currentRun.onRetry(isWin());
 }
 
 function isGameFinished() {

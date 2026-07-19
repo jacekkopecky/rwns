@@ -48,15 +48,17 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
       - B2B?
       - gate with gem above it?
       - ended with a lotus for calmness
-  - [ ] phase 3:
-    - add a gem award where the gem is part of the final gate (floating above it)
-    - keep track of how many times we've played this, and how many times we've finished
-      (state.increasePlayed() and something)
-    - also use a different prng seed every time you succeed, but 1 should be the same as normal 1
-    - make sure end-of-run screen can only take us back to main, not next level
+  - [.] phase 3:
+    - [x] make sure end-of-run screen can only take us back to main, not next level
+    - [ ] hide run info in backToBasics somehow
+    - [ ] add a gem award where the gem is part of the final gate (floating above it)
+    - [ ] keep track of how many times we've played this, and how many times we've finished
+          (state.increasePlayed() and something)
+    - [ ] also use a different prng seed every time you succeed, but 1 should be the same as normal
+          1
   - phase 4: make this available every now and then, playable once
     - state.sideGames.backToBasics.lastPlayed?
-    - feature allowed from level 50?
+    - feature allowed from level 100? (later as a skill?)
 - [ ] add a test that card upgrades are applied in a normal run (e.g. player pData.range)
 - [ ] side game: "Chase": a big diamond or something that flies away from us on a path through the
       run (clear of trees) and we're chasing and shooting and getting diamonds, up to a limit; every
@@ -249,9 +251,10 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
     - 9 cards at once (not implemneted)
     - then cheaper for 42 gems if one is for 5
     - then maybe cheaper still?
-  - "finding treasure" - more gems per level?
+  - "finding treasure" - more gems per level? - nah, leave this as cards…
   - "always finding treasure" - guaranteed gems per run (which could then go to 0 initially)
     - 'Sapphire Meteor'
+  - reminiscing (available from level 100?) - enables backToBasics
   - standing in a different formation - skills that you can switch between after a day's training
     - current blob, front-loaded triangle, point-first triangle
     - when you've tried all of them, you can get a switcher? or something more special? maybe the

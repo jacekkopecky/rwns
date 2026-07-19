@@ -106,6 +106,10 @@
         background-color: #a2ff44;
         border-color: #60c000;
       }
+
+      &.hidden {
+        display: none;
+      }
     }
   }
 

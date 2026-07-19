@@ -9,6 +9,7 @@ import { isOnSplashScreen } from '../splash-screen';
 import {
   canGiveDailyGift,
   getUpgradablePermanentParameters,
+  increaseLevel,
   initState,
   isFeatureAllowed,
   readState,
@@ -88,7 +89,18 @@ function updateMainScreenIfNotInRun() {
 }
 
 export function updateMainScreen(state = readState(), params = getUpgradablePermanentParameters()) {
-  prepareRun(state, params, 'normal');
+  prepareRun({
+    state,
+    params,
+    type: 'normal',
+    onProgress() {
+      increaseLevel('normal');
+      showSection('mainScreen');
+    },
+    onRetry() {
+      showSection('mainScreen');
+    },
+  });
 
   updateMainWallet(state);
   toggleHidden(el.walletContainer, !isFeatureAllowed('coins', state));

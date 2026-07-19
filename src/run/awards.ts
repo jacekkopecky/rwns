@@ -50,7 +50,7 @@ export async function giveAward(fromObj: THREE.Object3D, oData: ObjectData) {
     inRunWallet.add(type, amount);
     state.addAward(award);
     // in case we're already in the end-run screen
-    updateEndRunScreen();
+    updateEndRunScreenAwards();
 
     const targetCoords = getScreenCoordinates(
       dim.cameraToTrackEndLength,
@@ -158,7 +158,11 @@ export function toggleEndRunScreen(visible?: boolean, win?: boolean) {
   }
 }
 
-export function updateEndRunScreen() {
+export function isWin() {
+  return el.endRunScreen.classList.contains('win');
+}
+
+export function updateEndRunScreenAwards() {
   let showingAny = false;
   showingAny = fillOrHide(el.endRunScreenCoins, inRunWallet.read('coin')) || showingAny;
   showingAny = fillOrHide(el.endRunScreenGems, inRunWallet.read('gem')) || showingAny;

@@ -1,7 +1,7 @@
 import { getEl } from '#utils';
 
 import { prepareRun } from '../../run';
-import { fadeTo } from '../../sections';
+import { fadeTo, showSection } from '../../sections';
 import { getUpgradablePermanentParameters, readState } from '../../state';
 
 const el = {
@@ -26,8 +26,22 @@ export function showBackToBasicsScreen() {
 
   const params = getUpgradablePermanentParameters('backToBasics');
 
-  prepareRun(state, params, 'backToBasics', {
+  prepareRun({
+    state,
+    params,
+    type: 'backToBasics',
     objects: { customMessage: 'remember how\u00a0calm it\u00a0all once was?' },
+    endButtons: {
+      retry: 'OK',
+      progress: 'OK',
+      hideRetryOnWin: true,
+    },
+    onProgress() {
+      void fadeTo('mainScreen');
+    },
+    onRetry() {
+      showSection('backToBasics');
+    },
   });
 }
 

@@ -68,13 +68,15 @@ export function pay(type: CurrencyType, amount: number) {
   return remainingAmount;
 }
 
-export function increaseLevel() {
-  _state.level = _state.level + 1;
-  _state.runUpgradeLevels = {};
-  _state.collectedGemIds = [];
+export function increaseLevel(runType: RunType) {
+  if (runType === 'normal') {
+    _state.level = _state.level + 1;
+    _state.runUpgradeLevels = {};
+    _state.collectedGemIds = [];
 
-  handleLevelChanges();
-  saveState();
+    handleLevelChanges();
+    saveState();
+  }
 }
 
 export function increasePlayed(runType: RunType) {
