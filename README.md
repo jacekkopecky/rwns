@@ -39,7 +39,7 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
           back-to-basics
   - [.] phase 2:
     - [x] hide main wallet gradually, not abruptly
-    - [ ] polish the transition to this section: blank the whole screen (to black? to what color?),
+    - [x] polish the transition to this section: blank the whole screen (to black? to what color?),
           prepare the special run, unblank so it looks like we're switching to a completely new
           screen
     - [ ] add a custom message instead of the default level 1 message

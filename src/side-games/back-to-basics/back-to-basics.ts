@@ -10,7 +10,7 @@ const el = {
 };
 
 export function init() {
-  el.backToBasicsBtn.addEventListener('click', () => fadeTo('backToBasics'));
+  el.backToBasicsBtn.addEventListener('click', () => fadeTo('backToBasics', 'Humble Beginnings'));
   el.closeBtn.addEventListener('click', () => fadeTo('mainScreen'));
 }
 

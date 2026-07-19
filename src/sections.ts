@@ -20,6 +20,7 @@ export function init() {
 
 const el = {
   fadeThrough: getEl('#fadeThrough'),
+  fadeThroughMessage: getEl('#fadeThrough .message'),
 };
 
 const sections = {
@@ -95,13 +96,14 @@ export function startPlaying(): boolean {
   return getActiveSection()?.tryStartPlaying?.() ?? false;
 }
 
-export async function fadeTo(sec: Section) {
+export async function fadeTo(sec: Section, message = '') {
+  el.fadeThroughMessage.textContent = message;
   el.fadeThrough.classList.add('fading');
   await new Promise((resolve) => setTimeout(resolve, 500));
 
   showSection(sec);
 
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  await new Promise((resolve) => setTimeout(resolve, message ? 1000 : 500));
 
   el.fadeThrough.classList.remove('fading');
   await new Promise((resolve) => setTimeout(resolve, 500));
