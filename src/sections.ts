@@ -21,6 +21,7 @@ export function init() {
 const el = {
   fadeThrough: getEl('#fadeThrough'),
   fadeThroughMessage: getEl('#fadeThrough .message'),
+  fadeThroughIcon: getEl('#fadeThrough i.i'),
 };
 
 const sections = {
@@ -96,8 +97,9 @@ export function startPlaying(): boolean {
   return getActiveSection()?.tryStartPlaying?.() ?? false;
 }
 
-export async function fadeTo(sec: Section, message = '') {
+export async function fadeTo(sec: Section, message = '', icon = 'gem') {
   el.fadeThroughMessage.textContent = message;
+  el.fadeThroughIcon.className = `i ${icon}`;
   el.fadeThrough.classList.add('fading');
   await new Promise((resolve) => setTimeout(resolve, 500));
 

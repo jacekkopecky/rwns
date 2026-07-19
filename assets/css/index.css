@@ -334,22 +334,11 @@ button {
 }
 
 .sectionButtons {
-  .cards {
+  .cards,
+  .backToBasics {
     padding: 0.5em 0.3em;
     i {
       font-size: 3.5em;
-    }
-  }
-
-  .backToBasics {
-    padding: 0.5em 0.3em;
-    span {
-      display: block;
-      width: 1em;
-      height: 1em;
-      line-height: 1em;
-      font-size: 3.5em;
-      text-align: center;
     }
   }
 }

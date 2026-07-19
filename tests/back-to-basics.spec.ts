@@ -23,6 +23,14 @@ test.describe('Back To Basics Side Game', () => {
     await expect(backToBasicsBtn).toBeVisible();
     await backToBasicsBtn.click();
 
+    // jump ahead into the fade transition, screenshot it
+    await page.clock.fastForward(1000);
+    await expect(page).toHaveScreenshot('fade-in.png');
+
+    // jump ahead into the fade transition
+    await page.clock.fastForward(1000);
+    await page.clock.fastForward(1000);
+
     // verify we transitioned to back to basics section
     const backToBasicsSection = page.locator('#backToBasics');
     await expect(backToBasicsSection).not.toContainClass('inactive');
@@ -46,9 +54,17 @@ test.describe('Back To Basics Side Game', () => {
     await expect(page).toHaveScreenshot('back-to-basics-main.png');
 
     // click close button to return to main screen
-    const closeBtn = page.locator('#backToBasics button.close');
+    const closeBtn = page.locator('#backToBasics .closeBtn');
     await expect(closeBtn).toBeVisible();
     await closeBtn.click();
+
+    // jump ahead into the fade transition, screenshot it
+    await page.clock.fastForward(1000);
+    await expect(page).toHaveScreenshot('fade-out.png');
+
+    // jump ahead into the fade transition
+    await page.clock.fastForward(1000);
+    await page.clock.fastForward(1000);
 
     // verify we are back on main screen
     await expect(backToBasicsSection).toContainClass('inactive');

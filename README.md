@@ -44,9 +44,10 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
           screen
     - [x] add a custom message instead of the default level 1 message
     - [x] add a heading where the wallet would be? like on settings screen
-    - [ ] also think of a better symbol for the button than B
+    - [x] also think of a better symbol for the button than B
       - B2B?
       - gate with gem above it?
+      - ended with a lotus for calmness
   - [ ] phase 3:
     - add a gem award where the gem is part of the final gate (floating above it)
     - keep track of how many times we've played this, and how many times we've finished

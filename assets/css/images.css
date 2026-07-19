@@ -33,4 +33,9 @@ i.i {
     background-image: url('../cross.svg');
     background-color: unset;
   }
+
+  &.calm-lotus {
+    background-image: url('../calm-lotus.svg');
+    background-color: unset;
+  }
 }
