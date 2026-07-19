@@ -29,6 +29,12 @@ export function createInitialState(): State {
     collectedGemIds: [],
     lastDailyGiftGiven: getToday(), // don't give the gift on the first day
     startDate: getToday(),
+    sideGames: {
+      backToBasics: {
+        level: 1,
+        played: 0,
+      },
+    },
   };
 }
 

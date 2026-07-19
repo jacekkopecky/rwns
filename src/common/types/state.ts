@@ -1,5 +1,6 @@
 import type { CardType } from './cards';
 import type { CurrencyType } from './currencies';
+import type { SideGamesState } from './side-games';
 import type { RunUpgradeLevels, RunUpgradeType } from './upgrades';
 import type { DeepReadonly } from './utils';
 import type { ReadonlyWallet, SerializedWallet, Wallet } from './wallet';
@@ -15,6 +16,7 @@ export interface State {
   lastEnergyGiven: number; // milliseconds since epoch
   lastDailyGiftGiven?: string; // iso8601 date yyyy-mm-dd
   readonly startDate: string; // iso8601 date yyyy-mm-dd
+  sideGames: SideGamesState;
 }
 
 export type ReadonlyState = Omit<DeepReadonly<State>, 'wallet' | 'cards'> & {

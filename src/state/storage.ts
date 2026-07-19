@@ -1,4 +1,4 @@
-import { CARDS, CURRENCIES, parseUpgrades, Wallet, type State } from '#types';
+import { CARDS, CURRENCIES, parseSideGames, parseUpgrades, Wallet, type State } from '#types';
 import { getToday, parseNumber, parseString, parseStringArray } from '#utils';
 
 import { _state } from './state';
@@ -22,6 +22,8 @@ export function loadState(): State | null {
   try {
     const data = JSON.parse(dataString) as Record<string, unknown>;
 
+    const today = getToday();
+
     return {
       level: parseNumber(data.level, 1),
       energy: parseNumber(data.energy, Infinity),
@@ -31,8 +33,9 @@ export function loadState(): State | null {
       collectedGemIds: parseStringArray(data.collectedGemIds),
       played: parseNumber(data.played, 0),
       lastEnergyGiven: parseNumber(data.lastEnergyGiven, Date.now()),
-      lastDailyGiftGiven: parseString(data.lastDailyGiftGiven, getToday()),
-      startDate: parseString(data.startDate, getToday()),
+      lastDailyGiftGiven: parseString(data.lastDailyGiftGiven, today),
+      startDate: parseString(data.startDate, today),
+      sideGames: parseSideGames(data.sideGames),
     } satisfies Required<State>;
   } catch (e) {
     const newKey = getLocalStorageKey() + new Date().toISOString();

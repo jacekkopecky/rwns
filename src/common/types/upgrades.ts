@@ -1,4 +1,4 @@
-import { parseNumber } from '#utils';
+import { parseNumber, parseObject } from '#utils';
 
 export const RUN_UPGRADE_TYPES = ['players', 'damage', 'rate'] as const;
 export type RunUpgradeType = (typeof RUN_UPGRADE_TYPES)[number];
@@ -45,13 +45,11 @@ export interface UpgradablePermanentParameters {
 }
 
 export function parseUpgrades(data: unknown): RunUpgradeLevels {
-  if (data == null) return {};
-  if (typeof data !== 'object') {
-    throw new TypeError('malformed run upgrade levels data');
-  }
+  const obj = parseObject(data, 'run upgrade levels');
+  if (!obj) return {};
 
   const retval: RunUpgradeLevels = {};
-  for (const [key, value] of Object.entries(data)) {
+  for (const [key, value] of Object.entries(obj)) {
     if (!RUN_UPGRADE_TYPES.includes(key as RunUpgradeType)) {
       throw new TypeError(`unknown upgrade type ${key}`);
     }

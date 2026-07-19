@@ -13,8 +13,6 @@ initRunScreen();
 let players = 0;
 state.setRunUpgradeLevel('players', players);
 
-prepareRun(state.readState(), state.getUpgradablePermanentParameters(), 'normal');
-
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.addEventListener('change', () => render());
 controls.screenSpacePanning = true;
@@ -25,7 +23,7 @@ const cameraPos = new THREE.Vector3(2.3, 24, -17);
 controls.target.set(0, 10, 0);
 
 window.addEventListener('resize', onWindowResize);
-setup();
+prepRun();
 animate();
 
 function setup() {
@@ -52,12 +50,26 @@ document.body.addEventListener('keydown', (e) => {
   cameraPos.copy(camera.position);
   if (e.key === 'ArrowRight') {
     state.setRunUpgradeLevel('players', ++players);
-    prepareRun(state.readState(), state.getUpgradablePermanentParameters(), 'normal');
-    setup();
+    prepRun();
   } else if (e.key === 'ArrowLeft') {
     players = Math.max(--players, 0);
     state.setRunUpgradeLevel('players', players);
-    prepareRun(state.readState(), state.getUpgradablePermanentParameters(), 'normal');
-    setup();
+    prepRun();
   }
 });
+
+function prepRun() {
+  prepareRun({
+    state: state.readState(),
+    params: state.getUpgradablePermanentParameters(),
+    type: 'normal',
+
+    onRetry() {
+      /* nothing */
+    },
+    onProgress() {
+      /* nothing */
+    },
+  });
+  setup();
+}

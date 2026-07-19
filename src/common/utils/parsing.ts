@@ -21,3 +21,12 @@ export function parseStringArray(value: unknown): string[] {
   console.error('bad value', value);
   throw new TypeError('expected a string array');
 }
+
+export function parseObject(data: unknown, label: string): Record<string, unknown> | undefined {
+  if (data == null) return undefined;
+  if (typeof data !== 'object') {
+    throw new TypeError(`malformed ${label} data`);
+  }
+
+  return data as Record<string, unknown>;
+}
