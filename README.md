@@ -43,7 +43,7 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
           prepare the special run, unblank so it looks like we're switching to a completely new
           screen
     - [ ] add a custom message instead of the default level 1 message
-    - [ ] add a heading where the wallet would be? like on settings screen
+    - [x] add a heading where the wallet would be? like on settings screen
     - [ ] also think of a better symbol for the button than B
       - B2B?
       - gate with gem above it?

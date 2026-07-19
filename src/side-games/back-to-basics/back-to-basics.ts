@@ -6,7 +6,7 @@ import { getUpgradablePermanentParameters, readState } from '../../state';
 
 const el = {
   backToBasicsBtn: getEl('#mainScreen .sectionButtons .backToBasics'),
-  closeBtn: getEl('#backToBasics button.close'),
+  closeBtn: getEl('#backToBasics .closeBtn'),
 };
 
 export function init() {
