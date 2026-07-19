@@ -50,7 +50,7 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
       - ended with a lotus for calmness
   - [.] phase 3:
     - [x] make sure end-of-run screen can only take us back to main, not next level
-    - [ ] hide run info in backToBasics somehow
+    - [x] hide run info in backToBasics somehow
     - [ ] add a gem award where the gem is part of the final gate (floating above it)
     - [ ] keep track of how many times we've played this, and how many times we've finished
           (state.increasePlayed() and something)

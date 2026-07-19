@@ -1,5 +1,6 @@
 import { getEl } from '#utils';
 
+import { toggleRunInfo } from '../../main-screen';
 import { prepareRun } from '../../run';
 import { fadeTo, showSection } from '../../sections';
 import { getUpgradablePermanentParameters, readState } from '../../state';
@@ -17,6 +18,8 @@ export function init() {
 }
 
 export function showBackToBasicsScreen() {
+  toggleRunInfo(false);
+
   // pretend we're in level 1, and reset run upgrades
   const state = {
     ...readState(),

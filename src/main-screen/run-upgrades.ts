@@ -39,6 +39,8 @@ export function initUpgrades() {
 type ButtonUpgrade = keyof typeof el.upgrades;
 
 export function updateUpgrades(state: ReadonlyState, params: UpgradablePermanentParameters) {
+  toggleRunInfo(true);
+
   // only allow upgrades depending on state
   for (const upgradeType of Object.keys(el.upgrades) as ButtonUpgrade[]) {
     el.upgrades[upgradeType].classList.toggle(
@@ -49,6 +51,10 @@ export function updateUpgrades(state: ReadonlyState, params: UpgradablePermanent
   }
 
   updateRunInfo(state);
+}
+
+export function toggleRunInfo(show?: boolean) {
+  el.runInfo.all.classList.toggle('hidden', !show);
 }
 
 function updateRunInfo(state: ReadonlyState) {
