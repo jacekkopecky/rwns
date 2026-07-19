@@ -283,12 +283,15 @@ button {
 
   opacity: 0;
   visibility: hidden;
-  transition: opacity 1s;
+  transition:
+    opacity 1s,
+    visibility 0s 1s;
 
   #run.endRun ~ &,
   #mainScreen:not(.inactive) ~ & {
     opacity: 1;
     visibility: visible;
+    transition: opacity 1s;
   }
 }
 

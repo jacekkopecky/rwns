@@ -11,8 +11,8 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 
 - [ ] sections that slide out to the sides should have a delayed display:none style so it's just not
       there most of the time
-- [ ] first side game: back to basics
-  - phase 1:
+- [.] first side game: back to basics
+  - [x] phase 1:
     - add a new "section" wired into sections.ts for this side-game
     - the section is opened with the backToBasics button in sectionButtons
     - when active, main section is hidden
@@ -37,15 +37,17 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
     - [x] in sections.init(), set one as active, so we can drop all the "inactive" from html
     - [x] add a screenshot for the very first start, with a forced render, to be compared with
           back-to-basics
-  - phase 2:
-    - polish the transition to this section: blank the whole screen (to black? to what color?),
-      prepare the special run, unblank so it looks like we're switching to a completely new screen
-    - hide main wallet gradually, not abruptly
-    - add a custom message instead of the default level 1 message
-    - also think of a better symbol for the button than B
+  - [.] phase 2:
+    - [x] hide main wallet gradually, not abruptly
+    - [ ] polish the transition to this section: blank the whole screen (to black? to what color?),
+          prepare the special run, unblank so it looks like we're switching to a completely new
+          screen
+    - [ ] add a custom message instead of the default level 1 message
+    - [ ] add a heading where the wallet would be? like on settings screen
+    - [ ] also think of a better symbol for the button than B
       - B2B?
       - gate with gem above it?
-  - phase 3:
+  - [ ] phase 3:
     - add a gem award where the gem is part of the final gate (floating above it)
     - keep track of how many times we've played this, and how many times we've finished
       (state.increasePlayed() and something)
