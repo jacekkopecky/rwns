@@ -357,6 +357,7 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 - [ ] allow use of back button for navigation at least through sections, and from a run?
 - [ ] remove circular dependencies
 - [ ] add support for wider screens, landscape mode?
+  - [ ] Use vmin instead of vh?
 - [ ] make it work in Safari?
 - `~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
 - ideas for later
@@ -369,6 +370,7 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 
 - [x] Update energy view after taking one point
 - [x] Remove min width on run wallet
+- [x] card highlight on progress could flash the green part, not a yellow dot
 
 ## done by 2026-07-15
 

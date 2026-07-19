@@ -809,34 +809,21 @@ button {
         border-radius: 100%;
         background: yellow;
         background: radial-gradient(circle closest-side, #ff0 0%, #ff0 50%, #ff00 100%);
+
+        /* make it appear late and then pulsate */
+        transition: transform 1s;
+        transform: translate(-50%, -50%) scale(1);
+        @starting-style {
+          transform: translate(-50%, -50%) scale(0);
+        }
+        animation: pulsateHighlightBlob 0.5s linear 1s alternate infinite;
       }
     }
 
-    .nextLevel.highlight .box::before {
-      content: ' ';
-      height: 2em;
-
-      /* make it a circle around the top right corner of the box */
-      position: absolute;
-      left: 100%;
-      top: 0;
-      width: 2em;
-      height: 2em;
-      transform: translate(-50%, -50%);
-      border-radius: 100%;
-      background: yellow;
-      background: radial-gradient(circle closest-side, #ff0 0%, #ff0 30%, #ff00 100%);
-    }
-
-    .nextLevel.highlight .box::before,
-    .name.highlight .level::before {
-      /* make it appear late and then pulsate */
-      transition: transform 1s;
-      transform: translate(-50%, -50%) scale(1);
-      @starting-style {
-        transform: translate(-50%, -50%) scale(0);
-      }
-      animation: pulsateHighlightBlob 0.5s linear 1s alternate infinite;
+    .nextLevel.highlight .partBox {
+      --bg1: #afa;
+      --bg2: #ffa;
+      animation: pulsateBackground 0.5s ease-in-out 0.8s alternate infinite;
     }
 
     &.highlight:not(.showingNewCard) {
@@ -923,4 +910,10 @@ button {
 @keyframes pulsateHighlightBlob {
   from { transform: translate(-50%,-50%) scale(1); }
   to   { transform: translate(-50%,-50%) scale(0.8); }
+}
+
+/* prettier-ignore */
+@keyframes pulsateBackground {
+  from { background-color: var(--bg1); }
+  to   { background-color: var(--bg2); }
 }
