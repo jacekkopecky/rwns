@@ -367,6 +367,7 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 
 ## done by 2026-07-19
 
+- [x] Update energy view after taking one point
 - [x] Remove min width on run wallet
 
 ## done by 2026-07-15

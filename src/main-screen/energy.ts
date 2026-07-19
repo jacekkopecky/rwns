@@ -10,10 +10,15 @@ const el = {
   energyNext: getEl('#mainScreen .playStats .energy .nextTime'),
 };
 
-export function updateEnergyCount(params: UpgradablePermanentParameters) {
+export function updateEnergyCount(params: UpgradablePermanentParameters, withNewCountdown = true) {
   const { energy, nextEnergyMs } = getEnergy(params);
   if (energy < Infinity) {
-    if (energy >= params.energyMax) {
+    if (
+      energy >= params.energyMax ||
+      // we don't want to show the countdown when the energy has just gone from full and withNewCountdown is false
+      // so that when we start playing at full energy, we show the number decreasing but not the unnecessary (+1 in 60min)
+      (energy === params.energyMax - 1 && !withNewCountdown)
+    ) {
       clearCounter();
       showEnergy(null, energy);
     } else {

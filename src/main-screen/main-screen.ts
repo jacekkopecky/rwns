@@ -55,7 +55,12 @@ export function startPlaying(): boolean {
   }
 
   // only start playing if we do have enough energy
-  return subtractEnergy(params);
+  if (subtractEnergy(params)) {
+    updateEnergyCount(params, false);
+    return true;
+  } else {
+    return false;
+  }
 }
 
 let dailyGiftTimeout: ReturnType<typeof setTimeout> | null = null;
