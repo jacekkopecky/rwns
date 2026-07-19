@@ -365,6 +365,10 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 
 ---
 
+## done by 2026-07-19
+
+- [x] Remove min width on run wallet
+
 ## done by 2026-07-15
 
 - [x] (with Jules) the sectionButtons container should be renamed to 'leftSectionButtons', and then
