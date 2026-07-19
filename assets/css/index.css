@@ -399,6 +399,33 @@ button {
   }
 }
 
+#fadeThrough {
+  --bg1: #2a0048;
+  --bg2: #53008e;
+  --bg3: #8700e0;
+  background: linear-gradient(30deg, var(--bg1) 0, var(--bg2) 30%, var(--bg2) 70%, var(--bg3) 100%);
+
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50vmin;
+
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.5s ease-in,
+    visibility 0.5s step-end;
+
+  &.fading {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+  }
+}
+
 .hidden:not(.neverHidden) {
   visibility: hidden;
 

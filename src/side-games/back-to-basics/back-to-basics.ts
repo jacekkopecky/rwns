@@ -1,7 +1,7 @@
 import { getEl } from '#utils';
 
 import { prepareRun } from '../../run';
-import { showSection } from '../../sections';
+import { fadeTo } from '../../sections';
 import { getUpgradablePermanentParameters, readState } from '../../state';
 
 const el = {
@@ -10,8 +10,8 @@ const el = {
 };
 
 export function init() {
-  el.backToBasicsBtn.addEventListener('click', () => showSection('backToBasics'));
-  el.closeBtn.addEventListener('click', () => showSection('mainScreen'));
+  el.backToBasicsBtn.addEventListener('click', () => fadeTo('backToBasics'));
+  el.closeBtn.addEventListener('click', () => fadeTo('mainScreen'));
 }
 
 export function showBackToBasicsScreen() {

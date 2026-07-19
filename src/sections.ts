@@ -18,6 +18,10 @@ export function init() {
   showSection('mainScreen');
 }
 
+const el = {
+  fadeThrough: getEl('#fadeThrough'),
+};
+
 const sections = {
   ...prepSection('mainScreen', mainScreen.showMainScreen, {
     tryStartPlaying: mainScreen.startPlaying,
@@ -89,4 +93,16 @@ function getActiveSection(): (typeof sections)[Section] | undefined {
 
 export function startPlaying(): boolean {
   return getActiveSection()?.tryStartPlaying?.() ?? false;
+}
+
+export async function fadeTo(sec: Section) {
+  el.fadeThrough.classList.add('fading');
+  await new Promise((resolve) => setTimeout(resolve, 500));
+
+  showSection(sec);
+
+  await new Promise((resolve) => setTimeout(resolve, 500));
+
+  el.fadeThrough.classList.remove('fading');
+  await new Promise((resolve) => setTimeout(resolve, 500));
 }
