@@ -22,6 +22,7 @@ export function setupObjects(opts: {
   state: ReadonlyState;
   params: UpgradablePermanentParameters;
   onFinish: () => void;
+  customMessage?: string;
 }): LevelInfo {
   resetGroup(objectsGroup);
 
@@ -49,7 +50,7 @@ export function setupObjects(opts: {
   }
 
   return {
-    msg: customMessage,
+    msg: opts.customMessage ?? customMessage,
     gemCount,
   };
 }

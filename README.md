@@ -42,7 +42,7 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
     - [x] polish the transition to this section: blank the whole screen (to black? to what color?),
           prepare the special run, unblank so it looks like we're switching to a completely new
           screen
-    - [ ] add a custom message instead of the default level 1 message
+    - [x] add a custom message instead of the default level 1 message
     - [x] add a heading where the wallet would be? like on settings screen
     - [ ] also think of a better symbol for the button than B
       - B2B?
@@ -56,6 +56,7 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
   - phase 4: make this available every now and then, playable once
     - state.sideGames.backToBasics.lastPlayed?
     - feature allowed from level 50?
+- [ ] add a test that card upgrades are applied in a normal run (e.g. player pData.range)
 - [ ] side game: "Chase": a big diamond or something that flies away from us on a path through the
       run (clear of trees) and we're chasing and shooting and getting diamonds, up to a limit; every
       diamond received makes it a bit harder; every diamond not received makes it a bit less easier

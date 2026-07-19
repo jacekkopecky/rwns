@@ -24,7 +24,9 @@ export function showBackToBasicsScreen() {
 
   const params = getUpgradablePermanentParameters('backToBasics');
 
-  prepareRun(state, params, 'backToBasics');
+  prepareRun(state, params, 'backToBasics', {
+    objects: { customMessage: 'remember how\u00a0calm it\u00a0all once was?' },
+  });
 }
 
 export function startPlaying(): boolean {

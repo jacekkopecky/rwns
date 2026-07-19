@@ -135,6 +135,10 @@ function setupScene() {
   scene.add(setupTrack());
 }
 
+interface RunOptions {
+  objects?: Pick<Parameters<typeof setupObjects>[0], 'customMessage'>;
+}
+
 /**
  * make objects, reset in-run scores, show
  */
@@ -142,6 +146,7 @@ export function prepareRun(
   state: ReadonlyState,
   params: UpgradablePermanentParameters,
   runType: RunType,
+  opts?: RunOptions,
 ) {
   resetRandom(String(state.level));
 
@@ -152,6 +157,7 @@ export function prepareRun(
     state,
     params,
     onFinish: () => endRun(true, true),
+    ...opts?.objects,
   });
   el.shortMessage.textContent = levelInfo.msg;
   updateEndRunScreenGemCount(levelInfo.gemCount);

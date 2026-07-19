@@ -22,14 +22,8 @@
   display: flex;
   flex-direction: column;
 
-  .topBar {
-    /* the heading will overflow downwards and that's ok */
-    max-height: 3em;
-
-    h2 {
-      text-wrap: balance;
-      text-align: center;
-      font-weight: normal;
-    }
+  .topBar h2 {
+    align-self: center;
+    font-weight: normal;
   }
 }
