@@ -143,15 +143,17 @@ export function prepareRun(
   params: UpgradablePermanentParameters,
   runType: RunType,
 ) {
-  currentRunType = runType;
   resetRandom(String(state.level));
 
   disposeAnimations();
+
   setupAwards();
-
-  const levelInfo = setupObjects({ state, params, onFinish: () => endRun(true, true) });
+  const levelInfo = setupObjects({
+    state,
+    params,
+    onFinish: () => endRun(true, true),
+  });
   el.shortMessage.textContent = levelInfo.msg;
-
   updateEndRunScreenGemCount(levelInfo.gemCount);
 
   // set up players after objects so player upgrades and positioning, which may use randomness, don't affect object randomness
@@ -159,6 +161,7 @@ export function prepareRun(
   setupBullets();
   setupDyingGroup();
 
+  currentRunType = runType;
   playing = false;
   updateTouchHandlerEnabled();
 
