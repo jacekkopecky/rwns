@@ -53,7 +53,7 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
     - [x] hide run info in backToBasics somehow
     - [x] keep track of how many times we've played this, and how many times we've finished
           (state.increasePlayed() and something)
-    - [ ] also use a different prng seed every time you succeed, but 1 should be the same as normal
+    - [x] also use a different prng seed every time you succeed, but 1 should be the same as normal
           1
     - [ ] add a gem award where the gem is part of the final gate (floating above it)
   - phase 4: make this available every now and then, playable once
