@@ -1,13 +1,16 @@
-import { getEl } from '#utils';
+import { fillOrHide, getEl } from '#utils';
 
 import { toggleRunInfo } from '../../main-screen';
 import { prepareRun } from '../../run';
 import { fadeTo, showSection } from '../../sections';
-import { getUpgradablePermanentParameters, readState } from '../../state';
+import { getUpgradablePermanentParameters, increaseLevel, readState } from '../../state';
 
 const el = {
   backToBasicsBtn: getEl('#mainScreen .sectionButtons .backToBasics'),
   closeBtn: getEl('#backToBasics .closeBtn'),
+  playStats: {
+    played: getEl('#backToBasics .playStats .played'),
+  },
 };
 
 export function init() {
@@ -20,9 +23,12 @@ export function init() {
 export function showBackToBasicsScreen() {
   toggleRunInfo(false);
 
+  const realState = readState();
+  fillOrHide(el.playStats.played, realState.sideGames.backToBasics.played, String);
+
   // pretend we're in level 1, and reset run upgrades
   const state = {
-    ...readState(),
+    ...realState,
     level: 1,
     runUpgradeLevels: {},
   };
@@ -40,6 +46,7 @@ export function showBackToBasicsScreen() {
       hideRetryOnWin: true,
     },
     onProgress() {
+      increaseLevel('backToBasics');
       void fadeTo('mainScreen');
     },
     onRetry() {

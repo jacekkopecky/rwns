@@ -51,8 +51,8 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
   - [.] phase 3:
     - [x] make sure end-of-run screen can only take us back to main, not next level
     - [x] hide run info in backToBasics somehow
-    - [.] keep track of how many times we've played this, and how many times we've finished
-      (state.increasePlayed() and something)
+    - [x] keep track of how many times we've played this, and how many times we've finished
+          (state.increasePlayed() and something)
     - [ ] also use a different prng seed every time you succeed, but 1 should be the same as normal
           1
     - [ ] add a gem award where the gem is part of the final gate (floating above it)

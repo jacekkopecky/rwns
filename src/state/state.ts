@@ -75,20 +75,34 @@ export function pay(type: CurrencyType, amount: number) {
 }
 
 export function increaseLevel(runType: RunType) {
-  if (runType === 'normal') {
-    _state.level = _state.level + 1;
-    _state.runUpgradeLevels = {};
-    _state.collectedGemIds = [];
+  switch (runType) {
+    case 'normal':
+      _state.level = _state.level + 1;
+      _state.runUpgradeLevels = {};
+      _state.collectedGemIds = [];
 
-    handleLevelChanges();
-    saveState();
+      handleLevelChanges();
+      saveState();
+      break;
+
+    case 'backToBasics':
+      _state.sideGames.backToBasics.level += 1;
+      saveState();
+      break;
   }
 }
 
 export function increasePlayed(runType: RunType) {
-  if (runType === 'normal') {
-    _state.played += 1;
-    saveState();
+  switch (runType) {
+    case 'normal':
+      _state.played += 1;
+      saveState();
+      break;
+
+    case 'backToBasics':
+      _state.sideGames.backToBasics.played += 1;
+      saveState();
+      break;
   }
 }
 
