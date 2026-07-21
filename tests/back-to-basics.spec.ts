@@ -3,6 +3,9 @@ import { expect, test } from '@playwright/test';
 import { initializePage, startGame } from './lib';
 
 test.describe('Back To Basics Side Game', () => {
+  // run tests sequentially
+  test.describe.configure({ mode: 'serial' });
+
   test('should open, display correctly, and return to main screen', async ({ page }) => {
     await initializePage(page, {
       state: {
@@ -60,8 +63,11 @@ test.describe('Back To Basics Side Game', () => {
     // take a screenshot of the whole page
     await expect(page).toHaveScreenshot('back-to-basics-main.png');
 
-    // start a run and finish it right away
+    // start a run and take a screenshot
     await page.locator('canvas').click();
+    await expect(page).toHaveScreenshot('run-start-level-1.png');
+
+    // finish the run it right away
     const quitBtn = page.locator('#quitBtn');
     await expect(quitBtn).toBeVisible();
     await quitBtn.click();
@@ -199,4 +205,58 @@ test.describe('Back To Basics Side Game', () => {
     expect(nowPlayed).toBe(startPlayed + 1);
     expect(nowLevel).toBe(startLevel + 1);
   });
+
+  for (const level of [1, 42]) {
+    test(`should position trees differently in every level ${level}`, async ({ page }) => {
+      await initializePage(page, {
+        state: {
+          level: 10,
+          energy: 100,
+          sideGames: {
+            backToBasics: {
+              level: level,
+              played: 7, // shouldn't affect the trees
+            },
+          },
+        },
+      });
+
+      await page.addInitScript(() => {
+        Math.random = () => 0.7; // make sure marvin moves its legs predictably
+      });
+
+      await page.goto('./');
+      await startGame(page);
+
+      // verify we are on main screen
+      const mainScreen = page.locator('#mainScreen');
+      await expect(mainScreen).not.toContainClass('inactive');
+
+      // find and click the back to basics button
+      const backToBasicsBtn = page.locator('#mainScreen .sectionButtons.right .backToBasics');
+      await expect(backToBasicsBtn).toBeVisible();
+      await backToBasicsBtn.click();
+
+      // jump through the fade transition
+      await page.clock.fastForward(1000);
+      await page.clock.fastForward(1000);
+      await page.clock.fastForward(1000);
+
+      // verify we transitioned to back to basics section
+      const backToBasicsSection = page.locator('#backToBasics');
+      await expect(backToBasicsSection).not.toContainClass('inactive');
+      await expect(mainScreen).toContainClass('inactive');
+
+      // start a run and take a screenshot
+      await page.locator('canvas').click();
+      await page.evaluate(() => {
+        window.gameDoRender();
+      });
+
+      await expect(page).toHaveScreenshot(`run-start-level-${level}.png`);
+      if (level !== 1) {
+        await expect(page).not.toHaveScreenshot('run-start-level-1.png');
+      }
+    });
+  }
 });

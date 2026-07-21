@@ -159,3 +159,16 @@ export function getUpgradablePermanentParameters(
 
   return params;
 }
+
+export function getLevelRandomSeed(state: ReadonlyState, runType: RunType): string {
+  switch (runType) {
+    case 'normal':
+      return String(state.level);
+
+    case 'backToBasics': {
+      const level = state.sideGames.backToBasics.level || 1;
+      // same level 1 as normal, but different afterwards
+      return level === 1 ? '1' : `backToBasics ${level}`;
+    }
+  }
+}

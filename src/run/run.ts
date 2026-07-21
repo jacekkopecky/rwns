@@ -157,7 +157,7 @@ interface RunOptions {
 export function prepareRun(opts: RunOptions) {
   const { state, params } = opts;
 
-  resetRandom(String(state.level));
+  resetRandom(stateModule.getLevelRandomSeed(state, opts.type));
 
   disposeAnimations();
 

@@ -13,3 +13,6 @@ type DeepReadonlyArray<T> = readonly DeepReadonly<T>[];
 type DeepReadonlyObject<T> = {
   readonly [P in keyof T]: DeepReadonly<T[P]>;
 };
+
+export type PickedPartial<T, Key extends keyof T> = Omit<T, Key> &
+  Partial<Record<Key, Partial<T[Key]>>>;

@@ -1,9 +1,9 @@
 import { expect, type Page } from '@playwright/test';
 
-import type { SerializedState } from '#types/state';
+import type { PickedPartial, SerializedState } from '#types';
 
 interface InitOptions {
-  state?: Partial<SerializedState>;
+  state?: PickedPartial<Partial<SerializedState>, 'sideGames'>;
   time?: string;
 }
 
