@@ -5,8 +5,8 @@
   <title>RWNS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
   <link rel="icon" href="/rwns/assets/explosion-BrJVmXi7.svg" />
-  <script type="module" crossorigin src="/rwns/assets/index-BZOFHoXu.js"></script>
-  <link rel="stylesheet" crossorigin href="/rwns/assets/index-U91AG8sK.css">
+  <script type="module" crossorigin src="/rwns/assets/index-Dk8sVQCR.js"></script>
+  <link rel="stylesheet" crossorigin href="/rwns/assets/index-DDJg63tf.css">
 <link rel="manifest" href="/rwns/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/rwns/registerSW.js"></script></head>
 
 <body class="using-fullscreen showingSplashScreen">
@@ -21,7 +21,7 @@
   </header>
 
   <main>
-    <section id="run" class="inactive no-inert">
+    <section id="run" class="no-inert">
       <canvas id="webglCanvas"></canvas>
 
       <div id="log"></div>
@@ -62,11 +62,8 @@
           </div>
         </div>
         <div class="buttons">
-          <button class="retry">
-            <span class="if-win">Play again</span>
-            <span class="if-not-win">Play again</span>
-          </button>
-          <button class="progress if-win">Next level</button>
+          <button class="retry">filled in code</button>
+          <button class="progress if-win">filled in code</button>
         </div>
       </div>
     </section>
@@ -77,7 +74,7 @@
         <button id="settingsBtn">⚙️</button>
       </div>
 
-      <div id="playStats">
+      <div class="playStats">
         <div class="level">Level <span class="value"></span></div>
         <div class="played">Played <span class="value"></span></div>
         <div class="energy hidden">
@@ -86,16 +83,14 @@
         </div>
       </div>
 
-      <div id="touchToStart">
-        <span id="shortMessage" class="hiddenGone"></span>
-        <span class="if-energy">touch to start</span>
-        <span class="if-no-energy">out of energy</span>
-      </div>
-
-      <div class="sectionButtons">
+      <div class="sectionButtons left">
         <button class="cards">
           <i class="i cards-icon"></i>
         </button>
+      </div>
+
+      <div class="sectionButtons right">
+        <button class="backToBasics"><i class="i calm-lotus"></i></button>
       </div>
 
       <div class="upgradeButtons">
@@ -117,6 +112,19 @@
       </div>
     </section>
 
+    <section id="backToBasics">
+      <div class="topBar">
+        <button class="closeBtn"><i class="i cross"></i></button>
+        <h2>Intermission</h2>
+        <!-- button repeated for symmetry -->
+        <button style="visibility: hidden"><i class="i cross"></i></button>
+      </div>
+
+      <div class="playStats">
+        <div class="played">Played <span class="value">0</span></div>
+      </div>
+    </section>
+
     <aside id="mainWallet">
       <div class="wallet">
         <div class="coin neverHidden"><span class="value">0</span> <i class="i coins"></i></div>
@@ -125,7 +133,13 @@
       </div>
     </aside>
 
-    <section id="cards" class="inactive">
+    <aside id="touchToStart">
+      <span id="shortMessage" class="hiddenGone"></span>
+      <span class="if-energy">touch to start</span>
+      <span class="if-no-energy">out of energy</span>
+    </aside>
+
+    <section id="cards">
       <div class="topBar">
         <button class="close"><i class="i cross"></i></button>
         <div class="wallet">
@@ -159,7 +173,7 @@
       </div>
     </section>
 
-    <section id="dailyGift" class="inactive">
+    <section id="dailyGift">
       <h2 class="colorText">
         <span>D</span>
         <span>a</span>
@@ -176,7 +190,7 @@
       </div>
     </section>
 
-    <section id="settings" class="inactive">
+    <section id="settings">
       <div class="topBar">
         <button class="closeBtn"><i class="i cross"></i></button>
         <h2>Settings</h2>
@@ -191,6 +205,11 @@
       </details>
       <button class="resetProgressBtn">Start from scratch</button>
     </section>
+
+    <aside id="fadeThrough">
+      <h2 class="message"></h2>
+      <i class="i gem"></i>
+    </aside>
   </main>
 
 </body>
