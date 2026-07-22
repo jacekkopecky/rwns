@@ -5,6 +5,7 @@ import type { ReadonlyState, UpgradablePermanentParameters } from '#types';
 
 import { giveAward } from './awards';
 import { createLevelObjects } from './levels';
+import { addGemsToGate } from './levels/tools';
 import { updateHitBar } from './three/models';
 import { isDying } from './three/resources';
 import { createObject, killObject } from './three/run-objects';
@@ -44,6 +45,7 @@ export function setupObjects(opts: {
   endGate.userData.maxZ = maxZ;
   endGate.translateZ(maxZ);
   getObjectData(endGate).hitPoints = Infinity; // make the gate swallow bullets
+  const gateGemCount = addGemsToGate(endGate, opts.params.endGateGems);
   objects.push(endGate);
 
   for (const obj of objects) {
@@ -52,7 +54,7 @@ export function setupObjects(opts: {
 
   return {
     msg: opts.customMessage ?? customMessage,
-    gemCount,
+    gemCount: gemCount + gateGemCount,
   };
 }
 
@@ -85,16 +87,23 @@ export function hitObject(obj: THREE.Object3D, hitPoints: number, playerHit = fa
     updateHitBar(obj, oData.hitPoints / oData.maxHitPoints);
   }
 
-  if (
+  const shouldKillObject =
     oData.collectible ||
     oData.hitPoints <= 0 ||
-    (oData.benign && playerHit && oData.hitPoints !== Infinity)
-  ) {
-    const givingAward = Boolean(oData.awards?.length) && !(oData.benign && playerHit);
-    killObject(obj, givingAward);
+    (oData.benign && playerHit && oData.hitPoints !== Infinity);
 
+  const shouldGiveAward =
     // give the award, but not from benign objects when we walk into them
-    if (givingAward) void giveAward(obj, oData);
+    (shouldKillObject && !(oData.benign && playerHit)) || (playerHit && oData.awardOnPass);
+
+  const givingAward = Boolean(shouldGiveAward && oData.awards?.length);
+
+  if (shouldKillObject) {
+    killObject(obj, givingAward);
+  }
+
+  if (givingAward) {
+    void giveAward(obj, oData);
   }
 
   return true;

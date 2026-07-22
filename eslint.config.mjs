@@ -42,6 +42,10 @@ export default defineConfig(
       ],
       '@typescript-eslint/consistent-type-imports': 'error',
       eqeqeq: ['error', 'always', { null: 'never' }],
+      '@typescript-eslint/prefer-nullish-coalescing': [
+        'error',
+        { ignorePrimitives: { boolean: true } },
+      ],
     },
   },
 );

@@ -60,7 +60,12 @@ export function showBackToBasicsScreen() {
     state,
     params,
     type: 'backToBasics',
-    objects: { customMessage: 'remember how\u00a0calm it\u00a0all once was?' },
+    objects: {
+      customMessage:
+        realState.sideGames.backToBasics.level === 1
+          ? 'remember how\u00a0calm it\u00a0all once was?'
+          : '',
+    },
     endButtons: {
       retry: 'OK',
       progress: 'OK',

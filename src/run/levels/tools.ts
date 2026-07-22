@@ -1,8 +1,9 @@
 import * as THREE from 'three';
 
 import * as dim from '#dimensions';
-import { assignEndBunchedRewards, random, randomXNotTooClose } from '#utils';
+import { assignEndBunchedRewards, nextId, random, randomXNotTooClose } from '#utils';
 
+import { getHitBar } from '../three/models';
 import { scaleExtent } from '../three/resources';
 import { createObject } from '../three/run-objects';
 import { getObjectData } from '../types';
@@ -101,4 +102,33 @@ export function makeEndBlocks(
   }
 
   return objects;
+}
+
+export function addGemsToGate(gate: THREE.Object3D, count: number): number {
+  if (count < 1) {
+    return 0;
+  }
+
+  const gem = makeGem(0);
+  getHitBar(gem)?.removeFromParent();
+
+  // shift the gem to the top of the boulder
+  gem.position.y += dim.modelSizes.gatePost[1];
+
+  gem.name = nextId();
+  gem.castShadow = false;
+
+  gate.add(gem);
+
+  const oData = getObjectData(gate);
+  oData.awards ??= [];
+  // the gem goes in as the first award so it flies out nicely
+  oData.awards.unshift({
+    amount: 1,
+    type: 'gem',
+    useForAward: gem.name,
+  });
+
+  console.assert(count === 1, 'cannot do more than one gem in a gate yet');
+  return 1;
 }

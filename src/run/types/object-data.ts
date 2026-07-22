@@ -36,8 +36,10 @@ export interface ObjectData extends AnyObjectData {
   height: number;
   // collectible objects can be collected by walking over them, not by shooting them
   collectible?: boolean;
-  // benign objects just disappear when walking through with no harm to the player
+  // benign objects just disappear when walking through with no harm to the player and no award, except if awardOnPass
   benign?: boolean;
+  // awardOnPass objects give their award when passing through them, but the object itself doesn't disappear
+  awardOnPass?: boolean;
   // awards can come when shot (non-collectible) or when walked over (collectible)
   awards?: Award[];
   // a function to call when a player hits the object

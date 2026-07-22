@@ -13,6 +13,7 @@ export interface UpgradablePermanentParameters {
   gemsPerLevel: number;
   gemsGuaranteedPerRun: number;
   endBlockCoinsPerLevel: number;
+  endGateGems: number;
 
   // upgrade prices
   damageUpgradePrice: number;

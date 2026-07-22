@@ -44,8 +44,14 @@ export function setupAwards() {
 }
 
 export async function giveAward(fromObj: THREE.Object3D, oData: ObjectData) {
+  if (!oData.awards?.length) return;
+
+  const awards = oData.awards;
+  // make sure awards aren't given twice
+  delete oData.awards;
+
   let first = true;
-  for (const award of oData.awards ?? []) {
+  for (const award of awards) {
     const { type, amount } = award;
 
     inRunWallet.add(type, amount);

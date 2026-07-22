@@ -134,6 +134,7 @@ export function getUpgradablePermanentParameters(
     gemsPerLevel: dim.initialGemsPerLevel,
     gemsGuaranteedPerRun: dim.initialGemsGuaranteeedPerRun,
     endBlockCoinsPerLevel: dim.initialEndBlockCoinsPerLevel,
+    endGateGems: 0,
     damageUpgradePrice: dim.initialDamageUpgradePrice,
     rateUpgradePrice: dim.initialRateUpgradePrice,
     playersUpgradePrice: dim.initialPlayersUpgradePrice,
@@ -159,6 +160,10 @@ export function getUpgradablePermanentParameters(
       const level = lookupLevelByNumberOfCards(cardNumber);
       cardDefinitions[cardType].performUpgrade(level, params);
     }
+  }
+
+  if (runType === 'backToBasics') {
+    params.endGateGems = 1;
   }
 
   return params;

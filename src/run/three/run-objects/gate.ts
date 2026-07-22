@@ -16,6 +16,7 @@ export function createGate(type: dim.Gate, callback: (player?: THREE.Object3D) =
   gate.userData.type = 'object';
   gate.userData.onPlayerCollision = callback;
   gate.userData.benign = true;
+  gate.userData.awardOnPass = true;
 
   return gate;
 }
