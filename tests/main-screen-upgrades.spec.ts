@@ -3,10 +3,10 @@ import { expect, test } from '@playwright/test';
 import { initializePage, startGame } from './lib';
 
 test.describe('Main Screen Upgrades', () => {
-  test('should allow player, rate and damage upgrades at level 30', async ({ page }) => {
+  test('should allow player, rate and damage upgrades at level 20', async ({ page }) => {
     await initializePage(page, {
       state: {
-        level: 30,
+        level: 20, // only upgrade buttons are visible
         energy: 100,
         wallet: { wallet: { coin: 1000 } },
       },
@@ -19,8 +19,8 @@ test.describe('Main Screen Upgrades', () => {
     const mainScreen = page.locator('#mainScreen');
     await expect(mainScreen).not.toContainClass('inactive');
 
-    // verify level is 30 in UI
-    await expect(page.locator('#mainScreen .playStats .level .value')).toHaveText('30');
+    // verify level is 20 in UI
+    await expect(page.locator('#mainScreen .playStats .level .value')).toHaveText('20');
 
     // verify wallet has 1000 coins in UI
     const walletValueEl = page.locator('#mainWallet .wallet .coin .value');
