@@ -5,6 +5,7 @@ import { updateCardsVisibility } from '../cards';
 import { prepareRun } from '../run';
 import { isSectionActive, showSection } from '../sections';
 import { updateSettingsVisibility } from '../settings';
+import { updateSideGamesVisibility } from '../side-games';
 import { isOnSplashScreen } from '../splash-screen';
 import {
   canGiveDailyGift,
@@ -115,6 +116,7 @@ export function updateMainScreen(state = readState(), params = getUpgradablePerm
   updateEnergyCount(params);
   updateUpgrades(state, params);
   updateCardsVisibility(state);
+  updateSideGamesVisibility(state);
   updateSettingsVisibility(state);
 }
 

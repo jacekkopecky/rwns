@@ -7,7 +7,7 @@ export interface SideGamesState {
 interface BackToBasicsState {
   level: number;
   played: number;
-  nextAllowed?: string; // iso8601 date yyyy-mm-dd
+  nextAllowed: string; // iso8601 date yyyy-mm-dd
 }
 
 export function parseSideGames(data: unknown): SideGamesState {
@@ -26,6 +26,6 @@ function parseBackToBasicsState(data: unknown): BackToBasicsState {
   return {
     level: parseNumber(obj?.level, 1),
     played: parseNumber(obj?.played, 0),
-    nextAllowed: parseString(obj?.startDate, getToday()),
+    nextAllowed: parseString(obj?.nextAllowed, getToday()),
   };
 }

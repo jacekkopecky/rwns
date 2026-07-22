@@ -36,4 +36,5 @@ export type Feature =
   | 'dailyGift'
   | `${RunUpgradeType}Upgrade`
   | 'cards'
-  | 'bulkCards';
+  | 'bulkCards'
+  | 'backToBasics';

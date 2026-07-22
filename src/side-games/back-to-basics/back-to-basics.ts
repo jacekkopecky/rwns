@@ -1,9 +1,22 @@
-import { fillOrHide, getEl } from '#utils';
+import type { ReadonlyState } from '#types';
+import {
+  fillOrHide,
+  getEl,
+  getToday,
+  getTodayPlusDays,
+  randomIntInRange,
+  toggleHidden,
+} from '#utils';
 
 import { toggleRunInfo } from '../../main-screen';
 import { prepareRun } from '../../run';
 import { fadeTo, showSection } from '../../sections';
-import { getUpgradablePermanentParameters, increaseLevel, readState } from '../../state';
+import {
+  getUpgradablePermanentParameters,
+  increaseLevel,
+  isFeatureAllowed,
+  readState,
+} from '../../state';
 
 const el = {
   backToBasicsBtn: getEl('#mainScreen .sectionButtons .backToBasics'),
@@ -18,6 +31,14 @@ export function init() {
     fadeTo('backToBasics', 'Humble Beginnings', 'calm-lotus'),
   );
   el.closeBtn.addEventListener('click', () => fadeTo('mainScreen'));
+}
+
+export function updateVisibility(state: ReadonlyState) {
+  const showBackToBasics =
+    isFeatureAllowed('backToBasics', state) &&
+    getToday() >= state.sideGames.backToBasics.nextAllowed;
+
+  toggleHidden(el.backToBasicsBtn, !showBackToBasics);
 }
 
 export function showBackToBasicsScreen() {
@@ -58,4 +79,8 @@ export function showBackToBasicsScreen() {
 export function startPlaying(): boolean {
   // we can always start this mini-game, if the user got the button to get them to this point
   return true;
+}
+
+export function pickNextBackToBasicsDate() {
+  return getTodayPlusDays(randomIntInRange(12, 16, Math.random));
 }

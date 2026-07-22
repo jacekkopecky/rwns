@@ -32,6 +32,9 @@ export function isFeatureAllowed(upgrade: Feature, state: ReadonlyState): boolea
 
     case 'bulkCards':
       return false; // for now
+
+    case 'backToBasics':
+      return state.level >= 100;
   }
 }
 

@@ -9,7 +9,7 @@ test.describe('Back To Basics Side Game', () => {
   test('should open, display correctly, and return to main screen', async ({ page }) => {
     await initializePage(page, {
       state: {
-        level: 10,
+        level: 100, // allowed from level 100
         energy: 100,
       },
     });
@@ -121,7 +121,7 @@ test.describe('Back To Basics Side Game', () => {
   test('should finish the basics run successfully', async ({ page }) => {
     await initializePage(page, {
       state: {
-        level: 10,
+        level: 100,
         energy: 100,
       },
     });
@@ -210,12 +210,13 @@ test.describe('Back To Basics Side Game', () => {
     test(`should position trees differently in every level ${level}`, async ({ page }) => {
       await initializePage(page, {
         state: {
-          level: 10,
+          level: 100,
           energy: 100,
           sideGames: {
             backToBasics: {
               level: level,
               played: 7, // shouldn't affect the trees
+              nextAllowed: '2000-01-01',
             },
           },
         },

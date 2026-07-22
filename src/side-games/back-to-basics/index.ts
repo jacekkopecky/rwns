@@ -1,1 +1,7 @@
-export { init, showBackToBasicsScreen, startPlaying } from './back-to-basics';
+export {
+  init,
+  showBackToBasicsScreen,
+  startPlaying,
+  updateVisibility,
+  pickNextBackToBasicsDate,
+} from './back-to-basics';

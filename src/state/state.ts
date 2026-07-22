@@ -13,11 +13,13 @@ import { CARDS, CURRENCIES, Wallet } from '#types';
 import { exposeGlobalWindowProp, getToday } from '#utils';
 
 import { cardDefinitions, lookupLevelByNumberOfCards } from '../cards';
+import { pickNextBackToBasicsDate } from '../side-games';
 
 import { handleLevelChanges } from './features';
 import { loadState, saveState } from './storage';
 
 export function createInitialState(): State {
+  const today = getToday();
   return {
     level: 1,
     wallet: new Wallet(CURRENCIES),
@@ -27,12 +29,13 @@ export function createInitialState(): State {
     lastEnergyGiven: Date.now(),
     runUpgradeLevels: {},
     collectedGemIds: [],
-    lastDailyGiftGiven: getToday(), // don't give the gift on the first day
-    startDate: getToday(),
+    lastDailyGiftGiven: today, // don't give the gift on the first day
+    startDate: today,
     sideGames: {
       backToBasics: {
         level: 1,
         played: 0,
+        nextAllowed: today,
       },
     },
   };
@@ -101,6 +104,7 @@ export function increasePlayed(runType: RunType) {
 
     case 'backToBasics':
       _state.sideGames.backToBasics.played += 1;
+      _state.sideGames.backToBasics.nextAllowed = pickNextBackToBasicsDate();
       saveState();
       break;
   }

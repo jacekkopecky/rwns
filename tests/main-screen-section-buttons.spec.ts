@@ -6,7 +6,7 @@ test.describe('Main Screen Section Buttons', () => {
   test('should display left and right section buttons correctly', async ({ page }) => {
     await initializePage(page, {
       state: {
-        level: 30,
+        level: 100, // has both cards and back-to-basics
         energy: 100,
       },
     });

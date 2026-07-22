@@ -48,17 +48,17 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
       - B2B?
       - gate with gem above it?
       - ended with a lotus for calmness
-  - [.] phase 3:
+  - [x] phase 3:
     - [x] make sure end-of-run screen can only take us back to main, not next level
     - [x] hide run info in backToBasics somehow
     - [x] keep track of how many times we've played this, and how many times we've finished
           (state.increasePlayed() and something)
     - [x] also use a different prng seed every time you succeed, but 1 should be the same as normal
           1
+  - [.] phase 4: make this available every now and then, playable once
     - [ ] add a gem award where the gem is part of the final gate (floating above it)
-  - phase 4: make this available every now and then, playable once
-    - state.sideGames.backToBasics.lastPlayed?
-    - feature allowed from level 100? (later as a skill?)
+    - [x] fill state.sideGames.backToBasics.nextAllowed
+    - [x] feature allowed from level 100? (later as a skill?)
 - [ ] add a test that card upgrades are applied in a normal run (e.g. player pData.range)
 - [ ] side game: "Chase": a big diamond or something that flies away from us on a path through the
       run (clear of trees) and we're chasing and shooting and getting diamonds, up to a limit; every
