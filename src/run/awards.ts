@@ -30,6 +30,7 @@ const inRunWallet = new Wallet(CURRENCIES);
 const awardsShowing = new Map<CurrencyType, AnimatedCount>();
 
 export const awardsGroup = new THREE.Group();
+awardsGroup.name = 'awardsGroup';
 
 export function setupAwards() {
   awardsGroup.clear();

@@ -12,6 +12,7 @@ import { removeGroupChildrenBehindCamera, resetGroup } from './three/tools';
 import { getObjectData } from './types';
 
 export const objectsGroup = new THREE.Group();
+objectsGroup.name = 'objectsGroup';
 
 interface LevelInfo {
   msg: string;

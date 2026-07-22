@@ -16,6 +16,7 @@ import { getObjectZ, resetGroup } from './three/tools';
 import { Circle, getObjectData, getPlayerData, type PlayerData } from './types';
 
 export const playersGroup = new THREE.Group();
+playersGroup.name = 'playersGroup';
 
 const pgData = playersGroup.userData as {
   minX: number;

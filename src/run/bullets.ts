@@ -10,6 +10,7 @@ import { Circle, getBulletData, getObjectData, type PlayerData } from './types';
 import { showExtent } from './utils/extents';
 
 export const bulletsGroup = new THREE.Group();
+bulletsGroup.name = 'bulletsGroup';
 
 export function setupBullets() {
   resetGroup(bulletsGroup);

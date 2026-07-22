@@ -9,6 +9,7 @@ import { isDying } from './three/resources';
 import { removeGroupChildrenBehindCamera, resetGroup } from './three/tools';
 
 export const dyingGroup = new THREE.Group();
+dyingGroup.name = 'dyingGroup';
 
 export function setupDyingGroup() {
   resetGroup(dyingGroup);

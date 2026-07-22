@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { createTrackDecorations, moveTrackDecorations } from './three/run-objects';
 
 const trackGroup = new THREE.Group();
+trackGroup.name = 'trackGroup';
 
 export function setupTrack() {
   trackGroup.clear();
