@@ -433,6 +433,8 @@ button {
 
 .hidden:not(.neverHidden) {
   visibility: hidden;
+  opacity: 0;
+  transition: opacity 1s;
 
   &,
   & * {

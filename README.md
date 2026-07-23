@@ -9,6 +9,7 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 
 ## todo
 
+- [ ] run wallet should update sooner, or award flight should be shorter at the end
 - [ ] sections that slide out to the sides should have a delayed display:none style so it's just not
       there most of the time
 - [ ] add a test that card upgrades are applied in a normal run (e.g. player pData.range)
@@ -317,13 +318,20 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 - [ ] remove circular dependencies
 - [ ] add support for wider screens, landscape mode?
   - [ ] Use vmin instead of vh?
-- [ ] make it work in Safari?
+- [ ] make it work in Safari on iPhone
 - `~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
 - ideas for later
   - [ ] in cards screen, the incoming card could flip in 3d as it comes in
     - it can be a card and a card back in a single 3d-rotated package
+  - [ ] Daily gift could have a dismiss button over normal exit button
+    - [ ] and a button in section buttons when available? Only the first time in a day it should
+          show up automatically?
 
 ---
+
+## done by 2026-07-23
+
+- [x] wallet appears after end screeen into level 2 abruptly
 
 ## done by 2026-07-22
 
