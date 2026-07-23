@@ -62,7 +62,7 @@ export class TouchHandler {
   };
 
   private getPositionFraction = (e: TouchEvent | MouseEvent) => {
-    const clientX = e instanceof TouchEvent ? e.touches[0]?.clientX : e.clientX;
+    const clientX = 'touches' in e ? e.touches[0]?.clientX : e.clientX;
 
     if (clientX != null) {
       return clientX / this.el.clientWidth;
