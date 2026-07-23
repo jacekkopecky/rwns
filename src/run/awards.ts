@@ -82,9 +82,13 @@ export async function giveAward(fromObj: THREE.Object3D, oData: ObjectData) {
       awardsGroup.attach(subObj);
       flyToTarget(subObj, targetCoords, dim.runAwardsFlyDuration);
 
-      subObj.addEventListener('removed', () => {
-        addToShow(type, subAmount);
-      });
+      setTimeout(
+        () => {
+          addToShow(type, subAmount);
+        },
+        // put the money in the wallet when it's close
+        dim.runAwardsFlyDuration * 1000 * 0.8,
+      );
 
       first = false;
     }

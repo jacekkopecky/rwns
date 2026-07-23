@@ -37,6 +37,8 @@
     border-width: medium;
     text-align: right;
     pointer-events: none;
+
+    transition: opacity 0.2s;
   }
 
   #runInfo {

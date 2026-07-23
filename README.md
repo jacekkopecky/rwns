@@ -9,7 +9,6 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 
 ## todo
 
-- [ ] run wallet should update sooner, or award flight should be shorter at the end
 - [ ] sections that slide out to the sides should have a delayed display:none style so it's just not
       there most of the time
 - [ ] add a test that card upgrades are applied in a normal run (e.g. player pData.range)
@@ -331,6 +330,7 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 
 ## done by 2026-07-23
 
+- [x] run wallet should update sooner, or award flight should be shorter at the end
 - [x] wallet appears after end screeen into level 2 abruptly
 
 ## done by 2026-07-22
