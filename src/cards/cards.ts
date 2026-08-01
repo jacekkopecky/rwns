@@ -53,15 +53,20 @@ export function updateCardsVisibility(state: ReadonlyState) {
   toggleHidden(el.goToCardsSectionButton, !isFeatureAllowed('cards', state));
 }
 
+const levelHighlights = new Set<CardType>();
+const nextProgressHighlights = new Set<CardType>();
+
 export function showCardsScreen() {
   removeAllShowingCards(true);
+
+  // reset highlights
+  levelHighlights.clear();
+  nextProgressHighlights.clear();
+
   updateCardsScreen();
 }
 
-export function updateCardsScreen(
-  levelHighlights?: Set<CardType>,
-  progressHighlights?: Set<CardType>,
-) {
+export function updateCardsScreen(showingCards?: readonly CardType[]) {
   const state = readState();
   const params = getUpgradablePermanentParameters();
 
@@ -85,38 +90,25 @@ export function updateCardsScreen(
     cardData: getCardLevel(cardType, state.cards, cardDefinitions[cardType].cardsToGive),
   }))
     .filter(({ cardData }) => cardData.level > 0)
-    .sort((a, b) => {
-      // reverse order of rarity
-      const rarityDiff =
-        RARITIES.indexOf(b.definition.rarity) - RARITIES.indexOf(a.definition.rarity);
-      if (rarityDiff) return rarityDiff;
-
-      // cards at their maximum should sort first
-      if (a.cardData.nextLevelCards === 0 || b.cardData.nextLevelCards === 0) {
-        const maxDiff = a.cardData.nextLevelCards - b.cardData.nextLevelCards;
-        if (maxDiff) return maxDiff;
-      }
-
-      // finally reverse order of level, then order of CARDS
-      return b.cardData.level - a.cardData.level;
-    });
+    .sort(compareCards);
 
   let firstHighlightedCard: Element | undefined;
 
   removeAllShowingCards();
   for (const { cardType, definition, cardData } of cardsToRender) {
-    const highlightLevel = Boolean(levelHighlights?.has(cardType));
-    const highlightProgress = Boolean(progressHighlights?.has(cardType));
+    const highlightLevel = levelHighlights.has(cardType);
+    const highlightProgress = nextProgressHighlights.has(cardType);
 
     const cardEl = makeCardEl(definition, cardData, highlightLevel, highlightProgress);
     el.theCards.append(cardEl);
 
     cardEl.addEventListener('click', () => showCard(cardEl));
 
-    if (highlightLevel || highlightProgress) {
-      firstHighlightedCard ??= cardEl;
-      addShowingCard(cardEl);
+    if ((highlightLevel || highlightProgress) && !firstHighlightedCard) {
+      firstHighlightedCard = cardEl;
     }
+
+    if (showingCards?.includes(cardType)) addShowingCard(cardEl);
   }
 
   if (firstHighlightedCard) {
@@ -126,6 +118,24 @@ export function updateCardsScreen(
       1,
     );
   }
+}
+
+function compareCards(
+  a: { cardType: CardType; definition: CardDefinition; cardData: CardLevelData },
+  b: { cardType: CardType; definition: CardDefinition; cardData: CardLevelData },
+) {
+  // reverse order of rarity
+  const rarityDiff = RARITIES.indexOf(b.definition.rarity) - RARITIES.indexOf(a.definition.rarity);
+  if (rarityDiff) return rarityDiff;
+
+  // cards at their maximum should sort first
+  if (a.cardData.nextLevelCards === 0 || b.cardData.nextLevelCards === 0) {
+    const maxDiff = a.cardData.nextLevelCards - b.cardData.nextLevelCards;
+    if (maxDiff) return maxDiff;
+  }
+
+  // finally reverse order of level, then order of CARDS
+  return b.cardData.level - a.cardData.level;
 }
 
 function addShowingCard(cardEl: HTMLElement, fromCard = false) {
@@ -198,9 +208,7 @@ function makeCardEl(
   highlightProgress: boolean,
 ) {
   const cardEl = makeEl(undefined, 'div', 'bigCard');
-  setTimeout(() => {
-    cardEl.classList.toggle('highlight', highlightLevel || highlightProgress);
-  }, 1);
+  cardEl.classList.toggle('highlight', highlightLevel || highlightProgress);
 
   cardEl.dataset.cardType = cardData.type;
   cardEl.classList.add(toCssClass('rarity', definition.rarity));
@@ -295,14 +303,11 @@ function buyOne() {
   const levelingUp = !(nextLevelCards - nextLevelCardsHave > 1);
   if (levelingUp && definition.onLevelUp) definition.onLevelUp();
 
-  const levelHighlights = new Set<CardType>();
-  const nextProgressHighlights = new Set<CardType>();
-
   const setToAdd = levelingUp ? levelHighlights : nextProgressHighlights;
   setToAdd.add(cardType);
 
-  // update the screen and show cards, highlighting that which just got a new one
-  updateCardsScreen(levelHighlights, nextProgressHighlights);
+  // update the screen and show the card newly bought
+  updateCardsScreen([cardType]);
 }
 
 function buyBulk() {
