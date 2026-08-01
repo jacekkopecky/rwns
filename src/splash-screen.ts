@@ -7,11 +7,10 @@ import { fillOrHide, getEl, isDev } from '#utils';
 import { warmup } from './run';
 import { init as initSections, isSectionActive, showSection } from './sections';
 
-let useFullscreen = true;
+let useSplashScreen = true;
+if (isDev() && window.location.host.includes('localhost')) useSplashScreen = false;
 
-if (isDev()) {
-  if (window.location.host.includes('localhost')) useFullscreen = false;
-}
+const version = (import.meta.env.VITE_BUILD_VERSION ?? 'unknown') as string;
 
 const el = {
   startBtn: getEl('#startBtn', HTMLButtonElement),
@@ -22,17 +21,17 @@ const el = {
 };
 
 export function init() {
-  document.body.classList.toggle('using-fullscreen', useFullscreen);
-
   initSections();
 
-  updateIsOnSplashScreen(true);
+  fillOrHide(el.version, version);
 
-  if (useFullscreen) {
-    document.body.addEventListener('keyup', handleTopLevelSpaceKey);
-    el.startBtn.addEventListener('click', goFullscreen);
+  if (useSplashScreen) {
+    el.startBtn.addEventListener('click', start);
+    el.startBtn.disabled = false;
+    el.startBtn.focus();
     el.exitBtn.addEventListener('click', exit);
-    el.main.addEventListener('fullscreenchange', updateSplashScreen);
+    el.main.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
   } else {
     // make sure the main screen is up to date
     setTimeout(() => {
@@ -41,44 +40,47 @@ export function init() {
     }, 1000);
   }
 
-  fillOrHide(el.version, (import.meta.env.VITE_BUILD_VERSION ?? 'unknown') as string);
-  el.startBtn.disabled = false;
-
   // disable context menu
   document.addEventListener('contextmenu', (e) => e.preventDefault());
 }
 
-async function goFullscreen() {
+async function start() {
   warmup();
-  await el.main.requestFullscreen();
-  if (!isSectionActive('run')) {
-    showSection('mainScreen');
+
+  try {
+    await el.main.requestFullscreen();
+  } catch {
+    /* ignore when requesting fullscreen fails */
   }
+
+  updateIsOnSplashScreen(false);
 }
 
 function exit() {
+  updateIsOnSplashScreen(true);
   void document.exitFullscreen();
 }
 
-function handleTopLevelSpaceKey(e: KeyboardEvent): void {
-  if (e.key === ' ' && !document.fullscreenElement) {
-    void goFullscreen();
-  }
+// go to splash screen when user leaves fullscreen
+function handleFullscreenChange() {
+  el.startBtn.textContent = isSectionActive('run') ? 'Resume' : 'Start';
+  if (el.main !== document.fullscreenElement) updateIsOnSplashScreen(true);
 }
 
-function updateSplashScreen() {
+// go to splash screen when user moves away
+function handleVisibilityChange() {
   el.startBtn.textContent = isSectionActive('run') ? 'Resume' : 'Start';
-
-  updateIsOnSplashScreen(useFullscreen && el.main !== document.fullscreenElement);
-  if (isOnSplashScreen() && isSectionActive('dailyGift')) {
-    showSection('mainScreen');
-  }
+  if (document.visibilityState === 'hidden') updateIsOnSplashScreen(true);
 }
 
 export function isOnSplashScreen() {
-  return useFullscreen && el.body.classList.contains('showingSplashScreen');
+  return el.body.classList.contains('showingSplashScreen');
 }
 
-function updateIsOnSplashScreen(value: boolean) {
-  el.body.classList.toggle('showingSplashScreen', value);
+function updateIsOnSplashScreen(showSplashScreen: boolean) {
+  el.body.classList.toggle('showingSplashScreen', showSplashScreen);
+
+  if (showSplashScreen && !isSectionActive('run')) {
+    showSection('mainScreen');
+  }
 }

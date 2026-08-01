@@ -41,6 +41,9 @@ header {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+
   font-size: 2em;
 
   text-align: center;
@@ -48,7 +51,6 @@ header {
 
   p {
     font-size: 1rem;
-    margin-bottom: 0.5em;
   }
 
   h1 img {
@@ -67,17 +69,15 @@ header {
 }
 
 main {
-  body.using-fullscreen &:not(:fullscreen),
   body.showingSplashScreen & {
     visibility: hidden;
     position: fixed;
     inset: 0;
     pointer-events: none;
   }
-  body:not(.using-fullscreen) & {
-    min-height: 100dvh;
-    min-width: 100dvw;
-  }
+
+  min-height: 100dvh;
+  min-width: 100dvw;
 
   background-color: white;
   perspective: 50vh;

@@ -337,6 +337,12 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 
 ---
 
+## done by 2026-08-01
+
+- tweak web manifest properties to make installed version nicer
+  - it now has a consistent background color and the logo is full-res
+- make splash-screen and full-screen behaviour saner
+
 ## done by 2026-07-23
 
 - [x] run wallet should update sooner, or award flight should be shorter at the end

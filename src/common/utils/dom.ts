@@ -115,7 +115,7 @@ export function toggleTwoClasses(el: HTMLElement, c1: string, c2: string, isC1: 
 }
 
 export function isDev() {
-  return !('RWNS_TESTS' in window) && import.meta.env.DEV;
+  return import.meta.env.DEV && !('RWNS_TESTS' in window);
 }
 
 if (typeof window !== 'undefined' && 'RWNS_TESTS' in window) {
