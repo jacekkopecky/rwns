@@ -1,1 +1,1 @@
-{"name":"rwns","short_name":"rwns","description":"","start_url":"/rwns/","display":"standalone","background_color":"#ffffff","theme_color":"#42b883","lang":"en","scope":"/rwns/"}
+{"name":"RWNS","short_name":"RWNS","description":"Robots Walking and Shooting – a simple free game","start_url":"/rwns/","display":"standalone","background_color":"#f3e9b9","theme_color":"#f3e9b9","lang":"en","scope":"/rwns/","icons":[{"src":"icon.svg","sizes":"any"}]}
