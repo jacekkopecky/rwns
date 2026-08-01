@@ -9,6 +9,9 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 
 ## todo
 
+- [ ] don't show level on a card when we haven't leveled up
+- [ ] add to highlights when we buy multiple cards in a row, don't just highlight the last one
+- [ ] make rare cards less rare I think, consider stats from phone
 - [ ] sections that slide out to the sides should have a delayed display:none style so it's just not
       there most of the time
 - [ ] add a test that card upgrades are applied in a normal run (e.g. player pData.range)
@@ -180,6 +183,12 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
   - get max on all upgrades
   - get max on a card
   - clear out a level
+  - clear out two bricks in the last row
+  - clear out three bricks in the last row
+  - clear out all the bricks in the last row
+    - these could enable skills to do with blocks:
+      - chance to survive hitting a block
+      - making earlier blocks easier (skill that enables a card that adds to the effect?)
   - finish tutorial levels (3) (unlocks first upgrade - fire rate?, and unlocks achievements
     showing)
   - [ ] list of achievements, showing progress?
