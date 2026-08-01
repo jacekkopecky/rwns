@@ -11,6 +11,19 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg}'],
       },
+      manifest: {
+        name: 'RWNS',
+        short_name: 'RWNS',
+        description: 'Robots Walking and Shooting – a simple free game',
+        theme_color: '#f3e9b9',
+        background_color: '#f3e9b9',
+        icons: [
+          {
+            src: 'icon.svg',
+            sizes: 'any',
+          },
+        ],
+      },
     }),
   ],
   build: {
