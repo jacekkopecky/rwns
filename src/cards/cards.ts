@@ -303,8 +303,13 @@ function buyOne() {
   const levelingUp = !(nextLevelCards - nextLevelCardsHave > 1);
   if (levelingUp && definition.onLevelUp) definition.onLevelUp();
 
-  const setToAdd = levelingUp ? levelHighlights : nextProgressHighlights;
-  setToAdd.add(cardType);
+  if (levelingUp) {
+    levelHighlights.add(cardType);
+    nextProgressHighlights.delete(cardType);
+  } else {
+    levelHighlights.delete(cardType);
+    nextProgressHighlights.add(cardType);
+  }
 
   // update the screen and show the card newly bought
   updateCardsScreen([cardType]);

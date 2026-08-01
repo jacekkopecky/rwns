@@ -328,7 +328,8 @@
       .nextLevel {
         font-size: 60%;
       }
-      .nextLevel {
+      .nextLevel,
+      .name:not(.highlight) .level {
         display: none !important;
       }
       .level::before {

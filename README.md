@@ -9,7 +9,6 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 
 ## todo
 
-- [ ] don't show level on a card when we haven't leveled up
 - [ ] make rare cards less rare I think, consider stats from phone
 - [ ] sections that slide out to the sides should have a delayed display:none style so it's just not
       there most of the time
@@ -338,6 +337,7 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 
 ## done by 2026-08-01
 
+- [x] don't show level on a showing card when we haven't leveled up
 - [x] add to highlights when we buy multiple cards in a row, don't just highlight the last one
 - tweak web manifest properties to make installed version nicer
   - it now has a consistent background color and the logo is full-res
