@@ -121,3 +121,10 @@ export function isDev() {
 if (typeof window !== 'undefined' && 'RWNS_TESTS' in window) {
   document.body.classList.add('TESTING');
 }
+
+export function setThemeColor(colorOrEl: HTMLElement) {
+  const color = getComputedStyle(colorOrEl).getPropertyValue('--theme-color');
+  if (color) {
+    document.querySelector('head meta[name=theme-color]')?.setAttribute('content', color);
+  }
+}

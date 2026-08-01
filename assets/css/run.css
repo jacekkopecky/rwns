@@ -4,6 +4,7 @@
 }
 
 #run {
+  --theme-color: black;
   position: absolute;
   inset: 0;
   transition: none !important;

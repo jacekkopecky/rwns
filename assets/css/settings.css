@@ -3,6 +3,7 @@
   inset: 0;
 
   --bg: #3e6545;
+  --theme-color: var(--bg);
   background-color: var(--bg);
   color: white;
 

@@ -1,4 +1,4 @@
-import { getEl } from '#utils';
+import { getEl, setThemeColor } from '#utils';
 
 import * as cardsScreen from './cards';
 import * as dailyGiftScreen from './daily-gift';
@@ -61,6 +61,7 @@ export function showSection(name: Section) {
   selectedSection.el.classList.remove('inactive');
   selectedSection.el.inert = false;
   selectedSection.cb?.();
+  setThemeColor(selectedSection.el);
 
   if (selectedSection.alsoKeepVisible && selectedSection.alsoKeepVisible in sections) {
     const extraSection = sections[selectedSection.alsoKeepVisible as keyof typeof sections];
@@ -87,6 +88,11 @@ function prepSection<T extends string>(
 
 export function isSectionActive(sec: Section): boolean {
   return sections[sec].el.classList.contains('_active');
+}
+
+export function setCurrentSectionThemeColor() {
+  const el = getActiveSection()?.el;
+  if (el) setThemeColor(el);
 }
 
 function getActiveSection(): (typeof sections)[Section] | undefined {

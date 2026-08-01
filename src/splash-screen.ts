@@ -2,10 +2,15 @@
  * This is the code that controls fullscreen behaviour and the splash screen.
  */
 
-import { fillOrHide, getEl, isDev } from '#utils';
+import { fillOrHide, getEl, isDev, setThemeColor } from '#utils';
 
 import { warmup } from './run';
-import { init as initSections, isSectionActive, showSection } from './sections';
+import {
+  init as initSections,
+  isSectionActive,
+  setCurrentSectionThemeColor,
+  showSection,
+} from './sections';
 
 let useSplashScreen = true;
 if (isDev() && window.location.host.includes('localhost')) useSplashScreen = false;
@@ -24,6 +29,7 @@ export function init() {
   initSections();
 
   fillOrHide(el.version, version);
+  updateIsOnSplashScreen(true);
 
   if (useSplashScreen) {
     el.startBtn.addEventListener('click', start);
@@ -56,9 +62,13 @@ async function start() {
   updateIsOnSplashScreen(false);
 }
 
-function exit() {
+async function exit() {
   updateIsOnSplashScreen(true);
-  void document.exitFullscreen();
+  try {
+    await document.exitFullscreen();
+  } catch {
+    // ignore
+  }
 }
 
 // go to splash screen when user leaves fullscreen
@@ -80,7 +90,17 @@ export function isOnSplashScreen() {
 function updateIsOnSplashScreen(showSplashScreen: boolean) {
   el.body.classList.toggle('showingSplashScreen', showSplashScreen);
 
-  if (showSplashScreen && !isSectionActive('run')) {
-    showSection('mainScreen');
+  if (showSplashScreen) {
+    // return to main screen if we're not in a run
+    if (!isSectionActive('run')) {
+      showSection('mainScreen');
+    }
+
+    // set theme color to normal - main screen
+    // the exit button is in the main section
+    setThemeColor(el.exitBtn);
+  } else {
+    // set theme color to what's under the splash screen
+    setCurrentSectionThemeColor();
   }
 }

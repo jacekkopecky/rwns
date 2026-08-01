@@ -4,6 +4,7 @@
   transition: transform 0.5s ease-in-out;
   transform: translateX(0);
 
+  --theme-color: #3f115f;
   background-color: #3f115f;
 
   box-shadow: 0 0 20vw 20vw #3f115f;

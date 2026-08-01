@@ -22,6 +22,7 @@ body.TESTING {
 }
 
 body {
+  --theme-color: #f3e9b9;
   background-color: #f3e9b9;
   height: 100svh;
   width: 100svw;
