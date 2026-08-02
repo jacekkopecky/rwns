@@ -5,6 +5,9 @@ import * as dim from '#dimensions';
 import { exposeGlobalWindowProp } from '#utils';
 
 import { updateAnimations } from '../run/three/animations';
+import * as mat from '../run/three/materials';
+import { Butterfly } from '../run/three/models';
+import { createBrickSquare } from '../run/three/models/brick-plane';
 import { createObject, createPlayer, setPlayerWalking } from '../run/three/run-objects';
 import { createGem } from '../run/three/run-objects/gems';
 
@@ -22,7 +25,7 @@ container?.appendChild(renderer.domElement);
 
 const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 1000);
 // camera.position.set(20, 40, 10); // for earth
-camera.position.set(40, 40, 200);
+camera.position.set(40, 40, -40);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.addEventListener('change', render);
@@ -38,9 +41,9 @@ const helper = new THREE.GridHelper(100, 10, 0xff0000, 0x000000);
 helper.rotation.x = Math.PI / 2;
 scene.add(helper);
 
-// lights
-// const skylight = new THREE.HemisphereLight(0xffffff, 0xb97a20, 1);
-// scene.add(skylight);
+// lights;
+const skylight = new THREE.HemisphereLight(0xffffff, 0xb97a20, 1);
+scene.add(skylight);
 
 const sunlight = new THREE.DirectionalLight(0xffffff, 3);
 sunlight.position.set(100, 80, 50);
@@ -66,10 +69,20 @@ scene.add(sunlight.target);
 //
 //
 
-const marvin = createPlayer();
-scene.add(marvin);
+const butterfly = new Butterfly();
 
-setPlayerWalking(marvin, true);
+const obj = butterfly.object;
+scene.add(obj);
+
+butterfly.startFluttering();
+
+let f = true;
+document.addEventListener('keydown', (e) => {
+  if (e.key === ' ') {
+    f = !f;
+    butterfly.setFluttering(f);
+  }
+});
 
 //
 //

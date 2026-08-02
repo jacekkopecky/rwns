@@ -1,6 +1,7 @@
 export * from './bag';
 export * from './boulder';
 export * from './bullets';
+export * from './butterfly';
 export * from './gate';
 export * from './gem';
 export * from './hit-bar';
