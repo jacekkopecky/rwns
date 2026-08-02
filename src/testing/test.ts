@@ -4,7 +4,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import * as dim from '#dimensions';
 import { exposeGlobalWindowProp } from '#utils';
 
-import { createObject } from '../run/three/run-objects';
+import { updateAnimations } from '../run/three/animations';
+import { createObject, createPlayer, setPlayerWalking } from '../run/three/run-objects';
 import { createGem } from '../run/three/run-objects/gems';
 
 // const N = 1800;
@@ -65,15 +66,10 @@ scene.add(sunlight.target);
 //
 //
 
-const block = createObject('endBlock', 0);
-scene.add(block);
+const marvin = createPlayer();
+scene.add(marvin);
 
-const gem = createGem('a', true);
-gem.position.y = dim.modelSizes.boulder[1] - dim.modelSizes.gem[1] * 0.3;
-
-gem.rotation.y = Math.PI * 0.6;
-gem.rotation.z = Math.PI * 0.1;
-block.add(gem);
+setPlayerWalking(marvin, true);
 
 //
 //
@@ -105,6 +101,7 @@ function animate() {
   requestAnimationFrame(animate);
   controls.update();
   // cameraHelper.update();
+  updateAnimations(0.016);
   render();
 }
 
