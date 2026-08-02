@@ -9,22 +9,24 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 
 ## todo
 
+- [ ] we could have butterflies and a quest to not disturb butterflies (leave the trees where they
+      are sitting)
 - [ ] make rare cards less rare I think, consider stats from phone
 - [ ] sections that slide out to the sides should have a delayed display:none style so it's just not
       there most of the time
-- [ ] add a test that card upgrades are applied in a normal run (e.g. player pData.range)
 - [ ] side game: "Chase": a big diamond or something that flies away from us on a path through the
       run (clear of trees) and we're chasing and shooting and getting diamonds, up to a limit; every
-      diamond received makes it a bit harder; every diamond not received makes it a bit less easier
+      diamond received makes it a bit harder; every run finished without getting a diamond makes it
+      a bit easier
   - skills can make you better at it; or separate cards? 
   - the big thing starts at bullet distance but only slowly accelerates to our speed so at full
     speed it's not too far from us
-- [ ] put cards and other section buttons under upgrade buttons so it feels safer to swipe from the
-      bottom to get the home button when you don't want to buy an upgrade
+    - every bullet should be able to reach it
+- [ ] there should be random obstacles you have to navigate around but shoot over
+  - random in every run or same in the level?
+  - or different if you finish the level, even if you're not progressing?
 - [ ] change licence to GNU AGPL?
-- [ ] the threshold for money-only daily could be your maximum haul or your cheapest upgrade or your
-      robots upgrade as that's the most expensive
-- [ ] alternative mine
+- [ ] side game: alternative mine
   - marvin starts in front of all blocks (smaller blocks, 5 or 6 per width)
   - can move up, down, left, right, always by a whole space
     - cannot move down from row 1
@@ -58,11 +60,6 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
           shots?
     - [ ] make graphics for bomb (big explosion) and drill (multiple bullets?)
     - [ ] only allow drills when going forward? or let the user waste them?
-- [ ] when showing cards screen, space the cards horizontally so that if cards don't all fit, the
-      lower cards reach the bottom of the screen at between 20% and 80% of their height
-  - or show some kind of shadow on the scrolling side, like in
-    https://developer.chrome.com/blog/css-scroll-state-queries
-- [ ] next I probably want quests or some side-games
 - [ ] do different seasons (every 10 levels?)
   - got summer
   - autumn: colorful crowns on broadleafs, path with more black
@@ -76,6 +73,9 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
         fall-off
   - inside a tunnel?
 - [ ] every level could have a different colour of end gate
+- [ ] end blocks could have different designs or colors
+  - then a quest could be to remove some number of a given color
+  - different per run so it's more fun?
 - [ ] more cards see in `src/cards/types.ts`
   - [x] card tweaks: revisit progression of incoming new cards: money cards earlier, space
         range/rate/damage cards so new ones come on a similar staggered schedule?
@@ -325,6 +325,8 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 - [ ] add support for wider screens, landscape mode?
   - [ ] Use vmin instead of vh?
 - [ ] make it work in Safari on iPhone
+- [ ] tests
+  - [ ] card upgrades are applied in a normal run (e.g. player pData.range)
 - `~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
 - ideas for later
   - [ ] in cards screen, the incoming card could flip in 3d as it comes in
@@ -334,6 +336,22 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
           show up automatically?
 
 ---
+
+## done by 2026-08-02
+
+- [/] when showing cards screen, space the cards horizontally so that if cards don't all fit, the
+  lower cards reach the bottom of the screen at between 20% and 80% of their height
+  - or show some kind of shadow on the scrolling side, like in
+    https://developer.chrome.com/blog/css-scroll-state-queries
+  - not needed, we scroll to the current card
+- [/] put cards and other section buttons under upgrade buttons so it feels safer to swipe from the
+  bottom to get the home button when you don't want to buy an upgrade
+  - doesn't feel necessary after all, a swipe doesn't press the button
+- [/] the threshold for money-only daily could be your maximum haul or your cheapest upgrade or your
+  robots upgrade as that's the most expensive
+  - meh
+- fix scrolling to bought card broken by multi-highlighting
+- fix daily gift not showing after splash screen
 
 ## done by 2026-08-01
 
