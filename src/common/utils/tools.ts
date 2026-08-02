@@ -6,3 +6,9 @@ export function getTodayPlusDays(days: number): string {
   const date = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
   return date.toISOString().split('T')[0]!;
 }
+
+export function clamp(number: number, min: number, max: number) {
+  if (number < min) return min;
+  if (number > max) return max;
+  return number;
+}

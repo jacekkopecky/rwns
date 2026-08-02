@@ -2,6 +2,7 @@ import * as dim from '#dimensions';
 import { CARDS, type CardType, type ReadonlyState } from '#types';
 import {
   animateValue,
+  clamp,
   fillWalletEls,
   formatNumber,
   getEl,
@@ -30,6 +31,7 @@ const el = {
   buyOne: getEl('#cards button.buyOne'),
   buyBulk: getEl('#cards button.buyBulk'),
   theCards: getEl('#cards .theCards'),
+  cardsContainer: getEl('#cards .cardsContainer'),
   walletContainer: getEl('#cards .wallet'),
   wallet: {
     gem: getEl('#cards .wallet .gem'),
@@ -92,7 +94,7 @@ export function updateCardsScreen(showingCards?: readonly CardType[]) {
     .filter(({ cardData }) => cardData.level > 0)
     .sort(compareCards);
 
-  let firstHighlightedCard: Element | undefined;
+  let lastShowingCard: Element | undefined;
 
   removeAllShowingCards();
   for (const { cardType, definition, cardData } of cardsToRender) {
@@ -104,19 +106,15 @@ export function updateCardsScreen(showingCards?: readonly CardType[]) {
 
     cardEl.addEventListener('click', () => showCard(cardEl));
 
-    if ((highlightLevel || highlightProgress) && !firstHighlightedCard) {
-      firstHighlightedCard = cardEl;
+    if (showingCards?.includes(cardType)) {
+      lastShowingCard = cardEl;
+      addShowingCard(cardEl);
     }
-
-    if (showingCards?.includes(cardType)) addShowingCard(cardEl);
   }
 
-  if (firstHighlightedCard) {
-    // scroll the first highlighted card into view
-    setTimeout(
-      () => firstHighlightedCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' }),
-      1,
-    );
+  if (lastShowingCard) {
+    // scroll the last highlighted card into view
+    setTimeout(() => lastShowingCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 1);
   }
 }
 
@@ -179,12 +177,17 @@ function removeShowingCard(cardEl: HTMLElement) {
   if (targetType) {
     const target = el.theCards.querySelector<HTMLElement>(`[data-card-type="${targetType}"]`);
     if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
       const sourceRect = cardEl.getBoundingClientRect();
       const targetRect = target.getBoundingClientRect();
+      const containerRect = el.cardsContainer.getBoundingClientRect();
       const deltaX =
         targetRect.left + targetRect.width / 2 - (sourceRect.left + sourceRect.width / 2);
       const deltaY =
-        targetRect.top + targetRect.height / 2 - (sourceRect.top + sourceRect.height / 2);
+        clamp(targetRect.top, containerRect.top, containerRect.bottom - targetRect.height) +
+        targetRect.height / 2 -
+        (sourceRect.top + sourceRect.height / 2);
       cardEl.style.setProperty('--hide-x', `${deltaX}px`);
       cardEl.style.setProperty('--hide-y', `${deltaY}px`);
     }
