@@ -41,8 +41,8 @@ export function init() {
   } else {
     // make sure the main screen is up to date
     setTimeout(() => {
-      showSection('mainScreen');
       updateIsOnSplashScreen(false);
+      showSection('mainScreen');
     }, 1000);
   }
 
@@ -60,6 +60,9 @@ async function start() {
   }
 
   updateIsOnSplashScreen(false);
+
+  // re-activate main screen so it can show daily gift
+  if (isSectionActive('mainScreen')) showSection('mainScreen');
 }
 
 async function exit() {

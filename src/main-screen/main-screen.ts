@@ -76,7 +76,7 @@ export function showMainScreen() {
 
   updateMainScreen(state, params);
 
-  if (canGiveDailyGift(state)) {
+  if (canGiveDailyGift(state) && !isOnSplashScreen()) {
     dailyGiftTimeout = setTimeout(() => {
       if (isSectionActive('mainScreen') && !isOnSplashScreen()) {
         showSection('dailyGift');
