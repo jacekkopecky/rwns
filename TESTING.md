@@ -26,3 +26,8 @@ definitions in `tests/modules.d.ts`). Integration tests should go by the user in
 Functional, visual and integration tests should be written in idiomatic Playwright patterns.
 
 In code review, if some code is repeated across tests, feel free to add it to `tests/lib.ts`
+
+## Further rules
+
+- in playwright tests, use the function `toContainClass` with a class name instead of the function
+  `toHaveClass` with a regular expression
