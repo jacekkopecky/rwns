@@ -34,6 +34,7 @@ export function setupObjects(opts: {
   customMessage?: string;
 }): LevelInfo {
   resetGroup(objectsGroup);
+  delete groupData.butterflies;
 
   objectsGroup.position.z = -dim.startDistance;
 
@@ -59,6 +60,7 @@ export function setupObjects(opts: {
     const butterfly = createObject('butterfly');
     // put the butterfly to the left of the track, it will choose its next tree and fly to it
     butterfly.position.set(-dim.trackWidth, dim.cameraPosition.y, dim.startDistance);
+    butterfly.userData.keepBehindCamera = true;
     objects.push(butterfly);
     groupData.butterflies = [butterfly];
   }

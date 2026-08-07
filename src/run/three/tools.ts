@@ -24,7 +24,7 @@ export function removeGroupChildrenBehindCamera(group: THREE.Group, sortedInZ = 
   const toRemove = [];
 
   for (const child of group.children) {
-    if (getObjectZ(child) > dim.behindCamera) {
+    if (!child.userData.keepBehindCamera && getObjectZ(child) > dim.behindCamera) {
       toRemove.push(child);
     } else {
       // the objects are sorted front-to-back so no more will be behind camera
