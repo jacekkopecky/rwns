@@ -3,17 +3,24 @@ import * as THREE from 'three';
 import * as dim from '#dimensions';
 import type { ReadonlyState, UpgradablePermanentParameters } from '#types';
 
+import { isFeatureAllowed } from '../state';
+
 import { giveAward } from './awards';
 import { createLevelObjects } from './levels';
 import { addGemsToGate } from './levels/tools';
 import { updateHitBar } from './three/models';
 import { isDying } from './three/resources';
-import { createObject, killObject } from './three/run-objects';
+import { createObject, killObject, moveButterflies } from './three/run-objects';
 import { removeGroupChildrenBehindCamera, resetGroup } from './three/tools';
 import { getObjectData } from './types';
 
 export const objectsGroup = new THREE.Group();
 objectsGroup.name = 'objectsGroup';
+
+interface GroupData {
+  butterflies?: THREE.Object3D[];
+}
+const groupData: GroupData = objectsGroup.userData;
 
 interface LevelInfo {
   msg: string;
@@ -48,6 +55,14 @@ export function setupObjects(opts: {
   const gateGemCount = addGemsToGate(endGate, opts.params.endGateGems);
   objects.push(endGate);
 
+  if (isFeatureAllowed('butterfly', opts.state)) {
+    const butterfly = createObject('butterfly');
+    // put the butterfly to the left of the track, it will choose its next tree and fly to it
+    butterfly.position.set(-dim.trackWidth, dim.cameraPosition.y, dim.startDistance);
+    objects.push(butterfly);
+    groupData.butterflies = [butterfly];
+  }
+
   for (const obj of objects) {
     objectsGroup.add(obj);
   }
@@ -68,6 +83,10 @@ export function moveObjects(delta: number) {
   objectsGroup.position.z += deltaZ;
 
   removeGroupChildrenBehindCamera(objectsGroup);
+
+  if (groupData.butterflies) {
+    moveButterflies(groupData.butterflies, delta);
+  }
 }
 
 export function hitObject(obj: THREE.Object3D, hitPoints: number, playerHit = false): boolean {

@@ -9,8 +9,8 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 
 ## todo
 
-- [ ] we could have butterflies and a quest to not disturb butterflies (leave the trees where they
-      are sitting)
+- [ ] back to basics could use your current level tree layout after the first one? and it could be
+      weekly?
 - [ ] make rare cards less rare I think, consider stats from phone
 - [ ] sections that slide out to the sides should have a delayed display:none style so it's just not
       there most of the time
@@ -189,6 +189,8 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
       - making earlier blocks easier (skill that enables a card that adds to the effect?)
   - finish tutorial levels (3) (unlocks first upgrade - fire rate?, and unlocks achievements
     showing)
+  - go a whole run without disturbing the butterfly
+  - never letting the butterfly get bored (disturbing it every time in a run)
   - [ ] list of achievements, showing progress?
     - achievements should at some point be sorted by ETA, not by fraction of achievement, so that
       long-taking achievements that are 2/3 done aren't hogging top ranks
@@ -283,6 +285,8 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
   - finish with exactly 1 red robot 3 times (needs colour gates) 
   - finish with exactly 1 red and 1 blue robot
   - best your income record of N - with reward scaled to how much bested 
+  - disturb butterfly N times
+  - leave N butterfly trees undisturbed
 - technical ideas
   - [ ] use LoadManager from https://threejs.org/manual/#en/textures for progress bars?
   - [ ] error handling - unhandled exceptions and promises
@@ -336,6 +340,15 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
           show up automatically?
 
 ---
+
+## done by 2026-08-07
+
+- [x] we could have butterflies
+  - and a quest to not disturb butterflies (leave the trees where they are sitting)
+  - analysis:
+    - add butterflies in setupObjects()
+    - move them in moveObjects()
+    - need an isTree() function for finding the next tree
 
 ## done by 2026-08-02
 

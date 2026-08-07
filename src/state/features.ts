@@ -4,6 +4,8 @@ import { minLevelForCards } from '../cards/constants';
 
 import { _state, getUpgradablePermanentParameters } from './state';
 
+export const minLevelForButterfly = 64;
+
 export function isFeatureAllowed(upgrade: Feature, state: ReadonlyState): boolean {
   switch (upgrade) {
     case 'coins':
@@ -32,6 +34,9 @@ export function isFeatureAllowed(upgrade: Feature, state: ReadonlyState): boolea
 
     case 'bulkCards':
       return false; // for now
+
+    case 'butterfly':
+      return state.level >= minLevelForButterfly;
 
     case 'backToBasics':
       return state.level >= 100;

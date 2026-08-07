@@ -2,6 +2,9 @@ import * as THREE from 'three';
 
 import { addMixer, betweener } from '../animations';
 
+const bodyColor = 0x707070;
+const colors = [0x3137fd, 0xff0000, 0xffff00, 0x0000ff, 0x00ff00, 0x00ffff];
+
 /**
  * A very low-poly butterfly - 4 triangles for wings, 12 for the body
  */
@@ -38,8 +41,8 @@ export class Butterfly {
     });
 
     this.idleActions = [
-      mixer.clipAction(createOpenCloseClip('left', 10, -Math.atan2(0.05, 1)), leftWing),
-      mixer.clipAction(createOpenCloseClip('right', 10, -Math.atan2(0.05, 1)), rightWing),
+      mixer.clipAction(createOpenCloseClip('left', -Math.atan2(0.05, 1)), leftWing),
+      mixer.clipAction(createOpenCloseClip('right', -Math.atan2(0.05, 1)), rightWing),
     ];
   }
 
@@ -83,9 +86,6 @@ export class Butterfly {
     }
   }
 }
-
-const bodyColor = 0x707070;
-const colors = [0x3137fd, 0xff0000, 0xffff00, 0x0000ff, 0x00ff00, 0x00ffff];
 
 const _color = new THREE.Color();
 function createWing(size: number) {
@@ -231,7 +231,7 @@ function rotPoint(r: number, aDeg: number, z: number): [number, number, number] 
 
 function createFlutterClip(side: 'left' | 'right') {
   const duration = 0.1;
-  const a = 0.25;
+  const a = 0.35;
 
   const durations = betweener(0, duration);
   const pies = betweener(0, side === 'right' ? Math.PI : -Math.PI);
@@ -246,7 +246,8 @@ function createFlutterClip(side: 'left' | 'right') {
   ]);
 }
 
-function createOpenCloseClip(side: 'left' | 'right', duration: number, aClosed: number) {
+function createOpenCloseClip(side: 'left' | 'right', aClosed: number) {
+  const duration = 5;
   const a = 0.45;
 
   const durations = betweener(0, duration);

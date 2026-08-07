@@ -40,6 +40,7 @@ export const playerBulletSpeed = 40;
 export const playerBulletDyingDuration = 0.2;
 export const playerDyingDuration = 0.6;
 export const bulletRotationsPerSecond = 8;
+export const butterflySpeed = 80;
 
 export const initialDamageMaxUpgrade = 6;
 export const initialRateMaxUpgrade = 6;

@@ -37,4 +37,5 @@ export type Feature =
   | `${RunUpgradeType}Upgrade`
   | 'cards'
   | 'bulkCards'
-  | 'backToBasics';
+  | 'backToBasics'
+  | 'butterfly';

@@ -4,6 +4,7 @@ import { getObjectData } from '../../types';
 import { createHitBar } from '../models';
 import { markAsDying } from '../resources';
 
+import { createButterfly } from './butterflies';
 import { createEndBlock, killEndBlock } from './end-blocks';
 import { createGate, killGate } from './gate';
 import { createGem, killGem } from './gems';
@@ -11,6 +12,7 @@ import { createBag, killBag } from './money';
 import { createRandomTree, killTree } from './tree';
 
 const typeFns = {
+  butterfly: [createButterfly, () => undefined],
   tree: [createRandomTree, killTree],
   gems: [createGem, killGem],
   coins: [createBag, killBag],
@@ -24,8 +26,9 @@ export function createObject<T extends keyof typeof typeFns>(
 ): THREE.Object3D {
   // @ts-expect-error ...args complains about the spread but it's OK
   const retval = typeFns[type][0](...args);
-  retval.userData._createObject_type = type;
+  retval.userData.objectSubtype = type;
 
+  if (retval.userData.type !== 'object') throw new Error(`${retval.userData.type}`);
   if (retval.userData.height) {
     retval.add(createHitBar().translateY(retval.userData.height as number));
   }
@@ -34,7 +37,7 @@ export function createObject<T extends keyof typeof typeFns>(
 }
 
 export function killObject(obj: THREE.Object3D, givingAward = false) {
-  const type = obj.userData._createObject_type as keyof typeof typeFns;
+  const type = obj.userData.objectSubtype as keyof typeof typeFns;
 
   markAsDying(obj);
   typeFns[type][1](obj, givingAward);
@@ -52,5 +55,5 @@ export function killObject(obj: THREE.Object3D, givingAward = false) {
 }
 
 export function isOfType(obj: THREE.Object3D, type: string) {
-  return obj.userData._createObject_type === type;
+  return obj.userData.objectSubtype === type;
 }
