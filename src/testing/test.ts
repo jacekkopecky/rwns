@@ -1,15 +1,10 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-import * as dim from '#dimensions';
 import { exposeGlobalWindowProp } from '#utils';
 
 import { updateAnimations } from '../run/three/animations';
-import * as mat from '../run/three/materials';
 import { Butterfly } from '../run/three/models';
-import { createBrickSquare } from '../run/three/models/brick-plane';
-import { createObject, createPlayer, setPlayerWalking } from '../run/three/run-objects';
-import { createGem } from '../run/three/run-objects/gems';
 
 // const N = 1800;
 
