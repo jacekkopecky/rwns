@@ -203,7 +203,13 @@
       <div class="startInfo">Started playing: <span class="startDate">-</span></div>
       <details class="state">
         <summary>State (for debugging)</summary>
-        <pre class="stateJson"></pre>
+        <div class="stateJsonWrapper">
+          <div class="stateActions">
+            <button class="copyBtn" title="Copy state to clipboard">C</button>
+            <button class="shareBtn" title="Share state file">S</button>
+          </div>
+          <pre class="stateJson"></pre>
+        </div>
       </details>
       <button class="resetProgressBtn">Start from scratch</button>
     </section>
