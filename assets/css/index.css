@@ -209,6 +209,8 @@ button {
   border-radius: 1rem;
   border-width: medium;
 
+  cursor: pointer;
+
   transition:
     color 0.3s,
     background-color 0.3s,

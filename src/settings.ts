@@ -20,43 +20,33 @@ export function init() {
   el.closeBtn.addEventListener('click', () => showSection('mainScreen'));
   el.resetBtn.addEventListener('click', onReset);
 
-  el.copyBtn.addEventListener('click', () => {
+  el.copyBtn.addEventListener('click', async () => {
     const text = el.stateJson.textContent;
-    void navigator.clipboard.writeText(text).then(() => {
-      el.copyBtn.classList.add('copied');
-      setTimeout(() => {
-        el.copyBtn.classList.remove('copied');
-      }, 1000);
-    });
+    await navigator.clipboard.writeText(text);
+    el.copyBtn.classList.add('copied');
+    setTimeout(() => {
+      el.copyBtn.classList.remove('copied');
+    }, 1000);
   });
 
-  if (typeof navigator.share !== 'function') {
-    el.shareBtn.classList.add('hidden', 'hiddenGone');
-  } else {
-    el.shareBtn.addEventListener('click', () => {
-      const text = el.stateJson.textContent;
-      const file = new File([text], 'rwns-state.json', { type: 'application/json' });
+  el.shareBtn.classList.toggle('hidden', typeof navigator.share !== 'function');
+  el.shareBtn.addEventListener('click', async () => {
+    const text = el.stateJson.textContent;
+    const file = new File([text], 'rwns-state.json', { type: 'application/json' });
+    let sharedJson = false;
+    try {
       if (typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] })) {
-        navigator
-          .share({
-            files: [file],
-            title: 'rwns-state.json',
-          })
-          .catch((err: unknown) => {
-            console.error('Error sharing file:', err);
-          });
-      } else {
-        navigator
-          .share({
-            text,
-            title: 'rwns-state.json',
-          })
-          .catch((err: unknown) => {
-            console.error('Error sharing text:', err);
-          });
+        await navigator.share({ files: [file], title: 'rwns-state.json' });
+        sharedJson = true;
       }
-    });
-  }
+    } catch (e) {
+      console.log('error sharing as JSON', e);
+    }
+
+    if (!sharedJson) {
+      await navigator.share({ text, title: 'rwns-state.json' });
+    }
+  });
 }
 
 export function showSettingsScreen() {

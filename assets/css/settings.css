@@ -59,53 +59,37 @@
     right: 0.5em;
     display: flex;
     gap: 0.5em;
-    z-index: 10;
-  }
+    z-index: 1;
 
-  .stateActions button {
-    width: 2em;
-    height: 2em;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    border-radius: 4px;
-    background: #2a4730;
-    border: 1px solid #5a8c63;
-    color: white;
-    cursor: pointer;
-  }
+    button {
+      padding: 0.5em;
+      background: #2d4a33;
+      border-color: #5a8c63;
+      color: white;
 
-  .stateActions button.copyBtn.copied {
-    background: #1b5e20;
-    border-color: #4caf50;
-    color: #4caf50;
-  }
+      font-size: 1em;
 
-  .stateActions button.copyBtn.copied::after {
-    content: '✔';
-  }
+      &.copyBtn.copied {
+        color: #4caf50;
+      }
 
-  .stateActions button.copyBtn.copied {
-    font-size: 0; /* hides the "C" text while showing the pseudo-element checkmark */
-  }
-
-  .stateActions button.copyBtn.copied::after {
-    font-size: 1rem;
+      &.copied .if-not-copied,
+      &:not(.copied) .if-copied {
+        display: none;
+      }
+    }
   }
 
   .stateJson {
     padding: 0.5em;
     border: solid thin black;
-    background: #0004;
+    background: #2d4a33;
     font-size: small;
     overflow: auto;
-    margin: 0;
+    max-height: 50vh;
   }
 
   .state {
     flex-shrink: 1;
-    overflow: auto;
   }
 }
