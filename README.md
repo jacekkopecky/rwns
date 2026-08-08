@@ -9,8 +9,6 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 
 ## todo
 
-- [ ] back to basics could use your current level tree layout after the first one? and it could be
-      weekly?
 - [ ] make rare cards less rare I think, consider stats from phone
 - [ ] sections that slide out to the sides should have a delayed display:none style so it's just not
       there most of the time
@@ -340,6 +338,14 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
           show up automatically?
 
 ---
+
+## done by 2026-08-08
+
+- [x] back to basics could use your current level tree layout after the first one? and it could be
+      weekly?
+  - not that easy, at the point of choosing randomness we don't know the real level because we have
+    to pretend we're in level 1
+  - introduced state.realLevel
 
 ## done by 2026-08-07
 

@@ -26,6 +26,7 @@ export function loadState(): State | null {
 
     return {
       level: parseNumber(data.level, 1),
+      realLevel: undefined,
       energy: parseNumber(data.energy, Infinity),
       wallet: new Wallet(CURRENCIES, data.wallet),
       cards: new Wallet(CARDS, data.cards),

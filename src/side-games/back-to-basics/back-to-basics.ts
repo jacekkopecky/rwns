@@ -51,6 +51,7 @@ export function showBackToBasicsScreen() {
   const state = {
     ...realState,
     level: 1,
+    realLevel: realState.level,
     runUpgradeLevels: {},
   };
 
@@ -87,5 +88,5 @@ export function startPlaying(): boolean {
 }
 
 export function pickNextBackToBasicsDate() {
-  return getTodayPlusDays(randomIntInRange(12, 16, Math.random));
+  return getTodayPlusDays(randomIntInRange(6, 8, Math.random));
 }

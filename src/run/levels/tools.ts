@@ -38,7 +38,8 @@ export function makeTrees(
     obj.position.z = y;
 
     // trees hit points vary from hp/2 (at least minHP) to hp
-    const objectHP = hp === minHP ? hp : Math.max(minHP, (1 - random() / 2) * hp);
+    const randomHP = Math.max(minHP, (1 - random() / 2) * hp); // always compute to always use same randoms
+    const objectHP = hp === minHP ? hp : randomHP;
     oData.hitPoints = objectHP;
     // let the player "rub shoulders" with the tree
     scaleExtent(oData.extent2d, 0.9);

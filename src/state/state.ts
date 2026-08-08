@@ -175,9 +175,10 @@ export function getLevelRandomSeed(state: ReadonlyState, runType: RunType): stri
       return String(state.level);
 
     case 'backToBasics': {
-      const level = state.sideGames.backToBasics.level || 1;
-      // same level 1 as normal, but different afterwards
-      return level === 1 ? '1' : `backToBasics ${level}`;
+      // first time back to basics is level 1, but afterwards it's the same trees as your current level
+      const realLevel = state.realLevel ?? state.sideGames.backToBasics.level;
+      const level = state.sideGames.backToBasics.level > 1 ? realLevel : 1;
+      return String(level);
     }
   }
 }

@@ -7,6 +7,7 @@ import type { ReadonlyWallet, SerializedWallet, Wallet } from './wallet';
 
 export interface State {
   level: number;
+  realLevel?: number | undefined; // this is for code where we pretend we're a different level
   runUpgradeLevels: RunUpgradeLevels;
   collectedGemIds: string[];
   wallet: Wallet<CurrencyType>;
