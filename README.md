@@ -40,7 +40,7 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
     - later one or two new gem types for skills
   - can find bombs or drills to be used next
     - bomb with normal radius
-    - drill does or 6 in front
+    - drill does some number like 6 in front
   - when out of shots, sit down?
   - IMPLEMENTATION STEPS
     - [ ] make a button on the right that takes us there
@@ -58,10 +58,14 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
           shots?
     - [ ] make graphics for bomb (big explosion) and drill (multiple bullets?)
     - [ ] only allow drills when going forward? or let the user waste them?
-- [ ] do different seasons (every 10 levels?)
+- [ ] do different seasons (every 10 levels? every month? every actual season (with a setting for
+      southern hemisphere?))
   - got summer
   - autumn: colorful crowns on broadleafs, path with more black
+    - different colors for butterfly?
+    - a bat and overall different scheme for halloween?
   - winter: dead broadleafs, white-green-ish conifers, path white and grey, occasional dark?
+    - a crow instead of a butterfly
   - spring: lighter-colored conifers, pink and cream broadleaves, normal path?
   - there could be butterflies or birds flying around
   - day and night?
@@ -70,6 +74,7 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
       - but it might be expensive FPS-wise, with shadows; maybe it could work with short lamp
         fall-off
   - inside a tunnel?
+  - butterfly might be a bat?
 - [ ] every level could have a different colour of end gate
 - [ ] end blocks could have different designs or colors
   - then a quest could be to remove some number of a given color
@@ -341,6 +346,7 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 
 ## done by 2026-08-08
 
+- [x] copy and share button in settings state json
 - [x] add debugging gamePause() call that adds controls
 - [x] butterfly could at the end fly onto a final gate post and just sit there
 - [/] bug? pressing next level twice in end screen
