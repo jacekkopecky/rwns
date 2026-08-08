@@ -105,11 +105,13 @@ function render() {
   renderer.render(scene, camera);
 }
 
-function animate() {
+let lastTime = 0;
+function animate(time: number) {
   requestAnimationFrame(animate);
   controls.update();
   // cameraHelper.update();
-  updateAnimations(0.016);
+  updateAnimations((time - lastTime) / 1000);
+  lastTime = time;
   render();
 }
 

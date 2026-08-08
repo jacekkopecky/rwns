@@ -18,22 +18,25 @@ export class Butterfly {
     const fullObject = new THREE.Group();
     this.object = fullObject;
 
+    const body = createBody(size);
+    // angle the body a bit so the butterfly is always tilted a bit back
+    body.rotation.x = -Math.PI / 8;
+    fullObject.add(body);
+
     const leftWing = createWing(size);
     const rightWing = createWing(size);
+    body.add(leftWing, rightWing);
     leftWing.translateX(size * 0.05);
     rightWing.translateX(-size * 0.05);
     leftWing.rotateZ(Math.atan2(0.05, 1));
     rightWing.rotateZ(Math.atan2(-0.05, 1));
 
-    fullObject.add(leftWing, rightWing);
-
     const mixer = addMixer(fullObject);
     this.actions = [
       mixer.clipAction(createFlutterClip('left'), leftWing),
       mixer.clipAction(createFlutterClip('right'), rightWing),
+      mixer.clipAction(createFlutterBobClip(size), body),
     ];
-
-    fullObject.add(createBody(size));
 
     fullObject.traverse((obj) => {
       obj.castShadow = true;
@@ -229,18 +232,36 @@ function rotPoint(r: number, aDeg: number, z: number): [number, number, number] 
   return [r * Math.sin(a), r * Math.cos(a), z];
 }
 
-function createFlutterClip(side: 'left' | 'right') {
-  const duration = 0.1;
-  const a = 0.35;
+const FLUTTER_DURATION = 0.1;
+const FLUTTER_ANGLE = 0.35;
 
-  const durations = betweener(0, duration);
+function createFlutterClip(side: 'left' | 'right') {
+  const durations = betweener(0, FLUTTER_DURATION);
   const pies = betweener(0, side === 'right' ? Math.PI : -Math.PI);
 
-  return new THREE.AnimationClip('flutter', duration, [
+  return new THREE.AnimationClip('flutter', FLUTTER_DURATION, [
     new THREE.KeyframeTrack(
       '.rotation[z]',
       durations(0, 1),
-      pies(0.5 - a, 0.5 + a),
+      pies(0.5 - FLUTTER_ANGLE, 0.5 + FLUTTER_ANGLE),
+      THREE.InterpolateSmooth,
+    ),
+  ]);
+}
+
+// the body bobs as the wings flutter so the butterfly looks less like a dragonfly or a bird
+function createFlutterBobClip(size: number) {
+  const bobHeight = (size / 3) * Math.sin(FLUTTER_ANGLE * Math.PI);
+
+  const durations = betweener(0, FLUTTER_DURATION);
+  const heights = betweener(0, bobHeight);
+
+  return new THREE.AnimationClip('flutter', FLUTTER_DURATION, [
+    new THREE.KeyframeTrack(
+      '.position[y]',
+      durations(0, 1),
+      // the heights are higher so the butterfly flutters above its real position
+      heights(0, 2),
       THREE.InterpolateSmooth,
     ),
   ]);

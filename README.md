@@ -341,6 +341,9 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 
 ## done by 2026-08-08
 
+- [x] butterfly could at the end fly onto a final gate post and just sit there
+- [/] bug? pressing next level twice in end screen
+  - cannot replicate
 - [x] back to basics could use your current level tree layout after the first one? and it could be
       weekly?
   - not that easy, at the point of choosing randomness we don't know the real level because we have

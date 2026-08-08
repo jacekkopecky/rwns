@@ -14,13 +14,19 @@ export function createGate(type: dim.Gate, callback: (player?: THREE.Object3D) =
     new THREE.Vector2(w / 2, 1),
   );
   gate.userData.type = 'object';
+  gate.userData.gateType = type;
   gate.userData.onPlayerCollision = callback;
   gate.userData.benign = true;
   gate.userData.awardOnPass = true;
+  gate.userData.height = dim.modelSizes.gatePost[1];
 
   return gate;
 }
 
 export function killGate(obj: THREE.Object3D) {
   slideIntoGround(obj, dim.objectDyingDuration);
+}
+
+export function isEndGate(gate: THREE.Object3D) {
+  return (gate.userData.gateType as dim.Gate) === 'end';
 }

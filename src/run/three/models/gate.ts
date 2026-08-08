@@ -29,7 +29,15 @@ export function createGateModel(width: number, color: THREE.ColorRepresentation 
   const fieldH = h * fieldTopRatio;
   const fieldGeo = new THREE.PlaneGeometry(width, fieldH).translate(0, fieldH / 2, 0);
   const obj = new THREE.Mesh(fieldGeo, fieldMaterial);
-  obj.add(new THREE.Mesh(postGeo, postMaterial).translateX(-width / 2));
-  obj.add(new THREE.Mesh(postGeo, postMaterial).translateX(width / 2));
+  obj.add(createPost(postMaterial).translateX(-width / 2));
+  obj.add(createPost(postMaterial).translateX(width / 2));
   return obj;
 }
+
+function createPost(postMaterial: THREE.Material) {
+  const post = new THREE.Mesh(postGeo, postMaterial);
+  post.name = GATE_POST_NAME;
+  return post;
+}
+
+export const GATE_POST_NAME = 'gatePost';

@@ -1,11 +1,14 @@
 import * as THREE from 'three';
 
 import * as dim from '#dimensions';
+import { randomItem } from '#utils';
 
 import { objectsGroup } from '../../objects';
 import { Circle, getObjectData } from '../../types';
-import { Butterfly, getHitBar } from '../models';
+import { Butterfly, GATE_POST_NAME, getHitBar } from '../models';
 import { isDying } from '../resources';
+
+import { isEndGate } from './gate';
 
 const lift = dim.modelSizes.butterfly[0] * 2;
 const liftingTime = 0.15;
@@ -15,6 +18,7 @@ interface ButterflyData {
   lift: number;
   targetPosition?: THREE.Vector3;
   target?: THREE.Object3D;
+  parked?: boolean; // will stick around even if the player walks past
 }
 
 export function createButterfly(): THREE.Object3D {
@@ -73,7 +77,7 @@ export function moveButterflies(butterflies: THREE.Object3D[], delta: number) {
         removeButterfly(butterfly, butterflies);
       }
     }
-  } else if (butterfly.position.z + butterfly.parent!.position.z > 0) {
+  } else if (butterfly.position.z + butterfly.parent!.position.z > 0 && !bData.parked) {
     selectNextButterflyTarget(butterfly);
   }
 }
@@ -86,7 +90,12 @@ function getButterflyData(obj: THREE.Object3D): ButterflyData {
   return obj.userData as ButterflyData;
 }
 
-export function sendButterflyToTree(butterfly: THREE.Object3D, tree?: THREE.Object3D) {
+function sendButterflyToTree(
+  butterfly: THREE.Object3D,
+  tree?: THREE.Object3D,
+  partName?: string,
+  park?: boolean,
+) {
   const bData = getButterflyData(butterfly);
 
   if (!tree) {
@@ -104,7 +113,17 @@ export function sendButterflyToTree(butterfly: THREE.Object3D, tree?: THREE.Obje
       tData.height || butterfly.position.y,
       tree.position.z,
     );
+
+    if (partName) {
+      const parts = tree.getObjectsByProperty('name', partName);
+      if (parts.length) {
+        const selectedPart = randomItem(parts, Math.random);
+        bData.targetPosition.add(selectedPart.position);
+      }
+    }
   }
+
+  if (park) bData.parked = true;
 
   if (!(bData.lift > 0)) bData.lift = lift;
   bData.butterfly.startFluttering();
@@ -119,7 +138,13 @@ function selectNextButterflyTarget(butterfly: THREE.Object3D) {
       o.position.z + o.parent!.position.z < -dim.initialPlayerBulletRange * 2,
   );
 
-  sendButterflyToTree(butterfly, nextTree);
+  if (nextTree) {
+    sendButterflyToTree(butterfly, nextTree);
+  } else {
+    // go to an end gate's post instead
+    const gate = objectsGroup.children.find((o) => isEndGate(o));
+    sendButterflyToTree(butterfly, gate, GATE_POST_NAME, true);
+  }
 }
 
 function removeButterfly(butterfly: THREE.Object3D, butterflies: THREE.Object3D[]) {
