@@ -21,6 +21,8 @@
   `npx playwright test "tests/<file-name>"`.
 - Fix any test or type errors until the whole suite passes.
 - Add tests for new code, even if nobody asked.
+- In Playwright tests, use the function `toContainClass()` with a class name as string. Never use
+  the function `toHaveClass()`.
 
 See the file `./TESTING.md` for information about the approach to testing here.
 

@@ -10,5 +10,7 @@ declare global {
 
     RWNS_TESTS?: boolean;
     RWNS_LOCAL_STORAGE_KEY?: string;
+
+    _testData?: unknown;
   }
 }

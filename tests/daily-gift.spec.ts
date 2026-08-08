@@ -232,7 +232,7 @@ test.describe('Daily Gift Spinner Spinning & Award Resolution', () => {
     await page.clock.fastForward(2000);
 
     const dailyGift = page.locator('#dailyGift');
-    await expect(dailyGift).not.toHaveClass('inactive');
+    await expect(dailyGift).not.toContainClass('inactive');
 
     // mock random to select the first item (gift 0), which is 'spin-again' at first, then coins
     await page.evaluate(() => {

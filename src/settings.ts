@@ -1,5 +1,5 @@
 import type { ReadonlyState } from '#types';
-import { getEl } from '#utils';
+import { getEl, toggleHidden } from '#utils';
 
 import { showSection } from './sections';
 import { readState, resetState } from './state';
@@ -29,7 +29,7 @@ export function init() {
     }, 1000);
   });
 
-  el.shareBtn.classList.toggle('hidden', typeof navigator.share !== 'function');
+  toggleHidden(el.shareBtn, typeof navigator.share !== 'function');
   el.shareBtn.addEventListener('click', async () => {
     const text = el.stateJson.textContent;
     const file = new File([text], 'rwns-state.json', { type: 'application/json' });
