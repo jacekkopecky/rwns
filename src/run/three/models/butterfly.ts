@@ -19,9 +19,11 @@ export class Butterfly {
     this.object = fullObject;
 
     const body = createBody(size);
-    // angle the body a bit so the butterfly is always tilted a bit back
-    body.rotation.x = -Math.PI / 8;
     fullObject.add(body);
+
+    // angle and move the body a bit so the butterfly is always tilted a bit back
+    body.rotation.x = -Math.PI / 8;
+    body.position.y = size / 10;
 
     const leftWing = createWing(size);
     const rightWing = createWing(size);
