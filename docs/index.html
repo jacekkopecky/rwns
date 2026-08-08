@@ -7,8 +7,9 @@
   <meta name="description" content="Robots Walking and Shooting – a simple free game" />
   <meta name="theme-color" content="#f3e9b9" />
   <link rel="icon" href="/rwns/assets/explosion-BrJVmXi7.svg" />
-  <script type="module" crossorigin src="/rwns/assets/index-B4ESPepi.js"></script>
-  <link rel="stylesheet" crossorigin href="/rwns/assets/index-D9g4tWua.css">
+  <script src="https://kit.fontawesome.com/784b0ead55.js" crossorigin="anonymous"></script>
+  <script type="module" crossorigin src="/rwns/assets/index-CeWuKNgq.js"></script>
+  <link rel="stylesheet" crossorigin href="/rwns/assets/index-DUEwMC4F.css">
 <link rel="manifest" href="/rwns/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/rwns/registerSW.js"></script></head>
 
 <body class="showingSplashScreen">
@@ -204,7 +205,18 @@
       <div class="startInfo">Started playing: <span class="startDate">-</span></div>
       <details class="state">
         <summary>State (for debugging)</summary>
-        <pre class="stateJson"></pre>
+        <div class="stateJsonWrapper">
+          <div class="stateActions">
+            <button class="copyBtn" title="Copy state to clipboard">
+              <i class="fa-regular fa-copy if-not-copied"></i>
+              <i class="fa-solid fa-check if-copied"></i>
+            </button>
+            <button class="shareBtn hiddenGone" title="Share state file">
+              <i class="fa-solid fa-share-nodes"></i>
+            </button>
+          </div>
+          <pre class="stateJson"></pre>
+        </div>
       </details>
       <button class="resetProgressBtn">Start from scratch</button>
     </section>
