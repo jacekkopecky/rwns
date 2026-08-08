@@ -48,12 +48,60 @@
     margin-top: auto;
   }
 
+  .stateJsonWrapper {
+    position: relative;
+    margin-top: 0.5em;
+  }
+
+  .stateActions {
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    display: flex;
+    gap: 0.5em;
+    z-index: 10;
+  }
+
+  .stateActions button {
+    width: 2em;
+    height: 2em;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border-radius: 4px;
+    background: #2a4730;
+    border: 1px solid #5a8c63;
+    color: white;
+    cursor: pointer;
+  }
+
+  .stateActions button.copyBtn.copied {
+    background: #1b5e20;
+    border-color: #4caf50;
+    color: #4caf50;
+  }
+
+  .stateActions button.copyBtn.copied::after {
+    content: '✔';
+  }
+
+  .stateActions button.copyBtn.copied {
+    font-size: 0; /* hides the "C" text while showing the pseudo-element checkmark */
+  }
+
+  .stateActions button.copyBtn.copied::after {
+    font-size: 1rem;
+  }
+
   .stateJson {
     padding: 0.5em;
     border: solid thin black;
     background: #0004;
-    margin-top: 0.5em;
     font-size: small;
+    overflow: auto;
+    margin: 0;
   }
 
   .state {
