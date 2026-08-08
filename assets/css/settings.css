@@ -48,16 +48,48 @@
     margin-top: auto;
   }
 
+  .stateJsonWrapper {
+    position: relative;
+    margin-top: 0.5em;
+  }
+
+  .stateActions {
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    display: flex;
+    gap: 0.5em;
+    z-index: 1;
+
+    button {
+      padding: 0.5em;
+      background: #2d4a33;
+      border-color: #5a8c63;
+      color: white;
+
+      font-size: 1em;
+
+      &.copyBtn.copied {
+        color: #4caf50;
+      }
+
+      &.copied .if-not-copied,
+      &:not(.copied) .if-copied {
+        display: none;
+      }
+    }
+  }
+
   .stateJson {
     padding: 0.5em;
     border: solid thin black;
-    background: #0004;
-    margin-top: 0.5em;
+    background: #2d4a33;
     font-size: small;
+    overflow: auto;
+    max-height: 50vh;
   }
 
   .state {
     flex-shrink: 1;
-    overflow: auto;
   }
 }
