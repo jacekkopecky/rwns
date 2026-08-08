@@ -61,11 +61,14 @@ export function setupObjects(opts: {
     // put the butterfly to the left of the track, it will choose its next tree and fly to it
     butterfly.position.set(-dim.trackWidth, dim.cameraPosition.y, dim.startDistance);
     butterfly.userData.keepBehindCamera = true;
-    objects.push(butterfly);
     groupData.butterflies = [butterfly];
   }
 
   for (const obj of objects) {
+    objectsGroup.add(obj);
+  }
+  // keep butterflies at the end of objects because then hitting logic will never reach it through the final gate
+  for (const obj of groupData.butterflies ?? []) {
     objectsGroup.add(obj);
   }
 
