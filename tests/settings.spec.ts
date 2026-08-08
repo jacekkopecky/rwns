@@ -105,9 +105,9 @@ test.describe('Settings screen', () => {
     });
 
     expect(sharedData).not.toBeNull();
-    expect(sharedData!.title).toBe('rwns-state.json');
-    expect(sharedData!.fileName).toBe('rwns-state.json');
-    expect(sharedData!.fileType).toBe('application/json');
+    expect(sharedData!.title).toBe('rwns-state.txt');
+    expect(sharedData!.fileName).toBe('rwns-state.txt');
+    expect(sharedData!.fileType).toBe('text/plain');
   });
 
   test('should fallback to sharing text when file sharing is not supported', async ({ page }) => {
@@ -150,7 +150,7 @@ test.describe('Settings screen', () => {
     });
 
     expect(sharedData).not.toBeNull();
-    expect(sharedData!.title).toBe('rwns-state.json');
+    expect(sharedData!.title).toBe('rwns-state.txt');
     expect(sharedData!.hasFiles).toBe(false);
     const parsedState = JSON.parse(sharedData!.text!) as unknown as SerializedState;
     expect(parsedState.level).toBe(100);

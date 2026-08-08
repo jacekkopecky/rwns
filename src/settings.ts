@@ -32,11 +32,11 @@ export function init() {
   toggleHidden(el.shareBtn, typeof navigator.share !== 'function');
   el.shareBtn.addEventListener('click', async () => {
     const text = el.stateJson.textContent;
-    const file = new File([text], 'rwns-state.json', { type: 'application/json' });
+    const file = new File([text], 'rwns-state.txt', { type: 'text/plain' });
     let sharedJson = false;
     try {
       if (typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] })) {
-        await navigator.share({ files: [file], title: 'rwns-state.json' });
+        await navigator.share({ files: [file], title: 'rwns-state.txt' });
         sharedJson = true;
       }
     } catch (e) {
@@ -44,7 +44,7 @@ export function init() {
     }
 
     if (!sharedJson) {
-      await navigator.share({ text, title: 'rwns-state.json' });
+      await navigator.share({ text, title: 'rwns-state.txt' });
     }
   });
 }
