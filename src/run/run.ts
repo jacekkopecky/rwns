@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import * as dim from '#dimensions';
 import { logFps } from '#log';
 import type { ReadonlyState, RunType, UpgradablePermanentParameters } from '#types';
-import { getEl, resetRandom } from '#utils';
+import { exposeGlobalWindowProp, getEl, resetRandom } from '#utils';
 
 import { showSection, startPlaying } from '../sections';
 import { isOnSplashScreen } from '../splash-screen';
@@ -31,7 +31,7 @@ import {
 } from './players';
 import { disposeAnimations, timer, updateAnimations } from './three/animations';
 import { moveCamera } from './three/camera';
-import { init as initThree, render, scene } from './three/main';
+import { init as initThree, render, scene, toggleControls } from './three/main';
 import { initSpriteMaterials } from './three/materials';
 import { moveTrack, setupTrack } from './track';
 import { showExtents } from './utils/extents';
@@ -267,6 +267,7 @@ function isGameFinished() {
 // let fpsLimiter = fpsDivider - 1;
 
 // let lastTime = 0;
+let paused = false;
 
 function animationFrame(ms?: number) {
   // if (ms) {
@@ -284,7 +285,7 @@ function animationFrame(ms?: number) {
   timer.update(ms);
   if (isOnSplashScreen()) return;
 
-  if (ms != null) {
+  if (!paused && ms != null) {
     const delta = timer.getDelta();
     updateAnimations(delta);
     moveCamera();
@@ -308,3 +309,11 @@ function animationFrame(ms?: number) {
 
   if (playing && dim.options.fpsLogging) logFps(ms, `${objectsGroup.children.length}: `);
 }
+
+function pause() {
+  paused = !paused;
+  handler.toggle(!paused);
+  toggleControls(paused);
+}
+
+exposeGlobalWindowProp('gamePause', pause);

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import * as dim from '#dimensions';
 import { exposeGlobalWindowProp } from '#utils';
@@ -52,3 +53,15 @@ function doRender(showStats?: boolean) {
 export const render = window.RWNS_TESTS ? () => undefined : doRender;
 
 exposeGlobalWindowProp('gameDoRender', doRender);
+
+let controls: OrbitControls | undefined;
+export function toggleControls(enabled = true) {
+  if (!controls) {
+    controls = new OrbitControls(camera, renderer.domElement);
+    controls.addEventListener('change', () => render());
+    controls.screenSpacePanning = true;
+    controls.zoomToCursor = true;
+  }
+
+  controls.enabled = enabled;
+}

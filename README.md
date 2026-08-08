@@ -341,6 +341,7 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 
 ## done by 2026-08-08
 
+- [x] add debugging gamePause() call that adds controls
 - [x] butterfly could at the end fly onto a final gate post and just sit there
 - [/] bug? pressing next level twice in end screen
   - cannot replicate
