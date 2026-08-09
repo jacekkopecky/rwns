@@ -23,6 +23,9 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
 - [ ] there should be random obstacles you have to navigate around but shoot over
   - random in every run or same in the level?
   - or different if you finish the level, even if you're not progressing?
+  - should this come with player hit bars?
+  - would a stone disappear or stay around to hit the next player? (like a stumble)
+- [ ] player should always flash red when it's getting damage
 - [ ] change licence to GNU AGPL?
 - [ ] side game: alternative mine
   - marvin starts in front of all blocks (smaller blocks, 5 or 6 per width)
@@ -207,12 +210,20 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
       only, for that run only
   - [ ] gates that only change Marvin's colour, quests like break 20 end blocks with red robot
     - the gates could be random per play because they have little effect on the level outcome
+    - the colour could only affect the head (and arms/legs?) but not body because that's where a hit
+      bar would later be
 - [ ] skills (it should take time to "learn" skills? should need a special currency? from quests?)
   - make starting end blocks easier
+  - player hit bar, increasing player strengths (cards)
+    - player healing?
+  - increasing bullet speed (card)
+  - piercing bullet chance (card); a piercing bullet would give harm and continue flying as normal
+    bullet (this could be used to implement a drill in mine, with piercing being a count)
   - double shot chance, triple shot chance, critical shot chance (using Math.random during the run)
     - this could be only for the battle against the boss, for example
+    - is double shot a double-strong bullet, or two bullets (like a piercing bullet)?
   - buying in bulk
-    - 9 cards at once (not implemneted)
+    - 9 cards at once (not implemented)
     - then cheaper for 42 gems if one is for 5
     - then maybe cheaper still?
   - "finding treasure" - more gems per level? - nah, leave this as cards…
@@ -240,8 +251,8 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
   - always start with a marvin of a given colour?
     - this could be re-learned to a different colour
   - always start fire rate or damage on level 2, 3 etc.?
-  - increase max level of cards? (the user would really only choose this when they have a lot of
-    cards at top level)
+  - increase max level of certain cards? (the user would really only choose this when they have a
+    lot of cards at top level)
   - award for finishing a run with a marvin matching the color of the end gate
   - "write a self-improvement book" - increase card max level for common cards
   - skills could get rusty over time, requiring retraining or you lose them
