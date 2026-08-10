@@ -32,7 +32,7 @@ export interface ObjectData extends AnyObjectData {
   type: 'object';
   id?: string;
   hitPoints: number;
-  maxHitPoints: number;
+  maxHitPoints: number; // indicates that we should show and update a hitBar
   height: number;
   // collectible objects can be collected by walking over them, not by shooting them
   collectible?: boolean;

@@ -259,6 +259,10 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
     - if we have too much currency for training, we can allow paying overtime and training faster or
       two at a time
     - but skills learned in overtime are weaker, they get rusty quicker
+- [ ] pets/drones (through a skill?)
+  - up to two (either side)
+  - can walk through trees, don't collect coins, don't harm gems
+  - destroyed by end blocks
 - [ ] I can calculate how long it would take someone to reach high levels depending on supply of
       gems 
 - [ ] update README and index to say it's a game now? make it public?
@@ -354,6 +358,10 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
           show up automatically?
 
 ---
+
+## done by 2026-08-10
+
+- [x] butterfly should arrive from a random direction
 
 ## done by 2026-08-08
 

@@ -52,14 +52,14 @@ export function setupObjects(opts: {
   const maxZ = objects.at(-1)!.userData.maxZ - dim.endDistance;
   endGate.userData.maxZ = maxZ;
   endGate.translateZ(maxZ);
-  getObjectData(endGate).hitPoints = Infinity; // make the gate swallow bullets
   const gateGemCount = addGemsToGate(endGate, opts.params.endGateGems);
   objects.push(endGate);
 
   if (isFeatureAllowed('butterfly', opts.state)) {
     const butterfly = createObject('butterfly');
-    // put the butterfly to the left of the track, it will choose its next tree and fly to it
-    butterfly.position.set(-dim.trackWidth, dim.cameraPosition.y, dim.startDistance);
+    // put the butterfly to the side of the track, it will choose its next tree and fly to it
+    const sideSign = Math.random() < 0.5 ? -1 : 1;
+    butterfly.position.set(sideSign * dim.trackWidth, dim.cameraPosition.y, dim.startDistance);
     butterfly.userData.keepBehindCamera = true;
     groupData.butterflies = [butterfly];
   }
