@@ -1,8 +1,8 @@
 {
   "name": "rwns",
   "version": "1.0.0",
-  "description": "",
-  "license": "ISC",
+  "description": "A Robot Walkin'n'Shootin game",
+  "license": "AGPL-3.0-or-later",
   "author": "Jacek Kopecky <jacek@jacek.cz>",
   "type": "module",
   "main": "index.html",
