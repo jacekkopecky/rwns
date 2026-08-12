@@ -13,7 +13,7 @@ export const trackDecorationN = 20;
 export const trackDecorationLength = 8;
 export const trackDecorationThickness = 3;
 
-export const initialEnergyMax = 11;
+export const initialEnergyMax = 8;
 export const energyGainInterval = 60 * 60 * 1000; // get new energy every 60 minutes
 
 export const startDistance = 50;

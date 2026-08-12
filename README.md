@@ -195,8 +195,11 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
       - making earlier blocks easier (skill that enables a card that adds to the effect?)
   - finish tutorial levels (3) (unlocks first upgrade - fire rate?, and unlocks achievements
     showing)
-  - go a whole run without disturbing the butterfly
-  - never letting the butterfly get bored (disturbing it every time in a run)
+  - go a whole run without disturbing the butterfly (let the butterfly rest)
+  - never letting the butterfly get bored (disturbing it every time in a run) (make the butterfly
+    exercise)
+  - [ ] quests should come in exclusive buckets so we don't give conflicting ones but also we don't
+        give very similar ones
   - [ ] list of achievements, showing progress?
     - achievements should at some point be sorted by ETA, not by fraction of achievement, so that
       long-taking achievements that are 2/3 done aren't hogging top ranks
@@ -358,6 +361,11 @@ See `./AGENTS.md` and `./TESTING.md` for various instructions for consistency.
           show up automatically?
 
 ---
+
+## done by 2026-08-12
+
+- [x] decrease starting max energy, the cards come soon enough
+- [x] make hit bar thinner
 
 ## done by 2026-08-10
 

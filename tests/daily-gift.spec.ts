@@ -11,6 +11,7 @@ test.describe('Daily Gift Popup Trigger & Suppression', () => {
       state: {
         level: 10,
         lastDailyGiftGiven: '2026-01-28',
+        energy: 11, // the game started with 11 being the default, let's not break screenshots
       },
       time: '2026-01-01T12:00:00Z',
     });
