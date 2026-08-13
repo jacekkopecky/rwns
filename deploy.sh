@@ -4,6 +4,7 @@
 set -euo pipefail
 
 main='docs-main'
+prefix='docs-'
 others='docs-v*'
 
 echo 'checking working tree is clean'
@@ -64,9 +65,10 @@ for dir in $others
 do
   if [ -d "$dir" ]
   then
-    echo "updating '$dir'"
-    [ -e docs/"$dir" ] && rm -r docs/"$dir"
-    mv "$dir" docs/
+    target="${dir#$prefix}"
+    echo "updating '$dir' into '$target'"
+    [ -e docs/"$target" ] && rm -r docs/"$target"
+    mv "$dir" docs/"$target"
   fi
 done
 
