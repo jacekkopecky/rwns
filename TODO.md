@@ -306,6 +306,9 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
   - best your income record of N - with reward scaled to how much bested 
   - disturb butterfly N times
   - leave N butterfly trees undisturbed
+  - after achievements of "never disturbed the butterfly" and "never let the butterfly rest":
+    - don't let the butterfly settle in N levels
+    - don't disturb the butterfly in N levels
 - technical ideas
   - [ ] use LoadManager from https://threejs.org/manual/#en/textures for progress bars?
   - [ ] error handling - unhandled exceptions and promises
