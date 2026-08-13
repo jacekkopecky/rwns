@@ -5,7 +5,7 @@ import { _state } from './state';
 
 // we have to get it on every use so that tests can give us a different one
 function getLocalStorageKey() {
-  return window.RWNS_LOCAL_STORAGE_KEY || 'rwns-game-state';
+  return window.RWNS_LOCAL_STORAGE_KEY || 'rwns-game-state-v2';
 }
 
 export function saveState() {
