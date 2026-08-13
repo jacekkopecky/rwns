@@ -16,7 +16,7 @@ export default defineConfig({
     timeout: 10000,
   },
   use: {
-    baseURL: 'http://localhost:5173/rwns/',
+    baseURL: 'http://localhost:5173/',
     trace: 'on-first-retry',
     screenshot: {
       mode: 'only-on-failure',
@@ -38,7 +38,7 @@ export default defineConfig({
   ],
   webServer: {
     command: 'npm start',
-    url: 'http://localhost:5173/rwns/',
+    url: 'http://localhost:5173/',
     reuseExistingServer: !process.env.CI,
   },
 });
