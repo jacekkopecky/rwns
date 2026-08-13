@@ -4,6 +4,8 @@ tmp-three
 dev-dist
 test-results
 
+docs-*
+
 # downloaded
 assets/earthmap1k.jpg
 
