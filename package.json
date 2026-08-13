@@ -9,7 +9,7 @@
   "scripts": {
     "start": "vite --host 0.0.0.0",
     "build": "VITE_BUILD_VERSION=`/bin/echo -n $(date '+%Y-%m-%d %H:%M') \"($(git rev-parse --short HEAD))\"` vite build",
-    "build-and-commit": "echo 'checking working tree is clean' && git status --porcelain --untracked-files=no && test -z \"`git status --porcelain --untracked-files=no`\" && npm run test-all && npm run build && git add docs && git commit -m ':rocket:' || echo 'FAILED: something not right'",
+    "build-and-commit": "echo 'checking working tree is clean' && git status --porcelain --untracked-files=no && test -z \"`git status --porcelain --untracked-files=no`\" && npm run test-all && npm run build && sh deploy.sh || echo 'FAILED: something not right'",
     "test-all": "npm run test && npm run test:e2e",
     "test": "npm run lint && npm run type-check && vitest run src/",
     "test-watch": "vitest src/",
