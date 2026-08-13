@@ -3,6 +3,7 @@ tmp-three
 .vscode
 dev-dist
 test-results
+.vite/deps
 
 docs/
 docs-*/
