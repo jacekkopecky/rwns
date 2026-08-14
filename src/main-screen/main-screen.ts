@@ -58,7 +58,7 @@ export function startPlaying(): boolean {
 
   // only start playing if we do have enough energy
   if (subtractEnergy(params)) {
-    updateEnergyCount(params, false);
+    updateEnergyCount(params, false, false);
     return true;
   } else {
     return false;

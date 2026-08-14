@@ -10,7 +10,11 @@ const el = {
   energyNext: getEl('#mainScreen .playStats .energy .nextTime'),
 };
 
-export function updateEnergyCount(params: UpgradablePermanentParameters, withNewCountdown = true) {
+export function updateEnergyCount(
+  params: UpgradablePermanentParameters,
+  withNewCountdown = true,
+  updateNoEnergyMessage = true,
+) {
   const { energy, nextEnergyMs } = getEnergy(params);
   if (energy < Infinity) {
     if (
@@ -29,11 +33,14 @@ export function updateEnergyCount(params: UpgradablePermanentParameters, withNew
     toggleHidden(el.energy, true);
   }
 
-  el.main.classList.toggle('no-energy', !energy);
+  if (updateNoEnergyMessage) {
+    el.main.classList.toggle('no-energy', !energy);
+  }
 }
 
 export function hasEnergy() {
-  return !el.main.classList.contains('no-energy');
+  const { energy } = getEnergy(getUpgradablePermanentParameters());
+  return energy > 0;
 }
 
 function showEnergy(nextEnergyMs: number | null, energy: number) {
