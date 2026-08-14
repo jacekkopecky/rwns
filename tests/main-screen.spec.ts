@@ -34,16 +34,16 @@ test.describe('Main Screen', () => {
     await startGame(page);
 
     const mainEl = page.locator('main');
-    await expect(mainEl).not.toHaveClass(/no-energy/);
+    await expect(mainEl).not.toContainClass('no-energy');
 
     // click to start run
     await page.locator('#webglCanvas').click();
 
     // verify run section is active
-    await expect(page.locator('#run')).not.toHaveClass(/inactive/);
+    await expect(page.locator('#run')).not.toContainClass('inactive');
 
     // while run is started/active, main should not have no-energy class
-    await expect(mainEl).not.toHaveClass(/no-energy/);
+    await expect(mainEl).not.toContainClass('no-energy');
 
     // energy value display in playStats should have updated to 0
     await expect(page.locator('#mainScreen .playStats .energy .value')).toHaveText('0');
@@ -56,7 +56,7 @@ test.describe('Main Screen', () => {
     await page.locator('#endRunScreen button.retry').click();
 
     // back on main screen with 0 energy, main should now have no-energy class
-    await expect(page.locator('#mainScreen')).not.toHaveClass(/inactive/);
-    await expect(mainEl).toHaveClass(/no-energy/);
+    await expect(page.locator('#mainScreen')).not.toContainClass('inactive');
+    await expect(mainEl).toContainClass('no-energy');
   });
 });
