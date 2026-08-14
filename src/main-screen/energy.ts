@@ -29,6 +29,7 @@ export function updateEnergyCount(params: UpgradablePermanentParameters, startin
     toggleHidden(el.energy, true);
   }
 
+  // don't update the main screen when starting a run, the information is fading away anyway
   if (!startingRun) {
     el.main.classList.toggle('no-energy', !energy);
   }
