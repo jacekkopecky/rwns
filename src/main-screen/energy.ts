@@ -35,8 +35,7 @@ export function updateEnergyCount(params: UpgradablePermanentParameters, startin
 }
 
 export function hasEnergy() {
-  const { energy } = getEnergy(getUpgradablePermanentParameters());
-  return energy > 0;
+  return !el.main.classList.contains('no-energy');
 }
 
 function showEnergy(nextEnergyMs: number | null, energy: number) {
