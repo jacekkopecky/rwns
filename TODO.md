@@ -8,6 +8,7 @@ Feel free to let me know in issues on or Reddit what you think about any of thes
 submit PRs; I don't yet know how receptive I am to those but I'd like to think I might welcome clean
 PRs. Not that the code is particularly well architected, mind. Thoughts on that also welcome.
 
+- [ ] why does the butterfly fly away when I walk past it?
 - [ ] make rare cards less rare I think, consider stats from phone
 - [ ] sections that slide out to the sides should have a delayed display:none style so it's just not
       there most of the time
