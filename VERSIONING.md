@@ -10,7 +10,9 @@ Other versions will be available at https://jacekkopecky.github.io/rwns/v2 and s
 
 - create a new branch
 - update `package.json` with the new version such as 2.0.0
-- update `vite.config.js` with a new `outDir` such as `docs-v2`
+- update `vite.config.js`
+  - set a new `base` such as `rwns/v2`
+  - set a new `outDir` such as `docs-v2`
 - update `index.html` with a new version statement, keep the commit SHA there
 - update `src/state/storage.ts` with a new state key
 

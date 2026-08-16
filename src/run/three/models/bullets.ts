@@ -13,8 +13,11 @@ const r = dia / 2;
 // bullets should have the flat side to us, point towards enemy
 const geo = makeTetrahedron(r).rotateX(-Math.PI / 2);
 
-export function createBulletModel() {
-  const obj = new THREE.Mesh(geo, bulletColor);
+export function createBulletModel(oldObject: THREE.Mesh | undefined) {
+  const obj = oldObject ?? new THREE.Mesh(geo, bulletColor);
+  // restore the object's geometry and material because if the bullet hit something, those are an explosion
+  obj.geometry = geo;
+  obj.material = bulletColor;
   obj.castShadow = true;
   return obj;
 }

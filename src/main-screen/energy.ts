@@ -10,14 +10,14 @@ const el = {
   energyNext: getEl('#mainScreen .playStats .energy .nextTime'),
 };
 
-export function updateEnergyCount(params: UpgradablePermanentParameters, withNewCountdown = true) {
+export function updateEnergyCount(params: UpgradablePermanentParameters, startingRun = false) {
   const { energy, nextEnergyMs } = getEnergy(params);
   if (energy < Infinity) {
     if (
       energy >= params.energyMax ||
-      // we don't want to show the countdown when the energy has just gone from full and withNewCountdown is false
+      // we don't want to show the countdown when the energy has just gone from full and we're starting a run
       // so that when we start playing at full energy, we show the number decreasing but not the unnecessary (+1 in 60min)
-      (energy === params.energyMax - 1 && !withNewCountdown)
+      (energy === params.energyMax - 1 && startingRun)
     ) {
       clearCounter();
       showEnergy(null, energy);
@@ -29,7 +29,10 @@ export function updateEnergyCount(params: UpgradablePermanentParameters, withNew
     toggleHidden(el.energy, true);
   }
 
-  el.main.classList.toggle('no-energy', !energy);
+  // don't update the main screen when starting a run, the information is fading away anyway
+  if (!startingRun) {
+    el.main.classList.toggle('no-energy', !energy);
+  }
 }
 
 export function hasEnergy() {

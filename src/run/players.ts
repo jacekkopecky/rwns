@@ -180,9 +180,11 @@ function checkPlayerHit(player: THREE.Object3D) {
         oData.onPlayerCollision(player);
       }
 
+      // get objHP before hitObject decreases it
+      const objHP = oData.hitPoints || 0;
+
       const isHit = hitObject(obj, pData.hitPoints, true);
       if (isHit && !oData.collectible && !oData.benign) {
-        const objHP = oData.hitPoints || 0;
         pData.hitPoints -= objHP;
       }
 

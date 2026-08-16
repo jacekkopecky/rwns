@@ -4,7 +4,7 @@ import * as dim from '#dimensions';
 
 import { hitObject, objectsGroup } from './objects';
 import { getExtentTranslatedToPosition, intersects, isDying } from './three/resources';
-import { createBullet, killBullet } from './three/run-objects';
+import { createBullet, freeRecycledBullets, killBullet, recycleBullet } from './three/run-objects';
 import { getObjectX, getObjectZ, resetGroup } from './three/tools';
 import { Circle, getBulletData, getObjectData, type PlayerData } from './types';
 import { showExtent } from './utils/extents';
@@ -14,6 +14,7 @@ bulletsGroup.name = 'bulletsGroup';
 
 export function setupBullets() {
   resetGroup(bulletsGroup);
+  freeRecycledBullets();
 }
 
 export function createPlayerBullet(player: THREE.Object3D, pData: PlayerData) {
@@ -58,6 +59,7 @@ export function movePlayerBullets(delta: number) {
   // sweep dying bullets to remove them outside loops going through bullets
   for (const bullet of toRemove) {
     bullet.removeFromParent();
+    recycleBullet(bullet);
   }
 }
 

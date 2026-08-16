@@ -124,8 +124,8 @@ export function isDying(obj: THREE.Object3D): boolean {
   return (obj.userData as DyingData).dying;
 }
 
-export function markAsDying(obj: THREE.Object3D) {
-  obj.userData.dying = true;
+export function markAsDying(obj: THREE.Object3D, dying = true) {
+  obj.userData.dying = dying;
 }
 
 export function getDyingMaterial(obj: THREE.Object3D): keyof typeof mat.sprites | undefined {
