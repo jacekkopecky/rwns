@@ -1,3 +1,5 @@
+import type * as THREE from 'three';
+
 import type { ReadonlyState } from '#types/state.ts';
 
 /**
@@ -6,6 +8,7 @@ import type { ReadonlyState } from '#types/state.ts';
 declare global {
   interface Window {
     gameState: ReadonlyState;
+    gameScene?: THREE.Scene;
     gameDoRender: () => void;
 
     RWNS_TESTS?: boolean;
