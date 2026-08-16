@@ -8,7 +8,46 @@ Feel free to let me know in issues on or Reddit what you think about any of thes
 submit PRs; I don't yet know how receptive I am to those but I'd like to think I might welcome clean
 PRs. Not that the code is particularly well architected, mind. Thoughts on that also welcome.
 
+- thoughts for next steps
+  - achievements can be done first, cosmetic-only for now until things start depending on reaching
+    them
+    - add a page listing achievements (when the first one is achieved)
+    - add a cup svg
+  - mine should be the second
+  - then skill tree
+  - I can start the quests before any other currencies are introduced (e.g. for skills)
+    - then I can add those currencies as level rewards when I add them
+- [ ] achievements
+  - [x] make an icon
+  - [ ] add state - achievements: name:date?, newAchievementsEarned: name[]
+  - [ ] add types - name: description will do for now
+  - [ ] add an achievement: You've found RWNS and gave it a go (after tutorial levels)
+  - [ ] add a section
+    - show when you have the first achievement
+    - highlight when newAchievementsEarned not empty
+    - on section open, show a big achievement cup with the description
+    - on tap add it to the list, highlighted, scrolledIntoView
+    - rinse, repeat while new not empty
+    - [ ] at some point later, start hiding or grouping related achievements
+  - gather 100 coins
+  - get max on an upgrade
+  - get max on all upgrades
+  - get max on a card
+  - clear out all trees
+  - clear out two bricks in the last row
+  - clear out three bricks in the last row
+  - clear out all the bricks in the last row
+    - these could enable skills to do with blocks:
+      - chance to survive hitting a block
+      - making earlier blocks easier (skill that enables a card that adds to the effect?)
+  - finish tutorial levels (3) (unlocks first upgrade - fire rate?, and unlocks achievements
+    showing)
+  - go a whole run without disturbing the butterfly (let the butterfly rest)
+  - never letting the butterfly get bored (disturbing it every time in a run) (make the butterfly
+    exercise)
 - [ ] why does the butterfly fly away when I walk past it?
+  - because it's behind me - why is it not parked?
+  - but it looks OK so leave it like that
 - [ ] make rare cards less rare I think, consider stats from phone
 - [ ] sections that slide out to the sides should have a delayed display:none style so it's just not
       there most of the time
@@ -33,7 +72,7 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
     - indicate direction from gesture, allow user to cancel, move on release
   - map moves when we are on row 4 and move up,
     - blocks that were in row 1 shrink without giving awards
-    - or there's a gate behind use that goes with us and we can't cross it or shoot through it
+    - or there's a gate behind us that goes with us and we can't cross it or shoot through it
     - can Marvin speed up and slow down as the walking animation fades in or out?
     - map may move linearly but marvin lags behind a bit when starting to walk
   - has a number of shots, refreshed often
@@ -139,9 +178,6 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
           - player group flipped back to front for fun?
           - only reward at the end if any Marvin reaches the end gate
           - randomized per how many of these we have run
-      - finishing with matching colour Marvins could be a quest
-      - finish N levels without a certain type of card - when you accept the quest, you lose those
-        cards until the quest is done or forfeited
     - some level types can restrict types of available upgrades, e.g. mine should not permit more
       players
   - gradation
@@ -156,11 +192,13 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
     - we don't have the end of a timeline (after several eras)
   - gems: cards with permanent upgrades
   - what do we get for quests?
-    - points towards levels? different points per quest?
-    - what do we get for levels? extra energy, gems, some other special currency…?
+    - XP points towards the month's levels? different points per quest?
+    - levels could reset every month, if quests are daily/weekly/monthly
+    - what do we get for levels? extra energy, gems, coins, cards, some other special currency…?
   - what do we get in a mine? some other special currency…?
     - in Timeline Up, it's coal and iron, for delayed general upgrades, could do something similar?
     - could be points for learning skills
+    - if we get coal and iron, and we end up with too much coal, we can press into into gems
   - some other special currency: buy robot upgrades, e.g. military ranks
     - show epaulets on the marvins - one, two, three lines, one, two disks, a star; each in blue,
       white, then gold?
@@ -180,28 +218,6 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
   - a card or a skill that "finally replaces all the aching diodes down his left side" that he asked
     for to be replaced
     - …and the new ones feel itchy instead
-- [ ] achievements
-  - gather 100 coins
-  - get max on an upgrade
-  - get max on all upgrades
-  - get max on a card
-  - clear out a level
-  - clear out two bricks in the last row
-  - clear out three bricks in the last row
-  - clear out all the bricks in the last row
-    - these could enable skills to do with blocks:
-      - chance to survive hitting a block
-      - making earlier blocks easier (skill that enables a card that adds to the effect?)
-  - finish tutorial levels (3) (unlocks first upgrade - fire rate?, and unlocks achievements
-    showing)
-  - go a whole run without disturbing the butterfly (let the butterfly rest)
-  - never letting the butterfly get bored (disturbing it every time in a run) (make the butterfly
-    exercise)
-  - [ ] quests should come in exclusive buckets so we don't give conflicting ones but also we don't
-        give very similar ones
-  - [ ] list of achievements, showing progress?
-    - achievements should at some point be sorted by ETA, not by fraction of achievement, so that
-      long-taking achievements that are 2/3 done aren't hogging top ranks
 - [ ] in-run upgrades, e.g. gates? fire rate, damage, extra players?
   - as gates? (move gate creation and then killing to run/object/object.ts so run/objects.ts doesn't
     call createGate directly?)
@@ -215,6 +231,8 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
     - the colour could only affect the head (and arms/legs?) but not body because that's where a hit
       bar would later be
 - [ ] skills (it should take time to "learn" skills? should need a special currency? from quests?)
+  - shoot fewer but stronger bullets (whenever fire rate all maxed out? enable new card that
+    increases fire rate again; achievement: fire fate all maxed out I, II, III, IV…)
   - make starting end blocks easier
   - player hit bar, increasing player strengths (cards)
     - player healing?
@@ -296,9 +314,9 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
 - [ ] add objects that, when close enough, start actively moving towards you?
   - this needs to carefully handle the Z sorting of objectsGroup
 - [ ] quests?
-  - with timeout - daily, weekly?, monthly
-  - add a give-up possibility to remove clutter, or re-roll?
-  - quest re-roll buttons could only work once a day, and use a gem or cost some other price?
+  - [ ] later with timeout - daily, weekly?, monthly
+  - [ ] later add a give-up possibility to remove clutter, or re-roll?
+    - quest re-roll buttons could only work once a day, and use a gem or cost some other price?
   - quest types:
     - break 20 end blocks
     - break 20 end blocks with red/green/blue robot
@@ -310,6 +328,14 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
   - after achievements of "never disturbed the butterfly" and "never let the butterfly rest":
     - don't let the butterfly settle in N levels
     - don't disturb the butterfly in N levels
+  - [ ] quests should come in exclusive buckets so we don't give conflicting ones but also we don't
+        give very similar ones
+  - [ ] list of quests, showing progress?
+    - quests should at some point be sorted by ETA, not by fraction of achievement, so that
+      long-taking achievements that are 2/3 done aren't hogging top ranks
+  - [ ] later quests that you have to accept? Or special side games?
+    - finish N levels without a certain type of card - when you accept the quest, you lose those
+      cards until the quest is done or forfeited
 - technical ideas
   - [ ] use LoadManager from https://threejs.org/manual/#en/textures for progress bars?
   - [ ] error handling - unhandled exceptions and promises
@@ -363,6 +389,123 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
           show up automatically?
 
 ---
+
+## done by 2026-08-16
+
+### Conversation with Gemini 2026-08-16
+
+This conversation is saved just as a curiosity, as I'm starting to learn how to use AI.
+
+> I have a game. It's fairly basic. You can run through it and you're shooting trees and getting
+> coins and gems. With coins, you can get upgrades, but those reset whenever you get to a new level.
+> With gems, you can get cards that give you permanent upgrades that last in all future levels. Now
+> I want to add achievements, quests, and skills. Achievements are just something that you get as
+> you reach various milestones. Quests are something that the game gives you, so when you fulfill
+> them, you get some various kinds of currencies. You could get coins, you could get energy, you
+> could get gems, but you should also get a new kind of currency. And then there's going to be
+> skills where if you have enough of that new currency, you can train certain skills. They will take
+> some time to train, and then they might mean certain upgrades or they might enable certain future
+> upgrades like new cards, for example. I think some achievements should also enable new things.
+> When you reach a certain achievement, it might allow you to learn a new skill if you have enough
+> of that new currency, and then get new cards. But that skill would not be available to you until
+> you reach the achievement. And now I'm struggling with what should be the first steps that I
+> should add. Should it be the skill tree? But I don't think I have any currency to train, so I
+> could start the skill tree without requiring that currency, just time to train. Should it be the
+> quests? Or should it be the achievements?
+
+Start with Quests first.
+
+Building the skill tree without its core currency creates technical debt you'll have to refactor
+later. Quests establish the foundational loop that makes the rest of your new features work
+naturally.
+
+Recommended Implementation Order
+
+Quests (First)
+
+Why: Quests introduce your game's reward pipeline. They give players immediate goals during a run
+(e.g., "Destroy 50 trees") and create the source for your new currency—let's call it Skill Points or
+Knowledge.
+
+Action: Build a basic quest system that tracks simple actions and awards Coins, Gems, and your new
+currency.
+
+Skill Tree (Second)
+
+Why: Now that players are earning your new currency from quests, the skill tree has a purpose. You
+won't need to temporarily remove currency costs or hack the logic just to test it.
+
+Action: Create time-based training mechanics funded by the new currency earned in Step 1. Add your
+first set of permanent upgrades and new card unlocks here.
+
+Achievements (Third)
+
+Why: Achievements act as mid-to-late-game gates and long-term milestones. Since they unlock
+higher-tier skills and cards, those skills and cards need to exist first.
+
+Action: Implement milestone tracking (e.g., "Reach Level 10"). Use achievements to gate high-level
+nodes on the skill tree you built in Step 2.
+
+Core Game Loop Flow
+
+Shoot Trees → Complete Quests → Earn New Currency → Train Skills → Unlock Achievements → Access
+Advanced Skills/Cards
+
+By starting with quests, every subsequent feature hooks into an economy that already functions.
+
+What name are you thinking of giving to this new skill currency?
+
+> But achievements also feel like they're independent of the other two because already in the early
+> game you could start earning achievements and they might just be cosmetic, a feel-good kind of
+> reward. There's another possibility for earning the currency for training skills, which is some
+> kind of side game. I have various side games in mind. So does that change the picture at all?
+
+It shifts the picture slightly, but it actually reinforces holding off on the skill tree until your
+economy is solid.
+
+If achievements are purely cosmetic early on, they become very easy to drop in at almost any point.
+Meanwhile, introducing side games gives you a much richer ecosystem for earning that skill currency.
+
+How This Updates Your Roadmap
+
+Achievements (Can now be Step 1 or parallel)
+
+Why: Since you're viewing early achievements as cosmetic "feel-good" badges rather than strict
+mechanical progression gates, they are low-risk and quick to implement. You can add a basic
+achievement tracker right now without touching any other system.
+
+Action: Build simple milestone tracking (e.g., "Pop 100 Trees") that awards badges or cosmetics. You
+can hook skill-gating logic into this system later.
+
+Side Game or Quests (Currency Sources)
+
+Why: Before you build the skill tree, you need to decide how players primarily earn that training
+currency. A side game is fantastic for active play, while quests work well for passive background
+tracking.
+
+Action: Build whichever currency source sounds most engaging to develop first—a simple side game
+mini-loop or the quest log.
+
+Skill Tree (Still comes after currency sources)
+
+Why: Even with side games providing the currency, the skill tree remains the "sink" (where currency
+is spent). Building the sink before the source forces you to invent temporary shortcuts you'll just
+have to remove later.
+
+Action: Hook the skill tree directly into the currency generated by your side games or quests.
+
+Updated Progression Hierarchy
+
+- Phase - Feature - Role in the Loop
+- Phase 1 Cosmetic Achievements Instant player feedback & early dopamine (Zero economy impact)
+- Phase 2 Side Game / Quests The Source (Generates Skill Currency & keeps core loop fresh)
+- Phase 3 Skill Tree The Sink (Spends Skill Currency & unlocks Cards/Upgrades)
+- Phase 4 Progression Achievements The Gates (Unlocks high-tier Skill Tree nodes)
+
+Starting with cosmetic achievements gives you a quick victory, but getting that side game or quest
+system working next ensures your skill tree has a real economy ready for it.
+
+What kind of side game mechanics are you picturing?
 
 ## done by 2026-08-15
 
