@@ -364,6 +364,12 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
 
 ---
 
+## done by 2026-08-15
+
+- [x] should I reuse bullet objects and explosion sprites? are they expensive? is the phone doing a
+      lot of GC?
+  - and also make the explosions randomly rotated which is nice
+
 ## done by 2026-08-12
 
 - [x] change licence to GNU AGPL?
