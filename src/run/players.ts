@@ -184,7 +184,7 @@ function checkPlayerHit(player: THREE.Object3D) {
       const objHP = oData.hitPoints || 0;
 
       const isHit = hitObject(obj, pData.hitPoints, true);
-      if (isHit && !oData.collectible && !oData.benign) {
+      if (isHit && oData.damagesPlayer) {
         pData.hitPoints -= objHP;
       }
 

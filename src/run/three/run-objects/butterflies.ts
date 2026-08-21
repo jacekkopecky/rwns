@@ -4,7 +4,7 @@ import * as dim from '#dimensions';
 import { randomItem } from '#utils';
 
 import { objectsGroup } from '../../objects';
-import { Circle, getObjectData } from '../../types';
+import { Circle, getObjectData, type ObjectData } from '../../types';
 import { Butterfly, GATE_POST_NAME, getHitBar } from '../models';
 import { isDying } from '../resources';
 
@@ -31,6 +31,11 @@ export function createButterfly(): THREE.Object3D {
 
   obj.userData.type = 'object';
   obj.userData.butterfly = butterfly;
+
+  const oData = obj.userData as ObjectData;
+  oData.ignoresBullets = true;
+  oData.damagesPlayer = false;
+  oData.getsDamageFromPlayer = false;
 
   return obj;
 }
@@ -99,6 +104,7 @@ function sendButterflyToTree(
   const bData = getButterflyData(butterfly);
 
   if (!tree) {
+    // fly to the side
     delete bData.target;
     bData.targetPosition ??= new THREE.Vector3();
     bData.targetPosition.copy(butterfly.position);
@@ -110,7 +116,7 @@ function sendButterflyToTree(
     const tData = getObjectData(tree);
     bData.targetPosition.set(
       tree.position.x,
-      tData.height || butterfly.position.y,
+      tData.height ?? butterfly.position.y,
       tree.position.z,
     );
 

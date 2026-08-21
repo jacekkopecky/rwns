@@ -1,6 +1,6 @@
 import type * as THREE from 'three';
 
-import { getObjectData } from '../../types';
+import { getObjectData, type ObjectData } from '../../types';
 import { createHitBar } from '../models';
 import { markAsDying } from '../resources';
 
@@ -26,12 +26,23 @@ export function createObject<T extends keyof typeof typeFns>(
 ): THREE.Object3D {
   // @ts-expect-error ...args complains about the spread but it's OK
   const retval = typeFns[type][0](...args);
+  if (retval.userData.type !== 'object') throw new Error(`${retval.userData.type}`);
+
   retval.userData.objectSubtype = type;
 
-  if (retval.userData.type !== 'object') throw new Error(`${retval.userData.type}`);
-  if (retval.userData.height) {
+  const oData = retval.userData as ObjectData;
+
+  if (oData.height != null) {
     retval.add(createHitBar().translateY(retval.userData.height as number));
   }
+
+  // default object behaviour flags
+  oData.ignoresBullets ??= false;
+  oData.damagesPlayer ??= true;
+  oData.getsDamageFromPlayer ??= true;
+  oData.destroyedOnPlayerContact ??= false;
+  oData.givesAwardOnPlayerContact ??= false;
+  oData.givesAwardOnDeathByDamage ??= true;
 
   return retval;
 }

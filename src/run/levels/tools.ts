@@ -55,7 +55,9 @@ export function makeGem(hp: number, id?: string, withoutRotation = false) {
   const oData = getObjectData(obj);
 
   oData.hitPoints = hp;
-  oData.benign = true;
+  oData.damagesPlayer = false;
+  oData.getsDamageFromPlayer = false;
+  oData.destroyedOnPlayerContact = true;
   oData.awards = [{ type: 'gem', amount: 1, useForAward: true }];
   return obj;
 }
@@ -64,7 +66,10 @@ export function makeBag(amount: number) {
   const obj = createObject('coins');
   const oData = getObjectData(obj);
 
-  oData.collectible = true;
+  oData.ignoresBullets = true;
+  oData.damagesPlayer = false;
+  oData.destroyedOnPlayerContact = true;
+  oData.givesAwardOnPlayerContact = true;
   oData.awards = [{ type: 'coin', amount }];
   // make the reach of coins bigger to be easier to collect
   scaleExtent(oData.extent2d, 3);
