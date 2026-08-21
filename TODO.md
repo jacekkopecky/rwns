@@ -45,9 +45,6 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
   - go a whole run without disturbing the butterfly (let the butterfly rest)
   - never letting the butterfly get bored (disturbing it every time in a run) (make the butterfly
     exercise)
-- [ ] why does the butterfly fly away when I walk past it?
-  - because it's behind me - why is it not parked?
-  - but it looks OK so leave it like that
 - [ ] make rare cards less rare I think, consider stats from phone
 - [ ] sections that slide out to the sides should have a delayed display:none style so it's just not
       there most of the time
@@ -389,6 +386,68 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
           show up automatically?
 
 ---
+
+## done by 2026-08-21
+
+- [x] refactor flags governing object behaviour - benign and collectible had too much overlap and
+      ambiguity
+  - notes:
+    ```
+    notes:
+    // collectible objects can be collected by walking over them, not by shooting them
+    collectible?: boolean;
+    // benign objects just disappear when walking through with no harm to the player and no award, except if awardOnPass
+    benign?: boolean;
+    // awardOnPass objects give their award when passing through them, but the object itself doesn't disappear
+    awardOnPass?: boolean;
+    // awards can come when shot (non-collectible) or when walked over (collectible)
+
+    refactor the above flags to clear single-meaning booleans?
+
+    normal: gives award when killed, can be shot by a bullet, harms a player,
+      hp > 0
+    collectible: cannot be shot by a bullet, killed on contact with player, gives award on contact with player, no harm to player (hp irrelevant)
+      ignoresBullets, destroyedOnPlayerContact, !damagesPlayer, givesAwardOnPlayerContact
+    benign: killed on contact with player, does not give award on contact with player, can be shot by a bullet, no hardm to player (but has hp)
+      !damagesPlayer, !getsDamageFromPlayer, destroyedOnPlayerContact
+    awardOnPass: not killed on contact with player, gives award on contact with player
+      givesAwardOnPlayerContact
+
+    flags:
+    ignoresBullets
+    damagesPlayer **
+    getsDamageFromPlayer **
+    destroyedOnPlayerContact
+    givesAwardOnPlayerContact
+    givesAwardOnDeathByDamage **
+
+    default: not collectible, not benign, not award on pass
+    !iB, **dP**, **gDFP**, !dOPC, !gAOPC, **gAODBD**
+
+                    0   1    1      0     0      1
+                    iB, dP, gDFP, dOPC, gAOPC, gAODBD, hp
+    trees:          -   +    +      -     -      +     1
+    coins:          +   -    +      +     +      /     any
+    gems:           -   -    -      +     -      +     2
+    endBlocks:      -   +    +      -     -      +     3
+    endGage:        -   -    -      -     +      /     Inf
+    butterfly:      +   -    -      -     -      /     any
+
+    new ones:
+    flame:          +   +    -      -     -      +     0.1  - would need damagePerSecond
+    laser:          +   +    +      -     -      +     Inf
+    dry stick:      +   +    +      -     -      +     0.5
+    trap/mine:      +   +    +      +     -      +     Inf
+    monolith?       -   +    +      -     -      +     Inf
+    bunny/drone?    -   -    -      +     +      -     ?   - award: drone card?
+    deer?           -   +    +      -     -      +     ?
+
+    should we have objects that don't give award when killed, but do on contact with player?
+    ```
+- [x] why does the butterfly fly away when I walk past it?
+  - because the end gate dies - it shouldn't
+  - but it looks OK so leave it like that
+- [x] why does the exit button show out of energy over splash screen for a moment?
 
 ## done by 2026-08-16
 
