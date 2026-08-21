@@ -33,14 +33,16 @@ export interface ObjectData extends AnyObjectData {
   id?: string;
   hitPoints: number;
   maxHitPoints: number; // indicates that we should show and update a hitBar
-  height: number;
-  // collectible objects can be collected by walking over them, not by shooting them
-  collectible?: boolean;
-  // benign objects just disappear when walking through with no harm to the player and no award, except if awardOnPass
-  benign?: boolean;
-  // awardOnPass objects give their award when passing through them, but the object itself doesn't disappear
-  awardOnPass?: boolean;
-  // awards can come when shot (non-collectible) or when walked over (collectible)
+  height?: number; // an object may not have a known height
+
+  // behavior flags
+  ignoresBullets?: boolean; // bullets can fly right through (or over/under)
+  damagesPlayer?: boolean;
+  getsDamageFromPlayer?: boolean; // otherwise contact with player doesn't affect the object's HP
+  destroyedOnPlayerContact?: boolean; // no effect on any HP
+  givesAwardOnPlayerContact?: boolean; // independent of the object's or the player's HP
+  givesAwardOnDeathByDamage?: boolean; // whether from bullet damage or from player contact, if either damages the object
+
   awards?: Award[];
   // a function to call when a player hits the object
   onPlayerCollision?: (player?: THREE.Object3D) => void;

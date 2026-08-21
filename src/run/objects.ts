@@ -98,12 +98,12 @@ export function hitObject(obj: THREE.Object3D, hitPoints: number, playerHit = fa
   if (isDying(obj)) return false;
 
   const oData = getObjectData(obj);
+  const bulletHit = !playerHit;
 
-  // cannot shoot a collectible
-  if (!playerHit && oData.collectible) return false;
+  if (bulletHit && oData.ignoresBullets) return false;
 
   // cannot harm a benign object with a player
-  if (!(playerHit && oData.benign)) {
+  if (bulletHit || oData.getsDamageFromPlayer) {
     oData.hitPoints -= hitPoints;
   }
 
@@ -111,14 +111,13 @@ export function hitObject(obj: THREE.Object3D, hitPoints: number, playerHit = fa
     updateHitBar(obj, oData.hitPoints / oData.maxHitPoints);
   }
 
-  const shouldKillObject =
-    oData.collectible ||
-    oData.hitPoints <= 0 ||
-    (oData.benign && playerHit && oData.hitPoints !== Infinity);
+  const outOfHP = oData.hitPoints <= 0;
+  const shouldKillObject = outOfHP || (playerHit && oData.destroyedOnPlayerContact);
 
+  // prettier-ignore
   const shouldGiveAward =
-    // give the award, but not from benign objects when we walk into them
-    (shouldKillObject && !(oData.benign && playerHit)) || (playerHit && oData.awardOnPass);
+    (oData.givesAwardOnDeathByDamage && outOfHP) ||
+    (oData.givesAwardOnPlayerContact && playerHit);
 
   const givingAward = Boolean(shouldGiveAward && oData.awards?.length);
 

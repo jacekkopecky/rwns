@@ -2,8 +2,13 @@ import * as THREE from 'three';
 
 import * as dim from '#dimensions';
 
+import type { ObjectData } from '../../types';
 import { slideIntoGround } from '../animations';
 import { createGateModel } from '../models';
+
+interface GateData extends ObjectData {
+  gateType: dim.Gate;
+}
 
 export function createGate(type: dim.Gate, callback: (player?: THREE.Object3D) => void) {
   const { w, d = 1, color } = dim.gateTypes[type];
@@ -13,12 +18,14 @@ export function createGate(type: dim.Gate, callback: (player?: THREE.Object3D) =
     new THREE.Vector2(-w / 2, -d),
     new THREE.Vector2(w / 2, 1),
   );
-  gate.userData.type = 'object';
-  gate.userData.gateType = type;
-  gate.userData.onPlayerCollision = callback;
-  gate.userData.benign = true;
-  gate.userData.awardOnPass = true;
-  gate.userData.height = dim.modelSizes.gatePost[1];
+  const oData = gate.userData as GateData;
+  oData.type = 'object';
+  oData.gateType = type;
+  oData.onPlayerCollision = callback;
+  oData.damagesPlayer = false;
+  oData.getsDamageFromPlayer = false;
+  oData.givesAwardOnPlayerContact = true;
+  oData.height = dim.modelSizes.gatePost[1];
 
   return gate;
 }
@@ -28,5 +35,5 @@ export function killGate(obj: THREE.Object3D) {
 }
 
 export function isEndGate(gate: THREE.Object3D) {
-  return (gate.userData.gateType as dim.Gate) === 'end';
+  return (gate.userData as GateData).gateType === 'end';
 }
