@@ -45,7 +45,17 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
   - go a whole run without disturbing the butterfly (let the butterfly rest)
   - never letting the butterfly get bored (disturbing it every time in a run) (make the butterfly
     exercise)
+- little improvements
+  - [ ] Explosion of bullet should grow? Would need to work with recycled bullets
+  - [ ] Seconds countdown should be much more often than once a second
+  - [ ] Can resume count down before starting? 
+  - [ ] Can smaller trees be easier than bigger ones?
 - [ ] make rare cards less rare I think, consider stats from phone
+- [ ] end game, achievement: can we measure current strength and current potential strength, and
+      ability to finish a level? (bullets fired in time of walking bullet range times bullet
+      strength at current and max levels is more than final block - assuming you kill penultimate
+      block quickly) - if you're not strong enough and run out of cards, say "thanks for playing" in
+      custom message?
 - [ ] sections that slide out to the sides should have a delayed display:none style so it's just not
       there most of the time
 - [ ] side game: "Chase": a big diamond or something that flies away from us on a path through the
@@ -104,7 +114,7 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
     - a bat and overall different scheme for halloween?
   - winter: dead broadleafs, white-green-ish conifers, path white and grey, occasional dark?
     - a crow instead of a butterfly
-  - spring: lighter-colored conifers, pink and cream broadleaves, normal path?
+  - spring: lighter-colored conifers, pink and cream broadleafs, normal path?
   - there could be butterflies or birds flying around
   - day and night?
     - with glowing things!!!
@@ -179,7 +189,7 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
       players
   - gradation
     - various types of runs should only get stronger if I pass them? at different rates?
-    - [ ] special types should be behing special buttons?
+    - [ ] special types should be behind special buttons?
     - lower probability of a run type if I lose in it?
   - daily tickets for special wave types?
   - [ ] state should have a current seed for track generation?
@@ -197,7 +207,7 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
     - could be points for learning skills
     - if we get coal and iron, and we end up with too much coal, we can press into into gems
   - some other special currency: buy robot upgrades, e.g. military ranks
-    - show epaulets on the marvins - one, two, three lines, one, two disks, a star; each in blue,
+    - show epaulets on the Marvins - one, two, three lines, one, two disks, a star; each in blue,
       white, then gold?
       - if the epaulets are angled on the shoulders, they could reflect light nicely as the robots
         turn in stride
@@ -239,6 +249,7 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
   - double shot chance, triple shot chance, critical shot chance (using Math.random during the run)
     - this could be only for the battle against the boss, for example
     - is double shot a double-strong bullet, or two bullets (like a piercing bullet)?
+  - stand back - start farther from the trees so you can better prepare
   - buying in bulk
     - 9 cards at once (not implemented)
     - then cheaper for 42 gems if one is for 5
@@ -246,6 +257,7 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
   - "finding treasure" - more gems per level? - nah, leave this as cards…
   - "always finding treasure" - guaranteed gems per run (which could then go to 0 initially)
     - 'Sapphire Meteor'
+  - card: small chance of getting a diamond by walking over it
   - reminiscing (available from level 100?) - enables backToBasics
   - standing in a different formation - skills that you can switch between after a day's training
     - current blob, front-loaded triangle, point-first triangle
@@ -287,12 +299,12 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
   - maybe amount of coins in bags?
   - which end blocks have what rewards?
   - cards use Math.random()
-- [ ] remove code that deals with sprites? or replace remaining emoji with my svgs?
+- [ ] remove code that deals with sprites? or replace remaining emoji with my SVGs?
   - it seems to be used for explosions and flying coins only now so much of it can go
 - [ ] reposition players when one dies, if gaps appear in a row? or in front of them?
   - so that players smoothly move into their position
 - [ ] random:
-  - [ ] for randomness during a run, do we want predictable but independent prngs?
+  - [ ] for randomness during a run, do we want predictable but independent PRNGs?
     - awards spawning placement when flying from track to wallet
     - maybe rotation of a dead tree?
     - impl: each of those could create a seed by appending a suffix to the original seed for the run
@@ -317,6 +329,8 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
   - quest types:
     - break 20 end blocks
     - break 20 end blocks with red/green/blue robot
+  - leave at least N trees standing M times, shoot down N trees overall, shoot down all trees in N
+    runs, shoot down all trees in N levels
   - finish with exactly 1 red robot 3 times (needs colour gates) 
   - finish with exactly 1 red and 1 blue robot
   - best your income record of N - with reward scaled to how much bested 
@@ -374,6 +388,7 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
 - [ ] remove circular dependencies
 - [ ] add support for wider screens, landscape mode?
   - [ ] Use vmin instead of vh?
+  - spell-checker:ignore vmin
 - [ ] make it work in Safari on iPhone
 - [ ] tests
   - [ ] card upgrades are applied in a normal run (e.g. player pData.range)
@@ -408,7 +423,7 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
       hp > 0
     collectible: cannot be shot by a bullet, killed on contact with player, gives award on contact with player, no harm to player (hp irrelevant)
       ignoresBullets, destroyedOnPlayerContact, !damagesPlayer, givesAwardOnPlayerContact
-    benign: killed on contact with player, does not give award on contact with player, can be shot by a bullet, no hardm to player (but has hp)
+    benign: killed on contact with player, does not give award on contact with player, can be shot by a bullet, no harm to player (but has hp)
       !damagesPlayer, !getsDamageFromPlayer, destroyedOnPlayerContact
     awardOnPass: not killed on contact with player, gives award on contact with player
       givesAwardOnPlayerContact
@@ -443,6 +458,7 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
     deer?           -   +    +      -     -      +     ?
 
     should we have objects that don't give award when killed, but do on contact with player?
+    spell-checker:ignore gAOPC gAODBD
     ```
 - [x] why does the butterfly fly away when I walk past it?
   - because the end gate dies - it shouldn't
@@ -631,7 +647,7 @@ What kind of side game mechanics are you picturing?
 ## done by 2026-07-23
 
 - [x] run wallet should update sooner, or award flight should be shorter at the end
-- [x] wallet appears after end screeen into level 2 abruptly
+- [x] wallet appears after end screen into level 2 abruptly
 
 ## done by 2026-07-22
 
@@ -657,14 +673,14 @@ What kind of side game mechanics are you picturing?
         availability of the B button)
       - run startPlaying will tell state to increase the played counter for the current state type
     - [x] extract run type type from prepareRun
-    - [x] move away from using IDs for playstats, use a class and nesting inside its section by ID
+    - [x] move away from using IDs for play stats, use a class and nesting inside its section by ID
     - [x] in sections.init(), set one as active, so we can drop all the "inactive" from html
     - [x] add a screenshot for the very first start, with a forced render, to be compared with
           back-to-basics
   - [.] phase 2:
     - [x] hide main wallet gradually, not abruptly
     - [x] polish the transition to this section: blank the whole screen (to black? to what color?),
-          prepare the special run, unblank so it looks like we're switching to a completely new
+          prepare the special run, un-blank so it looks like we're switching to a completely new
           screen
     - [x] add a custom message instead of the default level 1 message
     - [x] add a heading where the wallet would be? like on settings screen
@@ -1091,6 +1107,7 @@ What kind of side game mechanics are you picturing?
   - [x] player
     - [x] fix left-right mismatch with legs
     - [x] make bobgroup bob, torso and gun turn
+    - spell-checker:ignore bobgroup
   - [x] track
   - [x] add shadows
 - [x] add possibility of multiple players in group
@@ -1129,6 +1146,7 @@ What kind of side game mechanics are you picturing?
   - players are cylindrical, bullets boxy (Box2, extend to include computations with circles?)
   - objects can be cylindrical or boxy, too
   - [x] every object has a bounds - extent2d - a Box2 or a Circle, and maybe minz/maxz?
+    - spell-checker:ignore minz,maxz
     - [x] make a class for Circle with .isCircle (TS doesn't know that Box2 has .isBox2)
     - [x] make a function that checks collisions, with all four options
       - this function MUST TAKE INTO CONSIDERATION the x/z movement of the object's group
@@ -1185,7 +1203,7 @@ What kind of side game mechanics are you picturing?
     - bullets have lengths (going forwards to -Z) so bullet ends (nearer player) are sorted
     - for each bullet find first object that's at the bullet's Z or smaller, starting from last
       bullet's first object
-    - using indexes, go through all ojects that are at the bullet's Z minus length or larger
+    - using indexes, go through all objects that are at the bullet's Z minus length or larger
     - the first that matches in X is hit, break to next bullet
       - on hit, kill objects, remove bullet
     - [x] make bullets have hit points
@@ -1213,6 +1231,7 @@ What kind of side game mechanics are you picturing?
   - [x] finish run when no enemies? on back button?
   - [/] use pushState when starting a run, popState when ending it,
   - [/] and the 'popstate' event to finish (but don't popState then)
+    - spell-checker:ignore popstate
     - cannot do the above because on android the back button stops fullscreen
   - [/] add a toast? (probably no because it would only be useful for the back button)
 
