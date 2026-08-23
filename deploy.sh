@@ -7,7 +7,7 @@ deployWorktree='../rwns-deployment'
 deployBranch="deployment"
 main='docs-main'
 prefix='docs-'
-others='docs-v*'
+othersGlob='docs-v*'
 
 echo 'checking working tree is clean'
 if [ -n "`git status --porcelain --untracked-files=no`"  ]
@@ -56,30 +56,32 @@ exists() {
     [ -e "$1" ]
 }
 
-if [ -d "$deployWorktree/$main" ]
+if [ -d "$main" ]
 then
   echo "updating '$main'"
 
   [ -e "$deployWorktree/docs-stash" ] && rm -r "$deployWorktree/docs-stash"
   mkdir "$deployWorktree/docs-stash"
 
-  if exists "$deployWorktree/docs/v*"
+  if exists "$deployWorktree/docs/"v*
   then
-    mv "$deployWorktree/"docs/v*/ "$deployWorktree/docs-stash/"
+    echo "stashing v* out of the way"
+    mv "$deployWorktree/docs/"v*/ "$deployWorktree/docs-stash/"
   fi
 
   [ -d "$deployWorktree/docs" ] && rm -r "$deployWorktree/docs/"
   mv "$main" "$deployWorktree/docs/"
 
-  if exists "$deployWorktree/docs-stash/v*"
+  if exists "$deployWorktree/docs-stash/"v*
   then
+    echo "restoring stashed v*"
     mv "$deployWorktree/docs-stash/"v*/ "$deployWorktree/docs/"
   fi
 
   rmdir "$deployWorktree/docs-stash"
 fi
 
-for dir in $others
+for dir in $othersGlob
 do
   if [ -d "$dir" ]
   then
@@ -96,12 +98,23 @@ done
 
   if [ -n "`git status --porcelain --untracked-files=yes`"  ]
   then
-    git add docs
-    git commit -m ':rocket:'
+    if ! git add docs > /dev/null
+    then
+      echo "COULD NOT GIT ADD, PLEASE CLEAN UP $deployWorktree"
+      exit -1
+    fi
+
+    if ! git commit -m ':rocket:' > /dev/null
+    then
+      echo "COULD NOT COMMIT, PLEASE CLEAN UP $deployWorktree"
+      exit -1
+    fi
+
     echo "-----------------------------------------------------------------"
     echo "committed - check everything, if it's OK, push with the following"
     echo "git -C '$deployWorktree' push"
     echo "-----------------------------------------------------------------"
+    git show HEAD --name-only --pretty=""
   else
     echo "no changes to commit"
   fi
