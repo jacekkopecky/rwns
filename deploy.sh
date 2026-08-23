@@ -3,9 +3,11 @@
 # stop on first error
 set -euo pipefail
 
+deployWorktree='../rwns-deployment'
+deployBranch="deployment"
 main='docs-main'
 prefix='docs-'
-others='docs-v*'
+othersGlob='docs-v*'
 
 echo 'checking working tree is clean'
 if [ -n "`git status --porcelain --untracked-files=no`"  ]
@@ -14,24 +16,40 @@ then
   exit -1
 fi
 
-deployBranch="deployment"
-currentBranch=`git branch --show-current`
+echo 'checking deployment worktree is OK'
+(
+  if [ ! -e "$deployWorktree" ]
+  then
+    echo "creating deployment worktree at '$deployWorktree'"
+    if ! git worktree add "$deployWorktree" "$deployBranch"
+    then
+      echo 'COULD NOT CREATE DEPLOYMENT WORKTREE'
+      exit -1
+    fi
+  fi
 
+  cd "$deployWorktree"
 
-echo 'checking that deployment version of deploy.sh is the same'
-if ! (git show "$deployBranch":deploy.sh | cmp /dev/stdin deploy.sh)
-then
-  echo 'deploy.sh SCRIPT NOT THE SAME IN THE BRANCH'
-  echo
-  echo 'to update it:'
-  echo
-  echo "git checkout '$deployBranch' && git checkout main -- deploy.sh && git commit -m 'update deploy.sh' -- deploy.sh && git checkout '$currentBranch'"
-  echo
-  exit -1
-fi
+  if ! git rev-parse --is-inside-work-tree > /dev/null
+  then
+    echo 'DEPLOYMENT TREE NOT A GIT WORKTREE'
+    exit -1
+  fi
+
+  if [ "`git status | head -1`" != "On branch $deployBranch"  ]
+  then
+    echo "DEPLOYMENT TREE NOT ON BRANCH '$deployBranch'"
+    exit -1
+  fi
+
+  if [ -n "`git status --porcelain --untracked-files=yes`"  ]
+  then
+    echo 'DEPLOYMENT TREE NOT CLEAN'
+    exit -1
+  fi
+)
 
 echo "working"
-git checkout "$deployBranch"
 
 # a helper function to check that any file exists by glob
 exists() {
@@ -42,48 +60,64 @@ if [ -d "$main" ]
 then
   echo "updating '$main'"
 
-  [ -e docs-stash ] && rm -r docs-stash
-  mkdir docs-stash
+  [ -e "$deployWorktree/docs-stash" ] && rm -r "$deployWorktree/docs-stash"
+  mkdir "$deployWorktree/docs-stash"
 
-  if exists "docs/v*"
+  if exists "$deployWorktree/docs/"v*
   then
-    mv docs/v*/ docs-stash/
+    echo "stashing v* out of the way"
+    mv "$deployWorktree/docs/"v*/ "$deployWorktree/docs-stash/"
   fi
 
-  [ -d "docs" ] && rm -r docs/
-  mv "$main" docs/
+  [ -d "$deployWorktree/docs" ] && rm -r "$deployWorktree/docs/"
+  mv "$main" "$deployWorktree/docs/"
 
-  if exists "docs-stash/v*"
+  if exists "$deployWorktree/docs-stash/"v*
   then
-    mv docs-stash/v*/ docs/
+    echo "restoring stashed v*"
+    mv "$deployWorktree/docs-stash/"v*/ "$deployWorktree/docs/"
   fi
 
-  rmdir docs-stash
+  rmdir "$deployWorktree/docs-stash"
 fi
 
-for dir in $others
+for dir in $othersGlob
 do
   if [ -d "$dir" ]
   then
-    target="${dir#$prefix}"
+    target="$deployWorktree/docs/${dir#$prefix}"
     echo "updating '$dir' into '$target'"
-    [ -e docs/"$target" ] && rm -r docs/"$target"
-    mv "$dir" docs/"$target"
+    [ -e "$target" ] && rm -r "$target"
+    mv "$dir" "$target"
   fi
 done
 
 
-if [ -n "`git status --porcelain --untracked-files=yes`"  ]
-then
-  git add docs
-  git commit -m ':rocket:'
-  echo "-----------------------------------------------------------------"
-  echo "committed - check everything, if it's OK, push with the following"
-  echo "git push origin '$deployBranch'"
-  echo "-----------------------------------------------------------------"
-else
-  echo "no changes to commit"
-fi
+(
+  cd "$deployWorktree"
 
-git checkout "$currentBranch"
+  if [ -n "`git status --porcelain --untracked-files=yes`"  ]
+  then
+    if ! git add docs > /dev/null
+    then
+      echo "COULD NOT GIT ADD, PLEASE CLEAN UP $deployWorktree"
+      exit -1
+    fi
+
+    if ! git commit -m ':rocket:' > /dev/null
+    then
+      echo "COULD NOT COMMIT, PLEASE CLEAN UP $deployWorktree"
+      exit -1
+    fi
+
+    echo "-----------------------------------------------------------------"
+    echo "committed - check everything, if it's OK, push with the following"
+    echo "git -C '$deployWorktree' push"
+    echo "-----------------------------------------------------------------"
+    git show HEAD --name-only --pretty=""
+  else
+    echo "no changes to commit"
+  fi
+)
+
 echo "ok"
