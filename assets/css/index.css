@@ -320,32 +320,39 @@ button {
   align-items: end;
 }
 
-.sectionButtons.left {
-  justify-self: start;
-
-  button {
-    border-left-width: 0;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-}
-
-.sectionButtons.right {
-  justify-self: end;
-
-  button {
-    border-right-width: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-}
-
 .sectionButtons {
-  .cards,
-  .backToBasics {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 1em;
+
+  & > * {
     padding: 0.5em 0.3em;
     i {
       font-size: 3.5em;
+    }
+
+    &.hidden {
+      display: none;
+    }
+  }
+
+  &.left {
+    justify-self: start;
+
+    button {
+      border-left-width: 0;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+
+  &.right {
+    justify-self: end;
+
+    button {
+      border-right-width: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
     }
   }
 }

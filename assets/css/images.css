@@ -38,4 +38,9 @@ i.i {
     background-image: url('../calm-lotus.svg');
     background-color: unset;
   }
+
+  &.cup {
+    background-image: url('../achievements-cup.svg');
+    background-color: unset;
+  }
 }
