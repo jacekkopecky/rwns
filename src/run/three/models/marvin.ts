@@ -2,9 +2,11 @@ import * as THREE from 'three';
 
 import { getByName, indexByName } from '#utils';
 
-import { addMixer, betweener, rotateOccasionally } from '../animations';
+import { addMixer } from '../animations';
+import * as B from '../betweeners';
 
 import { createBonyTubeGeometry } from './tools/bony-tube';
+import { marvinTurnTimeEasing } from './tools/marvin-tools';
 
 export interface MarvinSizeOptions {
   legLength: number;
@@ -32,13 +34,18 @@ type Size = Required<MarvinSizeOptions> & {
 export class Marvin {
   public readonly object: THREE.Group;
   private actions: THREE.AnimationAction[];
-  private idleAction?: THREE.AnimationAction;
+  private idleActions: THREE.AnimationAction[] = [];
   private gunHeight: number;
   private _size: Size;
 
   private walking = false;
 
-  constructor(sizeOptions: MarvinSizeOptions, material: THREE.Material, gunMaterial = material) {
+  constructor(
+    sizeOptions: MarvinSizeOptions,
+    material: THREE.Material,
+    gunMaterial = material,
+    bonesHelperScene?: THREE.Scene,
+  ) {
     const sides = sizeOptions.sides ?? 4;
     // a stride is two steps
     const maxStride = sizeOptions.maxStride ?? sizeOptions.legLength * 2;
@@ -70,17 +77,30 @@ export class Marvin {
     const skeleton = new THREE.Skeleton(allBones);
 
     function addLeg(prefix: 'left' | 'right') {
-      const xMultiplier = prefix === 'right' ? 1 : -1;
+      const xSign = prefix === 'right' ? 1 : -1;
       const legMesh = createLegMesh(
         createLegGeometry(size, indexByName(allBones, prefix + 'Hip')),
         getByName(allBones, prefix + 'Hip'),
         material,
-        xMultiplier * (size.hipWidth / 2 - size.legRadius),
+        xSign * (size.hipWidth / 2 - size.legRadius),
       );
       legMesh.position.y = size.legLength;
       legMesh.rotation.z = Math.PI;
       fullObject.add(legMesh);
       legMesh.bind(skeleton);
+
+      // add bones helper if we're given a scene for it
+      if (bonesHelperScene) {
+        if (!bonesHelperScene.getObjectByName(prefix + 'staticHelper')) {
+          const helper = new THREE.SkeletonHelper(legMesh);
+          helper.name = prefix + 'staticHelper';
+          bonesHelperScene.add(helper);
+        }
+        bonesHelperScene.getObjectByName(prefix + 'helper')?.removeFromParent();
+        const helper = new THREE.SkeletonHelper(legMesh);
+        helper.name = prefix + 'helper';
+        bonesHelperScene.add(helper);
+      }
     }
 
     addLeg('left');
@@ -158,14 +178,20 @@ export class Marvin {
     this.actions.push(mixer.clipAction(gunTurnClip, gun));
 
     if (size.idleTurnDuration) {
-      this.idleAction = rotateOccasionally(
-        this.object,
+      this.idleActions = createFullTurnIdleClip(
         size.idleTurnDuration,
         size.idleTurnDelay,
-        'y',
+        size,
+        this.object,
+        getByName(allBones, 'leftFoot'),
+        getByName(allBones, 'rightFoot'),
+        mixer,
       );
-      this.idleAction.time = Math.random() * this._size.idleTurnDuration * 2;
     }
+
+    // todo fixme: for some reason back-to-basics screenshot has Marvin with left leg up
+    // if we automatically start idle action here
+    if (!window.RWNS_TESTS) this.startIdleAction();
   }
 
   getGunHeight() {
@@ -174,8 +200,8 @@ export class Marvin {
 
   // todo add a speed parameter?
   startWalking() {
-    if (this.idleAction) {
-      this.idleAction.fadeOut(0.3);
+    for (const action of this.idleActions) {
+      action.fadeOut(0.2);
     }
 
     if (!this.walking) {
@@ -204,9 +230,21 @@ export class Marvin {
       for (const action of this.actions) {
         action.fadeOut(0.5);
       }
-      if (this.idleAction) {
-        this.idleAction.play();
-      }
+
+      this.startIdleAction();
+    }
+  }
+
+  private startIdleAction() {
+    // make the marvins not rotate in unison
+    const randomTime = Math.random() * this._size.idleTurnDuration * 2;
+
+    for (const action of this.idleActions) {
+      action.reset();
+      action.loop = THREE.LoopRepeat;
+      action.enabled = true;
+      action.time = randomTime;
+      action.play();
     }
   }
 
@@ -261,9 +299,9 @@ function createLegMesh(
 
 // a stride is *two* steps
 function createLegWalkingClip(duration: number, strideLength: number, foot: THREE.Bone) {
-  const durations = betweener(0, duration);
-  const heights = betweener(foot.parent!.position.y, foot.position.y);
-  const lengths = betweener(foot.position.z + strideLength / 4, foot.position.z - strideLength / 4);
+  const durations = B.tween(0, duration);
+  const heights = B.tween(foot.parent!.position.y, foot.position.y);
+  const lengths = B.tween(foot.position.z + strideLength / 4, foot.position.z - strideLength / 4);
 
   return new THREE.AnimationClip('walk', duration, [
     new THREE.KeyframeTrack(
@@ -287,9 +325,174 @@ function createLegWalkingClip(duration: number, strideLength: number, foot: THRE
   ]);
 }
 
+// this is for turning in place
+function createFullTurnIdleClip(
+  turnDuration: number,
+  timeBetweenTurns: number,
+  size: Size,
+  whole: THREE.Object3D,
+  leftFoot: THREE.Bone,
+  rightFoot: THREE.Bone,
+  mixer: THREE.AnimationMixer,
+): THREE.AnimationAction[] {
+  const duration = turnDuration + timeBetweenTurns;
+  const yRotation = whole.rotation.y;
+  const actions = [];
+
+  // whole body rotation
+  actions.push(
+    mixer.clipAction(
+      new THREE.AnimationClip('rotate', duration, [
+        new THREE.KeyframeTrack(
+          `.rotation[y]`,
+          [
+            0,
+            timeBetweenTurns,
+            // if these timings change, also update tools/marvin-tools:marvinTurnTimeEasing()
+            timeBetweenTurns + turnDuration * 0.1,
+            timeBetweenTurns + turnDuration * 0.5,
+            timeBetweenTurns + turnDuration * 0.5,
+            duration - turnDuration * 0.1,
+            duration,
+          ],
+          [
+            yRotation,
+            yRotation,
+            yRotation + Math.PI * 0.1,
+            yRotation + Math.PI,
+            yRotation - Math.PI,
+            yRotation - Math.PI * 0.1,
+            yRotation,
+          ],
+          THREE.InterpolateLinear,
+        ),
+      ]),
+      whole,
+    ),
+  );
+
+  // interpolation steps so legs move smoothly in curves
+  const interpolationSteps = 8;
+  const fullStepCount = 5 * interpolationSteps; // 5 phases
+  const timeFractions = Array.from({ length: fullStepCount + 1 }, (_, i) => i / fullStepCount);
+  const times = [0, ...B.tween(timeBetweenTurns, duration)(...timeFractions)];
+
+  // make the turn timings proceed at the same speed as the whole body turn
+  const turnFractions = timeFractions.map(marvinTurnTimeEasing);
+
+  const legWidth = 2 * size.legRadius;
+  const legGap = size.hipWidth - 2 * legWidth;
+  const legOffset = size.hipWidth / 2 - size.legRadius; // center of leg to center of body
+  const lOut = (legOffset + (legWidth - legGap) / 2) / legOffset; // how much left leg has to move outward so it doesn't overlap with the right
+
+  // foot is in the middle of the front of the leg's sleeve
+  // so we need to rotate it appropriately
+  const footOffset = Math.sqrt((size.hipWidth / 2 - size.legRadius) ** 2 + size.legRadius ** 2); // front of leg from center of body
+  const footFrontAngle = Math.asin(size.legRadius / footOffset);
+
+  // the movement happens in 5 phases, where body rotates, a foot rotates (around its center and around body center), and left leg moves out a bit not to overlap with right leg
+  // body rotates at a steady rate
+  // left leg (in 5 phases of body's 72°)
+  //   rot:   0  -  18°, x:    0 - lOut   jumps back, moves outward
+  //   rot:  18° - -54°, x: lOut - lOut   stays behind
+  //   rot: -54° -  54°, x: lOut - lOut   jumps across
+  //   rot:  54° - -18°, x: lOut - lOut   stays behind
+  //   rot: -18° -   0 , x: lOut -    0   jumps forward, moves back inward
+  // right leg (in 5 phases of body's 72°)
+  //   rot:   0  - -72°  stays behind
+  //   rot: -72° -  36°  jumps across
+  //   rot:  36° - -36°  stays behind
+  //   rot: -36° -  72°  jumps across
+  //   rot:  72° -   0   stays behind
+
+  const leftRotation = B.multiplyScalar(-Math.PI / 180, B.multiTween(0, 18, -54, 54, -18, 0));
+  const leftXOut = B.multiTween(1, lOut, lOut, lOut, lOut, 1);
+
+  const origLeftX = leftFoot.position.x - footOffset * Math.cos(footFrontAngle);
+  const origLeftZ = leftFoot.position.z + footOffset * Math.sin(footFrontAngle);
+
+  const leftX = turnFractions.map((f) => {
+    const offset = footOffset * leftXOut(f)[0];
+    return origLeftX + offset * Math.cos(leftRotation(f)[0] + footFrontAngle);
+  });
+  const leftZ = turnFractions.map((f) => {
+    const offset = footOffset * leftXOut(f)[0];
+    return origLeftZ - offset * Math.sin(leftRotation(f)[0] + footFrontAngle);
+  });
+
+  const rightRotation = B.multiplyScalar(-Math.PI / 180, B.multiTween(0, -72, 36, -36, 72, 0));
+
+  const origRightX = rightFoot.position.x + footOffset * Math.cos(footFrontAngle);
+  const origRightZ = rightFoot.position.z + footOffset * Math.sin(footFrontAngle);
+
+  const rightX = turnFractions.map((f) => {
+    return origRightX - footOffset * Math.cos(-rightRotation(f)[0] + footFrontAngle);
+  });
+  const rightZ = turnFractions.map((f) => {
+    return origRightZ - footOffset * Math.sin(-rightRotation(f)[0] + footFrontAngle);
+  });
+
+  actions.push(
+    mixer.clipAction(
+      new THREE.AnimationClip('leftFootRotation', duration, [
+        new THREE.KeyframeTrack(
+          `.rotation[y]`,
+          times,
+          repeatFirstElement(leftRotation(...turnFractions)),
+          THREE.InterpolateLinear,
+        ),
+        new THREE.KeyframeTrack(
+          `.position[x]`,
+          times,
+          repeatFirstElement(leftX),
+          THREE.InterpolateLinear,
+        ),
+        new THREE.KeyframeTrack(
+          `.position[z]`,
+          times,
+          repeatFirstElement(leftZ),
+          THREE.InterpolateLinear,
+        ),
+      ]),
+      leftFoot,
+    ),
+  );
+  actions.push(
+    mixer.clipAction(
+      new THREE.AnimationClip('rightFootRotation', duration, [
+        new THREE.KeyframeTrack(
+          `.rotation[y]`,
+          times,
+          repeatFirstElement(rightRotation(...turnFractions)),
+          THREE.InterpolateLinear,
+        ),
+        new THREE.KeyframeTrack(
+          `.position[x]`,
+          times,
+          repeatFirstElement(rightX),
+          THREE.InterpolateLinear,
+        ),
+        new THREE.KeyframeTrack(
+          `.position[z]`,
+          times,
+          repeatFirstElement(rightZ),
+          THREE.InterpolateLinear,
+        ),
+      ]),
+      rightFoot,
+    ),
+  );
+
+  return actions;
+}
+
+function repeatFirstElement<T>(arr: T[]): T[] {
+  return [arr[0]!, ...arr];
+}
+
 function createBobClip(duration: number, height: number) {
-  const durations = betweener(0, duration);
-  const heights = betweener(-height, 0);
+  const durations = B.tween(0, duration);
+  const heights = B.tween(-height, 0);
 
   return new THREE.AnimationClip('bob', duration, [
     new THREE.KeyframeTrack(
@@ -302,8 +505,8 @@ function createBobClip(duration: number, height: number) {
 }
 
 function createTurnClip(duration: number, angle: number) {
-  const durations = betweener(0, duration);
-  const angles = betweener(0, angle);
+  const durations = B.tween(0, duration);
+  const angles = B.tween(0, angle);
 
   return new THREE.AnimationClip('bob', duration, [
     new THREE.KeyframeTrack(
