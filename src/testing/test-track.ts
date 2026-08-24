@@ -11,6 +11,7 @@ state.initState();
 initRunScreen();
 
 let players = 0;
+let walking = true;
 state.setRunUpgradeLevel('players', players);
 
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -28,7 +29,12 @@ animate();
 
 function setup() {
   camera.position.copy(cameraPos);
-  playersGroup.children.forEach((p) => p.userData.marvin.startWalking());
+  updateWalking();
+}
+
+function updateWalking(value = true) {
+  walking = value;
+  playersGroup.children.forEach((p) => p.userData.marvin.setWalking(walking));
 }
 
 function onWindowResize() {
@@ -55,6 +61,8 @@ document.body.addEventListener('keydown', (e) => {
     players = Math.max(--players, 0);
     state.setRunUpgradeLevel('players', players);
     prepRun();
+  } else if (e.key === ' ') {
+    updateWalking(!walking);
   }
 });
 

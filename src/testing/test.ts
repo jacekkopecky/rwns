@@ -4,7 +4,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { exposeGlobalWindowProp } from '#utils';
 
 import { updateAnimations } from '../run/three/animations';
-import { Butterfly } from '../run/three/models';
+import * as mat from '../run/three/materials';
+import { Marvin } from '../run/three/models';
 
 // const N = 1800;
 
@@ -20,20 +21,21 @@ container?.appendChild(renderer.domElement);
 
 const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 1000);
 // camera.position.set(20, 40, 10); // for earth
-camera.position.set(40, 40, -40);
+camera.position.set(0, 20, 40);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.addEventListener('change', render);
 controls.screenSpacePanning = true;
 controls.zoomToCursor = true;
+controls.target.set(0, 10, 0);
 
 window.addEventListener('resize', onWindowResize);
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xcccccc);
 
-const helper = new THREE.GridHelper(100, 10, 0xff0000, 0x000000);
-helper.rotation.x = Math.PI / 2;
+const helper = new THREE.GridHelper(20, 10, 0xff0000, 0x000000);
+// helper.rotation.x = Math.PI / 2;
 scene.add(helper);
 
 // lights;
@@ -64,18 +66,25 @@ scene.add(sunlight.target);
 //
 //
 
-const butterfly = new Butterfly();
+const normalMaterial = mat.colorFlatMaterials.silver;
+const normalGunMaterial = mat.colorFlatMaterials.gunGrey;
+const marvin = new Marvin(
+  { hipWidth: 4, legLength: 8, legRadius: 0.85, speed: 10 },
+  normalMaterial,
+  normalGunMaterial,
+  scene,
+);
 
-const obj = butterfly.object;
+const obj = marvin.object;
 scene.add(obj);
 
-butterfly.startFluttering();
+// marvin.startFluttering();
 
 let f = true;
 document.addEventListener('keydown', (e) => {
   if (e.key === ' ') {
     f = !f;
-    butterfly.setFluttering(f);
+    marvin.setWalking(f);
   }
 });
 
