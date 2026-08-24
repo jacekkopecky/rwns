@@ -244,6 +244,7 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
   - player hit bar, increasing player strengths (cards)
     - player healing?
   - increasing bullet speed (card)
+  - make some trees real weak (card - how many trees or how weak)
   - piercing bullet chance (card); a piercing bullet would give harm and continue flying as normal
     bullet (this could be used to implement a drill in mine, with piercing being a count)
   - double shot chance, triple shot chance, critical shot chance (using Math.random during the run)
@@ -401,6 +402,10 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
           show up automatically?
 
 ---
+
+## done by 2026-08-24
+
+- [*] make Marvin move legs when turning about
 
 ## done by 2026-08-21
 
