@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 
-import { addMixer, betweener } from '../animations';
+import { addMixer } from '../animations';
+import * as B from '../betweeners';
 
 const bodyColor = 0x707070;
 const colors = [0x3137fd, 0xff0000, 0xffff00, 0x0000ff, 0x00ff00, 0x00ffff];
@@ -238,8 +239,8 @@ const FLUTTER_DURATION = 0.1;
 const FLUTTER_ANGLE = 0.35;
 
 function createFlutterClip(side: 'left' | 'right') {
-  const durations = betweener(0, FLUTTER_DURATION);
-  const pies = betweener(0, side === 'right' ? Math.PI : -Math.PI);
+  const durations = B.tween(0, FLUTTER_DURATION);
+  const pies = B.tween(0, side === 'right' ? Math.PI : -Math.PI);
 
   return new THREE.AnimationClip('flutter', FLUTTER_DURATION, [
     new THREE.KeyframeTrack(
@@ -255,8 +256,8 @@ function createFlutterClip(side: 'left' | 'right') {
 function createFlutterBobClip(size: number) {
   const bobHeight = (size / 3) * Math.sin(FLUTTER_ANGLE * Math.PI);
 
-  const durations = betweener(0, FLUTTER_DURATION);
-  const heights = betweener(0, bobHeight);
+  const durations = B.tween(0, FLUTTER_DURATION);
+  const heights = B.tween(0, bobHeight);
 
   return new THREE.AnimationClip('flutter', FLUTTER_DURATION, [
     new THREE.KeyframeTrack(
@@ -273,9 +274,9 @@ function createOpenCloseClip(side: 'left' | 'right', aClosed: number) {
   const duration = 5;
   const a = 0.45;
 
-  const durations = betweener(0, duration);
+  const durations = B.tween(0, duration);
   const dir = side === 'right' ? 1 : -1;
-  const pies = betweener(dir * aClosed, dir * Math.PI);
+  const pies = B.tween(dir * aClosed, dir * Math.PI);
 
   return new THREE.AnimationClip('openClose', duration, [
     new THREE.KeyframeTrack(

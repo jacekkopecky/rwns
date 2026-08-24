@@ -161,7 +161,7 @@ export class Marvin {
       this.idleAction = rotateOccasionally(
         this.object,
         size.idleTurnDuration,
-        size.idleTurnDelay,
+        size.idleTurnDelay * 0,
         'y',
       );
       this.idleAction.time = Math.random() * this._size.idleTurnDuration * 2;

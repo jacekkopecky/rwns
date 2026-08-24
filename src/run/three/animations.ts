@@ -3,6 +3,8 @@ import * as THREE from 'three';
 import * as dim from '#dimensions';
 import { exposeGlobalWindowProp } from '#utils';
 
+import * as B from './betweeners';
+
 export const timer = new THREE.Timer();
 timer.connect(document);
 
@@ -56,8 +58,8 @@ export function pulseAndShrinkToGone(obj: THREE.Object3D, duration: number) {
 }
 
 export function fallAndShrinkToGone(obj: THREE.Object3D, duration: number, towardsCamera = false) {
-  const durations = betweener(0, duration);
-  const pies = betweener(0, towardsCamera ? Math.PI : -Math.PI);
+  const durations = B.tween(0, duration);
+  const pies = B.tween(0, towardsCamera ? Math.PI : -Math.PI);
 
   const clip = new THREE.AnimationClip('fallAndShrink', duration, [
     new THREE.KeyframeTrack(
@@ -78,10 +80,10 @@ export function fallAndShrinkToGone(obj: THREE.Object3D, duration: number, towar
 }
 
 export function flyToTarget(obj: THREE.Object3D, target: THREE.Vector3, duration: number) {
-  const durations = betweener(0, duration);
-  const x = betweener(obj.position.x, target.x);
-  const y = betweener(obj.position.y, target.y);
-  const z = betweener(obj.position.z, target.z);
+  const durations = B.tween(0, duration);
+  const x = B.tween(obj.position.x, target.x);
+  const y = B.tween(obj.position.y, target.y);
+  const z = B.tween(obj.position.z, target.z);
 
   const clip = new THREE.AnimationClip('flyAndShrink', duration, [
     new THREE.KeyframeTrack(
@@ -167,20 +169,7 @@ export function rotateOccasionally(
   return addClipAction(obj, duration, clip, false, THREE.LoopRepeat);
 }
 
-/**
- * A helper function that given two numbers, returns a function that turns fractions into linear
- * interpolations between the two numbers.
- *
- * Example:
- * const betweenX = betweener(2, 8);
- * betweenX(0, 0.5, 1) -> [2, 5, 8]
- * betweenX(0.8) -> [6.8] // 80% between 2 and 8
- */
-export function betweener(a: number, b: number): (...fractions: number[]) => number[] {
-  return (...fractions) => fractions.map((f) => a + (b - a) * f);
-}
-
-function addClipAction(
+export function addClipAction(
   obj: THREE.Object3D,
   duration: number,
   clip: THREE.AnimationClip,
