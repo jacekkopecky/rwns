@@ -214,6 +214,42 @@ test.describe('Daily Gift Spinner Spinning & Award Resolution', () => {
     await expect(mainScreen).toContainClass('_active');
   });
 
+  test('should 10x scale coin prizes and only pick coins when player has enough gems/cards for all remaining cards', async ({
+    page,
+  }) => {
+    await initializePage(page, {
+      state: {
+        level: 25,
+        lastDailyGiftGiven: '2026-01-28',
+        wallet: { wallet: { coin: 100, gem: 100000, card: 0 } },
+      },
+      time: '2026-01-01T12:00:00Z',
+    });
+
+    await page.goto('./');
+    await startGame(page);
+
+    const dailyGift = page.locator('#dailyGift');
+    await page.clock.fastForward(2000);
+    await expect(dailyGift).not.toContainClass('inactive');
+
+    // Start spin
+    await clickScreen(page, 0.5, 0.5);
+    await page.clock.fastForward(10000);
+
+    // Close daily gift
+    await clickScreen(page, 0.5, 0.5);
+    await expect(dailyGift).toContainClass('inactive');
+    await page.clock.fastForward(2000);
+
+    // maxCoins at level 25 is initialCoinsPerLevel (10) + initialEndBlockCoinsPerLevel (10) = 20.
+    // Scaled by 10x, maxCoins base is 200.
+    // Coin prizes are 2*maxCoins (400), 3*maxCoins (600), or 5*maxCoins (1000).
+    // Starting with 100 coins -> total is 500, 700, or 1100.
+    const stateCoin = await page.evaluate(() => window.gameState.wallet.read('coin'));
+    expect([500, 700, 1100]).toContain(stateCoin);
+  });
+
   test('should allow user to spin again if landing on spin-again prize', async ({ page }) => {
     await initializePage(page, {
       state: {

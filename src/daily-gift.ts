@@ -19,6 +19,7 @@ import {
   canGiveDailyGift,
   getCountOfAllCards,
   getDailyGiftMaxCoinsPerCurrentRun,
+  hasEnoughResourcesForRemainingCards,
   isFeatureAllowed,
   readState,
   setDailyGiftGivenToday,
@@ -116,8 +117,8 @@ function spin() {
   if (spinningAgain) {
     prizes = prizes.filter((p) => p.award !== 'spin-again');
   }
-  // consider only coin prizes if the player has no funds
-  if (state.wallet.read('coin') < 20) {
+  // consider only coin prizes if the player has no funds or has enough resources to buy all remaining cards
+  if (state.wallet.read('coin') < 20 || hasEnoughResourcesForRemainingCards(state)) {
     prizes = prizes.filter((prize) => prize.award === 'coin');
   }
 
@@ -187,7 +188,8 @@ function get12AvailablePrizes() {
   specials.push({ award: 'spin-again', amount: null, factor: 5 });
   const prng = createRandom(getToday());
 
-  const maxCoins = getDailyGiftMaxCoinsPerCurrentRun();
+  const coinMultiplier = hasEnoughResourcesForRemainingCards(state) ? 10 : 1;
+  const maxCoins = getDailyGiftMaxCoinsPerCurrentRun() * coinMultiplier;
   normals.push({ award: 'coin', factor: 10, amount: 2 * maxCoins });
   normals.push({ award: 'energy', factor: 10, amount: 3 });
   normals.push({ award: 'coin', factor: 6, amount: 5 * maxCoins });
