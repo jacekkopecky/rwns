@@ -321,3 +321,29 @@ function buyOne() {
 function buyBulk() {
   console.warn('bulk buying not implemented yet');
 }
+
+function getTotalRemainingCards(state: ReadonlyState) {
+  let remaining = 0;
+  for (const cardType of CARDS) {
+    const defn = cardDefinitions[cardType];
+
+    // skip cards never given
+    if (defn.minPlayerLevel === Infinity) continue;
+
+    const currentCount = state.cards.read(cardType);
+    if (currentCount < defn.cardsToGive) {
+      remaining += defn.cardsToGive - currentCount;
+    }
+  }
+  return remaining;
+}
+
+export function hasEnoughResourcesForRemainingCards(state: ReadonlyState) {
+  const remaining = getTotalRemainingCards(state);
+  if (remaining === 0) return true;
+
+  const cardPurchasingPower =
+    state.wallet.read('card') + Math.floor(state.wallet.read('gem') / dim.cardPriceGems);
+
+  return cardPurchasingPower >= remaining;
+}
