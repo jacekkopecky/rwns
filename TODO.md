@@ -22,6 +22,7 @@ PRs. Not that the code is particularly well architected, mind. Thoughts on that 
   - [ ] add state - achievements: name:date?, newAchievementsEarned: name[]
   - [ ] add types - name: description will do for now
   - [ ] add an achievement: You've found RWNS and gave it a go (after tutorial levels)
+  - [x] add a section button
   - [ ] add a section
     - show when you have the first achievement
     - highlight when newAchievementsEarned not empty
