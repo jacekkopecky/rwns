@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 
+import { range } from '#utils';
+
 import { clickScreen, initializePage, startGame } from './lib';
 
 test.describe('Daily Gift Popup Trigger & Suppression', () => {
@@ -213,6 +215,51 @@ test.describe('Daily Gift Spinner Spinning & Award Resolution', () => {
     const mainScreen = page.locator('#mainScreen');
     await expect(mainScreen).toContainClass('_active');
   });
+
+  const N = 10;
+  // go through randomness 0.0-0.9 to check different daily awards selected, all should be coins
+  for (const rnd of range(N)) {
+    test(`should 10x scale coin prizes and only pick coins when player has enough gems/cards for all remaining cards #${rnd}`, async ({
+      page,
+    }) => {
+      await initializePage(page, {
+        state: {
+          level: 25,
+          lastDailyGiftGiven: '2026-01-28',
+          wallet: { wallet: { coin: 100, gem: 100000, card: 0 } },
+        },
+        time: '2026-01-01T12:00:00Z',
+      });
+
+      await page.goto('./');
+      await startGame(page);
+
+      const dailyGift = page.locator('#dailyGift');
+      await page.clock.fastForward(2000);
+      await expect(dailyGift).not.toContainClass('inactive');
+
+      // mock random with the given number
+      await page.evaluate((r) => {
+        Math.random = () => r;
+      }, rnd / N);
+
+      // Start spin
+      await clickScreen(page, 0.5, 0.5);
+      await page.clock.fastForward(10000);
+
+      // Close daily gift
+      await clickScreen(page, 0.5, 0.5);
+      await expect(dailyGift).toContainClass('inactive');
+      await page.clock.fastForward(2000);
+
+      // maxCoins without any cards is 20
+      // Scaled by 10x, maxCoins base is 200.
+      // Coin prizes are 2*maxCoins (400), 3*maxCoins (600), or 5*maxCoins (1000).
+      // Starting with 100 coins -> total is 500, 700, or 1100.
+      const stateCoin = await page.evaluate(() => window.gameState.wallet.read('coin'));
+      expect([500, 700, 1100]).toContain(stateCoin);
+    });
+  }
 
   test('should allow user to spin again if landing on spin-again prize', async ({ page }) => {
     await initializePage(page, {
