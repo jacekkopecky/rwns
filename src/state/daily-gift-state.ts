@@ -1,8 +1,5 @@
-import * as dim from '#dimensions';
-import { CARDS, type ReadonlyState } from '#types';
+import type { ReadonlyState } from '#types';
 import { getToday } from '#utils';
-
-import { cardDefinitions } from '../cards/types';
 
 import { isFeatureAllowed } from './features';
 import { _state, getUpgradablePermanentParameters } from './state';
@@ -18,29 +15,6 @@ export function getDailyGiftMaxCoinsPerCurrentRun() {
 
 export function getCountOfAllCards(state: ReadonlyState) {
   return Object.values(state.cards.readAll()).reduce((a, b) => a + b, 0);
-}
-
-export function getTotalRemainingCardsNeeded(state: ReadonlyState) {
-  let remaining = 0;
-  for (const cardType of CARDS) {
-    if (cardType === '_test') continue;
-    const defn = cardDefinitions[cardType];
-    const currentCount = state.cards.read(cardType);
-    if (currentCount < defn.cardsToGive) {
-      remaining += defn.cardsToGive - currentCount;
-    }
-  }
-  return remaining;
-}
-
-export function hasEnoughResourcesForRemainingCards(state: ReadonlyState) {
-  const needed = getTotalRemainingCardsNeeded(state);
-  if (needed === 0) return true;
-
-  const cardPurchasingPower =
-    state.wallet.read('card') + Math.floor(state.wallet.read('gem') / dim.cardPriceGems);
-
-  return cardPurchasingPower >= needed;
 }
 
 export function canGiveDailyGift(state: ReadonlyState) {

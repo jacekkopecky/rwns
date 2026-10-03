@@ -15,7 +15,7 @@ type TypeLabel =
 export type CardDefinition = Readonly<{
   name: string; // funny name
   rarity: Rarity;
-  minPlayerLevel: number;
+  minPlayerLevel: number; // if Infinity, this card will never be given
   cardsToGive: number; // it can be Infinity
   typeLabel: TypeLabel;
   description: string;
@@ -124,3 +124,5 @@ function tEpic(...[min, name, tmpl, max]: Parameters<typeof tCard>) {
 function tLegendary(...[min, name, tmpl, max]: Parameters<typeof tCard>) {
   return tCard(min, name, tmpl, max, 'legendary');
 }
+
+// spell-checker:ignore tmpl Mucho

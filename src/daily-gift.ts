@@ -11,6 +11,7 @@ import {
   spread,
 } from '#utils';
 
+import { hasEnoughResourcesForRemainingCards } from './cards';
 import { animateAddedEnergy, animateMainWallet } from './main-screen';
 import { showSection } from './sections';
 import {
@@ -19,7 +20,6 @@ import {
   canGiveDailyGift,
   getCountOfAllCards,
   getDailyGiftMaxCoinsPerCurrentRun,
-  hasEnoughResourcesForRemainingCards,
   isFeatureAllowed,
   readState,
   setDailyGiftGivenToday,
@@ -119,7 +119,7 @@ function spin() {
   }
   // consider only coin prizes if the player has no funds or has enough resources to buy all remaining cards
   if (state.wallet.read('coin') < 20 || hasEnoughResourcesForRemainingCards(state)) {
-    prizes = prizes.filter((prize) => prize.award === 'coin');
+    prizes = prizes.filter((p) => p.award === 'coin');
   }
 
   const picked = pickWeightedItem(
@@ -188,6 +188,7 @@ function get12AvailablePrizes() {
   specials.push({ award: 'spin-again', amount: null, factor: 5 });
   const prng = createRandom(getToday());
 
+  // give more coins in the end stage
   const coinMultiplier = hasEnoughResourcesForRemainingCards(state) ? 10 : 1;
   const maxCoins = getDailyGiftMaxCoinsPerCurrentRun() * coinMultiplier;
   normals.push({ award: 'coin', factor: 10, amount: 2 * maxCoins });
